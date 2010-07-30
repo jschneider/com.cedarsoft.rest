@@ -99,7 +99,7 @@ public class JaxbObjectGeneratorTest {
 
   @Test
   public void testPac() {
-    assertEquals( Generator.insertSubPackage( "a.b.c.d.E", "ins" ), "a.b.c.d.ins.E" );
-    assertEquals( Generator.insertSubPackage( "a.b.c.d.E", "e" ), "a.b.c.d.e.E" );
+    assertEquals( "a.b.c.d.ins.E", Generator.insertSubPackage( "a.b.c.d.E", "ins" ) );
+    assertEquals( "a.b.c.d.e.E", Generator.insertSubPackage( "a.b.c.d.E", "e" ) );
   }
 }
