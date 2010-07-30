@@ -96,5 +96,22 @@ public class Foo extends AbstractJaxbObject {
     public void setTheId( int theId ) {
       this.theId = theId;
     }
+
+    @Override
+    public boolean equals( Object o ) {
+      if ( this == o ) return true;
+      if ( !( o instanceof Bar ) ) return false;
+
+      Bar bar = ( Bar ) o;
+
+      if ( theId != bar.theId ) return false;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return theId;
+    }
   }
 }

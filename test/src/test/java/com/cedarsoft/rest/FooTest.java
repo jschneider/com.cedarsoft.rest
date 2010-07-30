@@ -31,8 +31,10 @@
 
 package com.cedarsoft.rest;
 
+import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.Arrays;
 
@@ -48,15 +50,6 @@ public class FooTest extends AbstractJaxbTest<Foo> {
 
   @NotNull
   @Override
-  protected String expectedXml() {
-    return "<ns2:foo xmlns:ns2=\"test:foo\" href=\"my:uri\">\n" +
-      "  <id>daId</id>\n" +
-      "  <daValue>daValueA</daValue>\n" +
-      "</ns2:foo>";
-  }
-
-  @NotNull
-  @Override
   protected Foo createObjectToSerialize() throws Exception {
     Foo foo = new Foo();
     foo.setDaValue( "daValueA" );
@@ -67,5 +60,4 @@ public class FooTest extends AbstractJaxbTest<Foo> {
     foo.setBars( Arrays.asList( new Foo.Bar( 1 ), new Foo.Bar( 2 ) ) );
     return foo;
   }
-
 }

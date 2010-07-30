@@ -1,1 +1,32 @@
-asdf
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelTest.java-----------------------------------
+
+package com.cedarsoft.rest.generator.test.jaxb;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import com.cedarsoft.rest.AbstractJaxbTest;
+
+public class BarModelTest
+    extends AbstractJaxbTest
+{
+
+
+    @Override
+    protected Class<BarModel> getJaxbType() {
+        return BarModel.class;
+    }
+
+    @Override
+    protected BarModel createObjectToSerialize()
+        throws Exception
+    {
+        BarModel object = new BarModel();
+        object.setDaInt(42);
+        object.setDaString("daString");
+        object.setStringList(Arrays.asList("stringList"));
+        object.setWildStringList(Arrays.asList("wildStringList"));
+        object.setSet(new HashSet(Arrays.asList("set")));
+        return object;
+    }
+
+}

@@ -4,15 +4,23 @@ package com.cedarsoft.rest.generator.test.jaxb;
 
 import java.util.List;
 import java.util.Set;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(namespace = "http://www.cedarsoft.com/rest/generator/test/BarModel")
+@XmlRootElement(namespace = "http://cedarsoft.com/rest/generator/test/bar-model")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class BarModel {
 
     private int daInt;
     private String daString;
+    @XmlElement
     private List<String> stringList;
+    @XmlElementRef
     private List<? extends String> wildStringList;
+    @XmlElementRef
     private Set<? extends String> set;
 
     public int getDaInt() {

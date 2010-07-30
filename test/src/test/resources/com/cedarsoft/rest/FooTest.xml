@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns3:foo xmlns:ns3="test:foo" xmlns:ns2="test:bar" href="my:uri">
+  <id>daId</id>
+  <daValue>daValueA</daValue>
+  <daName>a</daName>
+  <daName>b</daName>
+  <daName>c</daName>
+  <ns2:bar>
+    <theId>1</theId>
+  </ns2:bar>
+  <ns2:bar>
+    <theId>2</theId>
+  </ns2:bar>
+</ns3:foo>

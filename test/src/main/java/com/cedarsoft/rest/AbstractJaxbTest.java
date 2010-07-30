@@ -32,10 +32,10 @@
 package com.cedarsoft.rest;
 
 import com.cedarsoft.AssertUtils;
+import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import org.junit.*;
 
 import javax.xml.bind.JAXBContext;
@@ -46,12 +46,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
-
 
 /**
  * @param <J> the object to serialize
@@ -97,7 +98,15 @@ public abstract class AbstractJaxbTest<J> {
 
   @NotNull
   @NonNls
-  protected abstract String expectedXml();
+  protected String expectedXml() throws Exception {
+    //Try if there exists an xml file
+    String name = getClass().getSimpleName() + ".xml";
+    URL resource = getClass().getResource( name );
+    if ( resource == null ) {
+      throw new IllegalStateException( "Implement #expectedXml or create the XML file <" + name + ">" );
+    }
+    return IOUtils.toString( resource.openStream() );
+  }
 
   @NotNull
   protected abstract J createObjectToSerialize() throws Exception;
@@ -112,7 +121,7 @@ public abstract class AbstractJaxbTest<J> {
     StringWriter out = new StringWriter();
     marshaller.marshal( jaxbObject, out );
 
-    AssertUtils.assertXMLEquals( out.toString(), expectedXml() );
+    AssertUtils.assertXMLEquals( expectedXml(), out.toString() );
 
     J deserialized = getJaxbType().cast( createUnmarshaller().unmarshal( new StringReader( out.toString() ) ) );
     assertNotNull( deserialized );
@@ -121,14 +130,14 @@ public abstract class AbstractJaxbTest<J> {
   }
 
   protected void verifyDeserialized( @NotNull J deserialized, @NotNull J originalJaxbObject ) throws IllegalAccessException {
-    Assert.assertEquals( deserialized.getClass(), originalJaxbObject.getClass() );
+    Assert.assertSame( deserialized.getClass(), originalJaxbObject.getClass() );
     for ( Field field : originalJaxbObject.getClass().getDeclaredFields() ) {
       field.setAccessible( true );
 
       Object originalValue = field.get( originalJaxbObject );
       Object deserializedValue = field.get( deserialized );
 
-      Assert.assertEquals( "Failed comparing field <" + field.getName() + ">", originalValue, deserializedValue );
+      assertThat( "Failed comparing field <" + field.getName() + ">", deserializedValue, is( originalValue ) );
     }
   }
 

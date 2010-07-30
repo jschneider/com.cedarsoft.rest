@@ -33,6 +33,7 @@ package com.cedarsoft.jaxb;
 
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -58,12 +59,12 @@ public class Link extends AbstractJaxbObject {
   @NonNls
   public static final String ENCLOSURE = "enclosure";
 
-  @NotNull
+  @Nullable
   @NonNls
   @XmlAttribute
   private String type;
 
-  public Link() {
+  private Link() {
   }
 
   public Link( @NotNull URI href, @NotNull @NonNls String type ) {
@@ -74,6 +75,9 @@ public class Link extends AbstractJaxbObject {
   @NotNull
   @NonNls
   public String getType() {
+    if ( type == null ) {
+      throw new IllegalStateException( "No type has been set" );
+    }
     return type;
   }
 }
