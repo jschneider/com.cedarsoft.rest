@@ -66,12 +66,6 @@ public class TestGenerator<T extends DecisionCallback> extends AbstractGenerator
     }
 
     {
-      JMethod method = testClass.method( JMod.PROTECTED, String.class, "expectedXml" );
-      method.annotate( Override.class );
-      method.body()._return( JExpr.lit( "<todo/>" ) );
-    }
-
-    {
       JMethod method = testClass.method( JMod.PROTECTED, jaxbClass, "createObjectToSerialize" )._throws( Exception.class );
       method.annotate( Override.class );
       JVar field = method.body().decl( jaxbClass, "object", JExpr._new( jaxbClass ) );
@@ -90,12 +84,3 @@ public class TestGenerator<T extends DecisionCallback> extends AbstractGenerator
     return getJaxbClassName() + "Test";
   }
 }
-//  @NotNull
-//  @Override
-//  protected Foo createObjectToSerialize() throws Exception {
-//    Foo foo = new Foo();
-//    foo.setDaValue( "daValueA" );
-//    foo.setHref( new URI( "my:uri" ) );
-//    foo.setId( "daId" );
-//    return foo;
-//  }
