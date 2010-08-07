@@ -14,6 +14,11 @@
   <name>Rest Commons</name>
   <packaging>pom</packaging>
 
+  <scm>
+    <connection>scm:git:git://git.cedarsoft.com/com.cedarsoft.rest</connection>
+    <developerConnection>scm:git:ssh://git.cedarsoft.com/home/git/com.cedarsoft.rest</developerConnection>
+  </scm>
+
   <modules>
     <module>model</module>
     <module>server</module>
