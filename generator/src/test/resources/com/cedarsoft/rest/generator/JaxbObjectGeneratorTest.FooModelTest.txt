@@ -1,0 +1,28 @@
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelTest.java-----------------------------------
+
+package com.cedarsoft.rest.generator.test.jaxb;
+
+import java.util.Arrays;
+import com.cedarsoft.rest.AbstractJaxbTest;
+import com.cedarsoft.rest.generator.test.BarModel;
+
+public class FooModelTest
+    extends AbstractJaxbTest
+{
+
+
+    @Override
+    protected Class<FooModel> getJaxbType() {
+        return FooModel.class;
+    }
+
+    @Override
+    protected FooModel createObjectToSerialize()
+        throws Exception
+    {
+        FooModel object = new FooModel();
+        object.setTheBars(Arrays.asList(new BarModel()));
+        return object;
+    }
+
+}
