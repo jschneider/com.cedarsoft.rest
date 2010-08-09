@@ -46,6 +46,8 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JVar;
 import com.sun.mirror.type.TypeMirror;
+import com.sun.mirror.type.WildcardType;
+import com.sun.mirror.util.SimpleTypeVisitor;
 import org.jetbrains.annotations.NotNull;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -57,7 +59,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  *
  */
-public class Generator extends AbstractGenerator {
+public class Generator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionCallback> {
 
   public Generator( @NotNull CodeGenerator<JaxbObjectGenerator.MyDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     super( codeGenerator, descriptor );
@@ -69,7 +71,7 @@ public class Generator extends AbstractGenerator {
     jaxbClass.annotate( XmlAccessorType.class ).param( "value", XmlAccessType.FIELD );
 
     for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldsToSerialize() ) {
-      JClass fieldType = codeGenerator.ref( fieldInfo.getType() );
+      JClass fieldType = getJaxbModelType( fieldInfo.getType() );
       JFieldVar field = addField( jaxbClass, fieldType, fieldInfo );
 
       if ( TypeUtils.isCollectionType( fieldInfo.getType() ) ) {
@@ -84,6 +86,30 @@ public class Generator extends AbstractGenerator {
       addGetter( jaxbClass, fieldType, fieldInfo, field );
       addSetter( jaxbClass, fieldType, fieldInfo, field );
     }
+  }
+
+  @NotNull
+  protected JClass getJaxbModelType( @NotNull TypeMirror type ) {
+    if ( TypeUtils.isSimpleType( type ) ) {
+      return codeGenerator.ref( type );
+    }
+
+    if ( !isProbablyOwnType( type ) ) {
+      return codeGenerator.ref( type );
+    }
+    
+    if ( TypeUtils.isCollectionType( type ) ) {
+      TypeMirror collectionParam = TypeUtils.getCollectionParam( type );
+      JClass collection = codeGenerator.ref( TypeUtils.getErasure( type ) );
+
+      if ( collectionParam instanceof WildcardType ) {
+        return collection.narrow( codeGenerator.ref( getJaxbTypeName( TypeUtils.getErasure( collectionParam ) ) ).wildcard() );
+      } else {
+        return collection.narrow( codeGenerator.ref( getJaxbTypeName( collectionParam ) ) );
+      }
+    }
+
+    return codeGenerator.ref( getJaxbTypeName( type ) );
   }
 
   private void addSetter( @NotNull JDefinedClass jaxbClass, @NotNull JClass fieldType, @NotNull FieldWithInitializationInfo fieldInfo, @NotNull JFieldVar field ) {
@@ -102,4 +128,12 @@ public class Generator extends AbstractGenerator {
     return jaxbClass.field( JMod.PRIVATE, fieldType, fieldInfo.getSimpleName() );
   }
 
+  public boolean isProbablyOwnType( @NotNull TypeMirror type ) {
+    if ( TypeUtils.isCollectionType( type ) ) {
+      return isProbablyOwnType( TypeUtils.getErasure( TypeUtils.getCollectionParam( type ) ) );
+    }
+
+    String packageName = descriptor.getClassDeclaration().getPackage().getQualifiedName();
+    return type.toString().startsWith( packageName );
+  }
 }

@@ -34,6 +34,7 @@ package com.cedarsoft.rest.generator;
 import com.cedarsoft.codegen.CodeGenerator;
 import com.cedarsoft.codegen.DecisionCallback;
 import com.cedarsoft.codegen.model.DomainObjectDescriptor;
+import com.sun.mirror.type.TypeMirror;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,6 +42,9 @@ import org.jetbrains.annotations.NotNull;
  * @param <T> the type of the decision callback
  */
 public class AbstractGenerator<T extends DecisionCallback> {
+  @NotNull
+  @NonNls
+  public static final String JAXB_SUB_PACKAGE = "jaxb";
   @NotNull
   protected final CodeGenerator<T> codeGenerator;
   @NotNull
@@ -55,7 +59,7 @@ public class AbstractGenerator<T extends DecisionCallback> {
   @NonNls
   protected String getJaxbClassName() {
     String fqn = descriptor.getQualifiedName();
-    return insertSubPackage( fqn, "jaxb" );
+    return insertSubPackage( fqn, JAXB_SUB_PACKAGE );
   }
 
   @NotNull
@@ -63,5 +67,11 @@ public class AbstractGenerator<T extends DecisionCallback> {
   public static String insertSubPackage( @NotNull @NonNls String fqn, @NotNull @NonNls String packagePart ) {
     int lastIndex = fqn.lastIndexOf( '.' );
     return fqn.substring( 0, lastIndex ) + "." + packagePart + fqn.substring( lastIndex );
+  }
+
+  @NotNull
+  @NonNls
+  public static String getJaxbTypeName( @NotNull TypeMirror type ) {
+    return insertSubPackage( type.toString(), JAXB_SUB_PACKAGE );
   }
 }

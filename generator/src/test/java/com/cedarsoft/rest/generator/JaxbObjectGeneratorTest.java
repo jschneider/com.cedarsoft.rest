@@ -39,6 +39,10 @@ import com.cedarsoft.codegen.parser.Parser;
 import com.cedarsoft.codegen.parser.Result;
 import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.writer.SingleStreamCodeWriter;
+import com.sun.mirror.declaration.ClassDeclaration;
+import com.sun.mirror.declaration.FieldDeclaration;
+import com.sun.mirror.type.TypeMirror;
+import org.jetbrains.annotations.NotNull;
 import org.junit.*;
 
 import java.io.ByteArrayOutputStream;
@@ -55,19 +59,62 @@ import static org.junit.Assert.*;
 public class JaxbObjectGeneratorTest {
   private DomainObjectDescriptor barDescriptor;
   private DomainObjectDescriptor fooDescriptor;
+  private DomainObjectDescriptor anotherModelDescriptor;
   private CodeGenerator<JaxbObjectGenerator.MyDecisionCallback> codeGenerator;
 
   @Before
   public void setUp() throws Exception {
     File barModelSource = new File( getClass().getResource( "test/BarModel.java" ).toURI() );
     File fooModelSource = new File( getClass().getResource( "test/FooModel.java" ).toURI() );
+    File anotherModelSource = new File( getClass().getResource( "test/AnotherModel.java" ).toURI() );
 
-    Result barResult = Parser.parse( barModelSource, fooModelSource );
+    Result result = Parser.parse( barModelSource, fooModelSource, anotherModelSource );
 
-    barDescriptor = new DomainObjectDescriptorFactory( barResult.getClassDeclaration( "com.cedarsoft.rest.generator.test.BarModel" ) ).create();
-    fooDescriptor = new DomainObjectDescriptorFactory( barResult.getClassDeclaration( "com.cedarsoft.rest.generator.test.FooModel" ) ).create();
+    barDescriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration( "com.cedarsoft.rest.generator.test.BarModel" ) ).create();
+    fooDescriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration( "com.cedarsoft.rest.generator.test.FooModel" ) ).create();
+    anotherModelDescriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration( "com.cedarsoft.rest.generator.test.AnotherModel" ) ).create();
 
     codeGenerator = new CodeGenerator<JaxbObjectGenerator.MyDecisionCallback>( new JaxbObjectGenerator.MyDecisionCallback() );
+  }
+
+  @Test
+  public void testConvertFoo() {
+    Generator generator = new Generator( codeGenerator, fooDescriptor );
+    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.BarModel>", fooDescriptor.findFieldDeclaration( "theBars" ).getType().toString() );
+    assertEquals( "com.cedarsoft.rest.generator.test.BarModel", fooDescriptor.findFieldDeclaration( "singleBar" ).getType().toString() );
+
+    assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModel", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "singleBar" ).getType() ).binaryName() );
+    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModel>", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "theBars" ).getType() ).binaryName() );
+  }
+
+  @Test
+  public void testConvertAnother() {
+    Generator generator = new Generator( codeGenerator, anotherModelDescriptor );
+    FieldDeclaration barsDeclaration = anotherModelDescriptor.findFieldDeclaration( "theBars" );
+    FieldDeclaration singleBarDeclaration = anotherModelDescriptor.findFieldDeclaration( "singleBar" );
+    FieldDeclaration wildcardBarsDeclaration = anotherModelDescriptor.findFieldDeclaration( "wildcardBars" );
+    FieldDeclaration wildcardStringsDeclaration = anotherModelDescriptor.findFieldDeclaration( "wildcardStrings" );
+    FieldDeclaration integersDeclaration = anotherModelDescriptor.findFieldDeclaration( "integers" );
+
+
+    assertTrue( generator.isProbablyOwnType( singleBarDeclaration.getType() ) );
+    assertTrue( generator.isProbablyOwnType( barsDeclaration.getType() ) );
+    assertTrue( generator.isProbablyOwnType( wildcardBarsDeclaration.getType() ) );
+    assertFalse( generator.isProbablyOwnType( integersDeclaration .getType()) );
+    assertFalse( generator.isProbablyOwnType( wildcardStringsDeclaration .getType()) );
+
+
+    assertEquals( "java.util.List<? extends java.lang.String>", wildcardStringsDeclaration.getType().toString() );
+    assertEquals( "java.util.List<java.lang.Integer>", integersDeclaration.getType().toString() );
+    assertEquals( "com.cedarsoft.rest.generator.test.BarModel", singleBarDeclaration.getType().toString() );
+    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.BarModel>", barsDeclaration.getType().toString() );
+    assertEquals( "java.util.List<? extends com.cedarsoft.rest.generator.test.BarModel>", wildcardBarsDeclaration.getType().toString() );
+
+    assertEquals( "java.util.List<? extends java.lang.String>", generator.getJaxbModelType( wildcardStringsDeclaration.getType() ).binaryName() );
+    assertEquals( "java.util.List<java.lang.Integer>", generator.getJaxbModelType( integersDeclaration.getType() ).binaryName() );
+    assertEquals( "java.util.List<? extends com.cedarsoft.rest.generator.test.jaxb.BarModel>", generator.getJaxbModelType( wildcardBarsDeclaration.getType() ).binaryName() );
+    assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModel", generator.getJaxbModelType( singleBarDeclaration.getType() ).binaryName() );
+    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModel>", generator.getJaxbModelType( barsDeclaration.getType() ).binaryName() );
   }
 
   @Test
