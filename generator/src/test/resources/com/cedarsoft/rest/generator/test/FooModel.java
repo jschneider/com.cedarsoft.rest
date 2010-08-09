@@ -11,6 +11,8 @@ import java.util.List;
  *
  */
 public class FooModel {
+  private BarModel singleBar;
+
   private final List<BarModel> theBars = new ArrayList<BarModel>();
 
   public FooModel( @NotNull Collection<? extends BarModel> theBars ) {
@@ -19,5 +21,13 @@ public class FooModel {
 
   public List<? extends BarModel> getTheBars() {
     return Collections.unmodifiableList( theBars );
+  }
+
+  public BarModel getSingleBar() {
+    return singleBar;
+  }
+
+  public void setSingleBar( BarModel singleBar ) {
+    this.singleBar = singleBar;
   }
 }

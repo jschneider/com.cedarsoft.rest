@@ -21,6 +21,7 @@ public class FooModelTest
         throws Exception
     {
         FooModel object = new FooModel();
+        object.setSingleBar(new BarModel());
         object.setTheBars(Arrays.asList(new BarModel()));
         return object;
     }

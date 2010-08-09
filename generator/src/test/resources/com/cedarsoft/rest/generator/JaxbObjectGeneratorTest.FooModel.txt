@@ -13,8 +13,17 @@ import com.cedarsoft.rest.generator.test.BarModel;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FooModel {
 
+    private BarModel singleBar;
     @XmlElementRef
     private List<BarModel> theBars;
+
+    public BarModel getSingleBar() {
+        return singleBar;
+    }
+
+    public void setSingleBar(BarModel singleBar) {
+        this.singleBar = singleBar;
+    }
 
     public List<BarModel> getTheBars() {
         return theBars;
