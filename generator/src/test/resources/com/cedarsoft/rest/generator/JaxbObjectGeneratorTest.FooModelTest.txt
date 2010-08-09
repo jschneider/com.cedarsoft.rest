@@ -7,7 +7,7 @@ import com.cedarsoft.rest.AbstractJaxbTest;
 import com.cedarsoft.rest.generator.test.BarModel;
 
 public class FooModelTest
-    extends AbstractJaxbTest
+    extends AbstractJaxbTest<FooModel>
 {
 
 

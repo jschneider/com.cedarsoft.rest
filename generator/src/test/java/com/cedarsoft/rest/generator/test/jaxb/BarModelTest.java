@@ -39,7 +39,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 
-public class BarModelTest extends AbstractJaxbTest {
+public class BarModelTest extends AbstractJaxbTest<BarModel> {
   @NotNull
   @Override
   protected Class<BarModel> getJaxbType() {

@@ -57,7 +57,7 @@ public class TestGenerator<T extends DecisionCallback> extends AbstractGenerator
 
   public void generateTest() throws JClassAlreadyExistsException {
     JClass jaxbClass = codeGenerator.ref( getJaxbClassName() );
-    JDefinedClass testClass = codeGenerator.getModel()._class( getTestClassName() )._extends( codeGenerator.ref( AbstractJaxbTest.class ) );
+    JDefinedClass testClass = codeGenerator.getModel()._class( getTestClassName() )._extends( codeGenerator.ref( AbstractJaxbTest.class ).narrow( jaxbClass ) );
 
     {
       JMethod method = testClass.method( JMod.PROTECTED, codeGenerator.ref( Class.class ).narrow( jaxbClass ), "getJaxbType" );
