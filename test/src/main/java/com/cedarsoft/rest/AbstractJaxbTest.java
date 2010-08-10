@@ -100,12 +100,19 @@ public abstract class AbstractJaxbTest<J> {
   @NonNls
   protected String expectedXml() throws Exception {
     //Try if there exists an xml file
-    String name = getClass().getSimpleName() + ".xml";
+    String name = getXmlName();
     URL resource = getClass().getResource( name );
     if ( resource == null ) {
       throw new IllegalStateException( "Implement #expectedXml or create the XML file <" + name + ">" );
     }
     return IOUtils.toString( resource.openStream() );
+  }
+
+  @NotNull
+  @NonNls
+  protected String getXmlName() {
+    String className = getClass().getSimpleName();
+    return className.replaceAll( "Test", "" ) + ".xml";
   }
 
   @NotNull

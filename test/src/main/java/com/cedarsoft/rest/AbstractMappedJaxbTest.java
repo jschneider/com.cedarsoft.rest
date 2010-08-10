@@ -59,4 +59,11 @@ public abstract class AbstractMappedJaxbTest<T, J> extends AbstractJaxbTest<J> {
 
   @NotNull
   protected abstract T createModel();
+
+  @NotNull
+  @Override
+  protected String getXmlName() {
+    String className = getClass().getSimpleName();
+    return className.replaceAll( "MappingTest", "" ).replaceAll( "Test", "" ) + ".xml";
+  }
 }
