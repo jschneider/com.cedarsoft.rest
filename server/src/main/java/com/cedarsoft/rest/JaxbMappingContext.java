@@ -14,4 +14,9 @@ public class JaxbMappingContext {
   public JaxbMappingContext( @Nullable UriBuilder uriBuilder ) {
     this.uriBuilder = uriBuilder;
   }
+
+  @Nullable
+  public UriBuilder getUriBuilder() {
+    return uriBuilder;
+  }
 }

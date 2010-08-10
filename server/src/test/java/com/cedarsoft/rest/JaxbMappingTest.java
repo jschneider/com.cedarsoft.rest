@@ -48,12 +48,14 @@ import static org.junit.Assert.*;
  */
 public class JaxbMappingTest {
   private JaxbMapping<MyObject, MyObjectJaxb> mapping;
+  private JaxbMapping<Parent, ParentJaxb> parentMapping;
 
   @Before
   public void setUp() throws Exception {
     mapping = new JaxbMapping<MyObject, MyObjectJaxb>() {
       @Override
-      protected void setUris( @NotNull MyObjectJaxb objectJaxb, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
+      protected void setUris( @NotNull MyObjectJaxb object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
+        object.setHref( uriBuilder.path( "uriForMyObjectJaxb" ).build() );
       }
 
       @NotNull
@@ -62,6 +64,23 @@ public class JaxbMappingTest {
         MyObjectJaxb objectJaxb = new MyObjectJaxb();
         objectJaxb.setDaInt( object.daInt );
         return objectJaxb;
+      }
+    };
+
+    parentMapping = new JaxbMapping<Parent, ParentJaxb>() {
+      private final JaxbMapping<MyObject, MyObjectJaxb> myObjectJaxbJaxbMapping = mapping;
+
+      @Override
+      protected void setUris( @NotNull ParentJaxb object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
+        object.setHref( uriBuilder.path( "uriForParentJaxb" ).build() );
+      }
+
+      @NotNull
+      @Override
+      protected ParentJaxb createJaxbObject( @NotNull Parent object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+        ParentJaxb jaxbObject = new ParentJaxb();
+        jaxbObject.setChild( myObjectJaxbJaxbMapping.getJaxbObject( object.child, context.getUriBuilder() ) );
+        return jaxbObject;
       }
     };
   }
@@ -90,8 +109,8 @@ public class JaxbMappingTest {
 
   @Test
   public void testGetJaxbObject2() throws Exception {
-    MyObject myObject1 = new MyObject(7);
-    MyObject myObject2 = new MyObject(8);
+    MyObject myObject1 = new MyObject( 7 );
+    MyObject myObject2 = new MyObject( 8 );
 
     List<MyObjectJaxb> myObjectJaxbs = mapping.getJaxbObjects( Lists.newArrayList( myObject1, myObject2 ), new UriBuilderImpl() );
     assertSame( myObject1.daInt, myObjectJaxbs.get( 0 ).daInt );
@@ -100,6 +119,39 @@ public class JaxbMappingTest {
     //test cache
     assertSame( myObjectJaxbs.get( 0 ), mapping.getJaxbObject( myObject1, new UriBuilderImpl() ) );
     assertSame( myObjectJaxbs.get( 1 ), mapping.getJaxbObject( myObject2, new UriBuilderImpl() ) );
+  }
+
+  @Test
+  public void testUri() throws Exception {
+    assertEquals( "uriForMyObjectJaxb", mapping.getJaxbObject( new MyObject( 7 ), new UriBuilderImpl() ).getHref().toString() );
+  }
+
+  @Test
+  public void testParent() throws Exception {
+    MyObject myObject1 = new MyObject( 7 );
+    Parent parent = new Parent( myObject1 );
+
+    ParentJaxb parentJaxb = parentMapping.getJaxbObject( parent, null );
+    assertNotNull( parentJaxb );
+    assertNotNull( parentJaxb.getChild() );
+    assertEquals( myObject1.daInt, parentJaxb.getChild().daInt );
+
+    assertSame( parentJaxb, parentMapping.getJaxbObject( parent, null ) );
+  }
+
+  @Test
+  public void testParentWithUri() throws Exception {
+    MyObject myObject1 = new MyObject( 7 );
+    Parent parent = new Parent( myObject1 );
+
+    ParentJaxb parentJaxb = parentMapping.getJaxbObject( parent, new UriBuilderImpl() );
+    assertNotNull( parentJaxb );
+    assertNotNull( parentJaxb.getChild() );
+    assertEquals( "uriForParentJaxb", String.valueOf( parentJaxb.getHref() ) );
+    assertEquals( myObject1.daInt, parentJaxb.getChild().daInt );
+    assertEquals( "uriForMyObjectJaxb", String.valueOf( parentJaxb.getChild().getHref() ) );
+
+    assertSame( parentJaxb, parentMapping.getJaxbObject( parent, new UriBuilderImpl() ) );
   }
 
   protected static class MyObject {
@@ -121,4 +173,25 @@ public class JaxbMappingTest {
       this.daInt = daInt;
     }
   }
+
+  protected static class Parent {
+    private final MyObject child;
+
+    Parent( MyObject child ) {
+      this.child = child;
+    }
+  }
+
+  protected static class ParentJaxb extends AbstractJaxbObject {
+    private MyObjectJaxb child;
+
+    public MyObjectJaxb getChild() {
+      return child;
+    }
+
+    public void setChild( MyObjectJaxb child ) {
+      this.child = child;
+    }
+  }
+
 }

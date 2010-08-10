@@ -95,5 +95,5 @@ public abstract class JaxbMapping<T, J> {
    * @return the created jaxb object
    */
   @NotNull
-  protected abstract J createJaxbObject( @NotNull T object, @NotNull JaxbMappingContext context );
+  protected abstract J createJaxbObject( @NotNull T object, @NotNull JaxbMappingContext context ) throws URISyntaxException;
 }
