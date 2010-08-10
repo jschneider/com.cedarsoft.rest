@@ -9,10 +9,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
+import com.cedarsoft.jaxb.AbstractJaxbObject;
 
-@XmlRootElement(namespace = "http://cedarsoft.com/rest/generator/test/bar-model")
+@XmlRootElement(name = "barModel", namespace = "http://cedarsoft.com/rest/generator/test/bar-model")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BarModel {
+public class BarModel
+    extends AbstractJaxbObject
+{
 
     private int daInt;
     private String daString;
