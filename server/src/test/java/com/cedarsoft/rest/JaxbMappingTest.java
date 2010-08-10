@@ -59,17 +59,19 @@ public class JaxbMappingTest {
       @NotNull
       @Override
       protected MyJaxbObject createJaxbObject( @NotNull MyObject object, @NotNull JaxbMappingContext context ) {
-        return new MyJaxbObject( object );
+        MyJaxbObject jaxbObject = new MyJaxbObject();
+        jaxbObject.setDaInt( object.daInt );
+        return jaxbObject;
       }
     };
   }
 
   @Test
   public void testGetJaxbObject() throws Exception {
-    MyObject myObject = new MyObject();
+    MyObject myObject = new MyObject( 24 );
 
     MyJaxbObject myJaxbObject = mapping.getJaxbObject( myObject, new UriBuilderImpl() );
-    assertSame( myObject, myJaxbObject.object );
+    assertSame( myObject.daInt, myJaxbObject.daInt );
 
     //test cache
     assertSame( myJaxbObject, mapping.getJaxbObject( myObject, new UriBuilderImpl() ) );
@@ -77,10 +79,10 @@ public class JaxbMappingTest {
 
   @Test
   public void testGetJaxbObjectNull() throws Exception {
-    MyObject myObject = new MyObject();
+    MyObject myObject = new MyObject( 42 );
 
     MyJaxbObject myJaxbObject = mapping.getJaxbObject( myObject, null );
-    assertSame( myObject, myJaxbObject.object );
+    assertSame( myObject.daInt, myJaxbObject.daInt );
 
     //test cache
     assertSame( myJaxbObject, mapping.getJaxbObject( myObject, null ) );
@@ -88,12 +90,12 @@ public class JaxbMappingTest {
 
   @Test
   public void testGetJaxbObject2() throws Exception {
-    MyObject myObject1 = new MyObject();
-    MyObject myObject2 = new MyObject();
+    MyObject myObject1 = new MyObject(7);
+    MyObject myObject2 = new MyObject(8);
 
     List<MyJaxbObject> myJaxbObjects = mapping.getJaxbObjects( Lists.newArrayList( myObject1, myObject2 ), new UriBuilderImpl() );
-    assertSame( myObject1, myJaxbObjects.get( 0 ).object );
-    assertSame( myObject2, myJaxbObjects.get( 1 ).object );
+    assertSame( myObject1.daInt, myJaxbObjects.get( 0 ).daInt );
+    assertSame( myObject2.daInt, myJaxbObjects.get( 1 ).daInt );
 
     //test cache
     assertSame( myJaxbObjects.get( 0 ), mapping.getJaxbObject( myObject1, new UriBuilderImpl() ) );
@@ -101,14 +103,22 @@ public class JaxbMappingTest {
   }
 
   protected static class MyObject {
+    private final int daInt;
 
+    MyObject( int daInt ) {
+      this.daInt = daInt;
+    }
   }
 
   protected static class MyJaxbObject extends AbstractJaxbObject {
-    private final MyObject object;
+    private int daInt;
 
-    protected MyJaxbObject( MyObject object ) {
-      this.object = object;
+    public int getDaInt() {
+      return daInt;
+    }
+
+    public void setDaInt( int daInt ) {
+      this.daInt = daInt;
     }
   }
 }
