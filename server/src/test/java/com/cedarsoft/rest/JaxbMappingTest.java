@@ -82,7 +82,7 @@ public class JaxbMappingTest {
       @Override
       protected ParentJaxb createJaxbObject( @NotNull Parent object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
         ParentJaxb jaxbObject = new ParentJaxb();
-        jaxbObject.setChild( getDelegatesMapping().getMapping( MyObjectJaxb.class ).getJaxbObject( object.child, context.getUriBuilder() ) );
+        jaxbObject.setChild( get( MyObjectJaxb.class, object.child, context ) );
         return jaxbObject;
       }
     };
@@ -101,7 +101,7 @@ public class JaxbMappingTest {
       @Override
       protected GrandFatherJaxb createJaxbObject( @NotNull GrandFather object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
         GrandFatherJaxb jaxbObject = new GrandFatherJaxb();
-        jaxbObject.setParent( getDelegatesMapping().getMapping( ParentJaxb.class ).getJaxbObject( object.parent, context.getUriBuilder() ) );
+        jaxbObject.setParent( get( ParentJaxb.class, object.parent, context ) );
         return jaxbObject;
       }
     };

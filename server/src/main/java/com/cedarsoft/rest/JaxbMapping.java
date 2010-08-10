@@ -31,6 +31,7 @@
 
 package com.cedarsoft.rest;
 
+import com.cedarsoft.jaxb.AbstractJaxbObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -73,6 +74,11 @@ public abstract class JaxbMapping<T, J> {
     }
 
     return created;
+  }
+
+  @NotNull
+  protected <T, J extends AbstractJaxbObject> J get( @NotNull Class<J> jaxbType, @NotNull T object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+    return getDelegatesMapping().getMapping( jaxbType ).getJaxbObject( object, context.getUriBuilder() );
   }
 
   /**
