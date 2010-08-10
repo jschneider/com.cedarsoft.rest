@@ -68,7 +68,9 @@ public class JaxbMappingTest {
     };
 
     parentMapping = new JaxbMapping<Parent, ParentJaxb>() {
-      private final JaxbMapping<MyObject, MyObjectJaxb> myObjectJaxbJaxbMapping = mapping;
+      {
+        addDelegateMapping( MyObjectJaxb.class, mapping );
+      }
 
       @Override
       protected void setUris( @NotNull ParentJaxb object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
@@ -79,7 +81,7 @@ public class JaxbMappingTest {
       @Override
       protected ParentJaxb createJaxbObject( @NotNull Parent object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
         ParentJaxb jaxbObject = new ParentJaxb();
-        jaxbObject.setChild( myObjectJaxbJaxbMapping.getJaxbObject( object.child, context.getUriBuilder() ) );
+        jaxbObject.setChild( getDelegateMapping( MyObjectJaxb.class ).getJaxbObject( object.child, context.getUriBuilder() ) );
         return jaxbObject;
       }
     };
@@ -137,6 +139,7 @@ public class JaxbMappingTest {
     assertEquals( myObject1.daInt, parentJaxb.getChild().daInt );
 
     assertSame( parentJaxb, parentMapping.getJaxbObject( parent, null ) );
+    assertSame( parentJaxb.getChild(), parentMapping.getJaxbObject( parent, null ).getChild() );
   }
 
   @Test
