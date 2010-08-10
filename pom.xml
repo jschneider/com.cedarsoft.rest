@@ -48,17 +48,17 @@
       <dependency>
         <groupId>com.cedarsoft.commons</groupId>
         <artifactId>codegen</artifactId>
-        <version>3.0.0</version>
+        <version>${commons.version}</version>
       </dependency>
       <dependency>
         <groupId>com.cedarsoft.commons</groupId>
         <artifactId>id</artifactId>
-        <version>3.0.0</version>
+        <version>${commons.version}</version>
       </dependency>
       <dependency>
         <groupId>com.cedarsoft.commons</groupId>
         <artifactId>test-utils</artifactId>
-        <version>3.0.0</version>
+        <version>${commons.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -108,4 +108,10 @@
       </releases>
     </repository>
   </repositories>
+
+
+  <properties>
+    <commons.version>3.0.1-SNAPSHOT</commons.version>
+  </properties>
+
 </project>
