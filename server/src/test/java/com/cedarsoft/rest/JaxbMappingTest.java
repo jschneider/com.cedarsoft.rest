@@ -47,21 +47,21 @@ import static org.junit.Assert.*;
  *
  */
 public class JaxbMappingTest {
-  private JaxbMapping<MyObject, MyJaxbObject> mapping;
+  private JaxbMapping<MyObject, MyObjectJaxb> mapping;
 
   @Before
   public void setUp() throws Exception {
-    mapping = new JaxbMapping<MyObject, MyJaxbObject>() {
+    mapping = new JaxbMapping<MyObject, MyObjectJaxb>() {
       @Override
-      protected void setUris( @NotNull MyJaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
+      protected void setUris( @NotNull MyObjectJaxb objectJaxb, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
       }
 
       @NotNull
       @Override
-      protected MyJaxbObject createJaxbObject( @NotNull MyObject object, @NotNull JaxbMappingContext context ) {
-        MyJaxbObject jaxbObject = new MyJaxbObject();
-        jaxbObject.setDaInt( object.daInt );
-        return jaxbObject;
+      protected MyObjectJaxb createJaxbObject( @NotNull MyObject object, @NotNull JaxbMappingContext context ) {
+        MyObjectJaxb objectJaxb = new MyObjectJaxb();
+        objectJaxb.setDaInt( object.daInt );
+        return objectJaxb;
       }
     };
   }
@@ -70,22 +70,22 @@ public class JaxbMappingTest {
   public void testGetJaxbObject() throws Exception {
     MyObject myObject = new MyObject( 24 );
 
-    MyJaxbObject myJaxbObject = mapping.getJaxbObject( myObject, new UriBuilderImpl() );
-    assertSame( myObject.daInt, myJaxbObject.daInt );
+    MyObjectJaxb myObjectJaxb = mapping.getJaxbObject( myObject, new UriBuilderImpl() );
+    assertSame( myObject.daInt, myObjectJaxb.daInt );
 
     //test cache
-    assertSame( myJaxbObject, mapping.getJaxbObject( myObject, new UriBuilderImpl() ) );
+    assertSame( myObjectJaxb, mapping.getJaxbObject( myObject, new UriBuilderImpl() ) );
   }
 
   @Test
   public void testGetJaxbObjectNull() throws Exception {
     MyObject myObject = new MyObject( 42 );
 
-    MyJaxbObject myJaxbObject = mapping.getJaxbObject( myObject, null );
-    assertSame( myObject.daInt, myJaxbObject.daInt );
+    MyObjectJaxb myObjectJaxb = mapping.getJaxbObject( myObject, null );
+    assertSame( myObject.daInt, myObjectJaxb.daInt );
 
     //test cache
-    assertSame( myJaxbObject, mapping.getJaxbObject( myObject, null ) );
+    assertSame( myObjectJaxb, mapping.getJaxbObject( myObject, null ) );
   }
 
   @Test
@@ -93,13 +93,13 @@ public class JaxbMappingTest {
     MyObject myObject1 = new MyObject(7);
     MyObject myObject2 = new MyObject(8);
 
-    List<MyJaxbObject> myJaxbObjects = mapping.getJaxbObjects( Lists.newArrayList( myObject1, myObject2 ), new UriBuilderImpl() );
-    assertSame( myObject1.daInt, myJaxbObjects.get( 0 ).daInt );
-    assertSame( myObject2.daInt, myJaxbObjects.get( 1 ).daInt );
+    List<MyObjectJaxb> myObjectJaxbs = mapping.getJaxbObjects( Lists.newArrayList( myObject1, myObject2 ), new UriBuilderImpl() );
+    assertSame( myObject1.daInt, myObjectJaxbs.get( 0 ).daInt );
+    assertSame( myObject2.daInt, myObjectJaxbs.get( 1 ).daInt );
 
     //test cache
-    assertSame( myJaxbObjects.get( 0 ), mapping.getJaxbObject( myObject1, new UriBuilderImpl() ) );
-    assertSame( myJaxbObjects.get( 1 ), mapping.getJaxbObject( myObject2, new UriBuilderImpl() ) );
+    assertSame( myObjectJaxbs.get( 0 ), mapping.getJaxbObject( myObject1, new UriBuilderImpl() ) );
+    assertSame( myObjectJaxbs.get( 1 ), mapping.getJaxbObject( myObject2, new UriBuilderImpl() ) );
   }
 
   protected static class MyObject {
@@ -110,7 +110,7 @@ public class JaxbMappingTest {
     }
   }
 
-  protected static class MyJaxbObject extends AbstractJaxbObject {
+  protected static class MyObjectJaxb extends AbstractJaxbObject {
     private int daInt;
 
     public int getDaInt() {
