@@ -39,10 +39,7 @@ import com.cedarsoft.codegen.parser.Parser;
 import com.cedarsoft.codegen.parser.Result;
 import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.writer.SingleStreamCodeWriter;
-import com.sun.mirror.declaration.ClassDeclaration;
 import com.sun.mirror.declaration.FieldDeclaration;
-import com.sun.mirror.type.TypeMirror;
-import org.jetbrains.annotations.NotNull;
 import org.junit.*;
 
 import java.io.ByteArrayOutputStream;
@@ -83,8 +80,8 @@ public class JaxbObjectGeneratorTest {
     assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.BarModel>", fooDescriptor.findFieldDeclaration( "theBars" ).getType().toString() );
     assertEquals( "com.cedarsoft.rest.generator.test.BarModel", fooDescriptor.findFieldDeclaration( "singleBar" ).getType().toString() );
 
-    assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModel", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "singleBar" ).getType() ).binaryName() );
-    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModel>", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "theBars" ).getType() ).binaryName() );
+    assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModelJaxb", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "singleBar" ).getType() ).binaryName() );
+    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModelJaxb>", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "theBars" ).getType() ).binaryName() );
   }
 
   @Test
@@ -112,9 +109,9 @@ public class JaxbObjectGeneratorTest {
 
     assertEquals( "java.util.List<? extends java.lang.String>", generator.getJaxbModelType( wildcardStringsDeclaration.getType() ).binaryName() );
     assertEquals( "java.util.List<java.lang.Integer>", generator.getJaxbModelType( integersDeclaration.getType() ).binaryName() );
-    assertEquals( "java.util.List<? extends com.cedarsoft.rest.generator.test.jaxb.BarModel>", generator.getJaxbModelType( wildcardBarsDeclaration.getType() ).binaryName() );
-    assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModel", generator.getJaxbModelType( singleBarDeclaration.getType() ).binaryName() );
-    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModel>", generator.getJaxbModelType( barsDeclaration.getType() ).binaryName() );
+    assertEquals( "java.util.List<? extends com.cedarsoft.rest.generator.test.jaxb.BarModelJaxb>", generator.getJaxbModelType( wildcardBarsDeclaration.getType() ).binaryName() );
+    assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModelJaxb", generator.getJaxbModelType( singleBarDeclaration.getType() ).binaryName() );
+    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModelJaxb>", generator.getJaxbModelType( barsDeclaration.getType() ).binaryName() );
   }
 
   @Test
@@ -124,7 +121,7 @@ public class JaxbObjectGeneratorTest {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     codeGenerator.getModel().build( new SingleStreamCodeWriter( out ) );
 
-    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.BarModel.txt" ), out.toString() );
+    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.BarModelJaxb.txt" ), out.toString() );
   }
 
   @Test
@@ -137,7 +134,7 @@ public class JaxbObjectGeneratorTest {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     codeGenerator.getModel().build( new SingleStreamCodeWriter( out ) );
 
-    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.FooModel.txt" ), out.toString() );
+    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.FooModelJaxb.txt" ), out.toString() );
   }
 
   @Test
@@ -146,7 +143,7 @@ public class JaxbObjectGeneratorTest {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     codeGenerator.getModel().build( new SingleStreamCodeWriter( out ) );
 
-    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.BarModelTest.txt" ), out.toString() );
+    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.BarModelJaxbTest.txt" ), out.toString() );
   }
 
   @Test
@@ -155,7 +152,7 @@ public class JaxbObjectGeneratorTest {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     codeGenerator.getModel().build( new SingleStreamCodeWriter( out ) );
 
-    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.FooModelTest.txt" ), out.toString() );
+    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.FooModelJaxbTest.txt" ), out.toString() );
   }
 
   @Test

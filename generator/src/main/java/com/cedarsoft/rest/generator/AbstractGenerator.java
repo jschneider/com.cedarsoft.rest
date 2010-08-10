@@ -48,6 +48,9 @@ public class AbstractGenerator<T extends DecisionCallback> {
   @NotNull
   @NonNls
   public static final String JAXB_SUB_PACKAGE = "jaxb";
+  @NonNls
+  @NotNull
+  public static final String JAXB_SUFFIX = "Jaxb";
   @NotNull
   protected final CodeGenerator<T> codeGenerator;
   @NotNull
@@ -62,7 +65,7 @@ public class AbstractGenerator<T extends DecisionCallback> {
   @NonNls
   protected String getJaxbClassName() {
     String fqn = descriptor.getQualifiedName();
-    return insertSubPackage( fqn, JAXB_SUB_PACKAGE );
+    return insertSubPackage( fqn, JAXB_SUB_PACKAGE ) + JAXB_SUFFIX;
   }
 
   @NotNull
@@ -108,6 +111,6 @@ public class AbstractGenerator<T extends DecisionCallback> {
   @NotNull
   @NonNls
   public static String getJaxbTypeName( @NotNull TypeMirror type ) {
-    return insertSubPackage( type.toString(), JAXB_SUB_PACKAGE );
+    return insertSubPackage( type.toString(), JAXB_SUB_PACKAGE ) + JAXB_SUFFIX;
   }
 }

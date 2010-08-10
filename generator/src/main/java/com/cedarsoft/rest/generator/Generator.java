@@ -67,7 +67,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionC
   public void generate() throws JClassAlreadyExistsException {
     JDefinedClass jaxbClass = codeGenerator.getModel()._class( getJaxbClassName() )._extends( AbstractJaxbObject.class );
     jaxbClass.annotate( XmlRootElement.class )
-      .param( "name", NamingSupport.createVarName( jaxbClass.name() ) )
+      .param( "name", NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) )
       .param( "namespace", NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) );
     jaxbClass.annotate( XmlAccessorType.class ).param( "value", XmlAccessType.FIELD );
 

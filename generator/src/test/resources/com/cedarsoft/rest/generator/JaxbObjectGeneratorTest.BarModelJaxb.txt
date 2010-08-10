@@ -1,4 +1,4 @@
------------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModel.java-----------------------------------
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxb.java-----------------------------------
 
 package com.cedarsoft.rest.generator.test.jaxb;
 
@@ -13,7 +13,7 @@ import com.cedarsoft.jaxb.AbstractJaxbObject;
 
 @XmlRootElement(name = "barModel", namespace = "http://cedarsoft.com/rest/generator/test/bar-model")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BarModel
+public class BarModelJaxb
     extends AbstractJaxbObject
 {
 
