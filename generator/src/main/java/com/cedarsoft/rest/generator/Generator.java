@@ -37,6 +37,7 @@ import com.cedarsoft.codegen.TypeUtils;
 import com.cedarsoft.codegen.model.DomainObjectDescriptor;
 import com.cedarsoft.codegen.model.FieldWithInitializationInfo;
 import com.cedarsoft.id.NameSpaceSupport;
+import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JDefinedClass;
@@ -66,7 +67,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionC
   }
 
   public void generate() throws JClassAlreadyExistsException {
-    JDefinedClass jaxbClass = codeGenerator.getModel()._class( getJaxbClassName() );
+    JDefinedClass jaxbClass = codeGenerator.getModel()._class( getJaxbClassName() )._extends( AbstractJaxbObject.class );
     jaxbClass.annotate( XmlRootElement.class ).param( "namespace", NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) );
     jaxbClass.annotate( XmlAccessorType.class ).param( "value", XmlAccessType.FIELD );
 
