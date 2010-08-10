@@ -33,14 +33,12 @@ package com.cedarsoft.rest;
 
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.sun.jersey.api.uri.UriBuilderImpl;
 import org.jetbrains.annotations.NotNull;
 import org.junit.*;
 
 import javax.ws.rs.core.UriBuilder;
 import java.net.URISyntaxException;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -60,7 +58,7 @@ public class JaxbMappingTest {
 
       @NotNull
       @Override
-      protected MyJaxbObject createJaxbObject( @NotNull MyObject object ) {
+      protected MyJaxbObject createJaxbObject( @NotNull MyObject object, @NotNull JaxbMappingContext context ) {
         return new MyJaxbObject( object );
       }
     };
@@ -70,22 +68,22 @@ public class JaxbMappingTest {
   public void testGetJaxbObject() throws Exception {
     MyObject myObject = new MyObject();
 
-    MyJaxbObject myJaxbObject = mapping.getJaxbObject( new UriBuilderImpl(), myObject );
+    MyJaxbObject myJaxbObject = mapping.getJaxbObject( myObject, new UriBuilderImpl() );
     assertSame( myObject, myJaxbObject.object );
 
     //test cache
-    assertSame( myJaxbObject, mapping.getJaxbObject( new UriBuilderImpl(), myObject ) );
+    assertSame( myJaxbObject, mapping.getJaxbObject( myObject, new UriBuilderImpl() ) );
   }
 
   @Test
   public void testGetJaxbObjectNull() throws Exception {
     MyObject myObject = new MyObject();
 
-    MyJaxbObject myJaxbObject = mapping.getJaxbObject( null, myObject );
+    MyJaxbObject myJaxbObject = mapping.getJaxbObject( myObject, null );
     assertSame( myObject, myJaxbObject.object );
 
     //test cache
-    assertSame( myJaxbObject, mapping.getJaxbObject( null, myObject ) );
+    assertSame( myJaxbObject, mapping.getJaxbObject( myObject, null ) );
   }
 
   @Test
@@ -93,13 +91,13 @@ public class JaxbMappingTest {
     MyObject myObject1 = new MyObject();
     MyObject myObject2 = new MyObject();
 
-    List<MyJaxbObject> myJaxbObjects = mapping.getJaxbObjects( new UriBuilderImpl(), Lists.newArrayList( myObject1, myObject2 ) );
+    List<MyJaxbObject> myJaxbObjects = mapping.getJaxbObjects( Lists.newArrayList( myObject1, myObject2 ), new UriBuilderImpl() );
     assertSame( myObject1, myJaxbObjects.get( 0 ).object );
     assertSame( myObject2, myJaxbObjects.get( 1 ).object );
 
     //test cache
-    assertSame( myJaxbObjects.get( 0 ), mapping.getJaxbObject( new UriBuilderImpl(), myObject1 ) );
-    assertSame( myJaxbObjects.get( 1 ), mapping.getJaxbObject( new UriBuilderImpl(), myObject2 ) );
+    assertSame( myJaxbObjects.get( 0 ), mapping.getJaxbObject( myObject1, new UriBuilderImpl() ) );
+    assertSame( myJaxbObjects.get( 1 ), mapping.getJaxbObject( myObject2, new UriBuilderImpl() ) );
   }
 
   protected static class MyObject {

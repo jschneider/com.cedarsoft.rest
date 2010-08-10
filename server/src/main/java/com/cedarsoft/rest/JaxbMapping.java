@@ -50,13 +50,15 @@ public abstract class JaxbMapping<T, J> {
   private final Map<T, J> jaxbObjects = new HashMap<T, J>();
 
   @NotNull
-  public J getJaxbObject( @Nullable UriBuilder uriBuilder, @NotNull T object ) throws URISyntaxException {
+  public J getJaxbObject( @NotNull T object, @Nullable UriBuilder uriBuilder ) throws URISyntaxException {
     J jaxbObject = jaxbObjects.get( object );
     if ( jaxbObject != null ) {
       return jaxbObject;
     }
 
-    J created = createJaxbObject( object );
+    JaxbMappingContext context = new JaxbMappingContext( uriBuilder );
+
+    J created = createJaxbObject( object, context );
     jaxbObjects.put( object, created );
 
     if ( uriBuilder != null ) {
@@ -76,14 +78,22 @@ public abstract class JaxbMapping<T, J> {
   protected abstract void setUris( @NotNull J object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException;
 
   @NotNull
-  public List<J> getJaxbObjects( @Nullable UriBuilder uriBuilder, @NotNull Iterable<? extends T> objects ) throws URISyntaxException {
+  public List<J> getJaxbObjects( @NotNull Iterable<? extends T> objects, @Nullable UriBuilder uriBuilder ) throws URISyntaxException {
     List<J> currentJaxbObjects = new ArrayList<J>();
     for ( T object : objects ) {
-      currentJaxbObjects.add( getJaxbObject( uriBuilder, object ) );
+      currentJaxbObjects.add( getJaxbObject( object, uriBuilder ) );
     }
     return currentJaxbObjects;
   }
 
+  /**
+   * Creates the JaxbObject.
+   * The UriBuilder should only be used
+   *
+   * @param object  the object
+   * @param context the context that can be used to create other objects
+   * @return the created jaxb object
+   */
   @NotNull
-  protected abstract J createJaxbObject( @NotNull T object );
+  protected abstract J createJaxbObject( @NotNull T object, @NotNull JaxbMappingContext context );
 }

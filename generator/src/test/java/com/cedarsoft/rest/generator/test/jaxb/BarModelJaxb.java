@@ -31,32 +31,59 @@
 
 package com.cedarsoft.rest.generator.test.jaxb;
 
-import com.cedarsoft.rest.AbstractJaxbTest;
-import org.apache.commons.io.IOUtils;
-import org.jetbrains.annotations.NotNull;
+import com.cedarsoft.jaxb.AbstractJaxbObject;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
+import java.util.Set;
 
-public class BarModelTest extends AbstractJaxbTest<BarModel> {
-  @NotNull
-  @Override
-  protected Class<BarModel> getJaxbType() {
-    return BarModel.class;
+@XmlRootElement( name = "barModel", namespace = "http://www.cedarsoft.com/rest/generator/test/BarModel" )
+public class BarModelJaxb extends AbstractJaxbObject {
+
+  private int daInt;
+  private String daString;
+  private List<String> stringList;
+  private List<? extends String> wildStringList;
+  private Set<? extends String> set;
+
+  public int getDaInt() {
+    return daInt;
   }
 
-  @NotNull
-  @Override
-  protected BarModel createObjectToSerialize()
-    throws Exception {
-    BarModel object = new BarModel();
-    object.setDaInt( 42 );
-    object.setDaString( "daString" );
-    object.setStringList( Arrays.asList( "stringList", "4" ) );
-    object.setWildStringList( Arrays.asList( "wildStringList", "2", "3" ) );
-    object.setSet( new HashSet<String>( Arrays.asList( "set", "other" ) ) );
-    return object;
+  public void setDaInt( int daInt ) {
+    this.daInt = daInt;
+  }
+
+  public String getDaString() {
+    return daString;
+  }
+
+  public void setDaString( String daString ) {
+    this.daString = daString;
+  }
+
+  public List<String> getStringList() {
+    return stringList;
+  }
+
+  public void setStringList( List<String> stringList ) {
+    this.stringList = stringList;
+  }
+
+  public List<? extends String> getWildStringList() {
+    return wildStringList;
+  }
+
+  public void setWildStringList( List<? extends String> wildStringList ) {
+    this.wildStringList = wildStringList;
+  }
+
+  public Set<? extends String> getSet() {
+    return set;
+  }
+
+  public void setSet( Set<? extends String> set ) {
+    this.set = set;
   }
 
 }
