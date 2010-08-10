@@ -88,30 +88,6 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionC
     }
   }
 
-  @NotNull
-  protected JClass getJaxbModelType( @NotNull TypeMirror type ) {
-    if ( TypeUtils.isSimpleType( type ) ) {
-      return codeGenerator.ref( type );
-    }
-
-    if ( !isProbablyOwnType( type ) ) {
-      return codeGenerator.ref( type );
-    }
-    
-    if ( TypeUtils.isCollectionType( type ) ) {
-      TypeMirror collectionParam = TypeUtils.getCollectionParam( type );
-      JClass collection = codeGenerator.ref( TypeUtils.getErasure( type ) );
-
-      if ( collectionParam instanceof WildcardType ) {
-        return collection.narrow( codeGenerator.ref( getJaxbTypeName( TypeUtils.getErasure( collectionParam ) ) ).wildcard() );
-      } else {
-        return collection.narrow( codeGenerator.ref( getJaxbTypeName( collectionParam ) ) );
-      }
-    }
-
-    return codeGenerator.ref( getJaxbTypeName( type ) );
-  }
-
   private void addSetter( @NotNull JDefinedClass jaxbClass, @NotNull JClass fieldType, @NotNull FieldWithInitializationInfo fieldInfo, @NotNull JFieldVar field ) {
     JMethod setter = jaxbClass.method( JMod.PUBLIC, Void.TYPE, NamingSupport.createSetter( fieldInfo.getSimpleName() ) );
     JVar param = setter.param( fieldType, fieldInfo.getSimpleName() );
@@ -126,14 +102,5 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionC
   @NotNull
   private JFieldVar addField( @NotNull JDefinedClass jaxbClass, @NotNull JClass fieldType, @NotNull FieldWithInitializationInfo fieldInfo ) {
     return jaxbClass.field( JMod.PRIVATE, fieldType, fieldInfo.getSimpleName() );
-  }
-
-  public boolean isProbablyOwnType( @NotNull TypeMirror type ) {
-    if ( TypeUtils.isCollectionType( type ) ) {
-      return isProbablyOwnType( TypeUtils.getErasure( TypeUtils.getCollectionParam( type ) ) );
-    }
-
-    String packageName = descriptor.getClassDeclaration().getPackage().getQualifiedName();
-    return type.toString().startsWith( packageName );
   }
 }

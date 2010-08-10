@@ -72,7 +72,9 @@ public class TestGenerator<T extends DecisionCallback> extends AbstractGenerator
 
       //Sets the values
       for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldsToSerialize() ) {
-        JExpression value = codeGenerator.getNewInstanceFactory().create( fieldInfo.getType(), fieldInfo.getSimpleName() );
+        JClass fieldType = getJaxbModelType( fieldInfo.getType() );
+
+        JExpression value = codeGenerator.getNewInstanceFactory().create( fieldType, fieldInfo.getSimpleName() );
         method.body().add( field.invoke( NamingSupport.createSetter( fieldInfo.getSimpleName() ) ).arg( value ) );
       }
 

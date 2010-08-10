@@ -33,8 +33,11 @@ package com.cedarsoft.rest.generator;
 
 import com.cedarsoft.codegen.CodeGenerator;
 import com.cedarsoft.codegen.DecisionCallback;
+import com.cedarsoft.codegen.TypeUtils;
 import com.cedarsoft.codegen.model.DomainObjectDescriptor;
+import com.sun.codemodel.JClass;
 import com.sun.mirror.type.TypeMirror;
+import com.sun.mirror.type.WildcardType;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -60,6 +63,39 @@ public class AbstractGenerator<T extends DecisionCallback> {
   protected String getJaxbClassName() {
     String fqn = descriptor.getQualifiedName();
     return insertSubPackage( fqn, JAXB_SUB_PACKAGE );
+  }
+
+  @NotNull
+  protected JClass getJaxbModelType( @NotNull TypeMirror type ) {
+    if ( TypeUtils.isSimpleType( type ) ) {
+      return codeGenerator.ref( type );
+    }
+
+    if ( !isProbablyOwnType( type ) ) {
+      return codeGenerator.ref( type );
+    }
+
+    if ( TypeUtils.isCollectionType( type ) ) {
+      TypeMirror collectionParam = TypeUtils.getCollectionParam( type );
+      JClass collection = codeGenerator.ref( TypeUtils.getErasure( type ) );
+
+      if ( collectionParam instanceof WildcardType ) {
+        return collection.narrow( codeGenerator.ref( getJaxbTypeName( TypeUtils.getErasure( collectionParam ) ) ).wildcard() );
+      } else {
+        return collection.narrow( codeGenerator.ref( getJaxbTypeName( collectionParam ) ) );
+      }
+    }
+
+    return codeGenerator.ref( getJaxbTypeName( type ) );
+  }
+
+  public boolean isProbablyOwnType( @NotNull TypeMirror type ) {
+    if ( TypeUtils.isCollectionType( type ) ) {
+      return isProbablyOwnType( TypeUtils.getErasure( TypeUtils.getCollectionParam( type ) ) );
+    }
+
+    String packageName = descriptor.getClassDeclaration().getPackage().getQualifiedName();
+    return type.toString().startsWith( packageName );
   }
 
   @NotNull
