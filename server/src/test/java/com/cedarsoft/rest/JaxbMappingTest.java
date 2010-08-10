@@ -49,6 +49,7 @@ import static org.junit.Assert.*;
 public class JaxbMappingTest {
   private JaxbMapping<MyObject, MyObjectJaxb> mapping;
   private JaxbMapping<Parent, ParentJaxb> parentMapping;
+  private JaxbMapping<GrandFather, GrandFatherJaxb> grandFatherMapping;
 
   @Before
   public void setUp() throws Exception {
@@ -69,7 +70,7 @@ public class JaxbMappingTest {
 
     parentMapping = new JaxbMapping<Parent, ParentJaxb>() {
       {
-        addDelegateMapping( MyObjectJaxb.class, mapping );
+        getDelegatesMapping().addMapping( MyObjectJaxb.class, mapping );
       }
 
       @Override
@@ -81,7 +82,26 @@ public class JaxbMappingTest {
       @Override
       protected ParentJaxb createJaxbObject( @NotNull Parent object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
         ParentJaxb jaxbObject = new ParentJaxb();
-        jaxbObject.setChild( getDelegateMapping( MyObjectJaxb.class ).getJaxbObject( object.child, context.getUriBuilder() ) );
+        jaxbObject.setChild( getDelegatesMapping().getMapping( MyObjectJaxb.class ).getJaxbObject( object.child, context.getUriBuilder() ) );
+        return jaxbObject;
+      }
+    };
+
+    grandFatherMapping = new JaxbMapping<GrandFather, GrandFatherJaxb>() {
+      {
+        getDelegatesMapping().addMapping( ParentJaxb.class, parentMapping );
+      }
+
+      @Override
+      protected void setUris( @NotNull GrandFatherJaxb object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
+        object.setHref( uriBuilder.path( "uriGrandParent" ).build() );
+      }
+
+      @NotNull
+      @Override
+      protected GrandFatherJaxb createJaxbObject( @NotNull GrandFather object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+        GrandFatherJaxb jaxbObject = new GrandFatherJaxb();
+        jaxbObject.setParent( getDelegatesMapping().getMapping( ParentJaxb.class ).getJaxbObject( object.parent, context.getUriBuilder() ) );
         return jaxbObject;
       }
     };
@@ -157,6 +177,26 @@ public class JaxbMappingTest {
     assertSame( parentJaxb, parentMapping.getJaxbObject( parent, new UriBuilderImpl() ) );
   }
 
+  @Test
+  public void testGrandp() throws Exception {
+    MyObject myObject1 = new MyObject( 7 );
+    Parent parent = new Parent( myObject1 );
+    GrandFather grandFather = new GrandFather( parent );
+
+    GrandFatherJaxb jaxbObject = grandFatherMapping.getJaxbObject( grandFather, null );
+    assertNotNull( jaxbObject );
+    assertNotNull( jaxbObject.getParent() );
+    assertNotNull( jaxbObject.getParent().getChild() );
+    assertEquals( myObject1.daInt, jaxbObject.getParent().getChild().daInt );
+
+    assertSame( jaxbObject, grandFatherMapping.getJaxbObject( grandFather, null ) );
+    assertSame( jaxbObject.getParent(), grandFatherMapping.getJaxbObject( grandFather, null ).getParent() );
+    assertSame( jaxbObject.getParent().getChild(), grandFatherMapping.getJaxbObject( grandFather, null ).getParent().getChild() );
+
+    assertSame( jaxbObject.getParent(), parentMapping.getJaxbObject( parent, null ) );
+    assertSame( jaxbObject.getParent().getChild(), mapping.getJaxbObject( myObject1, null ) );
+  }
+
   protected static class MyObject {
     private final int daInt;
 
@@ -194,6 +234,26 @@ public class JaxbMappingTest {
 
     public void setChild( MyObjectJaxb child ) {
       this.child = child;
+    }
+  }
+
+  protected static class GrandFather {
+    private final Parent parent;
+
+    GrandFather( Parent parent ) {
+      this.parent = parent;
+    }
+  }
+
+  protected static class GrandFatherJaxb extends AbstractJaxbObject {
+    private ParentJaxb parent;
+
+    public ParentJaxb getParent() {
+      return parent;
+    }
+
+    public void setParent( ParentJaxb parent ) {
+      this.parent = parent;
     }
   }
 

@@ -31,7 +31,6 @@
 
 package com.cedarsoft.rest;
 
-import com.cedarsoft.jaxb.AbstractJaxbObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,20 +49,11 @@ public abstract class JaxbMapping<T, J> {
   @NotNull
   private final Map<T, J> jaxbObjects = new HashMap<T, J>();
   @NotNull
-  private final Map<Class<? extends AbstractJaxbObject>, JaxbMapping<?, ?>> delegates = new HashMap<Class<? extends AbstractJaxbObject>, JaxbMapping<?, ?>>();
-
-
-  public <T1, J1 extends AbstractJaxbObject> void addDelegateMapping( @NotNull Class<J1> jaxbObjectType, @NotNull JaxbMapping<T1, J1> mapping ) {
-    delegates.put( jaxbObjectType, mapping );
-  }
+  private final DelegateJaxbMappings delegateJaxbMappings = new DelegateJaxbMappings();
 
   @NotNull
-  public <T1, J1 extends AbstractJaxbObject> JaxbMapping<T1, J1> getDelegateMapping( @NotNull Class<J1> jaxbObjectType ) {
-    JaxbMapping<?, ?> resolved = delegates.get( jaxbObjectType );
-    if ( resolved == null ) {
-      throw new IllegalArgumentException( "No mapping found for " + jaxbObjectType.getName() );
-    }
-    return ( JaxbMapping<T1, J1> ) resolved;
+  public DelegateJaxbMappings getDelegatesMapping() {
+    return delegateJaxbMappings;
   }
 
   @NotNull
@@ -73,7 +63,7 @@ public abstract class JaxbMapping<T, J> {
       return jaxbObject;
     }
 
-    JaxbMappingContext context = new JaxbMappingContext( uriBuilder );
+    JaxbMappingContext context = new JaxbMappingContext( uriBuilder, delegateJaxbMappings );
 
     J created = createJaxbObject( object, context );
     jaxbObjects.put( object, created );
