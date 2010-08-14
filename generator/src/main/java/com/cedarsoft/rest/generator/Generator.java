@@ -47,6 +47,7 @@ import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JVar;
 import com.sun.mirror.type.TypeMirror;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -59,6 +60,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 public class Generator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionCallback> {
+  @NonNls
+  public static final String ID = "id";
 
   public Generator( @NotNull CodeGenerator<JaxbObjectGenerator.MyDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     super( codeGenerator, descriptor );
@@ -72,6 +75,11 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionC
     jaxbClass.annotate( XmlAccessorType.class ).param( "value", XmlAccessType.FIELD );
 
     for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldsToSerialize() ) {
+      //Skip the id, since it is defined in the super class
+      if ( fieldInfo.getSimpleName().equals( ID ) ) {
+        continue;
+      }
+
       JClass fieldType = getJaxbModelType( fieldInfo.getType() );
       JFieldVar field = addField( jaxbClass, fieldType, fieldInfo );
 
