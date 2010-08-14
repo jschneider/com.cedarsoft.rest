@@ -21,6 +21,7 @@ public class BarModelJaxbTest
         throws Exception
     {
         BarModelJaxb object = new BarModelJaxb();
+        object.setId("id");
         object.setDaInt(42);
         object.setDaString("daString");
         object.setStringList(Arrays.asList("stringList"));

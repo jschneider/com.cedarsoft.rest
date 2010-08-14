@@ -20,6 +20,7 @@ public class FooModelJaxbTest
         throws Exception
     {
         FooModelJaxb object = new FooModelJaxb();
+        object.setId("id");
         object.setSingleBar(new BarModelJaxb());
         object.setTheBars(Arrays.asList(new BarModelJaxb()));
         return object;
