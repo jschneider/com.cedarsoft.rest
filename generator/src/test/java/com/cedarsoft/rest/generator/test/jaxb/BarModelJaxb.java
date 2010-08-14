@@ -86,4 +86,29 @@ public class BarModelJaxb extends AbstractJaxbObject {
     this.set = set;
   }
 
+  @Override
+  public boolean equals( Object o ) {
+    if ( this == o ) return true;
+    if ( !( o instanceof BarModelJaxb ) ) return false;
+
+    BarModelJaxb that = ( BarModelJaxb ) o;
+
+    if ( daInt != that.daInt ) return false;
+    if ( daString != null ? !daString.equals( that.daString ) : that.daString != null ) return false;
+    if ( set != null ? !set.equals( that.set ) : that.set != null ) return false;
+    if ( stringList != null ? !stringList.equals( that.stringList ) : that.stringList != null ) return false;
+    if ( wildStringList != null ? !wildStringList.equals( that.wildStringList ) : that.wildStringList != null ) return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = daInt;
+    result = 31 * result + ( daString != null ? daString.hashCode() : 0 );
+    result = 31 * result + ( stringList != null ? stringList.hashCode() : 0 );
+    result = 31 * result + ( wildStringList != null ? wildStringList.hashCode() : 0 );
+    result = 31 * result + ( set != null ? set.hashCode() : 0 );
+    return result;
+  }
 }

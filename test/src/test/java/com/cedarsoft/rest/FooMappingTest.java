@@ -77,7 +77,7 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo> {
 
     @NotNull
     @Override
-    protected Foo createJaxbObject( @NotNull FooModel object ) {
+    protected Foo createJaxbObject( @NotNull FooModel object, @NotNull JaxbMappingContext context ) {
       Foo foo = new Foo();
       foo.setDaValue( object.getDaValue() );
       return foo;

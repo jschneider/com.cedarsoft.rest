@@ -32,6 +32,7 @@
 package com.cedarsoft.rest;
 
 import com.cedarsoft.AssertUtils;
+import com.cedarsoft.jaxb.JaxbObject;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -57,7 +58,7 @@ import static org.junit.Assert.*;
 /**
  * @param <J> the object to serialize
  */
-public abstract class AbstractJaxbTest<J> {
+public abstract class AbstractJaxbTest<J extends JaxbObject> {
   protected JAXBContext context;
 
   @Before
@@ -112,11 +113,11 @@ public abstract class AbstractJaxbTest<J> {
   @NonNls
   protected String getXmlName() {
     String className = getClass().getSimpleName();
-    return className.replaceAll( "Test", "" ) + ".xml";
+    return className + ".xml";
   }
 
   @NotNull
-  protected abstract J createObjectToSerialize() throws Exception;
+  public abstract J createObjectToSerialize() throws Exception;
 
   @Test
   public void testRound() throws Exception {
@@ -124,6 +125,8 @@ public abstract class AbstractJaxbTest<J> {
     marshaller.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, true );
 
     J jaxbObject = createObjectToSerialize();
+    assertNotNull( jaxbObject.getHref() );
+    assertNotNull( jaxbObject.getId() );
 
     StringWriter out = new StringWriter();
     marshaller.marshal( jaxbObject, out );
@@ -137,15 +140,7 @@ public abstract class AbstractJaxbTest<J> {
   }
 
   protected void verifyDeserialized( @NotNull J deserialized, @NotNull J originalJaxbObject ) throws IllegalAccessException {
-    Assert.assertSame( deserialized.getClass(), originalJaxbObject.getClass() );
-    for ( Field field : originalJaxbObject.getClass().getDeclaredFields() ) {
-      field.setAccessible( true );
-
-      Object originalValue = field.get( originalJaxbObject );
-      Object deserializedValue = field.get( deserialized );
-
-      assertThat( "Failed comparing field <" + field.getName() + ">", deserializedValue, is( originalValue ) );
-    }
+    assertEquals( originalJaxbObject, deserialized );
   }
 
   @NotNull

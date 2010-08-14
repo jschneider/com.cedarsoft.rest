@@ -76,9 +76,24 @@ public abstract class JaxbMapping<T, J> {
     return created;
   }
 
-  @NotNull
-  protected <T, J extends AbstractJaxbObject> J get( @NotNull Class<J> jaxbType, @NotNull T object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+  @Nullable
+  protected <T, J extends AbstractJaxbObject> J get( @NotNull Class<J> jaxbType, @Nullable T object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+    if ( object == null ) {
+      return null;
+    }
     return getDelegatesMapping().getMapping( jaxbType ).getJaxbObject( object, context.getUriBuilder() );
+  }
+
+  @Nullable
+  protected <T, J extends AbstractJaxbObject> List<J> getList( @NotNull Class<J> jaxbType, @NotNull Iterable<? extends T> objects, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+    JaxbMapping<Object, J> mapping = getDelegatesMapping().getMapping( jaxbType );
+
+    List<J> converted = new ArrayList<J>();
+    for ( T object : objects ) {
+      converted.add( mapping.getJaxbObject( object, context.getUriBuilder() ) );
+    }
+
+    return converted;
   }
 
   /**

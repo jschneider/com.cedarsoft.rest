@@ -55,7 +55,7 @@ public class LinkTest extends AbstractJaxbTest<Link> {
 
   @NotNull
   @Override
-  protected Link createObjectToSerialize() throws URISyntaxException {
+  public Link createObjectToSerialize() throws URISyntaxException {
     return new Link( new URI( "http://www.test.de/asdf" ), Link.SELF );
   }
 }

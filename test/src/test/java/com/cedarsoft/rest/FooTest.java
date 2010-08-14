@@ -50,7 +50,7 @@ public class FooTest extends AbstractJaxbTest<Foo> {
 
   @NotNull
   @Override
-  protected Foo createObjectToSerialize() throws Exception {
+  public Foo createObjectToSerialize() throws Exception {
     Foo foo = new Foo();
     foo.setDaValue( "daValueA" );
     foo.setHref( new URI( "my:uri" ) );

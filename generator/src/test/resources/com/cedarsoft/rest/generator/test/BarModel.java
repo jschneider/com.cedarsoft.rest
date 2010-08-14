@@ -12,16 +12,26 @@ import java.util.Set;
  *
  */
 public class BarModel {
+  private final String id;
+
   private final int daInt;
   private final String daString;
 
   private final List<String> stringList = new ArrayList<String>();
-  private final List<? extends String> wildStringList = new ArrayList<String>();
-  private final Set<? extends String> set = new HashSet<String>();
+  private List<? extends String> wildStringList;
+  private Set<? extends String> set = new HashSet<String>();
 
-  public BarModel( int daInt, String daString, List<? extends String> wildStringList, List<? extends String> stringList, @NotNull Set<? extends String> set ) {
+  public BarModel( String id, int daInt, String daString, List<? extends String> wildStringList, List<? extends String> stringList, @NotNull Set<? extends String> set ) {
+    this.id = id;
     this.daInt = daInt;
     this.daString = daString;
+    this.wildStringList = wildStringList;
+    this.stringList.addAll( stringList );
+    this.set = set;
+  }
+
+  public String getId() {
+    return id;
   }
 
   public int getDaInt() {
@@ -36,7 +46,7 @@ public class BarModel {
     return daString;
   }
 
-  public List<? extends String> getStringList() {
+  public List<String> getStringList() {
     return Collections.unmodifiableList( stringList );
   }
 

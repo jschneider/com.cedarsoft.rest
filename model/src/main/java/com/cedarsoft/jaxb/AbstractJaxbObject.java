@@ -44,7 +44,7 @@ import java.net.URI;
  * Every object contains an ID and a href
  */
 @XmlAccessorType( XmlAccessType.FIELD )
-public abstract class AbstractJaxbObject {
+public abstract class AbstractJaxbObject implements JaxbObject {
   @XmlAttribute( required = false )
   @Nullable
   protected URI href;
@@ -52,6 +52,7 @@ public abstract class AbstractJaxbObject {
   @Nullable
   protected String id;
 
+  @Override
   @NotNull
   public URI getHref() {
     if ( href == null ) {
@@ -72,6 +73,7 @@ public abstract class AbstractJaxbObject {
     this.id = id;
   }
 
+  @Override
   @NotNull
   public String getId() {
     if ( id == null ) {
@@ -80,6 +82,7 @@ public abstract class AbstractJaxbObject {
     return id;
   }
 
+  @Override
   public boolean isIdSet() {
     return id != null;
   }

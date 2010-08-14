@@ -31,14 +31,15 @@
 
 package com.cedarsoft.rest;
 
+import com.cedarsoft.jaxb.AbstractJaxbObject;
+import com.cedarsoft.jaxb.JaxbObject;
 import org.jetbrains.annotations.NotNull;
 import org.junit.*;
 
-import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.JAXBException;
 import java.net.URISyntaxException;
 
-public abstract class AbstractMappedJaxbTest<T, J> extends AbstractJaxbTest<J> {
+public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject> extends AbstractJaxbTest<J> {
   protected JaxbMapping<T, J> mapping;
 
   @Override
@@ -50,8 +51,8 @@ public abstract class AbstractMappedJaxbTest<T, J> extends AbstractJaxbTest<J> {
 
   @Override
   @NotNull
-  protected J createObjectToSerialize() throws URISyntaxException {
-    return mapping.getJaxbObject( UriBuilder.fromUri( "http://test.running/here" ), createModel() );
+  public J createObjectToSerialize() throws URISyntaxException {
+    return mapping.getJaxbObject( createModel(), JaxbTestUtils.createTestUriBuilder() );
   }
 
   @NotNull
@@ -59,11 +60,4 @@ public abstract class AbstractMappedJaxbTest<T, J> extends AbstractJaxbTest<J> {
 
   @NotNull
   protected abstract T createModel();
-
-  @NotNull
-  @Override
-  protected String getXmlName() {
-    String className = getClass().getSimpleName();
-    return className.replaceAll( "MappingTest", "" ).replaceAll( "Test", "" ) + ".xml";
-  }
 }

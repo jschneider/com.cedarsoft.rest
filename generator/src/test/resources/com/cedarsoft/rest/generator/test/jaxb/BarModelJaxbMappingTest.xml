@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<daNameSpace:barModel xmlns:daNameSpace="http://www.cedarsoft.com/rest/generator/test/BarModel">
+<ns2:barModel xmlns:ns2="http://www.cedarsoft.com/rest/generator/test/BarModel" href="http://test.running/here/asdf">
+  <id>daId</id>
   <daInt>42</daInt>
   <daString>daString</daString>
-  <set>other</set>
-  <set>set</set>
   <stringList>stringList</stringList>
   <stringList>4</stringList>
   <wildStringList>wildStringList</wildStringList>
   <wildStringList>2</wildStringList>
   <wildStringList>3</wildStringList>
-</daNameSpace:barModel>
+  <set>other</set>
+  <set>set</set>
+</ns2:barModel>

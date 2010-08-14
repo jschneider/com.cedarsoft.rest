@@ -32,6 +32,7 @@
 package com.cedarsoft.rest.generator.test.jaxb;
 
 import com.cedarsoft.rest.AbstractJaxbTest;
+import com.cedarsoft.rest.JaxbTestUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -46,7 +47,7 @@ public class BarModelJaxbTest extends AbstractJaxbTest<BarModelJaxb> {
 
   @NotNull
   @Override
-  protected BarModelJaxb createObjectToSerialize()
+  public BarModelJaxb createObjectToSerialize()
     throws Exception {
 
     BarModelJaxb object = new BarModelJaxb();
@@ -55,7 +56,10 @@ public class BarModelJaxbTest extends AbstractJaxbTest<BarModelJaxb> {
     object.setStringList( Arrays.asList( "stringList", "4" ) );
     object.setWildStringList( Arrays.asList( "wildStringList", "2", "3" ) );
     object.setSet( new HashSet<String>( Arrays.asList( "set", "other" ) ) );
+
+    object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
+    object.setId( "daId" );
+
     return object;
   }
-
 }
