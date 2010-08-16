@@ -18,6 +18,10 @@
       <artifactId>codegen</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.cedarsoft.commons</groupId>
+      <artifactId>io</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.cedarsoft.rest</groupId>
       <artifactId>test</artifactId>
     </dependency>
