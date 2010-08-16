@@ -66,7 +66,7 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.MyDecis
     }
 
     {
-      JMethod method = testClass.method( JMod.PROTECTED, jaxbClass, "createObjectToSerialize" )._throws( Exception.class );
+      JMethod method = testClass.method( JMod.PUBLIC, jaxbClass, "createObjectToSerialize" )._throws( Exception.class );
       method.annotate( Override.class );
       JVar field = method.body().decl( jaxbClass, "object", JExpr._new( jaxbClass ) );
 

@@ -17,7 +17,7 @@ public class BarModelJaxbTest
     }
 
     @Override
-    protected BarModelJaxb createObjectToSerialize()
+    public BarModelJaxb createObjectToSerialize()
         throws Exception
     {
         BarModelJaxb object = new BarModelJaxb();

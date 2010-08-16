@@ -16,7 +16,7 @@ public class FooModelJaxbTest
     }
 
     @Override
-    protected FooModelJaxb createObjectToSerialize()
+    public FooModelJaxb createObjectToSerialize()
         throws Exception
     {
         FooModelJaxb object = new FooModelJaxb();
