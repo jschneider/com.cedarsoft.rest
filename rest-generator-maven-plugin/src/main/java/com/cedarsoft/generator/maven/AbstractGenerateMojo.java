@@ -125,7 +125,9 @@ public abstract class AbstractGenerateMojo extends OutputFoldersAwareMojo {
     prepareOutputDirectories();
 
     getLog().debug( "Output Dir: " + getOutputDirectory().getAbsolutePath() );
+    getLog().debug( "Resources output Dir: " + getResourcesOutputDirectory().getAbsolutePath() );
     getLog().debug( "Test output Dir: " + getTestOutputDirectory().getAbsolutePath() );
+    getLog().debug( "Test resources output Dir: " + getTestResourcesOutputDirectory().getAbsolutePath() );
 
     PrintWriter printWriter = new PrintWriter( new LogWriter( getLog() ) );
     try {
