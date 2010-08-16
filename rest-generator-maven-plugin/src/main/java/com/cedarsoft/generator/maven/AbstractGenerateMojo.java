@@ -33,6 +33,7 @@ package com.cedarsoft.generator.maven;
 
 import com.cedarsoft.codegen.AbstractGenerator;
 import com.cedarsoft.codegen.GeneratorConfiguration;
+import com.google.common.collect.Sets;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.codehaus.plexus.util.DirectoryScanner;
@@ -45,7 +46,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -65,15 +65,15 @@ public abstract class AbstractGenerateMojo extends OutputFoldersAwareMojo {
    * A list of exclusion filters for the generator.
    * The default excludes contain:
    * <ul>
-   * <li>**&#47;*Serializer.java</li>
-   * <li>**&#47;*Test.java</li>
+   * <li>**&#47*Test.java/li>
+   * <li>**&#47;*Jaxb*.java</li>
    * </ul>
    * <p/>
    * Those excludes are useful to avoid recursive creation of serializers and tests.
    *
    * @parameter
    */
-  protected Set<String> excludes = new HashSet<String>();
+  protected Set<String> excludes = Sets.newHashSet( "**/*Test.java", "**/*Jaxb*.java" );
 
   /**
    * Whether to create the serializer
