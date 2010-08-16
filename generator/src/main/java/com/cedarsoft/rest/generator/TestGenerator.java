@@ -44,7 +44,9 @@ import com.sun.codemodel.JExpr;
 import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
+import com.sun.codemodel.JPackage;
 import com.sun.codemodel.JVar;
+import com.sun.codemodel.fmt.JTextFile;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -91,6 +93,28 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.MyDecis
 
       method.body()._return( field );
     }
+
+    createTestResource( testClass, descriptor.getClassDeclaration().getSimpleName() );
+  }
+
+  public void createTestResource( @NotNull JClass testClass, @NotNull @NonNls String domainObjectName ) {
+    String resourceName = testClass.name() + ".xml";
+
+    JPackage testClassPackage = testClass._package();
+    if ( !testClassPackage.hasResourceFile( resourceName ) ) {
+      JTextFile resource = new JTextFile( resourceName );
+      resource.setContents( createSampleContent( domainObjectName ) );
+      testClassPackage.addResourceFile( resource );
+    }
+  }
+
+  private String createSampleContent( @NotNull String domainObjectName ) {
+    String simpleName = NamingSupport.createVarName( domainObjectName );
+
+    return "<?xml version=\"1.0\"?>\n" +
+      "<" + simpleName + ">\n" +
+      "</" + simpleName + ">\n"
+      ;
   }
 
   private String getTestClassName() {
