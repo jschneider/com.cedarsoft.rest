@@ -5,6 +5,7 @@ package com.cedarsoft.rest.generator.test.jaxb;
 import java.util.Arrays;
 import java.util.HashSet;
 import com.cedarsoft.rest.AbstractJaxbTest;
+import com.cedarsoft.rest.JaxbTestUtils;
 
 public class BarModelJaxbTest
     extends AbstractJaxbTest<BarModelJaxb>
@@ -21,6 +22,7 @@ public class BarModelJaxbTest
         throws Exception
     {
         BarModelJaxb object = new BarModelJaxb();
+        object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setId("id");
         object.setDaInt(42);
         object.setDaString("daString");

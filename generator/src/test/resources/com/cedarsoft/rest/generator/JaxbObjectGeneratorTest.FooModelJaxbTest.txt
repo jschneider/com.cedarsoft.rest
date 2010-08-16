@@ -4,6 +4,7 @@ package com.cedarsoft.rest.generator.test.jaxb;
 
 import java.util.Arrays;
 import com.cedarsoft.rest.AbstractJaxbTest;
+import com.cedarsoft.rest.JaxbTestUtils;
 
 public class FooModelJaxbTest
     extends AbstractJaxbTest<FooModelJaxb>
@@ -20,6 +21,7 @@ public class FooModelJaxbTest
         throws Exception
     {
         FooModelJaxb object = new FooModelJaxb();
+        object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setId("id");
         object.setSingleBar(new BarModelJaxb());
         object.setTheBars(Arrays.asList(new BarModelJaxb()));
