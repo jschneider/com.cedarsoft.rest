@@ -50,12 +50,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Generate a Serializer and the corresponding unit tests.
- * <p/>
- * All files are generated within <i>target/generated-sources</i>.
- * So no source files are overwritten by this goal.
  *
- * @goal generate
  */
 public abstract class AbstractGenerateMojo extends OutputFoldersAwareMojo {
   /**
