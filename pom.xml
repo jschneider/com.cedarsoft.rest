@@ -129,4 +129,16 @@
     <commons.version>3.0.1-SNAPSHOT</commons.version>
   </properties>
 
+  <issueManagement>
+    <system>github</system>
+    <url>http://github.com/jschneider/com.cedarsoft.rest/issues</url>
+  </issueManagement>
+
+  <mailingLists>
+    <mailingList>
+      <name>Mail Support</name>
+      <post>info@cedarsoft.com</post>
+    </mailingList>
+  </mailingLists>
+
 </project>
