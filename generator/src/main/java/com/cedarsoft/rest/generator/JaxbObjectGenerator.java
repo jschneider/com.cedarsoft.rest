@@ -40,7 +40,10 @@ import com.cedarsoft.codegen.model.DomainObjectDescriptor;
 import com.cedarsoft.codegen.model.DomainObjectDescriptorFactory;
 import com.cedarsoft.codegen.parser.Parser;
 import com.cedarsoft.codegen.parser.Result;
+import com.cedarsoft.io.WriterOutputStream;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.PrintStream;
 
 /**
  * Generates a Jaxb object corresponding to a domain object
@@ -62,12 +65,27 @@ public class JaxbObjectGenerator extends AbstractGenerator {
     public void generate( @NotNull GeneratorConfiguration configuration ) throws Exception {
       Result result = Parser.parse( configuration.getDomainSourceFiles() );
 
-      CodeGenerator<MyDecisionCallback> codeGenerator = new CodeGenerator<MyDecisionCallback>( new MyDecisionCallback() );
-
       DomainObjectDescriptor descriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration() ).create();
-      new Generator( codeGenerator, descriptor ).generate();
 
-      codeGenerator.getModel().build( configuration.getDestination(), System.out );
+      PrintStream statusPrinter = new PrintStream( new WriterOutputStream( configuration.getLogOut() ) );
+
+      //Create the source files
+      if ( configuration.getCreationMode().isCreate() ) {
+        configuration.getLogOut().append( "Generating JAXB classes...\n" );
+
+        CodeGenerator<MyDecisionCallback> codeGenerator = new CodeGenerator<MyDecisionCallback>( new MyDecisionCallback() );
+        new Generator( codeGenerator, descriptor ).generate();
+        codeGenerator.getModel().build( configuration.getDestination(), configuration.getResourcesDestination(), statusPrinter );
+      }
+
+      //Generate the tests
+      if ( configuration.getCreationMode().isCreateTests() ) {
+        configuration.getLogOut().append( "Generating tests...\n" );
+
+        CodeGenerator<MyDecisionCallback> codeGenerator = new CodeGenerator<MyDecisionCallback>( new MyDecisionCallback() );
+        new TestGenerator( codeGenerator, descriptor ).generateTest();
+        codeGenerator.getModel().build( configuration.getTestDestination(), configuration.getTestResourcesDestination(), statusPrinter );
+      }
     }
   }
 
