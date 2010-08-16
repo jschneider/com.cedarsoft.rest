@@ -50,6 +50,7 @@ public abstract class AbstractJaxbObject implements JaxbObject {
   protected URI href;
 
   @Nullable
+  @XmlAttribute( required = false )
   protected String id;
 
   @Override
@@ -85,5 +86,25 @@ public abstract class AbstractJaxbObject implements JaxbObject {
   @Override
   public boolean isIdSet() {
     return id != null;
+  }
+
+  @Override
+  public boolean equals( Object o ) {
+    if ( this == o ) return true;
+    if ( !( o instanceof AbstractJaxbObject ) ) return false;
+
+    AbstractJaxbObject object = ( AbstractJaxbObject ) o;
+
+    if ( href != null ? !href.equals( object.href ) : object.href != null ) return false;
+    if ( id != null ? !id.equals( object.id ) : object.id != null ) return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = href != null ? href.hashCode() : 0;
+    result = 31 * result + ( id != null ? id.hashCode() : 0 );
+    return result;
   }
 }

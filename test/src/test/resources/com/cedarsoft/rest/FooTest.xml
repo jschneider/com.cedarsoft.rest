@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ns3:foo xmlns:ns3="test:foo" xmlns:ns2="test:bar" href="my:uri">
-  <id>daId</id>
+<ns3:foo xmlns:ns3="test:foo" xmlns:ns2="test:bar" href="my:uri" id="daId">
   <daValue>daValueA</daValue>
   <daName>a</daName>
   <daName>b</daName>

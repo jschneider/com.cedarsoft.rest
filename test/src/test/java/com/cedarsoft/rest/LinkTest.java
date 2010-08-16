@@ -50,12 +50,14 @@ public class LinkTest extends AbstractJaxbTest<Link> {
   @NotNull
   @Override
   protected String expectedXml() {
-    return "<link xmlns=\"http://www.w3.org/1999/xlink\" href=\"http://www.test.de/asdf\" type=\"self\" />";
+    return "<link xmlns=\"http://www.w3.org/1999/xlink\" href=\"http://www.test.de/asdf\" type=\"self\"  id=\"daId\" />";
   }
 
   @NotNull
   @Override
   public Link createObjectToSerialize() throws URISyntaxException {
-    return new Link( new URI( "http://www.test.de/asdf" ), Link.SELF );
+    Link link = new Link( new URI( "http://www.test.de/asdf" ), Link.SELF );
+    link.setId( "daId" );
+    return link;
   }
 }

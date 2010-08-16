@@ -64,7 +64,7 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo> {
   @Override
   protected String expectedXml() {
     return
-      "<ns2:foo xmlns:ns2=\"test:foo\" href=\"test:daUri\">\n" +
+      "<ns2:foo xmlns:ns2=\"test:foo\" href=\"test:daUri\" id=\"daId\">\n" +
         "  <daValue>Hello</daValue>\n" +
         "</ns2:foo>";
   }
@@ -80,6 +80,7 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo> {
     protected Foo createJaxbObject( @NotNull FooModel object, @NotNull JaxbMappingContext context ) {
       Foo foo = new Foo();
       foo.setDaValue( object.getDaValue() );
+      foo.setId( "daId" );
       return foo;
     }
   }
