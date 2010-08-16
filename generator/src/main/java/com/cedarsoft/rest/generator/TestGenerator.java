@@ -50,8 +50,8 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @param <T> the type of the decision callback
  */
-public class TestGenerator<T extends DecisionCallback> extends AbstractGenerator<T> {
-  public TestGenerator( @NotNull CodeGenerator<T> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
+public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionCallback > {
+  public TestGenerator( @NotNull CodeGenerator<JaxbObjectGenerator.MyDecisionCallback > codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     super( codeGenerator, descriptor );
   }
 
