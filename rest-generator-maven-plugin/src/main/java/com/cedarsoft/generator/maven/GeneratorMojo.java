@@ -42,6 +42,8 @@ import org.jetbrains.annotations.NotNull;
  * So no source files are overwritten by this goal.
  *
  * @goal generate
+ * @phase generate-resources
+ * @requiresDependencyResolution compile
  */
 public class GeneratorMojo extends AbstractGenerateMojo {
   @NotNull
