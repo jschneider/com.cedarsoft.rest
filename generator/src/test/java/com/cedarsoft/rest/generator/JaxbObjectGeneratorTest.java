@@ -65,7 +65,7 @@ public class JaxbObjectGeneratorTest {
     File fooModelSource = new File( getClass().getResource( "test/FooModel.java" ).toURI() );
     File anotherModelSource = new File( getClass().getResource( "test/AnotherModel.java" ).toURI() );
 
-    Result result = Parser.parse( barModelSource, fooModelSource, anotherModelSource );
+    Result result = Parser.parse( null, barModelSource, fooModelSource, anotherModelSource );
 
     barDescriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration( "com.cedarsoft.rest.generator.test.BarModel" ) ).create();
     fooDescriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration( "com.cedarsoft.rest.generator.test.FooModel" ) ).create();
@@ -97,8 +97,8 @@ public class JaxbObjectGeneratorTest {
     assertTrue( generator.isProbablyOwnType( singleBarDeclaration.getType() ) );
     assertTrue( generator.isProbablyOwnType( barsDeclaration.getType() ) );
     assertTrue( generator.isProbablyOwnType( wildcardBarsDeclaration.getType() ) );
-    assertFalse( generator.isProbablyOwnType( integersDeclaration .getType()) );
-    assertFalse( generator.isProbablyOwnType( wildcardStringsDeclaration .getType()) );
+    assertFalse( generator.isProbablyOwnType( integersDeclaration.getType() ) );
+    assertFalse( generator.isProbablyOwnType( wildcardStringsDeclaration.getType() ) );
 
 
     assertEquals( "java.util.List<? extends java.lang.String>", wildcardStringsDeclaration.getType().toString() );

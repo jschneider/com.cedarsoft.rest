@@ -63,7 +63,7 @@ public class JaxbObjectGenerator extends AbstractGenerator {
   public static class MyRunner implements Runner {
     @Override
     public void generate( @NotNull GeneratorConfiguration configuration ) throws Exception {
-      Result result = Parser.parse( configuration.getDomainSourceFiles() );
+      Result result = Parser.parse( configuration.getClasspath(), configuration.getDomainSourceFiles() );
 
       DomainObjectDescriptor descriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration() ).create();
 
