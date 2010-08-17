@@ -31,6 +31,7 @@
 
 package com.cedarsoft.generator.maven;
 
+import com.cedarsoft.codegen.parser.Classpath;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -142,5 +143,39 @@ public abstract class SourceFolderAwareMojo extends OutputFoldersAwareMojo {
       throw new MojoExecutionException( "No test resource roots available" );
     }
     return new File( testResources.get( 0 ).getDirectory() );
+  }
+
+  @NotNull
+  protected Classpath buildClassPath() throws MojoExecutionException {
+    Classpath classpath = new Classpath();
+
+    try {
+      for ( String classpathElement : getCompileClasspathElements() ) {
+        File element = new File( classpathElement );
+        getLog().debug( "Adding classpath element: " + element.getAbsolutePath() );
+        classpath.add( element );
+      }
+    } catch ( DependencyResolutionRequiredException e ) {
+      throw new MojoExecutionException( e.getMessage(), e );
+    }
+
+    return classpath;
+  }
+
+  @NotNull
+  protected Classpath buildTestClassPath() throws MojoExecutionException {
+    Classpath classpath = new Classpath();
+
+    try {
+      for ( String classpathElement : getTestCompileClasspathElements() ) {
+        File element = new File( classpathElement );
+        getLog().debug( "Adding classpath element: " + element.getAbsolutePath() );
+        classpath.add( element );
+      }
+    } catch ( DependencyResolutionRequiredException e ) {
+      throw new MojoExecutionException( e.getMessage(), e );
+    }
+
+    return classpath;
   }
 }
