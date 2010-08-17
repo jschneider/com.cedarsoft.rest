@@ -56,12 +56,12 @@ import java.util.List;
 public class ShowDiffMojo extends SourceFolderAwareMojo {
   /**
    * The diff command that shall be executed.
-   * The default value is "diff {0} {1}"
-   *
+   * E.g: "diff {0} {1}" or "meld {0} {1}"
    * @parameter expression="${diffCommand}"
+   * @required
    */
   @NonNls
-  private String diffCommand = "diff {0} {1}";
+  private String diffCommand;
 
   @NonNls
   protected String getDiffCommand() {
