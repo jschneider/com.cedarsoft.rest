@@ -92,7 +92,7 @@ public abstract class SourceFolderAwareMojo extends OutputFoldersAwareMojo {
 
   @NotNull
   protected File getTestSourceRoot() throws MojoExecutionException {
-    if ( testSourceRoots.isEmpty() ) {
+    if ( testSourceRoots == null || testSourceRoots.isEmpty() ) {
       throw new MojoExecutionException( "No test compile source roots available" );
     }
     return new File( testSourceRoots.get( 0 ) );
@@ -100,7 +100,7 @@ public abstract class SourceFolderAwareMojo extends OutputFoldersAwareMojo {
 
   @NotNull
   protected File getSourceRoot() throws MojoExecutionException {
-    if ( sourceRoots.isEmpty() ) {
+    if ( sourceRoots == null || sourceRoots.isEmpty() ) {
       throw new MojoExecutionException( "No compile source roots available" );
     }
     return new File( sourceRoots.get( 0 ) );
@@ -108,7 +108,7 @@ public abstract class SourceFolderAwareMojo extends OutputFoldersAwareMojo {
 
   @NotNull
   protected File getResourcesRoot() throws MojoExecutionException {
-    if ( resources.isEmpty() ) {
+    if ( resources == null || resources.isEmpty() ) {
       throw new MojoExecutionException( "No resource roots available" );
     }
     return new File( resources.get( 0 ).getDirectory() );
@@ -116,7 +116,7 @@ public abstract class SourceFolderAwareMojo extends OutputFoldersAwareMojo {
 
   @NotNull
   protected File getTestResourcesRoot() throws MojoExecutionException {
-    if ( testResources.isEmpty() ) {
+    if ( testResources == null || testResources.isEmpty() ) {
       throw new MojoExecutionException( "No test resource roots available" );
     }
     return new File( testResources.get( 0 ).getDirectory() );
