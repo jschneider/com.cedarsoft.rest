@@ -76,11 +76,11 @@ public abstract class AbstractGenerateMojo extends OutputFoldersAwareMojo {
   protected Set<String> excludes = Sets.newHashSet( "**/*Test.java", "**/*Jaxb*.java" );
 
   /**
-   * Whether to create the serializer
+   * Whether to create the production classes
    *
-   * @parameter expression="${createSerializers}"
+   * @parameter expression="${createClasses}"
    */
-  protected boolean createSerializers = true;
+  protected boolean createClasses = true;
   /**
    * Whether to create the tests
    *
@@ -95,8 +95,8 @@ public abstract class AbstractGenerateMojo extends OutputFoldersAwareMojo {
     this.excludes.addAll( defaultExcludes );
   }
 
-  protected boolean createSerializers() {
-    return createSerializers;
+  protected boolean createClasses() {
+    return createClasses;
   }
 
   protected boolean createTests() {
@@ -115,7 +115,7 @@ public abstract class AbstractGenerateMojo extends OutputFoldersAwareMojo {
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
-    getLog().info( "Serializer Generator Mojo" );
+    getLog().info( "Generator Mojo" );
     getLog().info( "-------------------------" );
 
     if ( getDomainSourceFilePattern() == null ) {
