@@ -31,12 +31,14 @@
 
 package com.cedarsoft.generator.maven;
 
+import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.plexus.components.interactivity.Prompter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -85,6 +87,26 @@ public abstract class SourceFolderAwareMojo extends OutputFoldersAwareMojo {
    * @readonly
    */
   protected Prompter prompter;
+
+
+  @SuppressWarnings( "unchecked" )
+  @NotNull
+  protected List<? extends String> getCompileClasspathElements() throws DependencyResolutionRequiredException {
+    List elements = getProject().getCompileClasspathElements();
+    if ( elements == null ) {
+      return Collections.emptyList();
+    }
+    return elements;
+  }
+
+  @SuppressWarnings( "unchecked" )
+  protected List<? extends String> getTestCompileClasspathElements() throws DependencyResolutionRequiredException {
+    List elements = getProject().getTestClasspathElements();
+    if ( elements == null ) {
+      return Collections.emptyList();
+    }
+    return elements;
+  }
 
   protected Prompter getPrompter() {
     return prompter;
