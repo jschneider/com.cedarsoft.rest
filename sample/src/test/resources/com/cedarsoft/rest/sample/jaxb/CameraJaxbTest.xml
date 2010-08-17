@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ns3:camera xmlns:ns3="http://cedarsoft.com/rest/generator/test/camera" xmlns:ns2="http://cedarsoft.com/rest/generator/test/camera-info"
-            href="http://test.running/here" id="id">
-  <cameraInfo href="http://test.running/here/camInfo" id="camInfoId">
+<ns4:camera xmlns:ns4="http://cedarsoft.com/rest/sample/camera" xmlns:ns2="http://cedarsoft.com/rest/generator/test/camera-info"
+            xmlns:ns3="http://cedarsoft.com/rest/generator/test/user" href="http://test.running/here" id="id">
+  <cameraInfo>
     <serial>35138574</serial>
     <model>EOS 7D</model>
     <make>Canon</make>
-    <internalSerial>DA_INT_STRING</internalSerial>
+    <internalSerial>INTERNAL_35138574</internalSerial>
   </cameraInfo>
   <description>description</description>
-</ns3:camera>
+  <owner>
+    <email>mail@mail.com</email>
+    <name>daName</name>
+  </owner>
+</ns4:camera>
+ 

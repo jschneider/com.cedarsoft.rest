@@ -31,45 +31,30 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
+import com.cedarsoft.rest.AbstractMappedJaxbTest;
 import com.cedarsoft.rest.JaxbMapping;
-import com.cedarsoft.rest.JaxbMappingContext;
-import com.cedarsoft.rest.sample.Camera;
+import com.cedarsoft.rest.sample.User;
 import org.jetbrains.annotations.NotNull;
 
-import javax.ws.rs.core.UriBuilder;
-import java.net.URISyntaxException;
-
-
 /**
- *
+ * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-public class CameraJaxbMapping extends JaxbMapping<Camera, CameraJaxb> {
-  public CameraJaxbMapping( @NotNull UserJaxbMapping userJaxbMapping ) {
-    this.getDelegatesMapping().addMapping( UserJaxb.class, userJaxbMapping );
-  }
-
+public class UserJaxbMappingTest extends AbstractMappedJaxbTest<User, UserJaxb> {
+  @NotNull
   @Override
-  protected void setUris( @NotNull CameraJaxb object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
-    object.setHref( uriBuilder.path( "devices" ).path( "cameras" ).path( "{id}" ).build( object.getId() ) );
+  protected JaxbMapping<User, UserJaxb> createMapping() {
+    return new UserJaxbMapping();
   }
 
   @NotNull
   @Override
-  protected CameraJaxb createJaxbObject( @NotNull Camera object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
-    CameraJaxb jaxbObject = new CameraJaxb();
+  protected User createModel() {
+    return new User( "info@cedarsoft.com", "Johannes Schneider" );
+  }
 
-    jaxbObject.setId( object.getId() );
-    jaxbObject.setDescription( "a nice description about the camera!" );
-
-    CameraInfoJaxb cameraInfo = new CameraInfoJaxb();
-    cameraInfo.setInternalSerial( object.getCameraInfo().getInternalSerial() );
-    cameraInfo.setMake( object.getCameraInfo().getMake() );
-    cameraInfo.setModel( object.getCameraInfo().getModel() );
-    cameraInfo.setSerial( object.getCameraInfo().getSerial() );
-    jaxbObject.setCameraInfo( cameraInfo );
-
-    jaxbObject.setOwner( get( UserJaxb.class, object.getOwner(), context ) );
-
-    return jaxbObject;
+  @NotNull
+  @Override
+  protected Class<UserJaxb> getJaxbType() {
+    return UserJaxb.class;
   }
 }

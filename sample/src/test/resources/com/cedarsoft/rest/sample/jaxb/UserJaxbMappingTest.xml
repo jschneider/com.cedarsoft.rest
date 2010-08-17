@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns2:user xmlns:ns2="http://cedarsoft.com/rest/generator/test/user" href="http://test.running/here/users/info@cedarsoft.com" id="info@cedarsoft.com">
+  <email>info@cedarsoft.com</email>
+  <name>Johannes Schneider</name>
+</ns2:user>
+  

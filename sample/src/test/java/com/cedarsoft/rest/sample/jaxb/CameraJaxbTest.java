@@ -36,26 +36,32 @@ import com.cedarsoft.rest.AbstractJaxbTest;
 import com.cedarsoft.rest.JaxbTestUtils;
 
 public class CameraJaxbTest
-    extends AbstractJaxbTest<CameraJaxb>
-{
+  extends AbstractJaxbTest<CameraJaxb> {
 
 
-    @Override
-    protected Class<CameraJaxb> getJaxbType() {
-        return CameraJaxb.class;
-    }
+  @Override
+  protected Class<CameraJaxb> getJaxbType() {
+    return CameraJaxb.class;
+  }
 
-    @Override
-    public CameraJaxb createObjectToSerialize()
-        throws Exception
-    {
-        CameraJaxb object = new CameraJaxb();
-        object.setHref(JaxbTestUtils.createTestUriBuilder().build());
-        object.setId("id");
-        object.setCameraInfo(new CameraInfoJaxb());
-        object.setDescription("description");
-        object.setOwner(new UserJaxb());
-        return object;
-    }
+  @Override
+  public CameraJaxb createObjectToSerialize()
+    throws Exception {
+    CameraJaxb object = new CameraJaxb();
+    object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
+    object.setId( "id" );
+    CameraInfoJaxb info = new CameraInfoJaxb();
+    object.setCameraInfo( info );
+    info.setInternalSerial( "INTERNAL_35138574" );
+    info.setSerial( 35138574 );
+    info.setMake( "Canon" );
+    info.setModel( "EOS 7D" );
+    object.setDescription( "description" );
+    UserJaxb owner = new UserJaxb();
+    owner.setEmail( "mail@mail.com" );
+    owner.setName( "daName" );
+    object.setOwner( owner );
+    return object;
+  }
 
 }

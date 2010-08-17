@@ -35,22 +35,25 @@ import com.cedarsoft.rest.AbstractMappedJaxbTest;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.sample.Camera;
 import com.cedarsoft.rest.sample.CameraInfo;
+import com.cedarsoft.rest.sample.User;
 import org.jetbrains.annotations.NotNull;
 
 /**
- *
+ * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
 public class CameraJaxbMappingTest extends AbstractMappedJaxbTest<Camera, CameraJaxb> {
   @NotNull
   @Override
   protected JaxbMapping<Camera, CameraJaxb> createMapping() {
-    return new CameraJaxbMapping();
+    return new CameraJaxbMapping( new UserJaxbMapping() );
   }
 
   @NotNull
   @Override
   protected Camera createModel() {
-    return new Camera( "CANON-77", new CameraInfo( 77, "Canon", "EOS 7D", "35131343AFafsdf" ) );
+    Camera camera = new Camera( "CANON-77", new CameraInfo( 77, "Canon", "EOS 7D", "35131343AFafsdf" ) );
+    camera.setOwner( new User( "info@cedarsoft.de", "Johannes Schneider" ) );
+    return camera;
   }
 
   @NotNull

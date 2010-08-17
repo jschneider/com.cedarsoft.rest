@@ -33,42 +33,29 @@ package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.JaxbMappingContext;
-import com.cedarsoft.rest.sample.Camera;
+import com.cedarsoft.rest.sample.User;
 import org.jetbrains.annotations.NotNull;
 
 import javax.ws.rs.core.UriBuilder;
 import java.net.URISyntaxException;
 
-
 /**
- *
+ * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-public class CameraJaxbMapping extends JaxbMapping<Camera, CameraJaxb> {
-  public CameraJaxbMapping( @NotNull UserJaxbMapping userJaxbMapping ) {
-    this.getDelegatesMapping().addMapping( UserJaxb.class, userJaxbMapping );
-  }
-
+public class UserJaxbMapping extends JaxbMapping<User, UserJaxb> {
   @Override
-  protected void setUris( @NotNull CameraJaxb object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
-    object.setHref( uriBuilder.path( "devices" ).path( "cameras" ).path( "{id}" ).build( object.getId() ) );
+  protected void setUris( @NotNull UserJaxb object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
+    object.setHref( uriBuilder.path( "users" ).path( "{id}" ).build( object.getId() ) );
   }
 
   @NotNull
   @Override
-  protected CameraJaxb createJaxbObject( @NotNull Camera object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
-    CameraJaxb jaxbObject = new CameraJaxb();
+  protected UserJaxb createJaxbObject( @NotNull User object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+    UserJaxb jaxbObject = new UserJaxb();
 
-    jaxbObject.setId( object.getId() );
-    jaxbObject.setDescription( "a nice description about the camera!" );
-
-    CameraInfoJaxb cameraInfo = new CameraInfoJaxb();
-    cameraInfo.setInternalSerial( object.getCameraInfo().getInternalSerial() );
-    cameraInfo.setMake( object.getCameraInfo().getMake() );
-    cameraInfo.setModel( object.getCameraInfo().getModel() );
-    cameraInfo.setSerial( object.getCameraInfo().getSerial() );
-    jaxbObject.setCameraInfo( cameraInfo );
-
-    jaxbObject.setOwner( get( UserJaxb.class, object.getOwner(), context ) );
+    jaxbObject.setId( object.getEmail() );
+    jaxbObject.setEmail( object.getEmail() );
+    jaxbObject.setName( object.getName() );
 
     return jaxbObject;
   }
