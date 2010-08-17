@@ -33,7 +33,9 @@ package com.cedarsoft.generator.maven;
 
 import com.cedarsoft.codegen.AbstractGenerator;
 import com.cedarsoft.codegen.GeneratorConfiguration;
+import com.cedarsoft.codegen.parser.Classpath;
 import com.google.common.collect.Sets;
+import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.codehaus.plexus.util.DirectoryScanner;
@@ -52,7 +54,7 @@ import java.util.Set;
 /**
  *
  */
-public abstract class AbstractGenerateMojo extends OutputFoldersAwareMojo {
+public abstract class AbstractGenerateMojo extends SourceFolderAwareMojo {
   /**
    * The pattern path to the domain classes the serializers (and tests) are generated for.
    *
@@ -124,6 +126,7 @@ public abstract class AbstractGenerateMojo extends OutputFoldersAwareMojo {
 
     prepareOutputDirectories();
 
+    getLog().debug( "Sources dir: " + getSourceRoot().getAbsolutePath() );
     getLog().debug( "Output Dir: " + getOutputDirectory().getAbsolutePath() );
     getLog().debug( "Resources output Dir: " + getResourcesOutputDirectory().getAbsolutePath() );
     getLog().debug( "Test output Dir: " + getTestOutputDirectory().getAbsolutePath() );
@@ -140,7 +143,7 @@ public abstract class AbstractGenerateMojo extends OutputFoldersAwareMojo {
       for ( File domainClassSourceFile : domainSourceFiles ) {
         getLog().info( "\t" + domainClassSourceFile.getPath() );
       }
-      GeneratorConfiguration configuration = new GeneratorConfiguration( domainSourceFiles, getOutputDirectory(), getResourcesOutputDirectory(), getTestOutputDirectory(), getTestResourcesOutputDirectory(), printWriter, GeneratorConfiguration.CreationMode.get( createSerializers(), createTests() ) );
+      GeneratorConfiguration configuration = new GeneratorConfiguration( domainSourceFiles, getOutputDirectory(), getResourcesOutputDirectory(), getTestOutputDirectory(), getTestResourcesOutputDirectory(), buildClassPath(), printWriter, GeneratorConfiguration.CreationMode.get( createClasses(), createTests() ) );
       createGenerator().run( configuration );
     } catch ( Exception e ) {
       throw new MojoExecutionException( "Generation failed due to: " + e.getMessage(), e );
