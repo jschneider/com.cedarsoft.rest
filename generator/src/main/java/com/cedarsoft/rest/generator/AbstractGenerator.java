@@ -93,12 +93,15 @@ public class AbstractGenerator<T extends DecisionCallback> {
   }
 
   public boolean isProbablyOwnType( @NotNull TypeMirror type ) {
+    String packageName = descriptor.getClassDeclaration().getPackage().getQualifiedName();
+    if ( type.toString().startsWith( packageName ) ) {
+      return true;
+    }
+
     if ( TypeUtils.isCollectionType( type ) ) {
       return isProbablyOwnType( TypeUtils.getErasure( TypeUtils.getCollectionParam( type ) ) );
     }
-
-    String packageName = descriptor.getClassDeclaration().getPackage().getQualifiedName();
-    return type.toString().startsWith( packageName );
+    return false;
   }
 
   @NotNull
