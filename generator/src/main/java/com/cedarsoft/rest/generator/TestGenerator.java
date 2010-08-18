@@ -35,8 +35,8 @@ import com.cedarsoft.codegen.CodeGenerator;
 import com.cedarsoft.codegen.NamingSupport;
 import com.cedarsoft.codegen.model.DomainObjectDescriptor;
 import com.cedarsoft.codegen.model.FieldWithInitializationInfo;
-import com.cedarsoft.rest.AbstractJaxbTest;
 import com.cedarsoft.rest.JaxbTestUtils;
+import com.cedarsoft.rest.SimpleJaxbTest;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JDefinedClass;
@@ -67,7 +67,7 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.MyDecis
 
   public void generateTest() throws JClassAlreadyExistsException {
     JClass jaxbClass = codeGenerator.ref( getJaxbClassName() );
-    JDefinedClass testClass = codeGenerator.getModel()._class( getTestClassName() )._extends( codeGenerator.ref( AbstractJaxbTest.class ).narrow( jaxbClass ) );
+    JDefinedClass testClass = codeGenerator.getModel()._class( getTestClassName() )._extends( codeGenerator.ref( SimpleJaxbTest.class ).narrow( jaxbClass ) );
 
     {
       JMethod method = testClass.method( JMod.PROTECTED, codeGenerator.ref( Class.class ).narrow( jaxbClass ), "getJaxbType" );

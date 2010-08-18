@@ -31,14 +31,22 @@
 
 package com.cedarsoft.rest;
 
-import com.cedarsoft.jaxb.AbstractJaxbObject;
+import com.cedarsoft.AssertUtils;
 import com.cedarsoft.jaxb.JaxbObject;
 import org.jetbrains.annotations.NotNull;
 import org.junit.*;
+import org.junit.experimental.theories.*;
+import org.junit.runner.*;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.URISyntaxException;
 
+import static org.junit.Assert.*;
+
+@RunWith( Theories.class )
 public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject> extends AbstractJaxbTest<J> {
   protected JaxbMapping<T, J> mapping;
 
@@ -49,15 +57,37 @@ public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject> extends Ab
     mapping = createMapping();
   }
 
-  @Override
-  @NotNull
-  public J createObjectToSerialize() throws URISyntaxException {
-    return mapping.getJaxbObject( createModel(), JaxbTestUtils.createTestUriBuilder() );
-  }
-
   @NotNull
   protected abstract JaxbMapping<T, J> createMapping();
 
+  @Theory
+  public void testRoundTripWithDataPoints( @NotNull Entry<? extends T> entry ) throws Exception {
+    Marshaller marshaller = createMarshaller();
+    marshaller.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, true );
+
+    T object = entry.getObject();
+    J jaxbObject = createJaxbObject( object );
+
+    assertNotNull( jaxbObject.getHref() );
+    assertNotNull( jaxbObject.getId() );
+
+    StringWriter out = new StringWriter();
+    marshaller.marshal( jaxbObject, out );
+
+    AssertUtils.assertXMLEquals( new String( entry.getExpected() ), out.toString() );
+
+    J deserialized = getJaxbType().cast( createUnmarshaller().unmarshal( new StringReader( out.toString() ) ) );
+    assertNotNull( deserialized );
+
+    verifyDeserialized( deserialized, jaxbObject );
+  }
+
   @NotNull
-  protected abstract T createModel();
+  protected J createJaxbObject( @NotNull T object ) throws URISyntaxException {
+    return createMapping().getJaxbObject( object, JaxbTestUtils.createTestUriBuilder() );
+  }
+
+  protected void verifyDeserialized( @NotNull J deserialized, @NotNull J originalJaxbObject ) throws IllegalAccessException {
+    assertEquals( originalJaxbObject, deserialized );
+  }
 }

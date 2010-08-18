@@ -29,30 +29,47 @@
  * have any questions.
  */
 
+package com.cedarsoft.rest;
 
-package com.cedarsoft.rest.sample.jaxb;
-
-import com.cedarsoft.rest.Entry;
-import com.cedarsoft.rest.JaxbTestUtils;
-import com.cedarsoft.rest.SimpleJaxbTest;
+import com.cedarsoft.AssertUtils;
+import com.cedarsoft.jaxb.JaxbObject;
+import org.jetbrains.annotations.NotNull;
 import org.junit.experimental.theories.*;
+import org.junit.runner.*;
 
-public class CameraInfoJaxbTest extends SimpleJaxbTest<CameraInfoJaxb> {
+import javax.xml.bind.Marshaller;
+import java.io.StringReader;
+import java.io.StringWriter;
 
-  @Override
-  protected Class<CameraInfoJaxb> getJaxbType() {
-    return CameraInfoJaxb.class;
+import static org.junit.Assert.*;
+
+/**
+ * @param <J> the object to serialize
+ */
+@RunWith( Theories.class )
+public abstract class SimpleJaxbTest<J extends JaxbObject> extends AbstractJaxbTest<J> {
+  @Theory
+  public void testRoundTripWithDataPoints( @NotNull Entry<? extends J> entry ) throws Exception {
+    Marshaller marshaller = createMarshaller();
+    marshaller.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, true );
+
+    J jaxbObject = entry.getObject();
+
+    assertNotNull( jaxbObject.getHref() );
+    assertNotNull( jaxbObject.getId() );
+
+    StringWriter out = new StringWriter();
+    marshaller.marshal( jaxbObject, out );
+
+    AssertUtils.assertXMLEquals( new String( entry.getExpected() ), out.toString() );
+
+    J deserialized = getJaxbType().cast( createUnmarshaller().unmarshal( new StringReader( out.toString() ) ) );
+    assertNotNull( deserialized );
+
+    verifyDeserialized( deserialized, jaxbObject );
   }
 
-  @DataPoint
-  public static Entry<? extends CameraInfoJaxb> entry1() {
-    CameraInfoJaxb object = new CameraInfoJaxb();
-    object.setId( "daId" );
-    object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
-    object.setSerial( 43L );
-    object.setModel( "model" );
-    object.setMake( "make" );
-    object.setInternalSerial( "internalSerial" );
-    return create( object, CameraInfoJaxbTest.class.getResource( "CameraInfoJaxbTest.xml" ) );
+  protected void verifyDeserialized( @NotNull J deserialized, @NotNull J originalJaxbObject ) throws IllegalAccessException {
+    assertEquals( originalJaxbObject, deserialized );
   }
 }

@@ -32,6 +32,7 @@
 package com.cedarsoft.rest;
 
 import org.jetbrains.annotations.NotNull;
+import org.junit.experimental.theories.*;
 
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
@@ -50,24 +51,19 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo> {
 
   @NotNull
   @Override
-  protected FooModel createModel() {
-    return new FooModel( "Hello", Arrays.asList( "A", "B", "C" ), Arrays.asList( new FooModel.BarModel( 1 ), new FooModel.BarModel( 2 ) ) );
-  }
-
-  @NotNull
-  @Override
   protected Class<Foo> getJaxbType() {
     return Foo.class;
   }
 
-  @NotNull
-  @Override
-  protected String expectedXml() {
-    return
-      "<ns2:foo xmlns:ns2=\"test:foo\" href=\"test:daUri\" id=\"daId\">\n" +
-        "  <daValue>Hello</daValue>\n" +
-        "</ns2:foo>";
+  @DataPoint
+  public static Entry<? extends FooModel> entry1() {
+    FooModel fooModel = new FooModel( "Hello", Arrays.asList( "A", "B", "C" ), Arrays.asList( new FooModel.BarModel( 1 ), new FooModel.BarModel( 2 ) ) );
+    return create( fooModel,
+                   "<ns2:foo xmlns:ns2=\"test:foo\" href=\"test:daUri\" id=\"daId\">\n" +
+                     "  <daValue>Hello</daValue>\n" +
+                     "</ns2:foo>" );
   }
+
 
   private static class FooMapping extends JaxbMapping<FooModel, Foo> {
     @Override

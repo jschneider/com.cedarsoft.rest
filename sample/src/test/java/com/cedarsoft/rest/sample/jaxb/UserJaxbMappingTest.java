@@ -32,9 +32,11 @@
 package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.rest.AbstractMappedJaxbTest;
+import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.sample.User;
 import org.jetbrains.annotations.NotNull;
+import org.junit.experimental.theories.*;
 
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
@@ -48,13 +50,13 @@ public class UserJaxbMappingTest extends AbstractMappedJaxbTest<User, UserJaxb> 
 
   @NotNull
   @Override
-  protected User createModel() {
-    return new User( "info@cedarsoft.com", "Johannes Schneider" );
-  }
-
-  @NotNull
-  @Override
   protected Class<UserJaxb> getJaxbType() {
     return UserJaxb.class;
+  }
+
+  @DataPoint
+  public static Entry<? extends User> entry1() {
+    User user = new User( "info@cedarsoft.com", "Johannes Schneider" );
+    return create( user, UserJaxbTest.class.getResource( "UserJaxbMappingTest.xml" ) );
   }
 }

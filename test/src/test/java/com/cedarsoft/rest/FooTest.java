@@ -31,26 +31,25 @@
 
 package com.cedarsoft.rest;
 
-import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
+import org.junit.experimental.theories.*;
 
-import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 
 /**
  *
  */
-public class FooTest extends AbstractJaxbTest<Foo> {
+public class FooTest extends SimpleJaxbTest<Foo> {
   @NotNull
   @Override
   protected Class<Foo> getJaxbType() {
     return Foo.class;
   }
 
-  @NotNull
-  @Override
-  public Foo createObjectToSerialize() throws Exception {
+  @DataPoint
+  public static Entry<? extends Foo> entry1() throws URISyntaxException {
     Foo foo = new Foo();
     foo.setDaValue( "daValueA" );
     foo.setHref( new URI( "my:uri" ) );
@@ -58,6 +57,7 @@ public class FooTest extends AbstractJaxbTest<Foo> {
     foo.setNames( Arrays.asList( "a", "b", "c" ) );
 
     foo.setBars( Arrays.asList( new Foo.Bar( 1 ), new Foo.Bar( 2 ) ) );
-    return foo;
+
+    return create( foo, FooTest.class.getResource( "FooTest.xml" ) );
   }
 }

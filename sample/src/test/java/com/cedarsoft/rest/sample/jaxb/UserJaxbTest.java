@@ -32,29 +32,27 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.rest.AbstractJaxbTest;
+import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
+import com.cedarsoft.rest.SimpleJaxbTest;
+import org.jetbrains.annotations.NotNull;
+import org.junit.experimental.theories.*;
 
-public class UserJaxbTest
-    extends AbstractJaxbTest<UserJaxb>
-{
+public class UserJaxbTest extends SimpleJaxbTest<UserJaxb> {
+  @NotNull
+  @Override
+  protected Class<UserJaxb> getJaxbType() {
+    return UserJaxb.class;
+  }
 
+  @DataPoint
+  public static Entry<? extends UserJaxb> entry1() {
+    UserJaxb object = new UserJaxb();
+    object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
+    object.setId( "daId" );
+    object.setEmail( "email" );
+    object.setName( "name" );
 
-    @Override
-    protected Class<UserJaxb> getJaxbType() {
-        return UserJaxb.class;
-    }
-
-    @Override
-    public UserJaxb createObjectToSerialize()
-        throws Exception
-    {
-        UserJaxb object = new UserJaxb();
-        object.setHref(JaxbTestUtils.createTestUriBuilder().build());
-      object.setId( "daId" );
-        object.setEmail("email");
-        object.setName("name");
-        return object;
-    }
-
+    return crgit eate( object, UserJaxbTest.class.getResource( "UserJaxbTest.xml" ) );
+  }
 }

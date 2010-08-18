@@ -33,6 +33,7 @@ package com.cedarsoft.rest;
 
 import com.cedarsoft.jaxb.Link;
 import org.jetbrains.annotations.NotNull;
+import org.junit.experimental.theories.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -40,24 +41,18 @@ import java.net.URISyntaxException;
 /**
  *
  */
-public class LinkTest extends AbstractJaxbTest<Link> {
+public class LinkTest extends SimpleJaxbTest<Link> {
   @NotNull
   @Override
   protected Class<Link> getJaxbType() {
     return Link.class;
   }
 
-  @NotNull
-  @Override
-  protected String expectedXml() {
-    return "<link xmlns=\"http://www.w3.org/1999/xlink\" href=\"http://www.test.de/asdf\" type=\"self\"  id=\"daId\" />";
-  }
-
-  @NotNull
-  @Override
-  public Link createObjectToSerialize() throws URISyntaxException {
+  @DataPoint
+  public static Entry<? extends Link> entry1() throws URISyntaxException {
     Link link = new Link( new URI( "http://www.test.de/asdf" ), Link.SELF );
     link.setId( "daId" );
-    return link;
+
+    return create( link, "<link xmlns=\"http://www.w3.org/1999/xlink\" href=\"http://www.test.de/asdf\" type=\"self\"  id=\"daId\" />" );
   }
 }

@@ -32,11 +32,13 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.rest.AbstractJaxbTest;
+import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
+import com.cedarsoft.rest.SimpleJaxbTest;
+import org.junit.experimental.theories.*;
 
 public class CameraJaxbTest
-  extends AbstractJaxbTest<CameraJaxb> {
+  extends SimpleJaxbTest<CameraJaxb> {
 
 
   @Override
@@ -44,9 +46,8 @@ public class CameraJaxbTest
     return CameraJaxb.class;
   }
 
-  @Override
-  public CameraJaxb createObjectToSerialize()
-    throws Exception {
+  @DataPoint
+  public static Entry<? extends CameraJaxb> entry1() {
     CameraJaxb object = new CameraJaxb();
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
     object.setId( "id" );
@@ -61,7 +62,24 @@ public class CameraJaxbTest
     owner.setEmail( "mail@mail.com" );
     owner.setName( "daName" );
     object.setOwner( owner );
-    return object;
+
+    return create( object, CameraJaxbTest.class.getResource( "CameraJaxbTest.xml" ) );
   }
 
+  @DataPoint
+  public static Entry<? extends CameraJaxb> entry2() {
+    CameraJaxb object = new CameraJaxb();
+    object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
+    object.setId( "id" );
+    CameraInfoJaxb cameraInfoJaxb = new CameraInfoJaxb();
+
+    cameraInfoJaxb.setId( "camInfoId" );
+    cameraInfoJaxb.setHref( JaxbTestUtils.createTestUriBuilder().path( "camInfo" ).build() );
+    cameraInfoJaxb.setSerial( 35138574 );
+
+    object.setCameraInfo( cameraInfoJaxb );
+    object.setDescription( "description" );
+
+    return create( object, CameraJaxbTest.class.getResource( "CameraJaxbTest.2.xml" ) );
+  }
 }
