@@ -85,7 +85,7 @@ public abstract class JaxbMapping<T, J> {
   }
 
   @Nullable
-  protected <T, J extends AbstractJaxbObject> List<J> getList( @NotNull Class<J> jaxbType, @NotNull Iterable<? extends T> objects, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+  protected <T, J extends AbstractJaxbObject> List<J> get( @NotNull Class<J> jaxbType, @NotNull Iterable<? extends T> objects, @NotNull JaxbMappingContext context ) throws URISyntaxException {
     JaxbMapping<Object, J> mapping = getDelegatesMapping().getMapping( jaxbType );
 
     List<J> converted = new ArrayList<J>();
