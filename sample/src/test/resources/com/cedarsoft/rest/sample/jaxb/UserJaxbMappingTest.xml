@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ns2:user xmlns:ns2="http://cedarsoft.com/rest/generator/test/user" href="http://test.running/here/users/info@cedarsoft.com" id="info@cedarsoft.com">
+<ns2:user xmlns:ns2="http://cedarsoft.com/rest/sample/user" href="http://test.running/here/users/info@cedarsoft.com"
+          id="info@cedarsoft.com">
   <email>info@cedarsoft.com</email>
   <name>Johannes Schneider</name>
+  <friend href="http://test.running/here/users/markus@mustermann.de" id="markus@mustermann.de">
+    <email>markus@mustermann.de</email>
+    <name>Markus Mustermann</name>
+  </friend>
+  <friend href="http://test.running/here/users/markus2@mustermann.de" id="markus2@mustermann.de">
+    <email>markus2@mustermann.de</email>
+    <name>Markus2 Mustermann</name>
+  </friend>
+  <friend href="http://test.running/here/users/markus3@mustermann.de" id="markus3@mustermann.de">
+    <email>markus3@mustermann.de</email>
+    <name>Markus3 Mustermann</name>
+  </friend>
 </ns2:user>
-  

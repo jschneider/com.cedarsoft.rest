@@ -38,6 +38,8 @@ import com.cedarsoft.rest.SimpleJaxbTest;
 import org.jetbrains.annotations.NotNull;
 import org.junit.experimental.theories.*;
 
+import java.util.Arrays;
+
 public class UserJaxbTest extends SimpleJaxbTest<UserJaxb> {
   @NotNull
   @Override
@@ -52,6 +54,16 @@ public class UserJaxbTest extends SimpleJaxbTest<UserJaxb> {
     object.setId( "daId" );
     object.setEmail( "email" );
     object.setName( "name" );
+
+    UserJaxb friend = new UserJaxb();
+    friend.setName( "Markus Mustermann" );
+    friend.setEmail( "markus@mustermann.com" );
+
+    UserJaxb friend2 = new UserJaxb();
+    friend2.setName( "Eva Mustermann" );
+    friend2.setEmail( "eva@mustermann.com" );
+
+    object.setFriends( Arrays.asList( friend, friend2 ) );
 
     return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.xml" ) );
   }

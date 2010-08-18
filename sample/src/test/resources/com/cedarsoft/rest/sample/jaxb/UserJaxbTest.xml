@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ns2:user xmlns:ns2="http://cedarsoft.com/rest/generator/test/user" href="http://test.running/here" id="daId">
+<ns2:user xmlns:ns2="http://cedarsoft.com/rest/sample/user" href="http://test.running/here" id="daId">
   <email>email</email>
   <name>name</name>
+  <friend>
+    <email>markus@mustermann.com</email>
+    <name>Markus Mustermann</name>
+  </friend>
+  <friend>
+    <email>eva@mustermann.com</email>
+    <name>Eva Mustermann</name>
+  </friend>
 </ns2:user>
+  

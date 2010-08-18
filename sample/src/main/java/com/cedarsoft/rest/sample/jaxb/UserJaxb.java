@@ -32,34 +32,47 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 
-@XmlRootElement(name = "user", namespace = "http://cedarsoft.com/rest/sample/user")
-@XmlAccessorType(XmlAccessType.FIELD)
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
+
+@XmlRootElement( name = "user", namespace = "http://cedarsoft.com/rest/sample/user" )
+@XmlAccessorType( XmlAccessType.FIELD )
 public class UserJaxb
-    extends AbstractJaxbObject
-{
+  extends AbstractJaxbObject {
 
-    private String email;
-    private String name;
+  private String email;
+  private String name;
 
-    public String getEmail() {
-        return email;
-    }
+  @XmlElement( name = "friend" )
+  private List<UserJaxb> friends;
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setEmail( String email ) {
+    this.email = email;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
+
+  public void setName( String name ) {
+    this.name = name;
+  }
+
+  public List<UserJaxb> getFriends() {
+    return friends;
+  }
+
+  public void setFriends( List<UserJaxb> friends ) {
+    this.friends = friends;
+  }
 
 }

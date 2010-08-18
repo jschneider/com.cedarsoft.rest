@@ -43,6 +43,10 @@ import java.net.URISyntaxException;
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
 public class UserJaxbMapping extends JaxbMapping<User, UserJaxb> {
+  public UserJaxbMapping() {
+    getDelegatesMapping().addMapping( UserJaxb.class, this );
+  }
+
   @Override
   protected void setUris( @NotNull UserJaxb object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
     object.setHref( uriBuilder.path( "users" ).path( "{id}" ).build( object.getId() ) );
@@ -52,11 +56,10 @@ public class UserJaxbMapping extends JaxbMapping<User, UserJaxb> {
   @Override
   protected UserJaxb createJaxbObject( @NotNull User object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
     UserJaxb jaxbObject = new UserJaxb();
-
     jaxbObject.setId( object.getEmail() );
     jaxbObject.setEmail( object.getEmail() );
     jaxbObject.setName( object.getName() );
-
+    jaxbObject.setFriends( get( UserJaxb.class, object.getFriends(), context ) );
     return jaxbObject;
   }
 }
