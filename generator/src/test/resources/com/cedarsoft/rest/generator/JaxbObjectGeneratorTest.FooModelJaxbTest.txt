@@ -4,10 +4,13 @@ package com.cedarsoft.rest.generator.test.jaxb;
 
 import java.util.Arrays;
 import com.cedarsoft.rest.AbstractJaxbTest;
+import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
+import com.cedarsoft.rest.SimpleJaxbTest;
+import org.junit.experimental.theories.DataPoint;
 
 public class FooModelJaxbTest
-    extends AbstractJaxbTest<FooModelJaxb>
+    extends SimpleJaxbTest<FooModelJaxb>
 {
 
 
@@ -16,16 +19,14 @@ public class FooModelJaxbTest
         return FooModelJaxb.class;
     }
 
-    @Override
-    public FooModelJaxb createObjectToSerialize()
-        throws Exception
-    {
+    @DataPoint
+    public static Entry<? extends FooModelJaxb> entry1() {
         FooModelJaxb object = new FooModelJaxb();
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setId("id");
         object.setSingleBar(new BarModelJaxb());
         object.setTheBars(Arrays.asList(new BarModelJaxb()));
-        return object;
+        return AbstractJaxbTest.create(object, FooModelJaxbTest.class.getResource("FooModelJaxbTest.xml"));
     }
 
 }

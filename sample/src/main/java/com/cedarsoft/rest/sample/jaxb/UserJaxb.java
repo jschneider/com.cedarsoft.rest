@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 
-@XmlRootElement(name = "user", namespace = "http://cedarsoft.com/rest/generator/test/user")
+@XmlRootElement(name = "user", namespace = "http://cedarsoft.com/rest/sample/user")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UserJaxb
     extends AbstractJaxbObject

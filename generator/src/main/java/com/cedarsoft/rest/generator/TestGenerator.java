@@ -35,8 +35,11 @@ import com.cedarsoft.codegen.CodeGenerator;
 import com.cedarsoft.codegen.NamingSupport;
 import com.cedarsoft.codegen.model.DomainObjectDescriptor;
 import com.cedarsoft.codegen.model.FieldWithInitializationInfo;
+import com.cedarsoft.rest.AbstractJaxbTest;
+import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
 import com.cedarsoft.rest.SimpleJaxbTest;
+import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JDefinedClass;
@@ -55,6 +58,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionCallback> {
   @NonNls
+  public static final String DATA_POINT_METHOD_NAME = "entry1";
+  @NonNls
   public static final String METHOD_NAME_SET_HREF = "setHref";
   @NonNls
   public static final String METHOD_NAME_CREATE_TEST_URI_BUILDER = "createTestUriBuilder";
@@ -69,32 +74,47 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.MyDecis
     JClass jaxbClass = codeGenerator.ref( getJaxbClassName() );
     JDefinedClass testClass = codeGenerator.getModel()._class( getTestClassName() )._extends( codeGenerator.ref( SimpleJaxbTest.class ).narrow( jaxbClass ) );
 
-    {
-      JMethod method = testClass.method( JMod.PROTECTED, codeGenerator.ref( Class.class ).narrow( jaxbClass ), "getJaxbType" );
-      method.annotate( Override.class );
-      method.body()._return( jaxbClass.dotclass() );
-    }
+    createGetJaxbTypeMethod( jaxbClass, testClass );
 
-    {
-      JMethod method = testClass.method( JMod.PUBLIC, jaxbClass, "createObjectToSerialize" )._throws( Exception.class );
-      method.annotate( Override.class );
-      JVar field = method.body().decl( jaxbClass, "object", JExpr._new( jaxbClass ) );
-
-      //Sets the href
-      method.body().add( field.invoke( METHOD_NAME_SET_HREF ).arg( codeGenerator.ref( JaxbTestUtils.class ).staticInvoke( METHOD_NAME_CREATE_TEST_URI_BUILDER ).invoke( METHOD_NAME_BUILD ) ) );
-
-      //Sets the values
-      for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldsToSerialize() ) {
-        JClass fieldType = getJaxbModelType( fieldInfo.getType() );
-
-        JExpression value = codeGenerator.getNewInstanceFactory().create( fieldType, fieldInfo.getSimpleName() );
-        method.body().add( field.invoke( NamingSupport.createSetter( fieldInfo.getSimpleName() ) ).arg( value ) );
-      }
-
-      method.body()._return( field );
-    }
+    createDataPoint( testClass, jaxbClass );
 
     createTestResource( testClass, descriptor.getClassDeclaration().getSimpleName() );
+  }
+
+  private void createDataPoint( @NotNull JDefinedClass testClass, @NotNull JClass jaxbClass ) {
+    JMethod method = testClass.method( JMod.STATIC | JMod.PUBLIC, codeGenerator.ref( Entry.class ).narrow( jaxbClass.wildcard() ), DATA_POINT_METHOD_NAME );
+    method.annotate( codeGenerator.ref( "org.junit.experimental.theories.DataPoint" ) );
+
+    JVar jaxbObject = addJaxbObjectCreation( method.body(), jaxbClass );
+    method.body()._return( codeGenerator.ref( AbstractJaxbTest.class ).staticInvoke( "create" ).arg( jaxbObject ).arg( createGetResourceStatement( testClass ) ) );
+  }
+
+  @NotNull
+  private static JExpression createGetResourceStatement( @NotNull JClass testClass ) {
+    return testClass.dotclass().invoke( "getResource" ).arg( testClass.name() + ".xml" );
+  }
+
+  @NotNull
+  private JVar addJaxbObjectCreation( @NotNull JBlock block, @NotNull JClass jaxbClass ) {
+    JVar field = block.decl( jaxbClass, "object", JExpr._new( jaxbClass ) );
+
+    //Sets the href
+    block.add( field.invoke( METHOD_NAME_SET_HREF ).arg( codeGenerator.ref( JaxbTestUtils.class ).staticInvoke( METHOD_NAME_CREATE_TEST_URI_BUILDER ).invoke( METHOD_NAME_BUILD ) ) );
+
+    //Sets the values
+    for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldsToSerialize() ) {
+      JClass fieldType = getJaxbModelType( fieldInfo.getType() );
+
+      JExpression value = codeGenerator.getNewInstanceFactory().create( fieldType, fieldInfo.getSimpleName() );
+      block.add( field.invoke( NamingSupport.createSetter( fieldInfo.getSimpleName() ) ).arg( value ) );
+    }
+    return field;
+  }
+
+  private void createGetJaxbTypeMethod( @NotNull JClass jaxbClass, @NotNull JDefinedClass testClass ) {
+    JMethod method = testClass.method( JMod.PROTECTED, codeGenerator.ref( Class.class ).narrow( jaxbClass ), "getJaxbType" );
+    method.annotate( Override.class );
+    method.body()._return( jaxbClass.dotclass() );
   }
 
   public void createTestResource( @NotNull JClass testClass, @NotNull @NonNls String domainObjectName ) {

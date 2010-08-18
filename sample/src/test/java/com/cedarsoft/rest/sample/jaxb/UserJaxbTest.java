@@ -53,6 +53,6 @@ public class UserJaxbTest extends SimpleJaxbTest<UserJaxb> {
     object.setEmail( "email" );
     object.setName( "name" );
 
-    return crgit eate( object, UserJaxbTest.class.getResource( "UserJaxbTest.xml" ) );
+    return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.xml" ) );
   }
 }

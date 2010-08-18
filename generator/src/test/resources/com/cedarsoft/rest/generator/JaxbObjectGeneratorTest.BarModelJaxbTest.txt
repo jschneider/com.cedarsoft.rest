@@ -5,10 +5,13 @@ package com.cedarsoft.rest.generator.test.jaxb;
 import java.util.Arrays;
 import java.util.HashSet;
 import com.cedarsoft.rest.AbstractJaxbTest;
+import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
+import com.cedarsoft.rest.SimpleJaxbTest;
+import org.junit.experimental.theories.DataPoint;
 
 public class BarModelJaxbTest
-    extends AbstractJaxbTest<BarModelJaxb>
+    extends SimpleJaxbTest<BarModelJaxb>
 {
 
 
@@ -17,10 +20,8 @@ public class BarModelJaxbTest
         return BarModelJaxb.class;
     }
 
-    @Override
-    public BarModelJaxb createObjectToSerialize()
-        throws Exception
-    {
+    @DataPoint
+    public static Entry<? extends BarModelJaxb> entry1() {
         BarModelJaxb object = new BarModelJaxb();
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setId("id");
@@ -29,7 +30,7 @@ public class BarModelJaxbTest
         object.setStringList(Arrays.asList("stringList"));
         object.setWildStringList(Arrays.asList("wildStringList"));
         object.setSet(new HashSet(Arrays.asList("set")));
-        return object;
+        return AbstractJaxbTest.create(object, BarModelJaxbTest.class.getResource("BarModelJaxbTest.xml"));
     }
 
 }
