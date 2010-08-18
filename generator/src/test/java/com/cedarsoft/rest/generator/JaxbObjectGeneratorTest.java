@@ -37,6 +37,7 @@ import com.cedarsoft.codegen.model.DomainObjectDescriptor;
 import com.cedarsoft.codegen.model.DomainObjectDescriptorFactory;
 import com.cedarsoft.codegen.parser.Parser;
 import com.cedarsoft.codegen.parser.Result;
+import com.google.common.collect.ImmutableList;
 import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.writer.SingleStreamCodeWriter;
 import com.sun.mirror.declaration.FieldDeclaration;
@@ -46,6 +47,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -55,19 +57,24 @@ import static org.junit.Assert.*;
  */
 public class JaxbObjectGeneratorTest {
   private DomainObjectDescriptor barDescriptor;
+  private DomainObjectDescriptor userDescriptor;
   private DomainObjectDescriptor fooDescriptor;
   private DomainObjectDescriptor anotherModelDescriptor;
   private CodeGenerator<JaxbObjectGenerator.MyDecisionCallback> codeGenerator;
 
   @Before
   public void setUp() throws Exception {
-    File barModelSource = new File( getClass().getResource( "test/BarModel.java" ).toURI() );
-    File fooModelSource = new File( getClass().getResource( "test/FooModel.java" ).toURI() );
-    File anotherModelSource = new File( getClass().getResource( "test/AnotherModel.java" ).toURI() );
+    List<File> files = ImmutableList.of(
+      new File( getClass().getResource( "test/BarModel.java" ).toURI() ),
+      new File( getClass().getResource( "test/FooModel.java" ).toURI() ),
+      new File( getClass().getResource( "test/AnotherModel.java" ).toURI() ),
+      new File( getClass().getResource( "test/User.java" ).toURI() )
+    );
 
-    Result result = Parser.parse( null, barModelSource, fooModelSource, anotherModelSource );
+    Result result = Parser.parse( null, files );
 
     barDescriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration( "com.cedarsoft.rest.generator.test.BarModel" ) ).create();
+    userDescriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration( "com.cedarsoft.rest.generator.test.User" ) ).create();
     fooDescriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration( "com.cedarsoft.rest.generator.test.FooModel" ) ).create();
     anotherModelDescriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration( "com.cedarsoft.rest.generator.test.AnotherModel" ) ).create();
 
@@ -122,6 +129,16 @@ public class JaxbObjectGeneratorTest {
     codeGenerator.getModel().build( new SingleStreamCodeWriter( out ) );
 
     AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.BarModelJaxb.txt" ), out.toString() );
+  }
+
+  @Test
+  public void testGeneratModelUser() throws URISyntaxException, JClassAlreadyExistsException, IOException {
+    new Generator( codeGenerator, userDescriptor ).generate();
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    codeGenerator.getModel().build( new SingleStreamCodeWriter( out ) );
+
+    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.UserJaxb.txt" ), out.toString() );
   }
 
   @Test

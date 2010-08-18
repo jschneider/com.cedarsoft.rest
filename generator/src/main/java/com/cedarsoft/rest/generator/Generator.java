@@ -35,26 +35,37 @@ import com.cedarsoft.codegen.CodeGenerator;
 import com.cedarsoft.codegen.NamingSupport;
 import com.cedarsoft.codegen.TypeUtils;
 import com.cedarsoft.codegen.model.DomainObjectDescriptor;
+import com.cedarsoft.codegen.model.FieldTypeInformation;
 import com.cedarsoft.codegen.model.FieldWithInitializationInfo;
 import com.cedarsoft.id.NameSpaceSupport;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
+import com.cedarsoft.rest.JaxbMapping;
+import com.cedarsoft.rest.JaxbMappingContext;
+import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
+import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
+import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
+import com.sun.codemodel.JStatement;
+import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import com.sun.mirror.type.TypeMirror;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
+import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *
@@ -62,19 +73,191 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Generator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionCallback> {
   @NonNls
   public static final String ID = "id";
+  @NotNull
+  @NonNls
+  public static final String METHOD_NAME_GET = "get";
+  @NotNull
+  @NonNls
+  public static final String MAPPING_SUFFIX = "Mapping";
+  @NonNls
+  public static final String METHOD_NAME_SET_ID = "setId";
+  @NonNls
+  public static final String METHOD_NAME_GET_ID = "getId";
+  @NonNls
+  public static final String METHOD_NAME_SET_URIS = "setUris";
+  @NonNls
+  public static final String METHOD_NAME_PATH = "path";
+  @NonNls
+  public static final String METHOD_NAME_BUILD = "build";
+  @NonNls
+  public static final String ARG_PLACEHOLDER_ID = "{id}";
+  @NonNls
+  public static final String METHOD_NAME_SET_HREF = "setHref";
+  @NonNls
+  public static final String NAME = "name";
+  @NonNls
+  public static final String NAMESPACE = "namespace";
+  @NonNls
+  public static final String VALUE = "value";
+  @NonNls
+  public static final String OBJECT = "object";
+  @NonNls
+  public static final String URI_BUILDER = "uriBuilder";
+  @NonNls
+  public static final String CONTEXT = "context";
+  @NonNls
+  public static final String JAXB_OBJECT = "jaxbObject";
+  @NonNls
+  public static final String METHOD_NAME_CREATE_JAXB_OBJECT = "createJaxbObject";
 
   public Generator( @NotNull CodeGenerator<JaxbObjectGenerator.MyDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     super( codeGenerator, descriptor );
   }
 
   public void generate() throws JClassAlreadyExistsException {
-    JDefinedClass jaxbClass = codeGenerator.getModel()._class( getJaxbClassName() )._extends( AbstractJaxbObject.class );
-    jaxbClass.annotate( XmlRootElement.class )
-      .param( "name", NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) )
-      .param( "namespace", NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) );
-    jaxbClass.annotate( XmlAccessorType.class ).param( "value", XmlAccessType.FIELD );
+    JDefinedClass jaxbClass = createJaxbClass();
 
-    for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldsToSerialize() ) {
+    createJaxbMapping( jaxbClass );
+  }
+
+  private void createJaxbMapping( @NotNull JClass jaxbClass ) throws JClassAlreadyExistsException {
+    JClass objectType = codeGenerator.ref( descriptor.getQualifiedName() );
+    JClass superType = codeGenerator.ref( JaxbMapping.class ).narrow( objectType ).narrow( jaxbClass );
+
+    JDefinedClass mappingClass = codeGenerator.getModel()._class( getJaxbMappingTypeName() )._extends( superType );
+
+    createHrefMethod( mappingClass, jaxbClass );
+    createCreateJaxbObjectMethod( mappingClass, jaxbClass );
+  }
+
+  private void createCreateJaxbObjectMethod( @NotNull JDefinedClass mappingClass, @NotNull JClass jaxbClass ) {
+    JMethod method = mappingClass.method( JMod.PROTECTED, jaxbClass, METHOD_NAME_CREATE_JAXB_OBJECT );
+    JVar object = method.param( codeGenerator.ref( descriptor.getQualifiedName() ), OBJECT );
+    JVar context = method.param( codeGenerator.ref( JaxbMappingContext.class ), CONTEXT );
+    method.annotate( Override.class );
+
+    JVar jaxbObject = method.body().decl( jaxbClass, JAXB_OBJECT, JExpr._new( jaxbClass ) );
+
+    addFieldCopyOperations( mappingClass, object, jaxbObject, jaxbClass, context, method.body() );
+    method.body()._return( jaxbObject );
+  }
+
+  private void addFieldCopyOperations( @NotNull JDefinedClass mappingClass, @NotNull JExpression object, @NotNull JExpression jaxbObject, @NotNull JClass jaxbClass, @NotNull JExpression context, @NotNull JBlock block ) {
+    Collection<JStatement> statements = new ArrayList<JStatement>();
+
+    for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldInfos() ) {
+      JInvocation getterInvocation = object.invoke( fieldInfo.getGetterDeclaration().getSimpleName() );
+
+      JInvocation value;
+      if ( isProbablyOwnType( fieldInfo.getType() ) ) {
+        JClass fieldJaxbType = getJaxbType( fieldInfo );
+        value = JExpr.invoke( METHOD_NAME_GET )
+          .arg( fieldJaxbType.dotclass() )
+          .arg( getterInvocation )
+          .arg( context )
+          ;
+
+        ensureDelegateAvailable( mappingClass, fieldJaxbType );
+
+      } else {
+        value = getterInvocation;
+      }
+      statements.add( jaxbObject.invoke( NamingSupport.createSetter( fieldInfo.getSimpleName() ) ).arg( value ) );
+    }
+
+    for ( JStatement statement : statements ) {
+      block.add( statement );
+    }
+  }
+
+  @NotNull
+  private JClass getJaxbType( @NotNull FieldTypeInformation fieldInfo ) {
+    if ( TypeUtils.isCollectionType( fieldInfo.getType() ) ) {
+      return codeGenerator.ref( getJaxbTypeName( TypeUtils.getErasure( TypeUtils.getCollectionParam( fieldInfo.getType() ) ) ) );
+    } else {
+      return codeGenerator.ref( getJaxbTypeName( TypeUtils.getErasure( fieldInfo.getType() ) ) );
+    }
+  }
+
+  private void ensureDelegateAvailable( @NotNull JDefinedClass mappingClass, @NotNull JClass jaxbClass ) {
+    JMethod constructor = getOrCreateConstructor( mappingClass );
+
+    String paramName = NamingSupport.createVarName( jaxbClass.name() + MAPPING_SUFFIX );
+
+    JClass mappingType = codeGenerator.ref( jaxbClass.fullName() + MAPPING_SUFFIX );
+
+    //Check whether the mapping still exists
+    for ( JVar param : constructor.listParams() ) {
+      if ( param.type().equals( mappingType ) ) {
+        return;
+      }
+    }
+
+    //It does not exist, therefore let us add the serializer and map it
+    JVar param = constructor.param( mappingType, paramName );
+
+    constructor.body().add(
+      JExpr.invoke( "getDelegatesMapping" ).invoke( "addMapping" ).arg( jaxbClass.dotclass() ).arg( param )
+    );
+  }
+
+  @NotNull
+  private JMethod getOrCreateConstructor( @NotNull JDefinedClass mappingClass ) {
+    //If no constructor exists, create one
+    if ( !mappingClass.constructors().hasNext() ) {
+      mappingClass.constructor( JMod.PUBLIC );
+    }
+
+    return ( JMethod ) mappingClass.constructors().next();
+  }
+
+  private void createHrefMethod( @NotNull JDefinedClass mappingClass, @NotNull JType jaxbClass ) {
+    JMethod method = mappingClass.method( JMod.PROTECTED, Void.TYPE, METHOD_NAME_SET_URIS );
+    JVar object = method.param( jaxbClass, OBJECT );
+    JVar uriBuilder = method.param( UriBuilder.class, URI_BUILDER );
+    method.annotate( Override.class );
+
+    JInvocation uriBuilderInvocation = uriBuilder.invoke( METHOD_NAME_PATH )
+      .arg( NamingSupport.createXmlElementName( getDescriptor().getClassDeclaration().getSimpleName() ) )
+      .invoke( METHOD_NAME_PATH )
+      .arg( ARG_PLACEHOLDER_ID )
+      .invoke( METHOD_NAME_BUILD )
+      .arg( object.invoke( METHOD_NAME_GET_ID ) );
+
+    method.body().add( object.invoke( METHOD_NAME_SET_HREF ).arg( uriBuilderInvocation ) );
+  }
+
+  @NotNull
+  @NonNls
+  protected String getJaxbMappingTypeName() {
+    String fqn = descriptor.getQualifiedName();
+    return getJaxbMappingTypeName( fqn );
+  }
+
+  protected String getJaxbMappingTypeName( @NotNull @NonNls String modelClassName ) {
+    return insertSubPackage( modelClassName, JAXB_SUB_PACKAGE ) + JAXB_SUFFIX + MAPPING_SUFFIX;
+  }
+
+  @NotNull
+  private JDefinedClass createJaxbClass() throws JClassAlreadyExistsException {
+    JDefinedClass jaxbClass = codeGenerator.getModel()._class( getJaxbTypeName() )._extends( AbstractJaxbObject.class );
+    jaxbClass.annotate( XmlRootElement.class )
+      .param( NAME, NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) )
+      .param( NAMESPACE, NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) );
+    jaxbClass.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
+
+    addFields( jaxbClass );
+
+    return jaxbClass;
+  }
+
+  /**
+   * Adds all fields
+   *
+   * @param jaxbClass the jaxb class
+   */
+  private void addFields( @NotNull JDefinedClass jaxbClass ) {
+    for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldInfos() ) {
       //Skip the id, since it is defined in the super class
       if ( fieldInfo.getSimpleName().equals( ID ) ) {
         continue;

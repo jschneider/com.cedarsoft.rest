@@ -71,7 +71,7 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.MyDecis
   }
 
   public void generateTest() throws JClassAlreadyExistsException {
-    JClass jaxbClass = codeGenerator.ref( getJaxbClassName() );
+    JClass jaxbClass = codeGenerator.ref( getJaxbTypeName() );
     JDefinedClass testClass = codeGenerator.getModel()._class( getTestClassName() )._extends( codeGenerator.ref( SimpleJaxbTest.class ).narrow( jaxbClass ) );
 
     createGetJaxbTypeMethod( jaxbClass, testClass );
@@ -102,7 +102,7 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.MyDecis
     block.add( field.invoke( METHOD_NAME_SET_HREF ).arg( codeGenerator.ref( JaxbTestUtils.class ).staticInvoke( METHOD_NAME_CREATE_TEST_URI_BUILDER ).invoke( METHOD_NAME_BUILD ) ) );
 
     //Sets the values
-    for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldsToSerialize() ) {
+    for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldInfos() ) {
       JClass fieldType = getJaxbModelType( fieldInfo.getType() );
 
       JExpression value = codeGenerator.getNewInstanceFactory().create( fieldType, fieldInfo.getSimpleName() );
@@ -138,6 +138,6 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.MyDecis
   }
 
   private String getTestClassName() {
-    return getJaxbClassName() + "Test";
+    return getJaxbTypeName() + "Test";
   }
 }

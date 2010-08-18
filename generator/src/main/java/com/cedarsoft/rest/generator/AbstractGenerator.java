@@ -63,7 +63,7 @@ public class AbstractGenerator<T extends DecisionCallback> {
 
   @NotNull
   @NonNls
-  protected String getJaxbClassName() {
+  protected String getJaxbTypeName() {
     String fqn = descriptor.getQualifiedName();
     return insertSubPackage( fqn, JAXB_SUB_PACKAGE ) + JAXB_SUFFIX;
   }
@@ -90,6 +90,11 @@ public class AbstractGenerator<T extends DecisionCallback> {
     }
 
     return codeGenerator.ref( getJaxbTypeName( type ) );
+  }
+
+  @NotNull
+  public DomainObjectDescriptor getDescriptor() {
+    return descriptor;
   }
 
   public boolean isProbablyOwnType( @NotNull TypeMirror type ) {

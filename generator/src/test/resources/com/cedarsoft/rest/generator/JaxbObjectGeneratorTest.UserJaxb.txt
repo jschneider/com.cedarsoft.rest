@@ -1,0 +1,80 @@
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxb.java-----------------------------------
+
+package com.cedarsoft.rest.generator.test.jaxb;
+
+import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlRootElement;
+import com.cedarsoft.jaxb.AbstractJaxbObject;
+
+@XmlRootElement(name = "user", namespace = "http://cedarsoft.com/rest/generator/test/user")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class UserJaxb
+    extends AbstractJaxbObject
+{
+
+    private String email;
+    private String name;
+    @XmlElementRef
+    private List<UserJaxb> friends;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<UserJaxb> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<UserJaxb> friends) {
+        this.friends = friends;
+    }
+
+}
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbMapping.java-----------------------------------
+
+package com.cedarsoft.rest.generator.test.jaxb;
+
+import javax.ws.rs.core.UriBuilder;
+import com.cedarsoft.rest.JaxbMapping;
+import com.cedarsoft.rest.JaxbMappingContext;
+import com.cedarsoft.rest.generator.test.User;
+
+public class UserJaxbMapping
+    extends JaxbMapping<User, UserJaxb>
+{
+
+
+    public UserJaxbMapping(UserJaxbMapping userJaxbMapping) {
+        getDelegatesMapping().addMapping(UserJaxb.class, userJaxbMapping);
+    }
+
+    @Override
+    protected void setUris(UserJaxb object, UriBuilder uriBuilder) {
+        object.setHref(uriBuilder.path("user").path("{id}").build(object.getId()));
+    }
+
+    @Override
+    protected UserJaxb createJaxbObject(User object, JaxbMappingContext context) {
+        UserJaxb jaxbObject = new UserJaxb();
+        jaxbObject.setEmail(object.getEmail());
+        jaxbObject.setName(object.getName());
+        jaxbObject.setFriends(get(UserJaxb.class, object.getFriends(), context));
+        return jaxbObject;
+    }
+
+}

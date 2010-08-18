@@ -67,3 +67,35 @@ public class BarModelJaxb
     }
 
 }
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbMapping.java-----------------------------------
+
+package com.cedarsoft.rest.generator.test.jaxb;
+
+import javax.ws.rs.core.UriBuilder;
+import com.cedarsoft.rest.JaxbMapping;
+import com.cedarsoft.rest.JaxbMappingContext;
+import com.cedarsoft.rest.generator.test.BarModel;
+
+public class BarModelJaxbMapping
+    extends JaxbMapping<BarModel, BarModelJaxb>
+{
+
+
+    @Override
+    protected void setUris(BarModelJaxb object, UriBuilder uriBuilder) {
+        object.setHref(uriBuilder.path("barmodel").path("{id}").build(object.getId()));
+    }
+
+    @Override
+    protected BarModelJaxb createJaxbObject(BarModel object, JaxbMappingContext context) {
+        BarModelJaxb jaxbObject = new BarModelJaxb();
+        jaxbObject.setId(object.getId());
+        jaxbObject.setDaInt(object.getDaInt());
+        jaxbObject.setDaString(object.getDaString());
+        jaxbObject.setStringList(object.getStringList());
+        jaxbObject.setWildStringList(object.getWildStringList());
+        jaxbObject.setSet(object.getSet());
+        return jaxbObject;
+    }
+
+}
