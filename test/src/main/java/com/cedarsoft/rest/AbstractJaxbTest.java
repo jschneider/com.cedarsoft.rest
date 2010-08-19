@@ -56,17 +56,11 @@ import static org.junit.Assert.*;
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
 public abstract class AbstractJaxbTest<J extends JaxbObject> {
-  protected JAXBContext context;
+  @Rule
+  public JaxbRule jaxbRule = new JaxbRule( getJaxbType() );
 
   @NotNull
   protected abstract Class<J> getJaxbType();
-
-  @Before
-  public void setup() throws JAXBException {
-    context = createContext();
-    assertNotNull( context );
-  }
-
 
   @Test
   public void testNameSpace() throws Exception {
@@ -77,30 +71,13 @@ public abstract class AbstractJaxbTest<J extends JaxbObject> {
   }
 
   @NotNull
-  public JAXBContext getContext() {
-    return context;
+  public Marshaller createMarshaller() throws JAXBException {
+    return jaxbRule.createMarshaller();
   }
 
   @NotNull
-  protected JAXBContext createContext() throws JAXBException {
-    List<? extends Class<?>> classesToBeBound = getClassesToBeBound();
-    return JAXBContext.newInstance( classesToBeBound.toArray( new Class[new ArrayList<Class<?>>( classesToBeBound ).size()] ) );
-  }
-
-  @NotNull
-  protected List<? extends Class<?>> getClassesToBeBound() {
-    List<Class<?>> list = new ArrayList<Class<?>>();
-    list.add( getJaxbType() );
-    Collection<? extends Class<?>> additionalClassesToBeBound = getAdditionalClassesToBeBound();
-    if ( additionalClassesToBeBound != null ) {
-      list.addAll( additionalClassesToBeBound );
-    }
-    return list;
-  }
-
-  @Nullable
-  protected Collection<? extends Class<?>> getAdditionalClassesToBeBound() {
-    return null;
+  public Unmarshaller createUnmarshaller() throws JAXBException {
+    return jaxbRule.createUnmarshaller();
   }
 
   @NotNull
