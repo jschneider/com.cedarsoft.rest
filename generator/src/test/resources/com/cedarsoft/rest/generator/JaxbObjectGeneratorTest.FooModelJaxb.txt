@@ -5,7 +5,7 @@ package com.cedarsoft.rest.generator.test.jaxb;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 
@@ -16,7 +16,7 @@ public class FooModelJaxb
 {
 
     private BarModelJaxb singleBar;
-    @XmlElementRef
+    @XmlElement(name = "theBar")
     private List<BarModelJaxb> theBars;
 
     public BarModelJaxb getSingleBar() {

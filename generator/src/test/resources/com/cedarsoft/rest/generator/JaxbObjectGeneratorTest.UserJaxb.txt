@@ -5,7 +5,7 @@ package com.cedarsoft.rest.generator.test.jaxb;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 
@@ -17,7 +17,7 @@ public class UserJaxb
 
     private String email;
     private String name;
-    @XmlElementRef
+    @XmlElement(name = "friend")
     private List<UserJaxb> friends;
 
     public String getEmail() {

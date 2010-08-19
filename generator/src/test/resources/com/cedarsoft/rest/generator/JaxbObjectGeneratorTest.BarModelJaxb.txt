@@ -7,7 +7,6 @@ import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 
@@ -19,11 +18,11 @@ public class BarModelJaxb
 
     private int daInt;
     private String daString;
-    @XmlElement
+    @XmlElement(name = "stringList")
     private List<String> stringList;
-    @XmlElementRef
+    @XmlElement(name = "wildStringList")
     private List<? extends String> wildStringList;
-    @XmlElementRef
+    @XmlElement(name = "set")
     private Set<? extends String> set;
 
     public int getDaInt() {

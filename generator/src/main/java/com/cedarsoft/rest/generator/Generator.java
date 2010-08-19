@@ -41,6 +41,7 @@ import com.cedarsoft.id.NameSpaceSupport;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.JaxbMappingContext;
+import com.sun.codemodel.JAnnotationUse;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JClassAlreadyExistsException;
@@ -268,11 +269,9 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionC
 
       if ( TypeUtils.isCollectionType( fieldInfo.getType() ) ) {
         TypeMirror collectionParam = TypeUtils.getCollectionParam( fieldInfo.getType() );
-        if ( TypeUtils.isSimpleType( collectionParam ) ) {
-          field.annotate( XmlElement.class );
-        } else {
-          field.annotate( XmlElementRef.class );
-        }
+
+        JAnnotationUse annotation = field.annotate( XmlElement.class );
+        annotation.param( "name", NamingSupport.createSingular( field.name() ) );
       }
 
       addGetter( jaxbClass, fieldType, fieldInfo, field );
