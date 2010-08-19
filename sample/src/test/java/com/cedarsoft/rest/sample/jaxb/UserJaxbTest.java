@@ -35,6 +35,7 @@ package com.cedarsoft.rest.sample.jaxb;
 import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
 import com.cedarsoft.rest.SimpleJaxbTest;
+import com.google.common.collect.Lists;
 import org.jetbrains.annotations.NotNull;
 import org.junit.experimental.theories.*;
 
@@ -66,5 +67,16 @@ public class UserJaxbTest extends SimpleJaxbTest<UserJaxb> {
     object.setFriends( Arrays.asList( friend, friend2 ) );
 
     return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.xml" ) );
+  }
+
+  @DataPoint
+  public static Entry<? extends UserJaxb> notFriends() {
+    UserJaxb object = new UserJaxb();
+    object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
+    object.setId( "daId" );
+    object.setEmail( "email" );
+    object.setName( "name" );
+
+    return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.noFriends.xml" ) );
   }
 }
