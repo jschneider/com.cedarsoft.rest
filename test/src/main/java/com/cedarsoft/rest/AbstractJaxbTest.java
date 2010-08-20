@@ -88,30 +88,34 @@ public abstract class AbstractJaxbTest<J extends JaxbObject> {
   }
 
   @NotNull
-  protected Marshaller createMarshaller() throws JAXBException {
-    assertNotNull( context );
-    return context.createMarshaller();
-  }
-
-  @NotNull
-  protected Unmarshaller createUnmarshaller() throws JAXBException {
-    return context.createUnmarshaller();
-  }
-
-  @NotNull
   protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls byte[] expected ) {
-    return new Entry<T>( object, expected );
+    return create( object, expected, expected );
+  }
+
+  @NotNull
+  protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls byte[] expected, @NotNull @NonNls byte[] stubExpected ) {
+    return new Entry<T>( object, expected, stubExpected );
   }
 
   @NotNull
   protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls String expected ) {
-    return new Entry<T>( object, expected.getBytes() );
+    return create( object, expected, expected );
+  }
+
+  @NotNull
+  protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls String expected, @NotNull @NonNls String stubExpected ) {
+    return new Entry<T>( object, expected.getBytes(), stubExpected.getBytes() );
   }
 
   @NotNull
   protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls URL expected ) {
+    return create( object, expected, expected );
+  }
+
+  @NotNull
+  protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls URL expected, @NotNull @NonNls URL stubExpected ) {
     try {
-      return new Entry<T>( object, IOUtils.toByteArray( expected.openStream() ) );
+      return new Entry<T>( object, IOUtils.toByteArray( expected.openStream() ), IOUtils.toByteArray( stubExpected.openStream() ) );
     } catch ( IOException e ) {
       throw new RuntimeException( e );
     }
@@ -119,8 +123,13 @@ public abstract class AbstractJaxbTest<J extends JaxbObject> {
 
   @NotNull
   protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls InputStream expected ) {
+    return create( object, expected, expected );
+  }
+
+  @NotNull
+  protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls InputStream expected, @NotNull @NonNls InputStream stubExpected ) {
     try {
-      return new Entry<T>( object, IOUtils.toByteArray( expected ) );
+      return new Entry<T>( object, IOUtils.toByteArray( expected ), IOUtils.toByteArray( stubExpected ) );
     } catch ( IOException e ) {
       throw new RuntimeException( e );
     }

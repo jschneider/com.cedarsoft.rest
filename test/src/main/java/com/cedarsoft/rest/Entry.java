@@ -43,15 +43,24 @@ public class Entry<T> {
   @NotNull
   @NonNls
   private final byte[] expected;
+  @NotNull
+  @NonNls
+  private final byte[] stubExpected;
 
-  public Entry( @NotNull T object, @NotNull @NonNls byte[] expected ) {
+  public Entry( @NotNull T object, @NotNull @NonNls byte[] expected,@NotNull @NonNls byte[] stubExpected ) {
     this.object = object;
     this.expected = expected;
+    this.stubExpected = stubExpected;
   }
 
   @NotNull
   public byte[] getExpected() {
     return expected;
+  }
+
+  @NotNull
+  public byte[] getStubExpected() {
+    return stubExpected;
   }
 
   @NotNull
