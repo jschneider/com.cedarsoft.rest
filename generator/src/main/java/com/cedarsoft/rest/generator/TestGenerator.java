@@ -56,7 +56,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @param <T> the type of the decision callback
  */
-public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionCallback> {
+public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDecisionCallback> {
   @NonNls
   public static final String DATA_POINT_METHOD_NAME = "entry1";
   @NonNls
@@ -66,12 +66,12 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.MyDecis
   @NonNls
   public static final String METHOD_NAME_BUILD = "build";
 
-  public TestGenerator( @NotNull CodeGenerator<JaxbObjectGenerator.MyDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
+  public TestGenerator( @NotNull CodeGenerator<JaxbObjectGenerator.StubDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     super( codeGenerator, descriptor );
   }
 
   public void generateTest() throws JClassAlreadyExistsException {
-    JClass jaxbClass = codeGenerator.ref( getJaxbTypeName() );
+    JClass jaxbClass = codeGenerator.ref( getJaxbObjectName() );
     JDefinedClass testClass = codeGenerator.getModel()._class( getTestClassName() )._extends( codeGenerator.ref( SimpleJaxbTest.class ).narrow( jaxbClass ) );
 
     createGetJaxbTypeMethod( jaxbClass, testClass );
@@ -138,6 +138,6 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.MyDecis
   }
 
   private String getTestClassName() {
-    return getJaxbTypeName() + "Test";
+    return getJaxbObjectName() + "Test";
   }
 }

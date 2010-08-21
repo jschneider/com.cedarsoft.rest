@@ -66,9 +66,6 @@ public class BarModelJaxb
     }
 
 }
------------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbStub.java-----------------------------------
-
-
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbMapping.java-----------------------------------
 
 package com.cedarsoft.rest.generator.test.jaxb;
@@ -98,6 +95,41 @@ public class BarModelJaxbMapping
         jaxbObject.setWildStringList(object.getWildStringList());
         jaxbObject.setSet(object.getSet());
         return jaxbObject;
+    }
+
+}
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbStub.java-----------------------------------
+
+package com.cedarsoft.rest.generator.test.jaxb;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import com.cedarsoft.jaxb.AbstractJaxbStub;
+
+@XmlRootElement(name = "barModel", namespace = "http://cedarsoft.com/rest/generator/test/bar-model/stub")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class BarModelJaxbStub
+    extends AbstractJaxbStub
+{
+
+    private int daInt;
+    private String daString;
+
+    public int getDaInt() {
+        return daInt;
+    }
+
+    public void setDaInt(int daInt) {
+        this.daInt = daInt;
+    }
+
+    public String getDaString() {
+        return daString;
+    }
+
+    public void setDaString(String daString) {
+        this.daString = daString;
     }
 
 }

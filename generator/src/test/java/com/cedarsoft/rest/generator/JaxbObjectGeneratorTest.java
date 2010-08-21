@@ -60,7 +60,7 @@ public class JaxbObjectGeneratorTest {
   private DomainObjectDescriptor userDescriptor;
   private DomainObjectDescriptor fooDescriptor;
   private DomainObjectDescriptor anotherModelDescriptor;
-  private CodeGenerator<JaxbObjectGenerator.MyDecisionCallback> codeGenerator;
+  private CodeGenerator<JaxbObjectGenerator.StubDecisionCallback> codeGenerator;
 
   @Before
   public void setUp() throws Exception {
@@ -78,7 +78,7 @@ public class JaxbObjectGeneratorTest {
     fooDescriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration( "com.cedarsoft.rest.generator.test.FooModel" ) ).create();
     anotherModelDescriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration( "com.cedarsoft.rest.generator.test.AnotherModel" ) ).create();
 
-    codeGenerator = new CodeGenerator<JaxbObjectGenerator.MyDecisionCallback>( new JaxbObjectGenerator.MyDecisionCallback() );
+    codeGenerator = new CodeGenerator<JaxbObjectGenerator.StubDecisionCallback>( new JaxbObjectGenerator.StubDecisionCallback() );
   }
 
   @Test
@@ -89,6 +89,9 @@ public class JaxbObjectGeneratorTest {
 
     assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModelJaxb", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "singleBar" ).getType() ).binaryName() );
     assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModelJaxb>", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "theBars" ).getType() ).binaryName() );
+
+    assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbStub", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "singleBar" ).getType(), true ).binaryName() );
+    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbStub>", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "theBars" ).getType(), true ).binaryName() );
   }
 
   @Test
@@ -143,7 +146,7 @@ public class JaxbObjectGeneratorTest {
 
   @Test
   public void testGeneratModelFoo() throws URISyntaxException, JClassAlreadyExistsException, IOException {
-    codeGenerator = new CodeGenerator<JaxbObjectGenerator.MyDecisionCallback>( new JaxbObjectGenerator.MyDecisionCallback() );
+    codeGenerator = new CodeGenerator<JaxbObjectGenerator.StubDecisionCallback>( new JaxbObjectGenerator.StubDecisionCallback() );
 
 
     new Generator( codeGenerator, fooDescriptor ).generate();

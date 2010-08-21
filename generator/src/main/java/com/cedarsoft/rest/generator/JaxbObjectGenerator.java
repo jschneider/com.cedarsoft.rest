@@ -38,6 +38,7 @@ import com.cedarsoft.codegen.GeneratorCliSupport;
 import com.cedarsoft.codegen.GeneratorConfiguration;
 import com.cedarsoft.codegen.model.DomainObjectDescriptor;
 import com.cedarsoft.codegen.model.DomainObjectDescriptorFactory;
+import com.cedarsoft.codegen.model.FieldWithInitializationInfo;
 import com.cedarsoft.codegen.parser.Parser;
 import com.cedarsoft.codegen.parser.Result;
 import com.cedarsoft.io.WriterOutputStream;
@@ -73,7 +74,7 @@ public class JaxbObjectGenerator extends AbstractGenerator {
       if ( configuration.getCreationMode().isCreate() ) {
         configuration.getLogOut().append( "Generating JAXB classes...\n" );
 
-        CodeGenerator<MyDecisionCallback> codeGenerator = new CodeGenerator<MyDecisionCallback>( new MyDecisionCallback() );
+        CodeGenerator<StubDecisionCallback> codeGenerator = new CodeGenerator<StubDecisionCallback>( new StubDecisionCallback() );
         new Generator( codeGenerator, descriptor ).generate();
         codeGenerator.getModel().build( configuration.getDestination(), configuration.getResourcesDestination(), statusPrinter );
       }
@@ -82,15 +83,21 @@ public class JaxbObjectGenerator extends AbstractGenerator {
       if ( configuration.getCreationMode().isCreateTests() ) {
         configuration.getLogOut().append( "Generating tests...\n" );
 
-        CodeGenerator<MyDecisionCallback> codeGenerator = new CodeGenerator<MyDecisionCallback>( new MyDecisionCallback() );
+        CodeGenerator<StubDecisionCallback> codeGenerator = new CodeGenerator<StubDecisionCallback>( new StubDecisionCallback() );
         new TestGenerator( codeGenerator, descriptor ).generateTest();
         codeGenerator.getModel().build( configuration.getTestDestination(), configuration.getTestResourcesDestination(), statusPrinter );
       }
     }
   }
 
-  public static class MyDecisionCallback implements DecisionCallback {
+  public static class StubDecisionCallback implements DecisionCallback {
+    public boolean skipInStub( @NotNull FieldWithInitializationInfo fieldInfo ) {
+      if ( fieldInfo.isCollectionType() ) {
+        return true;
+      }
 
+      return false;
+    }
   }
 
 }

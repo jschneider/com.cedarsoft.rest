@@ -69,3 +69,29 @@ public class FooModelJaxbMapping
     }
 
 }
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelJaxbStub.java-----------------------------------
+
+package com.cedarsoft.rest.generator.test.jaxb;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import com.cedarsoft.jaxb.AbstractJaxbStub;
+
+@XmlRootElement(name = "fooModel", namespace = "http://cedarsoft.com/rest/generator/test/foo-model/stub")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class FooModelJaxbStub
+    extends AbstractJaxbStub
+{
+
+    private BarModelJaxbStub singleBar;
+
+    public BarModelJaxbStub getSingleBar() {
+        return singleBar;
+    }
+
+    public void setSingleBar(BarModelJaxbStub singleBar) {
+        this.singleBar = singleBar;
+    }
+
+}

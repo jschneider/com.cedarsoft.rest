@@ -39,6 +39,7 @@ import com.cedarsoft.codegen.model.FieldTypeInformation;
 import com.cedarsoft.codegen.model.FieldWithInitializationInfo;
 import com.cedarsoft.id.NameSpaceSupport;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
+import com.cedarsoft.jaxb.AbstractJaxbStub;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.JaxbMappingContext;
 import com.sun.codemodel.JAnnotationUse;
@@ -70,7 +71,7 @@ import java.util.Collection;
 /**
  *
  */
-public class Generator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionCallback> {
+public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisionCallback> {
   @NonNls
   public static final String ID = "id";
   @NotNull
@@ -109,13 +110,16 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionC
   public static final String JAXB_OBJECT = "jaxbObject";
   @NonNls
   public static final String METHOD_NAME_CREATE_JAXB_OBJECT = "createJaxbObject";
+  @NonNls
+  public static final String STUB_NAMESPACE_SUFFIX = "/stub";
 
-  public Generator( @NotNull CodeGenerator<JaxbObjectGenerator.MyDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
+  public Generator( @NotNull CodeGenerator<JaxbObjectGenerator.StubDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     super( codeGenerator, descriptor );
   }
 
   public void generate() throws JClassAlreadyExistsException {
     JDefinedClass jaxbObject = createJaxbObject();
+    JDefinedClass jaxbStub = createJaxbStub();
 
     createJaxbMapping( jaxbObject );
   }
@@ -240,15 +244,29 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionC
 
   @NotNull
   protected JDefinedClass createJaxbObject() throws JClassAlreadyExistsException {
-    JDefinedClass jaxbClass = codeGenerator.getModel()._class( getJaxbTypeName() )._extends( AbstractJaxbObject.class );
-    jaxbClass.annotate( XmlRootElement.class )
+    JDefinedClass jaxbObject = codeGenerator.getModel()._class( getJaxbObjectName() )._extends( AbstractJaxbObject.class );
+    jaxbObject.annotate( XmlRootElement.class )
       .param( NAME, NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) )
       .param( NAMESPACE, NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) );
-    jaxbClass.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
+    jaxbObject.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
 
-    addFields( jaxbClass );
+    addFields( jaxbObject, false );
 
-    return jaxbClass;
+    return jaxbObject;
+  }
+
+  @NotNull
+  protected JDefinedClass createJaxbStub() throws JClassAlreadyExistsException {
+    JDefinedClass jaxbStub = codeGenerator.getModel()._class( getJaxbStubName() )._extends( AbstractJaxbStub.class );
+    jaxbStub.annotate( XmlRootElement.class )
+      .param( NAME, NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) )
+      .param( NAMESPACE, NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) + STUB_NAMESPACE_SUFFIX );
+    jaxbStub.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
+
+
+    addFields( jaxbStub, true );
+
+    return jaxbStub;
   }
 
   /**
@@ -256,14 +274,18 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionC
    *
    * @param jaxbObject the jaxb class
    */
-  private void addFields( @NotNull JDefinedClass jaxbObject ) {
+  private void addFields( @NotNull JDefinedClass jaxbObject, boolean isStub ) {
     for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldInfos() ) {
       //Skip the id, since it is defined in the super class
       if ( fieldInfo.getSimpleName().equals( ID ) ) {
         continue;
       }
 
-      JClass fieldType = getJaxbModelType( fieldInfo.getType() );
+      if ( isStub && skipInStub( fieldInfo ) ) {
+        continue;
+      }
+
+      JClass fieldType = getJaxbModelType( fieldInfo.getType(), isStub );
       JFieldVar field = addField( jaxbObject, fieldType, fieldInfo );
 
       if ( TypeUtils.isCollectionType( fieldInfo.getType() ) ) {
@@ -276,6 +298,10 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionC
       addGetter( jaxbObject, fieldType, fieldInfo, field );
       addSetter( jaxbObject, fieldType, fieldInfo, field );
     }
+  }
+
+  private boolean skipInStub( @NotNull FieldWithInitializationInfo fieldInfo ) {
+    return codeGenerator.getDecisionCallback().skipInStub( fieldInfo );
   }
 
   private void addSetter( @NotNull JDefinedClass jaxbObject, @NotNull JClass fieldType, @NotNull FieldWithInitializationInfo fieldInfo, @NotNull JFieldVar field ) {

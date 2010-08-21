@@ -51,6 +51,9 @@ public class AbstractGenerator<T extends DecisionCallback> {
   @NonNls
   @NotNull
   public static final String JAXB_SUFFIX = "Jaxb";
+  @NonNls
+  @NotNull
+  public static final String JAXB_STUB_SUFFIX = "Stub";
   @NotNull
   protected final CodeGenerator<T> codeGenerator;
   @NotNull
@@ -63,13 +66,25 @@ public class AbstractGenerator<T extends DecisionCallback> {
 
   @NotNull
   @NonNls
-  protected String getJaxbTypeName() {
+  protected String getJaxbObjectName() {
     String fqn = descriptor.getQualifiedName();
     return insertSubPackage( fqn, JAXB_SUB_PACKAGE ) + JAXB_SUFFIX;
   }
 
   @NotNull
+  @NonNls
+  protected String getJaxbStubName() {
+    String fqn = descriptor.getQualifiedName();
+    return insertSubPackage( fqn, JAXB_SUB_PACKAGE ) + JAXB_SUFFIX + JAXB_STUB_SUFFIX;
+  }
+
+  @NotNull
   protected JClass getJaxbModelType( @NotNull TypeMirror type ) {
+    return getJaxbModelType( type, false );
+  }
+
+  @NotNull
+  protected JClass getJaxbModelType( @NotNull TypeMirror type, boolean stub ) {
     if ( TypeUtils.isSimpleType( type ) ) {
       return codeGenerator.ref( type );
     }
@@ -83,13 +98,13 @@ public class AbstractGenerator<T extends DecisionCallback> {
       JClass collection = codeGenerator.ref( TypeUtils.getErasure( type ) );
 
       if ( collectionParam instanceof WildcardType ) {
-        return collection.narrow( codeGenerator.ref( getJaxbTypeName( TypeUtils.getErasure( collectionParam ) ) ).wildcard() );
+        return collection.narrow( codeGenerator.ref( getJaxbTypeName( TypeUtils.getErasure( collectionParam ), stub ) ).wildcard() );
       } else {
-        return collection.narrow( codeGenerator.ref( getJaxbTypeName( collectionParam ) ) );
+        return collection.narrow( codeGenerator.ref( getJaxbTypeName( collectionParam, stub ) ) );
       }
     }
 
-    return codeGenerator.ref( getJaxbTypeName( type ) );
+    return codeGenerator.ref( getJaxbTypeName( type, stub ) );
   }
 
   @NotNull
@@ -119,6 +134,17 @@ public class AbstractGenerator<T extends DecisionCallback> {
   @NotNull
   @NonNls
   public static String getJaxbTypeName( @NotNull TypeMirror type ) {
-    return insertSubPackage( type.toString(), JAXB_SUB_PACKAGE ) + JAXB_SUFFIX;
+    return getJaxbTypeName( type, false );
+  }
+
+  @NotNull
+  @NonNls
+  public static String getJaxbTypeName( @NotNull TypeMirror type, boolean stub ) {
+    String baseName = insertSubPackage( type.toString(), JAXB_SUB_PACKAGE ) + JAXB_SUFFIX;
+    if ( stub ) {
+      return baseName + JAXB_STUB_SUFFIX;
+    } else {
+      return baseName;
+    }
   }
 }
