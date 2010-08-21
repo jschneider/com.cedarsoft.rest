@@ -40,6 +40,7 @@ import com.cedarsoft.codegen.model.FieldWithInitializationInfo;
 import com.cedarsoft.id.NameSpaceSupport;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.AbstractJaxbStub;
+import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.JaxbMappingContext;
 import com.sun.codemodel.JAnnotationUse;
@@ -54,7 +55,6 @@ import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JStatement;
-import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -110,6 +110,8 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   @NonNls
   public static final String METHOD_NAME_CREATE_JAXB_OBJECT = "createJaxbObject";
   @NonNls
+  public static final String METHOD_NAME_CREATE_JAXB_STUB = "createJaxbObjectStub";
+  @NonNls
   public static final String STUB_NAMESPACE_SUFFIX = "/stub";
 
   public Generator( @NotNull CodeGenerator<JaxbObjectGenerator.StubDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
@@ -120,17 +122,18 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     JDefinedClass jaxbObject = createJaxbObject();
     JDefinedClass jaxbStub = createJaxbStub();
 
-    createJaxbMapping( jaxbObject );
+    createJaxbMapping( jaxbObject, jaxbStub );
   }
 
-  private void createJaxbMapping( @NotNull JClass jaxbObject ) throws JClassAlreadyExistsException {
+  private void createJaxbMapping( @NotNull JClass jaxbObject, @NotNull JClass jaxbStub ) throws JClassAlreadyExistsException {
     JClass objectType = codeGenerator.ref( descriptor.getQualifiedName() );
-    JClass superType = codeGenerator.ref( JaxbMapping.class ).narrow( objectType ).narrow( jaxbObject );
+    JClass superType = codeGenerator.ref( JaxbMapping.class ).narrow( objectType ).narrow( jaxbObject ).narrow( jaxbStub );
 
     JDefinedClass mappingClass = codeGenerator.getModel()._class( getJaxbMappingTypeName() )._extends( superType );
 
-    createHrefMethod( mappingClass, jaxbObject );
+    createHrefMethod( mappingClass );
     createCreateJaxbObjectMethod( mappingClass, jaxbObject );
+    createCreateJaxbStubMethod( mappingClass, jaxbStub );
   }
 
   private void createCreateJaxbObjectMethod( @NotNull JDefinedClass mappingClass, @NotNull JClass jaxbObject ) {
@@ -141,15 +144,31 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
 
     JVar jaxbObjectInstance = method.body().decl( jaxbObject, JAXB_OBJECT, JExpr._new( jaxbObject ) );
 
-    addFieldCopyOperations( mappingClass, object, jaxbObjectInstance, jaxbObject, context, method.body() );
+    addFieldCopyOperations( mappingClass, object, jaxbObjectInstance, jaxbObject, context, method.body(), false );
     method.body()._return( jaxbObjectInstance );
   }
 
-  private void addFieldCopyOperations( @NotNull JDefinedClass mappingClass, @NotNull JExpression object, @NotNull JExpression jaxbObjectInstance, @NotNull JClass jaxbObject, @NotNull JExpression context, @NotNull JBlock block ) {
+  private void createCreateJaxbStubMethod( @NotNull JDefinedClass mappingClass, @NotNull JClass jaxbStub ) {
+    JMethod method = mappingClass.method( JMod.PROTECTED, jaxbStub, METHOD_NAME_CREATE_JAXB_STUB );
+    JVar object = method.param( codeGenerator.ref( descriptor.getQualifiedName() ), OBJECT );
+    JVar context = method.param( codeGenerator.ref( JaxbMappingContext.class ), CONTEXT );
+    method.annotate( Override.class );
+
+    JVar jaxbObjectInstance = method.body().decl( jaxbStub, JAXB_OBJECT, JExpr._new( jaxbStub ) );
+
+    addFieldCopyOperations( mappingClass, object, jaxbObjectInstance, jaxbStub, context, method.body(), true );
+    method.body()._return( jaxbObjectInstance );
+  }
+
+  private void addFieldCopyOperations( @NotNull JDefinedClass mappingClass, @NotNull JExpression object, @NotNull JExpression jaxbObjectInstance, @NotNull JClass jaxbObject, @NotNull JExpression context, @NotNull JBlock block, boolean isStub ) {
     Collection<JStatement> statements = new ArrayList<JStatement>();
 
     for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldInfos() ) {
       JInvocation getterInvocation = object.invoke( fieldInfo.getGetterDeclaration().getSimpleName() );
+
+      if ( isStub && skipInStub( fieldInfo ) ) {
+        continue;
+      }
 
       JInvocation value;
       if ( isProbablyOwnType( fieldInfo.getType() ) ) {
@@ -214,9 +233,9 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     return ( JMethod ) mappingClass.constructors().next();
   }
 
-  private void createHrefMethod( @NotNull JDefinedClass mappingClass, @NotNull JType jaxbObject ) {
+  private void createHrefMethod( @NotNull JDefinedClass mappingClass ) {
     JMethod method = mappingClass.method( JMod.PROTECTED, Void.TYPE, METHOD_NAME_SET_URIS );
-    JVar object = method.param( jaxbObject, OBJECT );
+    JVar object = method.param( JaxbObject.class, OBJECT );
     JVar uriBuilder = method.param( UriBuilder.class, URI_BUILDER );
     method.annotate( Override.class );
 

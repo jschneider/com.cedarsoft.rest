@@ -41,12 +41,13 @@ public class FooModelJaxb
 package com.cedarsoft.rest.generator.test.jaxb;
 
 import javax.ws.rs.core.UriBuilder;
+import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.JaxbMappingContext;
 import com.cedarsoft.rest.generator.test.FooModel;
 
 public class FooModelJaxbMapping
-    extends JaxbMapping<FooModel, FooModelJaxb>
+    extends JaxbMapping<FooModel, FooModelJaxb, FooModelJaxbStub>
 {
 
 
@@ -55,7 +56,7 @@ public class FooModelJaxbMapping
     }
 
     @Override
-    protected void setUris(FooModelJaxb object, UriBuilder uriBuilder) {
+    protected void setUris(JaxbObject object, UriBuilder uriBuilder) {
         object.setHref(uriBuilder.path("foomodel").path("{id}").build(object.getId()));
     }
 
@@ -65,6 +66,14 @@ public class FooModelJaxbMapping
         jaxbObject.setId(object.getId());
         jaxbObject.setSingleBar(get(BarModelJaxb.class, object.getSingleBar(), context));
         jaxbObject.setTheBars(get(BarModelJaxb.class, object.getTheBars(), context));
+        return jaxbObject;
+    }
+
+    @Override
+    protected FooModelJaxbStub createJaxbObjectStub(FooModel object, JaxbMappingContext context) {
+        FooModelJaxbStub jaxbObject = new FooModelJaxbStub();
+        jaxbObject.setId(object.getId());
+        jaxbObject.setSingleBar(get(BarModelJaxb.class, object.getSingleBar(), context));
         return jaxbObject;
     }
 

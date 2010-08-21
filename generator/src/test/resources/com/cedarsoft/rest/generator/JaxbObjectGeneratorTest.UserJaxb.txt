@@ -50,12 +50,13 @@ public class UserJaxb
 package com.cedarsoft.rest.generator.test.jaxb;
 
 import javax.ws.rs.core.UriBuilder;
+import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.JaxbMappingContext;
 import com.cedarsoft.rest.generator.test.User;
 
 public class UserJaxbMapping
-    extends JaxbMapping<User, UserJaxb>
+    extends JaxbMapping<User, UserJaxb, UserJaxbStub>
 {
 
 
@@ -64,7 +65,7 @@ public class UserJaxbMapping
     }
 
     @Override
-    protected void setUris(UserJaxb object, UriBuilder uriBuilder) {
+    protected void setUris(JaxbObject object, UriBuilder uriBuilder) {
         object.setHref(uriBuilder.path("user").path("{id}").build(object.getId()));
     }
 
@@ -74,6 +75,14 @@ public class UserJaxbMapping
         jaxbObject.setEmail(object.getEmail());
         jaxbObject.setName(object.getName());
         jaxbObject.setFriends(get(UserJaxb.class, object.getFriends(), context));
+        return jaxbObject;
+    }
+
+    @Override
+    protected UserJaxbStub createJaxbObjectStub(User object, JaxbMappingContext context) {
+        UserJaxbStub jaxbObject = new UserJaxbStub();
+        jaxbObject.setEmail(object.getEmail());
+        jaxbObject.setName(object.getName());
         return jaxbObject;
     }
 

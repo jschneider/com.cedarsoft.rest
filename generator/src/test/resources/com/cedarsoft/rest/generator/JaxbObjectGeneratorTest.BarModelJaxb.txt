@@ -71,17 +71,18 @@ public class BarModelJaxb
 package com.cedarsoft.rest.generator.test.jaxb;
 
 import javax.ws.rs.core.UriBuilder;
+import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.JaxbMappingContext;
 import com.cedarsoft.rest.generator.test.BarModel;
 
 public class BarModelJaxbMapping
-    extends JaxbMapping<BarModel, BarModelJaxb>
+    extends JaxbMapping<BarModel, BarModelJaxb, BarModelJaxbStub>
 {
 
 
     @Override
-    protected void setUris(BarModelJaxb object, UriBuilder uriBuilder) {
+    protected void setUris(JaxbObject object, UriBuilder uriBuilder) {
         object.setHref(uriBuilder.path("barmodel").path("{id}").build(object.getId()));
     }
 
@@ -94,6 +95,15 @@ public class BarModelJaxbMapping
         jaxbObject.setStringList(object.getStringList());
         jaxbObject.setWildStringList(object.getWildStringList());
         jaxbObject.setSet(object.getSet());
+        return jaxbObject;
+    }
+
+    @Override
+    protected BarModelJaxbStub createJaxbObjectStub(BarModel object, JaxbMappingContext context) {
+        BarModelJaxbStub jaxbObject = new BarModelJaxbStub();
+        jaxbObject.setId(object.getId());
+        jaxbObject.setDaInt(object.getDaInt());
+        jaxbObject.setDaString(object.getDaString());
         return jaxbObject;
     }
 
