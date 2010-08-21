@@ -62,6 +62,7 @@ public abstract class SimpleJaxbTest<J extends JaxbObject, S extends JaxbStub> e
     assertEquals( getJaxbType(), jaxbObject.getClass() );
 
     assertNotNull( jaxbObject.getHref() );
+    assertNotNull( jaxbObject.getId() );
 
     StringWriter out = new StringWriter();
     marshaller.marshal( jaxbObject, out );
@@ -91,6 +92,7 @@ public abstract class SimpleJaxbTest<J extends JaxbObject, S extends JaxbStub> e
     assertEquals( getJaxbStubType(), jaxbStub.getClass() );
 
     assertNotNull( jaxbStub.getHref() );
+    assertNotNull( jaxbStub.getId() );
 
     StringWriter out = new StringWriter();
     marshaller.marshal( jaxbStub, out );

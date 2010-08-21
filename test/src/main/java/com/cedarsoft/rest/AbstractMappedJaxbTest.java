@@ -68,6 +68,7 @@ public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject, S extends 
     J jaxbObject = createJaxbObject( object );
 
     assertNotNull( jaxbObject.getHref() );
+    assertNotNull( jaxbObject.getId() );
 
     StringWriter out = new StringWriter();
     marshaller.marshal( jaxbObject, out );
@@ -89,6 +90,7 @@ public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject, S extends 
     S jaxbStub = createJaxbObjectStub( object );
 
     assertNotNull( jaxbStub.getHref() );
+    assertNotNull( jaxbStub.getId() );
 
     StringWriter out = new StringWriter();
     marshaller.marshal( jaxbStub, out );
