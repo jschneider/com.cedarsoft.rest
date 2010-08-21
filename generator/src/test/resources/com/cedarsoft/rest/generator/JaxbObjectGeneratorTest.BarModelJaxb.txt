@@ -66,6 +66,9 @@ public class BarModelJaxb
     }
 
 }
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbStub.java-----------------------------------
+
+
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbMapping.java-----------------------------------
 
 package com.cedarsoft.rest.generator.test.jaxb;

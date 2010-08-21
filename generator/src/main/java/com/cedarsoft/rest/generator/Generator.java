@@ -63,7 +63,6 @@ import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -116,7 +115,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionC
   }
 
   public void generate() throws JClassAlreadyExistsException {
-    JDefinedClass jaxbClass = createJaxbClass();
+    JDefinedClass jaxbClass = createJaxbObject();
 
     createJaxbMapping( jaxbClass );
   }
@@ -240,7 +239,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.MyDecisionC
   }
 
   @NotNull
-  private JDefinedClass createJaxbClass() throws JClassAlreadyExistsException {
+  protected JDefinedClass createJaxbObject() throws JClassAlreadyExistsException {
     JDefinedClass jaxbClass = codeGenerator.getModel()._class( getJaxbTypeName() )._extends( AbstractJaxbObject.class );
     jaxbClass.annotate( XmlRootElement.class )
       .param( NAME, NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) )
