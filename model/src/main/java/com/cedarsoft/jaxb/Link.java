@@ -64,7 +64,7 @@ public class Link extends AbstractJaxbObject {
   @XmlAttribute
   private String type;
 
-  private Link() {
+  public Link() {
   }
 
   public Link( @NotNull URI href, @NotNull @NonNls String type ) {

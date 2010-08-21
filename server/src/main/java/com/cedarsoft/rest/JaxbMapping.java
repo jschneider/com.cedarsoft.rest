@@ -31,7 +31,8 @@
 
 package com.cedarsoft.rest;
 
-import com.cedarsoft.jaxb.AbstractJaxbObject;
+import com.cedarsoft.jaxb.JaxbObject;
+import com.cedarsoft.jaxb.JaxbStub;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,10 +46,13 @@ import java.util.Map;
 /**
  * @param <T> the type
  * @param <J> the Jaxb type
+ * @param <S> the Jaxb stub type
  */
-public abstract class JaxbMapping<T, J> {
+public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub> {
   @NotNull
   private final Map<T, J> jaxbObjects = new HashMap<T, J>();
+  @NotNull
+  private final Map<T, S> jaxbStubObjects = new HashMap<T, S>();
   @NotNull
   private final DelegateJaxbMappings delegateJaxbMappings = new DelegateJaxbMappings();
 
@@ -58,6 +62,25 @@ public abstract class JaxbMapping<T, J> {
   }
 
   @NotNull
+  public S getJaxbObjectStub( @NotNull T object, @Nullable UriBuilder uriBuilder ) throws URISyntaxException {
+    S jaxbObject = jaxbStubObjects.get( object );
+    if ( jaxbObject != null ) {
+      return jaxbObject;
+    }
+
+    JaxbMappingContext context = new JaxbMappingContext( uriBuilder, delegateJaxbMappings );
+
+    S created = createJaxbObjectStub( object, context );
+    jaxbStubObjects.put( object, created );
+
+    if ( uriBuilder != null ) {
+      setUris( created, uriBuilder.clone() );
+    }
+
+    return created;
+
+  }
+
   public J getJaxbObject( @NotNull T object, @Nullable UriBuilder uriBuilder ) throws URISyntaxException {
     J jaxbObject = jaxbObjects.get( object );
     if ( jaxbObject != null ) {
@@ -77,20 +100,43 @@ public abstract class JaxbMapping<T, J> {
   }
 
   @Nullable
-  protected <T, J extends AbstractJaxbObject> J get( @NotNull Class<J> jaxbType, @Nullable T object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+  protected <T, J extends JaxbObject> J get( @NotNull Class<J> jaxbType, @Nullable T object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
     if ( object == null ) {
       return null;
     }
+    //    return getDelegatesMapping().getMapping( jaxbType ).getJaxbObject( object, context.getUriBuilder() );
     return getDelegatesMapping().getMapping( jaxbType ).getJaxbObject( object, context.getUriBuilder() );
   }
 
   @Nullable
-  protected <T, J extends AbstractJaxbObject> List<J> get( @NotNull Class<J> jaxbType, @NotNull Iterable<? extends T> objects, @NotNull JaxbMappingContext context ) throws URISyntaxException {
-    JaxbMapping<Object, J> mapping = getDelegatesMapping().getMapping( jaxbType );
+  protected <T, J extends JaxbObject> List<J> get( @NotNull Class<J> jaxbType, @NotNull Iterable<? extends T> objects, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+    JaxbMapping<Object, J, ? extends JaxbStub> mapping = getDelegatesMapping().getMapping( jaxbType );
 
     List<J> converted = new ArrayList<J>();
     for ( T object : objects ) {
+      //      converted.add( mapping.getJaxbObject( object, context.getUriBuilder() ) );
       converted.add( mapping.getJaxbObject( object, context.getUriBuilder() ) );
+    }
+
+    return converted;
+  }
+
+  @Nullable
+  protected <T, S extends JaxbStub> S getStub( @NotNull Class<S> jaxbStubType, @Nullable T object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+    if ( object == null ) {
+      return null;
+    }
+    return getDelegatesMapping().getMappingForStub( jaxbStubType ).getJaxbObjectStub( object, context.getUriBuilder() );
+  }
+
+  @Nullable
+  protected <T, S extends JaxbStub> List<S> getStub( @NotNull Class<S> jaxbSubType, @NotNull Iterable<? extends T> objects, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+    JaxbMapping<Object, ?, S> mapping = getDelegatesMapping().<Object, S, S>getMappingForStub( jaxbSubType );
+
+    List<S> converted = new ArrayList<S>();
+    for ( T object : objects ) {
+      //      converted.add( mapping.getJaxbObject( object, context.getUriBuilder() ) );
+      converted.add( mapping.getJaxbObjectStub( object, context.getUriBuilder() ) );
     }
 
     return converted;
@@ -100,10 +146,10 @@ public abstract class JaxbMapping<T, J> {
    * Sets the URIs for the given object.
    * You have to call *clone()* before every usage of the uriBuilder!!!
    *
-   * @param object     the object
+   * @param object     the object (of type J or S)
    * @param uriBuilder the uri builder
    */
-  protected abstract void setUris( @NotNull J object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException;
+  protected abstract void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException;
 
   @NotNull
   public List<J> getJaxbObjects( @NotNull Iterable<? extends T> objects, @Nullable UriBuilder uriBuilder ) throws URISyntaxException {
@@ -124,4 +170,20 @@ public abstract class JaxbMapping<T, J> {
    */
   @NotNull
   protected abstract J createJaxbObject( @NotNull T object, @NotNull JaxbMappingContext context ) throws URISyntaxException;
+
+  /**
+   * Creates the JaxbObjectStub.
+   * <p/>
+   * A stub only contains the very basic informations off the object. It is used in collections and when referenced
+   * from other objects.
+   * <p/>
+   * It has to contain a href to fetch the missing details later
+   *
+   * @param object  the object
+   * @param context the context
+   * @return the stub
+   *
+   * @throws URISyntaxException
+   */
+  protected abstract S createJaxbObjectStub( @NotNull T object, @NotNull JaxbMappingContext context ) throws URISyntaxException;
 }

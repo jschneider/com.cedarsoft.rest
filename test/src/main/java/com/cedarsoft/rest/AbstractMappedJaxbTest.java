@@ -33,6 +33,7 @@ package com.cedarsoft.rest;
 
 import com.cedarsoft.AssertUtils;
 import com.cedarsoft.jaxb.JaxbObject;
+import com.cedarsoft.jaxb.JaxbStub;
 import org.jetbrains.annotations.NotNull;
 import org.junit.*;
 import org.junit.experimental.theories.*;
@@ -47,18 +48,16 @@ import java.net.URISyntaxException;
 import static org.junit.Assert.*;
 
 @RunWith( Theories.class )
-public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject> extends AbstractJaxbTest<J> {
-  protected JaxbMapping<T, J> mapping;
+public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject, S extends JaxbStub> extends AbstractJaxbTest<J, S> {
+  protected JaxbMapping<T, J, S> mapping;
 
-  @Override
   @Before
   public void setup() throws JAXBException {
-    super.setup();
     mapping = createMapping();
   }
 
   @NotNull
-  protected abstract JaxbMapping<T, J> createMapping();
+  protected abstract JaxbMapping<T, J, S> createMapping();
 
   @Theory
   public void testRoundTripWithDataPoints( @NotNull Entry<? extends T> entry ) throws Exception {
@@ -69,7 +68,6 @@ public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject> extends Ab
     J jaxbObject = createJaxbObject( object );
 
     assertNotNull( jaxbObject.getHref() );
-    assertNotNull( jaxbObject.getId() );
 
     StringWriter out = new StringWriter();
     marshaller.marshal( jaxbObject, out );
@@ -82,12 +80,34 @@ public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject> extends Ab
     verifyDeserialized( deserialized, jaxbObject );
   }
 
+  @Theory
+  public void testRoundStub( @NotNull Entry<? extends T> entry ) throws Exception {
+    Marshaller marshaller = createMarshaller();
+    marshaller.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, true );
+
+    T object = entry.getObject();
+    S jaxbStub = createJaxbObjectStub( object );
+
+    assertNotNull( jaxbStub.getHref() );
+
+    StringWriter out = new StringWriter();
+    marshaller.marshal( jaxbStub, out );
+
+    AssertUtils.assertXMLEquals( new String( entry.getStubExpected() ), out.toString() );
+
+    S deserialized = getJaxbStubType().cast( createUnmarshaller().unmarshal( new StringReader( out.toString() ) ) );
+    assertNotNull( deserialized );
+
+    verifyDeserializedStub( deserialized, jaxbStub );
+  }
+
   @NotNull
   protected J createJaxbObject( @NotNull T object ) throws URISyntaxException {
     return createMapping().getJaxbObject( object, JaxbTestUtils.createTestUriBuilder() );
   }
 
-  protected void verifyDeserialized( @NotNull J deserialized, @NotNull J originalJaxbObject ) throws IllegalAccessException {
-    assertEquals( originalJaxbObject, deserialized );
+  @NotNull
+  protected S createJaxbObjectStub( @NotNull T object ) throws URISyntaxException {
+    return createMapping().getJaxbObjectStub( object, JaxbTestUtils.createTestUriBuilder() );
   }
 }

@@ -32,13 +32,12 @@
 package com.cedarsoft.rest;
 
 import com.cedarsoft.jaxb.JaxbObject;
+import com.cedarsoft.jaxb.JaxbStub;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.junit.*;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -46,21 +45,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-public abstract class AbstractJaxbTest<J extends JaxbObject> {
+public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub> {
   @Rule
-  public JaxbRule jaxbRule = new JaxbRule( getJaxbType() );
+  public JaxbRule jaxbRule = new JaxbRule( getJaxbType(), getJaxbStubType() );
 
   @NotNull
   protected abstract Class<J> getJaxbType();
+
+  @NotNull
+  protected abstract Class<S> getJaxbStubType();
 
   @Test
   public void testNameSpace() throws Exception {
@@ -87,6 +86,24 @@ public abstract class AbstractJaxbTest<J extends JaxbObject> {
     return className + ".xml";
   }
 
+  protected void verifyDeserialized( @NotNull J deserialized, @NotNull J originalJaxbObject ) throws IllegalAccessException {
+    assertEquals( originalJaxbObject, deserialized );
+  }
+
+  protected void verifyDeserializedStub( @NotNull S deserialized, @NotNull S originalJaxbStub ) throws IllegalAccessException {
+    assertEquals( originalJaxbStub, deserialized );
+  }
+
+  protected boolean isJaxbObjectType( Entry<?> entry ) {
+    return getJaxbType().equals( entry.getObject().getClass() );
+  }
+
+  protected boolean isJaxbStubType( Entry<?> entry ) {
+    Class<?> objectType = entry.getObject().getClass();
+    return getJaxbStubType().equals( objectType );
+  }
+
+  @Deprecated
   @NotNull
   protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls byte[] expected ) {
     return create( object, expected, expected );
@@ -97,6 +114,7 @@ public abstract class AbstractJaxbTest<J extends JaxbObject> {
     return new Entry<T>( object, expected, stubExpected );
   }
 
+  @Deprecated
   @NotNull
   protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls String expected ) {
     return create( object, expected, expected );
@@ -107,6 +125,7 @@ public abstract class AbstractJaxbTest<J extends JaxbObject> {
     return new Entry<T>( object, expected.getBytes(), stubExpected.getBytes() );
   }
 
+  @Deprecated
   @NotNull
   protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls URL expected ) {
     return create( object, expected, expected );
@@ -121,6 +140,7 @@ public abstract class AbstractJaxbTest<J extends JaxbObject> {
     }
   }
 
+  @Deprecated
   @NotNull
   protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls InputStream expected ) {
     return create( object, expected, expected );

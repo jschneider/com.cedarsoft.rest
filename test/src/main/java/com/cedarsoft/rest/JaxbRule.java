@@ -105,6 +105,7 @@ public class JaxbRule implements MethodRule {
   }
 
   private void clearContext() {
+    context = null;
   }
 
   protected JAXBContext context;

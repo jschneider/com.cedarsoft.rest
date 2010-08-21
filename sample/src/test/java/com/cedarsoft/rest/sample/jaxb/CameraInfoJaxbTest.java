@@ -35,13 +35,19 @@ package com.cedarsoft.rest.sample.jaxb;
 import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
 import com.cedarsoft.rest.SimpleJaxbTest;
+import org.jetbrains.annotations.NotNull;
 import org.junit.experimental.theories.*;
 
-public class CameraInfoJaxbTest extends SimpleJaxbTest<CameraInfoJaxb> {
-
+public class CameraInfoJaxbTest extends SimpleJaxbTest<CameraInfoJaxb, CameraJaxbStub> {
   @Override
   protected Class<CameraInfoJaxb> getJaxbType() {
     return CameraInfoJaxb.class;
+  }
+
+  @NotNull
+  @Override
+  protected Class<CameraJaxbStub> getJaxbStubType() {
+    return CameraJaxbStub.class;
   }
 
   @DataPoint
@@ -54,5 +60,14 @@ public class CameraInfoJaxbTest extends SimpleJaxbTest<CameraInfoJaxb> {
     object.setMake( "make" );
     object.setInternalSerial( "internalSerial" );
     return create( object, CameraInfoJaxbTest.class.getResource( "CameraInfoJaxbTest.xml" ) );
+  }
+
+  @DataPoint
+  public static Entry<? extends CameraInfoJaxbStub> stub() {
+    CameraInfoJaxbStub stub = new CameraInfoJaxbStub();
+    stub.setModel( "model" );
+    stub.setMake( "make" );
+
+    return create( stub, CameraInfoJaxbTest.class.getResource( "CameraInfoJaxbTest.stub.xml" ) );
   }
 }

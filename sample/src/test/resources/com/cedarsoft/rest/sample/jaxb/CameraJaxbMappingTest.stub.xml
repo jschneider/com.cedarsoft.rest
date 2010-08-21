@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns4:camera xmlns:ns4="http://cedarsoft.com/rest/sample/camera/stub" href="http://test.running/here/devices/cameras/CANON-77"
+            id="CANON-77">
+  <cameraInfo>
+    <model>EOS 7D</model>
+    <make>Canon</make>
+  </cameraInfo>
+</ns4:camera>

@@ -34,26 +34,27 @@ package com.cedarsoft.rest.sample.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 
-@XmlRootElement(name = "camera", namespace = "http://cedarsoft.com/rest/sample/camera")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement( name = "camera", namespace = "http://cedarsoft.com/rest/sample/camera" )
+@XmlAccessorType( XmlAccessType.FIELD )
 public class CameraJaxb
     extends AbstractJaxbObject
 {
 
     private CameraInfoJaxb cameraInfo;
     private String description;
-    private UserJaxb owner;
+    private UserJaxbStub owner;
 
-    public CameraInfoJaxb getCameraInfo() {
-        return cameraInfo;
-    }
+  public CameraInfoJaxb getCameraInfo() {
+    return cameraInfo;
+  }
 
-    public void setCameraInfo(CameraInfoJaxb cameraInfo) {
-        this.cameraInfo = cameraInfo;
-    }
+  public void setCameraInfo( CameraInfoJaxb cameraInfo ) {
+    this.cameraInfo = cameraInfo;
+  }
 
     public String getDescription() {
         return description;
@@ -63,11 +64,11 @@ public class CameraJaxb
         this.description = description;
     }
 
-    public UserJaxb getOwner() {
+    public UserJaxbStub getOwner() {
         return owner;
     }
 
-    public void setOwner(UserJaxb owner) {
+    public void setOwner(UserJaxbStub owner) {
         this.owner = owner;
     }
 

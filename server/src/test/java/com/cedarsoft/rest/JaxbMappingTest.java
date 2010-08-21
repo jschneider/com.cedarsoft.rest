@@ -32,6 +32,8 @@
 package com.cedarsoft.rest;
 
 import com.cedarsoft.jaxb.AbstractJaxbObject;
+import com.cedarsoft.jaxb.AbstractJaxbStub;
+import com.cedarsoft.jaxb.JaxbObject;
 import com.google.common.collect.Lists;
 import com.sun.jersey.api.uri.UriBuilderImpl;
 import org.jetbrains.annotations.NotNull;
@@ -47,15 +49,15 @@ import static org.junit.Assert.*;
  *
  */
 public class JaxbMappingTest {
-  private JaxbMapping<MyObject, MyObjectJaxb> mapping;
-  private JaxbMapping<Parent, ParentJaxb> parentMapping;
-  private JaxbMapping<GrandFather, GrandFatherJaxb> grandFatherMapping;
+  private JaxbMapping<MyObject, MyObjectJaxb, MyObjectJaxbStub> mapping;
+  private JaxbMapping<Parent, ParentJaxb, ParentJaxbStub> parentMapping;
+  private JaxbMapping<GrandFather, GrandFatherJaxb, GrandFatherJaxbStub> grandFatherMapping;
 
   @Before
   public void setUp() throws Exception {
-    mapping = new JaxbMapping<MyObject, MyObjectJaxb>() {
+    mapping = new JaxbMapping<MyObject, MyObjectJaxb, MyObjectJaxbStub>() {
       @Override
-      protected void setUris( @NotNull MyObjectJaxb object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
+      protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
         object.setHref( uriBuilder.path( "uriForMyObjectJaxb" ).build() );
       }
 
@@ -66,16 +68,28 @@ public class JaxbMappingTest {
         objectJaxb.setDaInt( object.daInt );
         return objectJaxb;
       }
+
+      @Override
+      protected MyObjectJaxbStub createJaxbObjectStub( @NotNull MyObject object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+        throw new UnsupportedOperationException();
+      }
+
+
     };
 
-    parentMapping = new JaxbMapping<Parent, ParentJaxb>() {
+    parentMapping = new JaxbMapping<Parent, ParentJaxb, ParentJaxbStub>() {
       {
-        getDelegatesMapping().addMapping( MyObjectJaxb.class, mapping );
+        getDelegatesMapping().addMapping( MyObjectJaxb.class, MyObjectJaxbStub.class, mapping );
       }
 
       @Override
-      protected void setUris( @NotNull ParentJaxb object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
+      protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
         object.setHref( uriBuilder.path( "uriForParentJaxb" ).build() );
+      }
+
+      @Override
+      protected ParentJaxbStub createJaxbObjectStub( @NotNull Parent object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+        return new ParentJaxbStub();
       }
 
       @NotNull
@@ -87,13 +101,18 @@ public class JaxbMappingTest {
       }
     };
 
-    grandFatherMapping = new JaxbMapping<GrandFather, GrandFatherJaxb>() {
+    grandFatherMapping = new JaxbMapping<GrandFather, GrandFatherJaxb, GrandFatherJaxbStub>() {
       {
-        getDelegatesMapping().addMapping( ParentJaxb.class, parentMapping );
+        getDelegatesMapping().addMapping( GrandFatherJaxb.class, GrandFatherJaxbStub.class, grandFatherMapping );
       }
 
       @Override
-      protected void setUris( @NotNull GrandFatherJaxb object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
+      protected GrandFatherJaxbStub createJaxbObjectStub( @NotNull GrandFather object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
         object.setHref( uriBuilder.path( "uriGrandParent" ).build() );
       }
 
@@ -205,6 +224,12 @@ public class JaxbMappingTest {
     }
   }
 
+  protected static class MyObjectJaxbStub extends AbstractJaxbStub {
+    private int stubInt;
+
+  }
+
+
   protected static class MyObjectJaxb extends AbstractJaxbObject {
     private int daInt;
 
@@ -226,6 +251,7 @@ public class JaxbMappingTest {
   }
 
   protected static class ParentJaxb extends AbstractJaxbObject {
+
     private MyObjectJaxb child;
 
     public MyObjectJaxb getChild() {
@@ -235,14 +261,25 @@ public class JaxbMappingTest {
     public void setChild( MyObjectJaxb child ) {
       this.child = child;
     }
+
   }
 
   protected static class GrandFather {
+
     private final Parent parent;
 
     GrandFather( Parent parent ) {
       this.parent = parent;
     }
+
+  }
+
+  protected static class ParentJaxbStub extends AbstractJaxbStub {
+
+  }
+
+  protected static class GrandFatherJaxbStub extends AbstractJaxbStub {
+
   }
 
   protected static class GrandFatherJaxb extends AbstractJaxbObject {

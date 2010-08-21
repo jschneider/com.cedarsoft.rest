@@ -33,6 +33,7 @@ package com.cedarsoft.rest;
 
 import com.cedarsoft.AssertUtils;
 import com.cedarsoft.jaxb.JaxbObject;
+import com.cedarsoft.jaxb.JaxbStub;
 import org.jetbrains.annotations.NotNull;
 import org.junit.experimental.theories.*;
 import org.junit.runner.*;
@@ -47,29 +48,58 @@ import static org.junit.Assert.*;
  * @param <J> the object to serialize
  */
 @RunWith( Theories.class )
-public abstract class SimpleJaxbTest<J extends JaxbObject> extends AbstractJaxbTest<J> {
+public abstract class SimpleJaxbTest<J extends JaxbObject, S extends JaxbStub> extends AbstractJaxbTest<J, S> {
   @Theory
   public void testRoundTripWithDataPoints( @NotNull Entry<? extends J> entry ) throws Exception {
+    if ( !isJaxbObjectType( entry ) ) {
+      return;
+    }
+
     Marshaller marshaller = createMarshaller();
     marshaller.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, true );
 
     J jaxbObject = entry.getObject();
+    assertEquals( getJaxbType(), jaxbObject.getClass() );
 
     assertNotNull( jaxbObject.getHref() );
-    assertNotNull( jaxbObject.getId() );
 
     StringWriter out = new StringWriter();
     marshaller.marshal( jaxbObject, out );
 
     AssertUtils.assertXMLEquals( new String( entry.getExpected() ), out.toString() );
 
-    J deserialized = getJaxbType().cast( createUnmarshaller().unmarshal( new StringReader( out.toString() ) ) );
+    Object unserializedRaw = createUnmarshaller().unmarshal( new StringReader( out.toString() ) );
+    assertNotNull( unserializedRaw );
+    assertEquals( getJaxbType(), unserializedRaw.getClass() );
+
+    J deserialized = getJaxbType().cast( unserializedRaw );
     assertNotNull( deserialized );
 
     verifyDeserialized( deserialized, jaxbObject );
   }
 
-  protected void verifyDeserialized( @NotNull J deserialized, @NotNull J originalJaxbObject ) throws IllegalAccessException {
-    assertEquals( originalJaxbObject, deserialized );
+  @Theory
+  public void testRoundStub( @NotNull Entry<? extends S> entry ) throws Exception {
+    if ( !isJaxbStubType( entry ) ) {
+      return;
+    }
+
+    Marshaller marshaller = createMarshaller();
+    marshaller.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, true );
+
+    S jaxbStub = entry.getObject();
+    assertEquals( getJaxbStubType(), jaxbStub.getClass() );
+
+    assertNotNull( jaxbStub.getHref() );
+
+    StringWriter out = new StringWriter();
+    marshaller.marshal( jaxbStub, out );
+
+    AssertUtils.assertXMLEquals( new String( entry.getStubExpected() ), out.toString() );
+
+    S deserialized = getJaxbStubType().cast( createUnmarshaller().unmarshal( new StringReader( out.toString() ) ) );
+    assertNotNull( deserialized );
+
+    verifyDeserializedStub( deserialized, jaxbStub );
   }
 }

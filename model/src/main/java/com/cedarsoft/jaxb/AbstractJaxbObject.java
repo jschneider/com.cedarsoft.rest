@@ -62,6 +62,7 @@ public abstract class AbstractJaxbObject implements JaxbObject {
     return href;
   }
 
+  @Override
   public final void setHref( @NotNull URI href ) {
     this.href = href;
   }
@@ -83,7 +84,6 @@ public abstract class AbstractJaxbObject implements JaxbObject {
     return id;
   }
 
-  @Override
   public boolean isIdSet() {
     return id != null;
   }

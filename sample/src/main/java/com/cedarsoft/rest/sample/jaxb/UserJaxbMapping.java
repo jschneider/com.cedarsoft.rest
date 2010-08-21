@@ -31,6 +31,7 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
+import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.JaxbMappingContext;
 import com.cedarsoft.rest.sample.User;
@@ -42,13 +43,13 @@ import java.net.URISyntaxException;
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-public class UserJaxbMapping extends JaxbMapping<User, UserJaxb> {
+public class UserJaxbMapping extends JaxbMapping<User, UserJaxb, UserJaxbStub> {
   public UserJaxbMapping() {
-    getDelegatesMapping().addMapping( UserJaxb.class, this );
+    getDelegatesMapping().addMapping( UserJaxb.class, UserJaxbStub.class, this );
   }
 
   @Override
-  protected void setUris( @NotNull UserJaxb object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
+  protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
     object.setHref( uriBuilder.path( "users" ).path( "{id}" ).build( object.getId() ) );
   }
 
@@ -59,7 +60,16 @@ public class UserJaxbMapping extends JaxbMapping<User, UserJaxb> {
     jaxbObject.setId( object.getEmail() );
     jaxbObject.setEmail( object.getEmail() );
     jaxbObject.setName( object.getName() );
-    jaxbObject.setFriends( get( UserJaxb.class, object.getFriends(), context ) );
+    jaxbObject.setFriends( getStub( UserJaxbStub.class, object.getFriends(), context ) );
+    return jaxbObject;
+  }
+
+  @Override
+  protected UserJaxbStub createJaxbObjectStub( @NotNull User object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+    UserJaxbStub jaxbObject = new UserJaxbStub();
+    jaxbObject.setId( object.getEmail() );
+    jaxbObject.setEmail( object.getEmail() );
+    jaxbObject.setName( object.getName() );
     return jaxbObject;
   }
 }

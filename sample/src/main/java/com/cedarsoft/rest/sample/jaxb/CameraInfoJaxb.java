@@ -38,23 +38,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement( name = "cameraInfo", namespace = "http://cedarsoft.com/rest/generator/test/camera-info" )
+@XmlRootElement( name = "cameraInfo", namespace = "http://cedarsoft.com/rest/sample/camera-info" )
 @XmlAccessorType( XmlAccessType.FIELD )
-public class CameraInfoJaxb
-  extends AbstractJaxbObject {
-
+public class CameraInfoJaxb extends AbstractJaxbObject {
   private long serial;
+  private String internalSerial;
   private String model;
   private String make;
-  private String internalSerial;
-
-  public long getSerial() {
-    return serial;
-  }
-
-  public void setSerial( long serial ) {
-    this.serial = serial;
-  }
 
   public String getModel() {
     return model;
@@ -72,6 +62,14 @@ public class CameraInfoJaxb
     this.make = make;
   }
 
+  public long getSerial() {
+    return serial;
+  }
+
+  public void setSerial( long serial ) {
+    this.serial = serial;
+  }
+
   public String getInternalSerial() {
     return internalSerial;
   }
@@ -79,5 +77,4 @@ public class CameraInfoJaxb
   public void setInternalSerial( String internalSerial ) {
     this.internalSerial = internalSerial;
   }
-
 }

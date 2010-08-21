@@ -41,11 +41,17 @@ import org.junit.experimental.theories.*;
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-public class UserJaxbMappingTest extends AbstractMappedJaxbTest<User, UserJaxb> {
+public class UserJaxbMappingTest extends AbstractMappedJaxbTest<User, UserJaxb, UserJaxbStub> {
   @NotNull
   @Override
-  protected JaxbMapping<User, UserJaxb> createMapping() {
+  protected JaxbMapping<User, UserJaxb, UserJaxbStub> createMapping() {
     return new UserJaxbMapping();
+  }
+
+  @NotNull
+  @Override
+  protected Class<UserJaxbStub> getJaxbStubType() {
+    return UserJaxbStub.class;
   }
 
   @NotNull
@@ -61,6 +67,19 @@ public class UserJaxbMappingTest extends AbstractMappedJaxbTest<User, UserJaxb> 
     user.addFriend( new User( "markus2@mustermann.de", "Markus2 Mustermann" ) );
     user.addFriend( new User( "markus3@mustermann.de", "Markus3 Mustermann" ) );
 
-    return create( user, UserJaxbTest.class.getResource( "UserJaxbMappingTest.xml" ) );
+    return create( user, UserJaxbTest.class.getResource( "UserJaxbMappingTest.xml" ), UserJaxbTest.class.getResource( "UserJaxbMappingTest.stub.xml" ) );
+  }
+
+  @DataPoint
+  public static Entry<? extends User> recursive() {
+    User user = new User( "info@cedarsoft.com", "Johannes Schneider" );
+    User user1 = new User( "markus@mustermann.de", "Markus Mustermann" );
+    user.addFriend( user1 );
+    user.addFriend( new User( "markus2@mustermann.de", "Markus2 Mustermann" ) );
+    user.addFriend( new User( "markus3@mustermann.de", "Markus3 Mustermann" ) );
+
+    user1.addFriend( user );
+
+    return create( user, UserJaxbTest.class.getResource( "UserJaxbMappingTest.xml" ), UserJaxbTest.class.getResource( "UserJaxbMappingTest.stub.xml" ) );
   }
 }

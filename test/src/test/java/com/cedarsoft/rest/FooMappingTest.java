@@ -31,6 +31,7 @@
 
 package com.cedarsoft.rest;
 
+import com.cedarsoft.jaxb.JaxbObject;
 import org.jetbrains.annotations.NotNull;
 import org.junit.experimental.theories.*;
 
@@ -42,11 +43,17 @@ import java.util.Arrays;
 /**
  *
  */
-public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo> {
+public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo, FooStub> {
   @NotNull
   @Override
-  protected JaxbMapping<FooModel, Foo> createMapping() {
+  protected JaxbMapping<FooModel, Foo, FooStub> createMapping() {
     return new FooMapping();
+  }
+
+  @NotNull
+  @Override
+  protected Class<FooStub> getJaxbStubType() {
+    return FooStub.class;
   }
 
   @NotNull
@@ -65,10 +72,15 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo> {
   }
 
 
-  private static class FooMapping extends JaxbMapping<FooModel, Foo> {
+  private static class FooMapping extends JaxbMapping<FooModel, Foo, FooStub> {
     @Override
-    protected void setUris( @NotNull Foo object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
+    protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
       object.setHref( new URI( "test:daUri" ) );
+    }
+
+    @Override
+    protected FooStub createJaxbObjectStub( @NotNull FooModel object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+      throw new UnsupportedOperationException();
     }
 
     @NotNull

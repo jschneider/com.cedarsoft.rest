@@ -49,7 +49,7 @@ public class UserJaxb
   private String name;
 
   @XmlElement( name = "friend" )
-  private List<UserJaxb> friends;
+  private List<UserJaxbStub> friends;
 
   public String getEmail() {
     return email;
@@ -67,11 +67,11 @@ public class UserJaxb
     this.name = name;
   }
 
-  public List<UserJaxb> getFriends() {
+  public List<UserJaxbStub> getFriends() {
     return friends;
   }
 
-  public void setFriends( List<UserJaxb> friends ) {
+  public void setFriends( List<UserJaxbStub> friends ) {
     this.friends = friends;
   }
 

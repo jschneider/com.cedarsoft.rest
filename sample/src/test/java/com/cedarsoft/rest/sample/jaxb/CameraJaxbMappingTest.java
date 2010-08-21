@@ -43,11 +43,17 @@ import org.junit.experimental.theories.*;
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-public class CameraJaxbMappingTest extends AbstractMappedJaxbTest<Camera, CameraJaxb> {
+public class CameraJaxbMappingTest extends AbstractMappedJaxbTest<Camera, CameraJaxb, CameraJaxbStub> {
   @NotNull
   @Override
-  protected JaxbMapping<Camera, CameraJaxb> createMapping() {
+  protected JaxbMapping<Camera, CameraJaxb, CameraJaxbStub> createMapping() {
     return new CameraJaxbMapping( new UserJaxbMapping() );
+  }
+
+  @NotNull
+  @Override
+  protected Class<CameraJaxbStub> getJaxbStubType() {
+    return CameraJaxbStub.class;
   }
 
   @NotNull
@@ -59,7 +65,9 @@ public class CameraJaxbMappingTest extends AbstractMappedJaxbTest<Camera, Camera
   @DataPoint
   public static Entry<? extends Camera> entry1() {
     Camera camera = new Camera( "CANON-77", new CameraInfo( 77, "Canon", "EOS 7D", "35131343AFafsdf" ) );
-    camera.setOwner( new User( "info@cedarsoft.de", "Johannes Schneider" ) );
-    return create( camera, CameraJaxbMappingTest.class.getResource( "CameraJaxbMappingTest.xml" ) );
+    User owner = new User( "info@cedarsoft.de", "Johannes Schneider" );
+    owner.addFriend( new User( "da@asdf.de", "Da Friend" ) );
+    camera.setOwner( owner );
+    return create( camera, CameraJaxbMappingTest.class.getResource( "CameraJaxbMappingTest.xml" ), CameraJaxbMappingTest.class.getResource( "CameraJaxbMappingTest.stub.xml" ) );
   }
 }

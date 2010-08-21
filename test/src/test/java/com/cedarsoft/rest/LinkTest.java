@@ -32,6 +32,7 @@
 package com.cedarsoft.rest;
 
 import com.cedarsoft.jaxb.Link;
+import com.cedarsoft.jaxb.LinkStub;
 import org.jetbrains.annotations.NotNull;
 import org.junit.experimental.theories.*;
 
@@ -41,11 +42,17 @@ import java.net.URISyntaxException;
 /**
  *
  */
-public class LinkTest extends SimpleJaxbTest<Link> {
+public class LinkTest extends SimpleJaxbTest<Link, LinkStub> {
   @NotNull
   @Override
   protected Class<Link> getJaxbType() {
     return Link.class;
+  }
+
+  @NotNull
+  @Override
+  protected Class<LinkStub> getJaxbStubType() {
+    return LinkStub.class;
   }
 
   @DataPoint
@@ -54,5 +61,13 @@ public class LinkTest extends SimpleJaxbTest<Link> {
     link.setId( "daId" );
 
     return create( link, "<link xmlns=\"http://www.w3.org/1999/xlink\" href=\"http://www.test.de/asdf\" type=\"self\"  id=\"daId\" />" );
+  }
+
+  @DataPoint
+  public static Entry<? extends LinkStub> stub() throws URISyntaxException {
+    LinkStub link = new LinkStub( new URI( "http://www.test.de/asdf" ) );
+    link.setId( "daId" );
+
+    return create( link, "<link href=\"http://www.test.de/asdf\" id=\"daId\" />" );
   }
 }

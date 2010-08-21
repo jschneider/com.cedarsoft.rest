@@ -31,6 +31,7 @@
 
 package com.cedarsoft.jaxb;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URI;
@@ -39,11 +40,24 @@ import java.net.URI;
  *
  */
 public interface JaxbObject {
+  /**
+   * Returns the URI for the given jaxb object
+   *
+   * @return the URI
+   */
   @NotNull
   URI getHref();
 
-  @NotNull
-  String getId();
+  void setHref( @NotNull URI href );
 
-  boolean isIdSet();
+  /**
+   * Returns the id
+   *
+   * @return the id
+   *
+   * @throws IllegalStateException if no ID is available
+   */
+  @NonNls
+  @NotNull
+  String getId() throws IllegalStateException;
 }

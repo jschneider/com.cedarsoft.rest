@@ -29,41 +29,34 @@
  * have any questions.
  */
 
-package com.cedarsoft.rest;
 
-import org.jetbrains.annotations.NotNull;
-import org.junit.experimental.theories.*;
+package com.cedarsoft.rest.sample.jaxb;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Arrays;
+import com.cedarsoft.jaxb.AbstractJaxbStub;
 
-/**
- *
- */
-public class FooTest extends SimpleJaxbTest<Foo,FooStub> {
-  @NotNull
-  @Override
-  protected Class<Foo> getJaxbType() {
-    return Foo.class;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement( name = "cameraInfo", namespace = "http://cedarsoft.com/rest/sample/camera-info/stub" )
+@XmlAccessorType( XmlAccessType.FIELD )
+public class CameraInfoJaxbStub extends AbstractJaxbStub {
+  private String model;
+  private String make;
+
+  public String getModel() {
+    return model;
   }
 
-  @NotNull
-  @Override
-  protected Class<FooStub> getJaxbStubType() {
-    return FooStub.class;
+  public void setModel( String model ) {
+    this.model = model;
   }
 
-  @DataPoint
-  public static Entry<? extends Foo> entry1() throws URISyntaxException {
-    Foo foo = new Foo();
-    foo.setDaValue( "daValueA" );
-    foo.setHref( new URI( "my:uri" ) );
-    foo.setId( "daId" );
-    foo.setNames( Arrays.asList( "a", "b", "c" ) );
+  public String getMake() {
+    return make;
+  }
 
-    foo.setBars( Arrays.asList( new Foo.Bar( 1 ), new Foo.Bar( 2 ) ) );
-
-    return create( foo, FooTest.class.getResource( "FooTest.xml" ) );
+  public void setMake( String make ) {
+    this.make = make;
   }
 }

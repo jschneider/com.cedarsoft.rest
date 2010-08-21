@@ -29,41 +29,25 @@
  * have any questions.
  */
 
-package com.cedarsoft.rest;
+package com.cedarsoft.jaxb;
 
 import org.jetbrains.annotations.NotNull;
-import org.junit.experimental.theories.*;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Arrays;
 
 /**
  *
  */
-public class FooTest extends SimpleJaxbTest<Foo,FooStub> {
-  @NotNull
-  @Override
-  protected Class<Foo> getJaxbType() {
-    return Foo.class;
+@XmlRootElement( name = "link" )
+@XmlAccessorType( XmlAccessType.FIELD )
+public class LinkStub extends AbstractJaxbStub {
+  public LinkStub() {
   }
 
-  @NotNull
-  @Override
-  protected Class<FooStub> getJaxbStubType() {
-    return FooStub.class;
-  }
-
-  @DataPoint
-  public static Entry<? extends Foo> entry1() throws URISyntaxException {
-    Foo foo = new Foo();
-    foo.setDaValue( "daValueA" );
-    foo.setHref( new URI( "my:uri" ) );
-    foo.setId( "daId" );
-    foo.setNames( Arrays.asList( "a", "b", "c" ) );
-
-    foo.setBars( Arrays.asList( new Foo.Bar( 1 ), new Foo.Bar( 2 ) ) );
-
-    return create( foo, FooTest.class.getResource( "FooTest.xml" ) );
+  public LinkStub( @NotNull URI href ) {
+    setHref( href );
   }
 }

@@ -35,17 +35,22 @@ package com.cedarsoft.rest.sample.jaxb;
 import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
 import com.cedarsoft.rest.SimpleJaxbTest;
-import com.google.common.collect.Lists;
 import org.jetbrains.annotations.NotNull;
 import org.junit.experimental.theories.*;
 
 import java.util.Arrays;
 
-public class UserJaxbTest extends SimpleJaxbTest<UserJaxb> {
+public class UserJaxbTest extends SimpleJaxbTest<UserJaxb, UserJaxbStub> {
   @NotNull
   @Override
   protected Class<UserJaxb> getJaxbType() {
     return UserJaxb.class;
+  }
+
+  @NotNull
+  @Override
+  protected Class<UserJaxbStub> getJaxbStubType() {
+    return UserJaxbStub.class;
   }
 
   @DataPoint
@@ -56,11 +61,11 @@ public class UserJaxbTest extends SimpleJaxbTest<UserJaxb> {
     object.setEmail( "email" );
     object.setName( "name" );
 
-    UserJaxb friend = new UserJaxb();
+    UserJaxbStub friend = new UserJaxbStub();
     friend.setName( "Markus Mustermann" );
     friend.setEmail( "markus@mustermann.com" );
 
-    UserJaxb friend2 = new UserJaxb();
+    UserJaxbStub friend2 = new UserJaxbStub();
     friend2.setName( "Eva Mustermann" );
     friend2.setEmail( "eva@mustermann.com" );
 

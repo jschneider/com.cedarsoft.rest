@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ns4:camera xmlns:ns4="http://cedarsoft.com/rest/sample/camera" xmlns:ns2="http://cedarsoft.com/rest/generator/test/camera-info"
-            xmlns:ns3="http://cedarsoft.com/rest/generator/test/user" href="http://test.running/here/devices/cameras/CANON-77"
-            id="CANON-77">
+<ns5:camera xmlns:ns5="http://cedarsoft.com/rest/sample/camera"
+            href="http://test.running/here/devices/cameras/CANON-77" id="CANON-77">
   <cameraInfo>
-    <serial>77</serial>
     <model>EOS 7D</model>
     <make>Canon</make>
+    <serial>77</serial>
     <internalSerial>35131343AFafsdf</internalSerial>
   </cameraInfo>
   <description>a nice description about the camera!</description>
@@ -13,5 +12,4 @@
     <email>info@cedarsoft.de</email>
     <name>Johannes Schneider</name>
   </owner>
-</ns4:camera>
-  
+</ns5:camera>

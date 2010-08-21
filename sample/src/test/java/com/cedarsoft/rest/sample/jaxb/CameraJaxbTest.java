@@ -35,11 +35,17 @@ package com.cedarsoft.rest.sample.jaxb;
 import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
 import com.cedarsoft.rest.SimpleJaxbTest;
+import org.jetbrains.annotations.NotNull;
 import org.junit.experimental.theories.*;
 
 public class CameraJaxbTest
-  extends SimpleJaxbTest<CameraJaxb> {
+  extends SimpleJaxbTest<CameraJaxb,CameraJaxbStub> {
 
+  @NotNull
+  @Override
+  protected Class<CameraJaxbStub> getJaxbStubType() {
+    return CameraJaxbStub.class;
+  }
 
   @Override
   protected Class<CameraJaxb> getJaxbType() {
@@ -47,7 +53,7 @@ public class CameraJaxbTest
   }
 
   @DataPoint
-  public static Entry<? extends CameraJaxb> entry1() {
+  public static Entry<? extends CameraJaxb> defaultEntry() {
     CameraJaxb object = new CameraJaxb();
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
     object.setId( "id" );
@@ -58,28 +64,26 @@ public class CameraJaxbTest
     info.setMake( "Canon" );
     info.setModel( "EOS 7D" );
     object.setDescription( "description" );
-    UserJaxb owner = new UserJaxb();
+    UserJaxbStub owner = new UserJaxbStub();
     owner.setEmail( "mail@mail.com" );
     owner.setName( "daName" );
     object.setOwner( owner );
 
     return create( object, CameraJaxbTest.class.getResource( "CameraJaxbTest.xml" ) );
   }
-
+  
   @DataPoint
-  public static Entry<? extends CameraJaxb> entry2() {
-    CameraJaxb object = new CameraJaxb();
+  public static Entry<? extends CameraJaxbStub> stub() {
+    CameraJaxbStub object = new CameraJaxbStub();
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
     object.setId( "id" );
-    CameraInfoJaxb cameraInfoJaxb = new CameraInfoJaxb();
+    CameraInfoJaxbStub cameraInfoJaxb = new CameraInfoJaxbStub();
 
-    cameraInfoJaxb.setId( "camInfoId" );
-    cameraInfoJaxb.setHref( JaxbTestUtils.createTestUriBuilder().path( "camInfo" ).build() );
-    cameraInfoJaxb.setSerial( 35138574 );
+    cameraInfoJaxb.setMake( "Canon" );
+    cameraInfoJaxb.setModel( "EOS 7D" );
 
     object.setCameraInfo( cameraInfoJaxb );
-    object.setDescription( "description" );
 
-    return create( object, CameraJaxbTest.class.getResource( "CameraJaxbTest.2.xml" ) );
+    return create( object, CameraJaxbTest.class.getResource( "CameraJaxbTest.stub.xml" ) );
   }
 }
