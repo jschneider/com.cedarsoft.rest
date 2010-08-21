@@ -75,4 +75,15 @@ public class UserJaxbTest extends SimpleJaxbTest<UserJaxb, UserJaxbStub> {
 
     return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.noFriends.xml" ) );
   }
+  
+  @DataPoint
+  public static Entry<? extends UserJaxbStub> stub() {
+    UserJaxbStub object = new UserJaxbStub();
+    object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
+    object.setId( "daId" );
+    object.setEmail( "email" );
+    object.setName( "name" );
+
+    return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.stub.xml" ) );
+  }
 }
