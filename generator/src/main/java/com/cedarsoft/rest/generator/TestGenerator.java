@@ -83,13 +83,23 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
 
   public void generateTest() throws JClassAlreadyExistsException {
     JClass jaxbObject = codeGenerator.ref( getJaxbObjectName() );
+    JClass jaxbStub = codeGenerator.ref( getJaxbStubName() );
+
     JDefinedClass testClass = codeGenerator.getModel()._class( getTestClassName() )._extends( codeGenerator.ref( SimpleJaxbTest.class ).narrow( jaxbObject ) );
+
+    createConstructor( testClass, jaxbObject, jaxbStub );
 
     createGetJaxbTypeMethod( jaxbObject, testClass );
 
     createDataPoint( testClass, jaxbObject );
 
     createTestResource( testClass, descriptor.getClassDeclaration().getSimpleName() );
+  }
+
+  private void createConstructor( @NotNull JDefinedClass testClass, @NotNull JClass jaxbObject, @NotNull JClass jaxbStub ) {
+    JMethod constructor = testClass.constructor( JMod.PUBLIC );
+    constructor.body().invoke( "super" ).arg( jaxbObject.dotclass() ).arg( jaxbStub.dotclass() );
+
   }
 
   private void createDataPoint( @NotNull JDefinedClass testClass, @NotNull JClass jaxbObject ) {
