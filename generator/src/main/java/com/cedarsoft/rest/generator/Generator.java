@@ -113,6 +113,10 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   public static final String METHOD_NAME_CREATE_JAXB_STUB = "createJaxbObjectStub";
   @NonNls
   public static final String STUB_NAMESPACE_SUFFIX = "/stub";
+  @NonNls
+  public static final String METHOD_NAME_ADD_MAPPING = "addMapping";
+  @NonNls
+  public static final String METHOD_NAME_GET_DELEGATES_MAPPING = "getDelegatesMapping";
 
   public Generator( @NotNull CodeGenerator<JaxbObjectGenerator.StubDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     super( codeGenerator, descriptor );
@@ -219,7 +223,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     JVar param = constructor.param( mappingType, paramName );
 
     constructor.body().add(
-      JExpr.invoke( "getDelegatesMapping" ).invoke( "addMapping" ).arg( jaxbObject.dotclass() ).arg( param )
+      JExpr.invoke( METHOD_NAME_GET_DELEGATES_MAPPING ).invoke( METHOD_NAME_ADD_MAPPING ).arg( jaxbObject.dotclass() ).arg( param )
     );
   }
 
