@@ -38,6 +38,7 @@ import com.cedarsoft.codegen.GeneratorCliSupport;
 import com.cedarsoft.codegen.GeneratorConfiguration;
 import com.cedarsoft.codegen.model.DomainObjectDescriptor;
 import com.cedarsoft.codegen.model.DomainObjectDescriptorFactory;
+import com.cedarsoft.codegen.model.FieldTypeInformation;
 import com.cedarsoft.codegen.model.FieldWithInitializationInfo;
 import com.cedarsoft.codegen.parser.Parser;
 import com.cedarsoft.codegen.parser.Result;
@@ -91,13 +92,8 @@ public class JaxbObjectGenerator extends AbstractGenerator {
   }
 
   public static class StubDecisionCallback implements DecisionCallback {
-    public boolean skipInStub( @NotNull FieldWithInitializationInfo fieldInfo ) {
-      if ( fieldInfo.isCollectionType() ) {
-        return true;
-      }
-
-      return false;
+    public boolean skipInStub( @NotNull FieldTypeInformation fieldInfo ) {
+      return fieldInfo.isCollectionType();
     }
   }
-
 }

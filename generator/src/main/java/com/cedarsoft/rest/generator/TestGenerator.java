@@ -54,7 +54,6 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * @param <T> the type of the decision callback
  */
 public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDecisionCallback> {
   @NonNls
