@@ -56,7 +56,6 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JStatement;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
-import com.sun.mirror.type.TypeMirror;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -289,8 +288,6 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
       JFieldVar field = addField( jaxbObject, fieldType, fieldInfo );
 
       if ( TypeUtils.isCollectionType( fieldInfo.getType() ) ) {
-        TypeMirror collectionParam = TypeUtils.getCollectionParam( fieldInfo.getType() );
-
         JAnnotationUse annotation = field.annotate( XmlElement.class );
         annotation.param( "name", NamingSupport.createSingular( field.name() ) );
       }
