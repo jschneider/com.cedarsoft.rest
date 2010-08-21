@@ -56,10 +56,24 @@ public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub>
   public JaxbRule jaxbRule = new JaxbRule( getJaxbType(), getJaxbStubType() );
 
   @NotNull
-  protected abstract Class<J> getJaxbType();
+  private final Class<J> jaxbType;
+  @NotNull
+  private final Class<S> jaxbStubType;
+
+  protected AbstractJaxbTest( @NotNull Class<J> jaxbType, @NotNull Class<S> jaxbStubType ) {
+    this.jaxbType = jaxbType;
+    this.jaxbStubType = jaxbStubType;
+  }
 
   @NotNull
-  protected abstract Class<S> getJaxbStubType();
+  protected final Class<J> getJaxbType() {
+    return jaxbType;
+  }
+
+  @NotNull
+  protected final Class<S> getJaxbStubType() {
+    return jaxbStubType;
+  }
 
   @Test
   public void testNameSpace() throws Exception {

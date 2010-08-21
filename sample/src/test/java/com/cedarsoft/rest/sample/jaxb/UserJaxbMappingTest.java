@@ -42,22 +42,14 @@ import org.junit.experimental.theories.*;
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
 public class UserJaxbMappingTest extends AbstractMappedJaxbTest<User, UserJaxb, UserJaxbStub> {
+  public UserJaxbMappingTest() {
+    super( UserJaxb.class, UserJaxbStub.class );
+  }
+
   @NotNull
   @Override
   protected JaxbMapping<User, UserJaxb, UserJaxbStub> createMapping() {
     return new UserJaxbMapping();
-  }
-
-  @NotNull
-  @Override
-  protected Class<UserJaxbStub> getJaxbStubType() {
-    return UserJaxbStub.class;
-  }
-
-  @NotNull
-  @Override
-  protected Class<UserJaxb> getJaxbType() {
-    return UserJaxb.class;
   }
 
   @DataPoint

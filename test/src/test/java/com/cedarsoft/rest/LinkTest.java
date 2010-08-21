@@ -33,7 +33,6 @@ package com.cedarsoft.rest;
 
 import com.cedarsoft.jaxb.Link;
 import com.cedarsoft.jaxb.LinkStub;
-import org.jetbrains.annotations.NotNull;
 import org.junit.experimental.theories.*;
 
 import java.net.URI;
@@ -43,16 +42,8 @@ import java.net.URISyntaxException;
  *
  */
 public class LinkTest extends SimpleJaxbTest<Link, LinkStub> {
-  @NotNull
-  @Override
-  protected Class<Link> getJaxbType() {
-    return Link.class;
-  }
-
-  @NotNull
-  @Override
-  protected Class<LinkStub> getJaxbStubType() {
-    return LinkStub.class;
+  public LinkTest() {
+    super( Link.class, LinkStub.class );
   }
 
   @DataPoint

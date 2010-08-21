@@ -35,21 +35,12 @@ package com.cedarsoft.rest.sample.jaxb;
 import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
 import com.cedarsoft.rest.SimpleJaxbTest;
-import org.jetbrains.annotations.NotNull;
 import org.junit.experimental.theories.*;
 
 public class CameraJaxbTest
-  extends SimpleJaxbTest<CameraJaxb,CameraJaxbStub> {
-
-  @NotNull
-  @Override
-  protected Class<CameraJaxbStub> getJaxbStubType() {
-    return CameraJaxbStub.class;
-  }
-
-  @Override
-  protected Class<CameraJaxb> getJaxbType() {
-    return CameraJaxb.class;
+  extends SimpleJaxbTest<CameraJaxb, CameraJaxbStub> {
+  public CameraJaxbTest() {
+    super( CameraJaxb.class, CameraJaxbStub.class );
   }
 
   @DataPoint
@@ -71,7 +62,7 @@ public class CameraJaxbTest
 
     return create( object, CameraJaxbTest.class.getResource( "CameraJaxbTest.xml" ) );
   }
-  
+
   @DataPoint
   public static Entry<? extends CameraJaxbStub> stub() {
     CameraJaxbStub object = new CameraJaxbStub();

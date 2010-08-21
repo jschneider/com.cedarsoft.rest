@@ -49,6 +49,10 @@ import static org.junit.Assert.*;
  */
 @RunWith( Theories.class )
 public abstract class SimpleJaxbTest<J extends JaxbObject, S extends JaxbStub> extends AbstractJaxbTest<J, S> {
+  protected SimpleJaxbTest( @NotNull Class<J> jaxbType, @NotNull Class<S> jaxbStubType ) {
+    super( jaxbType, jaxbStubType );
+  }
+
   @Theory
   public void testRoundTripWithDataPoints( @NotNull Entry<? extends J> entry ) throws Exception {
     if ( !isJaxbObjectType( entry ) ) {

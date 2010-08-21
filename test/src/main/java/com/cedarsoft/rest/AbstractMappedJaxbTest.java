@@ -51,6 +51,10 @@ import static org.junit.Assert.*;
 public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject, S extends JaxbStub> extends AbstractJaxbTest<J, S> {
   protected JaxbMapping<T, J, S> mapping;
 
+  protected AbstractMappedJaxbTest( @NotNull Class<J> jaxbType, @NotNull Class<S> jaxbStubType ) {
+    super( jaxbType, jaxbStubType );
+  }
+
   @Before
   public void setup() throws JAXBException {
     mapping = createMapping();

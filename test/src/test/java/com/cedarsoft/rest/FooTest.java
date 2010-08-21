@@ -31,7 +31,6 @@
 
 package com.cedarsoft.rest;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.experimental.theories.*;
 
 import java.net.URI;
@@ -41,17 +40,9 @@ import java.util.Arrays;
 /**
  *
  */
-public class FooTest extends SimpleJaxbTest<Foo,FooStub> {
-  @NotNull
-  @Override
-  protected Class<Foo> getJaxbType() {
-    return Foo.class;
-  }
-
-  @NotNull
-  @Override
-  protected Class<FooStub> getJaxbStubType() {
-    return FooStub.class;
+public class FooTest extends SimpleJaxbTest<Foo, FooStub> {
+  public FooTest() {
+    super( Foo.class, FooStub.class );
   }
 
   @DataPoint

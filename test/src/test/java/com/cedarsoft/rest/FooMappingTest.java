@@ -44,22 +44,14 @@ import java.util.Arrays;
  *
  */
 public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo, FooStub> {
+  public FooMappingTest() {
+    super( Foo.class, FooStub.class );
+  }
+
   @NotNull
   @Override
   protected JaxbMapping<FooModel, Foo, FooStub> createMapping() {
     return new FooMapping();
-  }
-
-  @NotNull
-  @Override
-  protected Class<FooStub> getJaxbStubType() {
-    return FooStub.class;
-  }
-
-  @NotNull
-  @Override
-  protected Class<Foo> getJaxbType() {
-    return Foo.class;
   }
 
   @DataPoint

@@ -35,22 +35,13 @@ package com.cedarsoft.rest.sample.jaxb;
 import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
 import com.cedarsoft.rest.SimpleJaxbTest;
-import org.jetbrains.annotations.NotNull;
 import org.junit.experimental.theories.*;
 
 import java.util.Arrays;
 
 public class UserJaxbTest extends SimpleJaxbTest<UserJaxb, UserJaxbStub> {
-  @NotNull
-  @Override
-  protected Class<UserJaxb> getJaxbType() {
-    return UserJaxb.class;
-  }
-
-  @NotNull
-  @Override
-  protected Class<UserJaxbStub> getJaxbStubType() {
-    return UserJaxbStub.class;
+  public UserJaxbTest() {
+    super( UserJaxb.class, UserJaxbStub.class );
   }
 
   @DataPoint
