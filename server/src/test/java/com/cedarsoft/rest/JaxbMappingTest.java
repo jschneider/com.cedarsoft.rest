@@ -103,7 +103,7 @@ public class JaxbMappingTest {
 
     grandFatherMapping = new JaxbMapping<GrandFather, GrandFatherJaxb, GrandFatherJaxbStub>() {
       {
-        getDelegatesMapping().addMapping( GrandFatherJaxb.class, GrandFatherJaxbStub.class, grandFatherMapping );
+        getDelegatesMapping().addMapping( ParentJaxb.class, ParentJaxbStub.class, parentMapping );
       }
 
       @Override

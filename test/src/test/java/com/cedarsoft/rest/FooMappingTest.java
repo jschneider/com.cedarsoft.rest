@@ -68,7 +68,10 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo, FooStu
     return create( fooModel,
                    "<ns2:foo xmlns:ns2=\"test:foo\" href=\"test:daUri\" id=\"daId\">\n" +
                      "  <daValue>Hello</daValue>\n" +
-                     "</ns2:foo>" );
+                     "</ns2:foo>",
+                   "<ns4:fooStub xmlns:ns4=\"test:foo/stub\" href=\"test:daUri\">\n" +
+                     "  <daValue>default</daValue>\n" +
+                     "</ns4:fooStub>" );
   }
 
 
@@ -80,7 +83,7 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo, FooStu
 
     @Override
     protected FooStub createJaxbObjectStub( @NotNull FooModel object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
-      throw new UnsupportedOperationException();
+      return new FooStub();
     }
 
     @NotNull
