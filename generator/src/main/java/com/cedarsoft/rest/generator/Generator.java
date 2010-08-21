@@ -75,7 +75,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   public static final String ID = "id";
   @NotNull
   @NonNls
-  public static final String METHOD_NAME_GET = "get";
+  public static final String METHOD_NAME_GET_STUB = "getStub";
   @NotNull
   @NonNls
   public static final String MAPPING_SUFFIX = "Mapping";
@@ -173,7 +173,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
       JInvocation value;
       if ( isProbablyOwnType( fieldInfo.getType() ) ) {
         JClass fieldJaxbType = getJaxbType( fieldInfo );
-        value = JExpr.invoke( METHOD_NAME_GET )
+        value = JExpr.invoke( METHOD_NAME_GET_STUB )
           .arg( fieldJaxbType.dotclass() )
           .arg( getterInvocation )
           .arg( context )

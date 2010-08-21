@@ -74,7 +74,7 @@ public class UserJaxbMapping
         UserJaxb jaxbObject = new UserJaxb();
         jaxbObject.setEmail(object.getEmail());
         jaxbObject.setName(object.getName());
-        jaxbObject.setFriends(get(UserJaxb.class, object.getFriends(), context));
+        jaxbObject.setFriends(getStub(UserJaxb.class, object.getFriends(), context));
         return jaxbObject;
     }
 
