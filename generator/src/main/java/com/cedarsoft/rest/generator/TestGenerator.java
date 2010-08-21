@@ -82,22 +82,22 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
   }
 
   public void generateTest() throws JClassAlreadyExistsException {
-    JClass jaxbClass = codeGenerator.ref( getJaxbObjectName() );
-    JDefinedClass testClass = codeGenerator.getModel()._class( getTestClassName() )._extends( codeGenerator.ref( SimpleJaxbTest.class ).narrow( jaxbClass ) );
+    JClass jaxbObject = codeGenerator.ref( getJaxbObjectName() );
+    JDefinedClass testClass = codeGenerator.getModel()._class( getTestClassName() )._extends( codeGenerator.ref( SimpleJaxbTest.class ).narrow( jaxbObject ) );
 
-    createGetJaxbTypeMethod( jaxbClass, testClass );
+    createGetJaxbTypeMethod( jaxbObject, testClass );
 
-    createDataPoint( testClass, jaxbClass );
+    createDataPoint( testClass, jaxbObject );
 
     createTestResource( testClass, descriptor.getClassDeclaration().getSimpleName() );
   }
 
-  private void createDataPoint( @NotNull JDefinedClass testClass, @NotNull JClass jaxbClass ) {
-    JMethod method = testClass.method( JMod.STATIC | JMod.PUBLIC, codeGenerator.ref( Entry.class ).narrow( jaxbClass.wildcard() ), DATA_POINT_METHOD_NAME );
+  private void createDataPoint( @NotNull JDefinedClass testClass, @NotNull JClass jaxbObject ) {
+    JMethod method = testClass.method( JMod.STATIC | JMod.PUBLIC, codeGenerator.ref( Entry.class ).narrow( jaxbObject.wildcard() ), DATA_POINT_METHOD_NAME );
     method.annotate( codeGenerator.ref( "org.junit.experimental.theories.DataPoint" ) );
 
-    JVar jaxbObject = addJaxbObjectCreation( method.body(), jaxbClass );
-    method.body()._return( codeGenerator.ref( AbstractJaxbTest.class ).staticInvoke( METHOD_NAME_CREATE ).arg( jaxbObject ).arg( createGetResourceStatement( testClass ) ) );
+    JVar jaxbObjectInstance = addJaxbObjectCreation( method.body(), jaxbObject );
+    method.body()._return( codeGenerator.ref( AbstractJaxbTest.class ).staticInvoke( METHOD_NAME_CREATE ).arg( jaxbObjectInstance ).arg( createGetResourceStatement( testClass ) ) );
   }
 
   @NotNull
@@ -106,8 +106,8 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
   }
 
   @NotNull
-  private JVar addJaxbObjectCreation( @NotNull JBlock block, @NotNull JClass jaxbClass ) {
-    JVar field = block.decl( jaxbClass, OBJECT, JExpr._new( jaxbClass ) );
+  private JVar addJaxbObjectCreation( @NotNull JBlock block, @NotNull JClass jaxbObject ) {
+    JVar field = block.decl( jaxbObject, OBJECT, JExpr._new( jaxbObject ) );
 
     //Sets the href
     block.add( field.invoke( METHOD_NAME_SET_HREF ).arg( codeGenerator.ref( JaxbTestUtils.class ).staticInvoke( METHOD_NAME_CREATE_TEST_URI_BUILDER ).invoke( METHOD_NAME_BUILD ) ) );
@@ -122,10 +122,10 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
     return field;
   }
 
-  private void createGetJaxbTypeMethod( @NotNull JClass jaxbClass, @NotNull JDefinedClass testClass ) {
-    JMethod method = testClass.method( JMod.PROTECTED, codeGenerator.ref( Class.class ).narrow( jaxbClass ), METHOD_NAME_GET_JAXB_TYPE );
+  private void createGetJaxbTypeMethod( @NotNull JClass jaxbObject, @NotNull JDefinedClass testClass ) {
+    JMethod method = testClass.method( JMod.PROTECTED, codeGenerator.ref( Class.class ).narrow( jaxbObject ), METHOD_NAME_GET_JAXB_TYPE );
     method.annotate( Override.class );
-    method.body()._return( jaxbClass.dotclass() );
+    method.body()._return( jaxbObject.dotclass() );
   }
 
   public void createTestResource( @NotNull JClass testClass, @NotNull @NonNls String domainObjectName ) {
