@@ -53,7 +53,7 @@ import static org.junit.Assert.*;
  */
 public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub> {
   @Rule
-  public JaxbRule jaxbRule = new JaxbRule( getJaxbType(), getJaxbStubType() );
+  public JaxbRule jaxbRule;
 
   @NotNull
   private final Class<J> jaxbType;
@@ -63,6 +63,7 @@ public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub>
   protected AbstractJaxbTest( @NotNull Class<J> jaxbType, @NotNull Class<S> jaxbStubType ) {
     this.jaxbType = jaxbType;
     this.jaxbStubType = jaxbStubType;
+    jaxbRule = new JaxbRule( getJaxbType(), getJaxbStubType() );
   }
 
   @NotNull
@@ -117,7 +118,6 @@ public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub>
     return getJaxbStubType().equals( objectType );
   }
 
-  @Deprecated
   @NotNull
   protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls byte[] expected ) {
     return create( object, expected, expected );
@@ -128,7 +128,6 @@ public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub>
     return new Entry<T>( object, expected, stubExpected );
   }
 
-  @Deprecated
   @NotNull
   protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls String expected ) {
     return create( object, expected, expected );
@@ -139,7 +138,6 @@ public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub>
     return new Entry<T>( object, expected.getBytes(), stubExpected.getBytes() );
   }
 
-  @Deprecated
   @NotNull
   protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls URL expected ) {
     return create( object, expected, expected );
@@ -154,7 +152,6 @@ public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub>
     }
   }
 
-  @Deprecated
   @NotNull
   protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls InputStream expected ) {
     return create( object, expected, expected );
