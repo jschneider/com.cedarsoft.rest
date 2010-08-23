@@ -160,6 +160,15 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub> {
     return currentJaxbObjects;
   }
 
+  @NotNull
+  public List<S> getJaxbStubs( @NotNull Iterable<? extends T> objects, @Nullable UriBuilder uriBuilder ) throws URISyntaxException {
+    List<S> currentJaxbObjects = new ArrayList<S>();
+    for ( T object : objects ) {
+      currentJaxbObjects.add( getJaxbObjectStub( object, uriBuilder ) );
+    }
+    return currentJaxbObjects;
+  }
+
   /**
    * Creates the JaxbObject.
    * The UriBuilder should only be used

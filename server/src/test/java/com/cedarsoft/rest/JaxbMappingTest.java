@@ -71,7 +71,9 @@ public class JaxbMappingTest {
 
       @Override
       protected MyObjectJaxbStub createJaxbObjectStub( @NotNull MyObject object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
-        throw new UnsupportedOperationException();
+        MyObjectJaxbStub stub = new MyObjectJaxbStub();
+        stub.stubInt = object.daInt;
+        return stub;
       }
 
 
@@ -160,6 +162,20 @@ public class JaxbMappingTest {
     //test cache
     assertSame( myObjectJaxbs.get( 0 ), mapping.getJaxbObject( myObject1, new UriBuilderImpl() ) );
     assertSame( myObjectJaxbs.get( 1 ), mapping.getJaxbObject( myObject2, new UriBuilderImpl() ) );
+  }
+
+  @Test
+  public void testGetJaxbStubs() throws Exception {
+    MyObject myObject1 = new MyObject( 7 );
+    MyObject myObject2 = new MyObject( 8 );
+
+    List<MyObjectJaxbStub> myObjectJaxbs = mapping.getJaxbStubs( Lists.newArrayList( myObject1, myObject2 ), new UriBuilderImpl() );
+    assertSame( myObject1.daInt, myObjectJaxbs.get( 0 ).stubInt );
+    assertSame( myObject2.daInt, myObjectJaxbs.get( 1 ).stubInt );
+
+    //test cache
+    assertSame( myObjectJaxbs.get( 0 ), mapping.getJaxbObjectStub( myObject1, new UriBuilderImpl() ) );
+    assertSame( myObjectJaxbs.get( 1 ), mapping.getJaxbObjectStub( myObject2, new UriBuilderImpl() ) );
   }
 
   @Test
