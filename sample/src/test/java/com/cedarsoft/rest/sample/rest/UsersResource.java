@@ -73,7 +73,6 @@ public class UsersResource {
 
   @Inject
   public UsersResource( @NotNull UserMapping userMapping, @NotNull List<? extends com.cedarsoft.rest.sample.User> users ) throws IOException {
-    FileUtils.touch( new File( "/tmp/UsersResources" ) );
     this.userMapping = userMapping;
     this.users = new ArrayList<com.cedarsoft.rest.sample.User>( users );
   }
