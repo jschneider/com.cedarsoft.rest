@@ -2,7 +2,6 @@ package com.cedarsoft.rest.sample.rest;
 
 import com.cedarsoft.rest.sample.User;
 import com.cedarsoft.rest.sample.jaxb.UserMapping;
-import com.cedarsoft.rest.sample.rest.UsersResource;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -13,6 +12,7 @@ import com.google.inject.Stage;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 import com.sun.jersey.api.core.PackagesResourceConfig;
+import com.sun.jersey.core.util.FeaturesAndProperties;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
 import java.util.HashMap;
@@ -27,6 +27,7 @@ public class GuiceConfig extends GuiceServletContextListener {
   protected Injector getInjector() {
     final Map<String, String> params = new HashMap<String, String>();
     params.put( PackagesResourceConfig.PROPERTY_PACKAGES, UsersResource.class.getPackage().getName() );
+    params.put( FeaturesAndProperties.FEATURE_XMLROOTELEMENT_PROCESSING, "true" );
 
     return Guice.createInjector( Stage.DEVELOPMENT, new ExampleModule(), new ServletModule() {
       @Override
