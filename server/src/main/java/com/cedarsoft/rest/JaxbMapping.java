@@ -48,7 +48,7 @@ import java.util.Map;
  * @param <J> the Jaxb type
  * @param <S> the Jaxb stub type
  */
-public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub> {
+public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>> {
   @NotNull
   private final Map<T, J> jaxbObjects = new HashMap<T, J>();
   @NotNull
@@ -110,7 +110,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub> {
 
   @Nullable
   protected <T, J extends JaxbObject> List<J> get( @NotNull Class<J> jaxbType, @NotNull Iterable<? extends T> objects, @NotNull JaxbMappingContext context ) throws URISyntaxException {
-    JaxbMapping<Object, J, ? extends JaxbStub> mapping = getDelegatesMapping().getMapping( jaxbType );
+    JaxbMapping<Object, J, ? extends JaxbStub<J>> mapping = getDelegatesMapping().getMapping( jaxbType );
 
     List<J> converted = new ArrayList<J>();
     for ( T object : objects ) {
@@ -122,7 +122,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub> {
   }
 
   @Nullable
-  protected <T, S extends JaxbStub> S getStub( @NotNull Class<S> jaxbStubType, @Nullable T object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+  protected <T, J extends JaxbObject, S extends JaxbStub<J>> S getStub( @NotNull Class<S> jaxbStubType, @Nullable T object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
     if ( object == null ) {
       return null;
     }
@@ -130,8 +130,8 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub> {
   }
 
   @Nullable
-  protected <T, S extends JaxbStub> List<S> getStub( @NotNull Class<S> jaxbSubType, @NotNull Iterable<? extends T> objects, @NotNull JaxbMappingContext context ) throws URISyntaxException {
-    JaxbMapping<Object, ?, S> mapping = getDelegatesMapping().<Object, S, S>getMappingForStub( jaxbSubType );
+  protected <T, J extends JaxbObject, S extends JaxbStub<J>> List<S> getStub( @NotNull Class<S> jaxbSubType, @NotNull Iterable<? extends T> objects, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+    JaxbMapping<Object, ?, S> mapping = getDelegatesMapping().getMappingForStub( jaxbSubType );
 
     List<S> converted = new ArrayList<S>();
     for ( T object : objects ) {

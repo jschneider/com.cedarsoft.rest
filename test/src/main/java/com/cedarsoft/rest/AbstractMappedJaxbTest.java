@@ -48,7 +48,7 @@ import java.net.URISyntaxException;
 import static org.junit.Assert.*;
 
 @RunWith( Theories.class )
-public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject, S extends JaxbStub> extends AbstractJaxbTest<J, S> {
+public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject, S extends JaxbStub<J>> extends AbstractJaxbTest<J, S> {
   protected JaxbMapping<T, J, S> mapping;
 
   protected AbstractMappedJaxbTest( @NotNull Class<J> jaxbType, @NotNull Class<S> jaxbStubType ) {

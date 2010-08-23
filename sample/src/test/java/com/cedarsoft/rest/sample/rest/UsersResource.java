@@ -72,7 +72,7 @@ public class UsersResource {
   private final UserMapping userMapping;
 
   @Inject
-  public UsersResource( @NotNull UserMapping userMapping, @NotNull List<? extends com.cedarsoft.rest.sample.User> users ) throws IOException {
+  public UsersResource( @NotNull UserMapping userMapping, @NotNull List<? extends com.cedarsoft.rest.sample.User> users ) {
     this.userMapping = userMapping;
     this.users = new ArrayList<com.cedarsoft.rest.sample.User>( users );
   }

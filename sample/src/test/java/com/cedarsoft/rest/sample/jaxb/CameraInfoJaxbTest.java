@@ -37,9 +37,9 @@ import com.cedarsoft.rest.JaxbTestUtils;
 import com.cedarsoft.rest.SimpleJaxbTest;
 import org.junit.experimental.theories.*;
 
-public class CameraInfoJaxbTest extends SimpleJaxbTest<CameraInfo.Jaxb, Camera.Stub> {
+public class CameraInfoJaxbTest extends SimpleJaxbTest<CameraInfo.Jaxb, CameraInfo.Stub> {
   public CameraInfoJaxbTest() {
-    super( CameraInfo.Jaxb.class, Camera.Stub.class );
+    super( CameraInfo.Jaxb.class, CameraInfo.Stub.class );
   }
 
   @DataPoint

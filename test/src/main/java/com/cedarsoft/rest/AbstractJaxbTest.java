@@ -51,7 +51,7 @@ import static org.junit.Assert.*;
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub> {
+public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub<J>> {
   @Rule
   public JaxbRule jaxbRule;
 

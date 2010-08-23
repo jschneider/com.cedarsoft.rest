@@ -46,9 +46,10 @@ import static org.junit.Assert.*;
 
 /**
  * @param <J> the object to serialize
+ * @param <S> the stub type
  */
 @RunWith( Theories.class )
-public abstract class SimpleJaxbTest<J extends JaxbObject, S extends JaxbStub> extends AbstractJaxbTest<J, S> {
+public abstract class SimpleJaxbTest<J extends JaxbObject, S extends JaxbStub<J>> extends AbstractJaxbTest<J, S> {
   protected SimpleJaxbTest( @NotNull Class<J> jaxbType, @NotNull Class<S> jaxbStubType ) {
     super( jaxbType, jaxbStubType );
   }

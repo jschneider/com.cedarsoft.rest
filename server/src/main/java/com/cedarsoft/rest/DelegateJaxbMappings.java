@@ -47,13 +47,13 @@ public class DelegateJaxbMappings {
   @NotNull
   private final Map<Class<? extends JaxbObject>, JaxbMapping<?, ?, ?>> delegatesByStub = new HashMap<Class<? extends JaxbObject>, JaxbMapping<?, ?, ?>>();
 
-  public <T, J extends JaxbObject, S extends JaxbStub> void addMapping( @NotNull Class<J> jaxbObjectType, @NotNull Class<S> jaxbStubType, @NotNull JaxbMapping<T, J, S> mapping ) {
+  public <T, J extends JaxbObject, S extends JaxbStub<J>> void addMapping( @NotNull Class<J> jaxbObjectType, @NotNull Class<S> jaxbStubType, @NotNull JaxbMapping<T, J, S> mapping ) {
     delegates.put( jaxbObjectType, mapping );
     delegatesByStub.put( jaxbStubType, mapping );
   }
 
   @NotNull
-  public <T, J extends JaxbObject, S extends JaxbStub> JaxbMapping<T, J, S> getMapping( @NotNull Class<J> jaxbObjectType ) {
+  public <T, J extends JaxbObject, S extends JaxbStub<J>> JaxbMapping<T, J, S> getMapping( @NotNull Class<J> jaxbObjectType ) {
     JaxbMapping<?, ?, ?> resolved = delegates.get( jaxbObjectType );
     if ( resolved == null ) {
       throw new IllegalArgumentException( "No mapping found for " + jaxbObjectType.getName() );
@@ -62,7 +62,7 @@ public class DelegateJaxbMappings {
   }
 
   @NotNull
-  public <T, J extends JaxbObject, S extends JaxbStub> JaxbMapping<T, J, S> getMappingForStub( @NotNull Class<S> jaxbStubType ) {
+  public <T, J extends JaxbObject, S extends JaxbStub<J>> JaxbMapping<T, J, S> getMappingForStub( @NotNull Class<S> jaxbStubType ) {
     JaxbMapping<?, ?, ?> resolved = delegatesByStub.get( jaxbStubType );
     if ( resolved == null ) {
       throw new IllegalArgumentException( "No mapping found for " + jaxbStubType.getName() );
