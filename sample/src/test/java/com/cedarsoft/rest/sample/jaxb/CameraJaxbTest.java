@@ -38,24 +38,24 @@ import com.cedarsoft.rest.SimpleJaxbTest;
 import org.junit.experimental.theories.*;
 
 public class CameraJaxbTest
-  extends SimpleJaxbTest<CameraJaxb.Complete, CameraJaxb.Stub> {
+  extends SimpleJaxbTest<Camera.Jaxb, Camera.Stub> {
   public CameraJaxbTest() {
-    super( CameraJaxb.Complete.class, CameraJaxb.Stub.class );
+    super( Camera.Jaxb.class, Camera.Stub.class );
   }
 
   @DataPoint
-  public static Entry<? extends CameraJaxb.Complete> defaultEntry() {
-    CameraJaxb.Complete object = new CameraJaxb.Complete();
+  public static Entry<? extends Camera.Jaxb> defaultEntry() {
+    Camera.Jaxb object = new Camera.Jaxb();
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
     object.setId( "id" );
-    CameraInfoJaxb.Complete info = new CameraInfoJaxb.Complete();
+    CameraInfo.Jaxb info = new CameraInfo.Jaxb();
     object.setCameraInfo( info );
     info.setInternalSerial( "INTERNAL_35138574" );
     info.setSerial( 35138574 );
     info.setMake( "Canon" );
     info.setModel( "EOS 7D" );
     object.setDescription( "description" );
-    UserJaxb.Stub owner = new UserJaxb.Stub();
+    User.Stub owner = new User.Stub();
     owner.setEmail( "mail@mail.com" );
     owner.setName( "daName" );
     object.setOwner( owner );
@@ -64,11 +64,11 @@ public class CameraJaxbTest
   }
 
   @DataPoint
-  public static Entry<? extends CameraJaxb.Stub> stub() {
-    CameraJaxb.Stub object = new CameraJaxb.Stub();
+  public static Entry<? extends Camera.Stub> stub() {
+    Camera.Stub object = new Camera.Stub();
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
     object.setId( "id" );
-    CameraInfoJaxb.Stub cameraInfoJaxb = new CameraInfoJaxb.Stub();
+    CameraInfo.Stub cameraInfoJaxb = new CameraInfo.Stub();
 
     cameraInfoJaxb.setMake( "Canon" );
     cameraInfoJaxb.setModel( "EOS 7D" );

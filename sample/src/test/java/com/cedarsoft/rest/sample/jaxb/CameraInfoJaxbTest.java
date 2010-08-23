@@ -37,14 +37,14 @@ import com.cedarsoft.rest.JaxbTestUtils;
 import com.cedarsoft.rest.SimpleJaxbTest;
 import org.junit.experimental.theories.*;
 
-public class CameraInfoJaxbTest extends SimpleJaxbTest<CameraInfoJaxb.Complete, CameraJaxb.Stub> {
+public class CameraInfoJaxbTest extends SimpleJaxbTest<CameraInfo.Jaxb, Camera.Stub> {
   public CameraInfoJaxbTest() {
-    super( CameraInfoJaxb.Complete.class, CameraJaxb.Stub.class );
+    super( CameraInfo.Jaxb.class, Camera.Stub.class );
   }
 
   @DataPoint
-  public static Entry<? extends CameraInfoJaxb.Complete> entry1() {
-    CameraInfoJaxb.Complete object = new CameraInfoJaxb.Complete();
+  public static Entry<? extends CameraInfo.Jaxb> entry1() {
+    CameraInfo.Jaxb object = new CameraInfo.Jaxb();
     object.setId( "daId" );
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
     object.setSerial( 43L );
@@ -55,8 +55,8 @@ public class CameraInfoJaxbTest extends SimpleJaxbTest<CameraInfoJaxb.Complete, 
   }
 
   @DataPoint
-  public static Entry<? extends CameraInfoJaxb.Stub> stub() {
-    CameraInfoJaxb.Stub stub = new CameraInfoJaxb.Stub();
+  public static Entry<? extends CameraInfo.Stub> stub() {
+    CameraInfo.Stub stub = new CameraInfo.Stub();
     stub.setModel( "model" );
     stub.setMake( "make" );
 

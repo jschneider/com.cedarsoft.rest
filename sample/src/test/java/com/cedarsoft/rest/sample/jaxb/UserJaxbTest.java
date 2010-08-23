@@ -39,24 +39,24 @@ import org.junit.experimental.theories.*;
 
 import java.util.Arrays;
 
-public class UserJaxbTest extends SimpleJaxbTest<UserJaxb.Complete, UserJaxb.Stub> {
+public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
   public UserJaxbTest() {
-    super( UserJaxb.Complete.class, UserJaxb.Stub.class );
+    super( User.Jaxb.class, User.Stub.class );
   }
 
   @DataPoint
-  public static Entry<? extends UserJaxb.Complete> entry1() {
-    UserJaxb.Complete object = new UserJaxb.Complete();
+  public static Entry<? extends User.Jaxb> entry1() {
+    User.Jaxb object = new User.Jaxb();
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
     object.setId( "daId" );
     object.setEmail( "email" );
     object.setName( "name" );
 
-    UserJaxb.Stub friend = new UserJaxb.Stub();
+    User.Stub friend = new User.Stub();
     friend.setName( "Markus Mustermann" );
     friend.setEmail( "markus@mustermann.com" );
 
-    UserJaxb.Stub friend2 = new UserJaxb.Stub();
+    User.Stub friend2 = new User.Stub();
     friend2.setName( "Eva Mustermann" );
     friend2.setEmail( "eva@mustermann.com" );
 
@@ -66,8 +66,8 @@ public class UserJaxbTest extends SimpleJaxbTest<UserJaxb.Complete, UserJaxb.Stu
   }
 
   @DataPoint
-  public static Entry<? extends UserJaxb.Complete> notFriends() {
-    UserJaxb.Complete object = new UserJaxb.Complete();
+  public static Entry<? extends User.Jaxb> notFriends() {
+    User.Jaxb object = new User.Jaxb();
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
     object.setId( "daId" );
     object.setEmail( "email" );
@@ -77,8 +77,8 @@ public class UserJaxbTest extends SimpleJaxbTest<UserJaxb.Complete, UserJaxb.Stu
   }
   
   @DataPoint
-  public static Entry<? extends UserJaxb.Stub> stub() {
-    UserJaxb.Stub object = new UserJaxb.Stub();
+  public static Entry<? extends User.Stub> stub() {
+    User.Stub object = new User.Stub();
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
     object.setId( "daId" );
     object.setEmail( "email" );

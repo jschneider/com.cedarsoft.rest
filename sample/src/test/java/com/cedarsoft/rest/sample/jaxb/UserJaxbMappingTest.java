@@ -34,41 +34,40 @@ package com.cedarsoft.rest.sample.jaxb;
 import com.cedarsoft.rest.AbstractMappedJaxbTest;
 import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbMapping;
-import com.cedarsoft.rest.sample.User;
 import org.jetbrains.annotations.NotNull;
 import org.junit.experimental.theories.*;
 
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-public class UserJaxbMappingTest extends AbstractMappedJaxbTest<User, UserJaxb.Complete, UserJaxb.Stub> {
+public class UserJaxbMappingTest extends AbstractMappedJaxbTest<com.cedarsoft.rest.sample.User, User.Jaxb, User.Stub> {
   public UserJaxbMappingTest() {
-    super( UserJaxb.Complete.class, UserJaxb.Stub.class );
+    super( User.Jaxb.class, User.Stub.class );
   }
 
   @NotNull
   @Override
-  protected JaxbMapping<User, UserJaxb.Complete, UserJaxb.Stub> createMapping() {
-    return new UserJaxbMapping();
+  protected JaxbMapping<com.cedarsoft.rest.sample.User, User.Jaxb, User.Stub> createMapping() {
+    return new UserMapping();
   }
 
   @DataPoint
-  public static Entry<? extends User> entry1() {
-    User user = new User( "info@cedarsoft.com", "Johannes Schneider" );
-    user.addFriend( new User( "markus@mustermann.de", "Markus Mustermann" ) );
-    user.addFriend( new User( "markus2@mustermann.de", "Markus2 Mustermann" ) );
-    user.addFriend( new User( "markus3@mustermann.de", "Markus3 Mustermann" ) );
+  public static Entry<? extends com.cedarsoft.rest.sample.User> entry1() {
+    com.cedarsoft.rest.sample.User user = new com.cedarsoft.rest.sample.User( "info@cedarsoft.com", "Johannes Schneider" );
+    user.addFriend( new com.cedarsoft.rest.sample.User( "markus@mustermann.de", "Markus Mustermann" ) );
+    user.addFriend( new com.cedarsoft.rest.sample.User( "markus2@mustermann.de", "Markus2 Mustermann" ) );
+    user.addFriend( new com.cedarsoft.rest.sample.User( "markus3@mustermann.de", "Markus3 Mustermann" ) );
 
     return create( user, UserJaxbTest.class.getResource( "UserJaxbMappingTest.xml" ), UserJaxbTest.class.getResource( "UserJaxbMappingTest.stub.xml" ) );
   }
 
   @DataPoint
-  public static Entry<? extends User> recursive() {
-    User user = new User( "info@cedarsoft.com", "Johannes Schneider" );
-    User user1 = new User( "markus@mustermann.de", "Markus Mustermann" );
+  public static Entry<? extends com.cedarsoft.rest.sample.User> recursive() {
+    com.cedarsoft.rest.sample.User user = new com.cedarsoft.rest.sample.User( "info@cedarsoft.com", "Johannes Schneider" );
+    com.cedarsoft.rest.sample.User user1 = new com.cedarsoft.rest.sample.User( "markus@mustermann.de", "Markus Mustermann" );
     user.addFriend( user1 );
-    user.addFriend( new User( "markus2@mustermann.de", "Markus2 Mustermann" ) );
-    user.addFriend( new User( "markus3@mustermann.de", "Markus3 Mustermann" ) );
+    user.addFriend( new com.cedarsoft.rest.sample.User( "markus2@mustermann.de", "Markus2 Mustermann" ) );
+    user.addFriend( new com.cedarsoft.rest.sample.User( "markus3@mustermann.de", "Markus3 Mustermann" ) );
 
     user1.addFriend( user );
 

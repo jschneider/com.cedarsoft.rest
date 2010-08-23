@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
+@XmlType( name = "abstractCamera" )
 public abstract class Camera extends AbstractJaxbObject {
   @XmlType(name = "camera")
   @XmlRootElement( name = "camera", namespace = "http://cedarsoft.com/rest/sample/camera" )

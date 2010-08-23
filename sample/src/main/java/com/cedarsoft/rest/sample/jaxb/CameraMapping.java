@@ -44,8 +44,8 @@ import java.net.URISyntaxException;
  *
  */
 public class CameraMapping extends JaxbMapping<com.cedarsoft.rest.sample.Camera, Camera.Jaxb, Camera.Stub> {
-  public CameraMapping( @NotNull UserJaxbMapping userJaxbMapping ) {
-    this.getDelegatesMapping().addMapping( User.Jaxb.class, User.Stub.class, userJaxbMapping );
+  public CameraMapping( @NotNull UserMapping userMapping ) {
+    this.getDelegatesMapping().addMapping( User.Jaxb.class, User.Stub.class, userMapping );
   }
 
   @Override

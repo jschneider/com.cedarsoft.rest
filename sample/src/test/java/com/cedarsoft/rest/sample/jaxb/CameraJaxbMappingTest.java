@@ -34,7 +34,6 @@ package com.cedarsoft.rest.sample.jaxb;
 import com.cedarsoft.rest.AbstractMappedJaxbTest;
 import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbMapping;
-import com.cedarsoft.rest.sample.Camera;
 import com.cedarsoft.rest.sample.CameraInfo;
 import com.cedarsoft.rest.sample.User;
 import org.jetbrains.annotations.NotNull;
@@ -43,20 +42,20 @@ import org.junit.experimental.theories.*;
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-public class CameraJaxbMappingTest extends AbstractMappedJaxbTest<Camera, CameraJaxb.Complete, CameraJaxb.Stub> {
+public class CameraJaxbMappingTest extends AbstractMappedJaxbTest<com.cedarsoft.rest.sample.Camera, Camera.Jaxb, Camera.Stub> {
   public CameraJaxbMappingTest() {
-    super( CameraJaxb.Complete.class, CameraJaxb.Stub.class );
+    super( Camera.Jaxb.class, Camera.Stub.class );
   }
 
   @NotNull
   @Override
-  protected JaxbMapping<Camera, CameraJaxb.Complete, CameraJaxb.Stub> createMapping() {
-    return new CameraJaxbMapping( new UserJaxbMapping() );
+  protected JaxbMapping<com.cedarsoft.rest.sample.Camera, Camera.Jaxb, Camera.Stub> createMapping() {
+    return new CameraMapping( new UserMapping() );
   }
 
   @DataPoint
-  public static Entry<? extends Camera> entry1() {
-    Camera camera = new Camera( "CANON-77", new CameraInfo( 77, "Canon", "EOS 7D", "35131343AFafsdf" ) );
+  public static Entry<? extends com.cedarsoft.rest.sample.Camera> entry1() {
+    com.cedarsoft.rest.sample.Camera camera = new com.cedarsoft.rest.sample.Camera( "CANON-77", new CameraInfo( 77, "Canon", "EOS 7D", "35131343AFafsdf" ) );
     User owner = new User( "info@cedarsoft.de", "Johannes Schneider" );
     owner.addFriend( new User( "da@asdf.de", "Da Friend" ) );
     camera.setOwner( owner );
