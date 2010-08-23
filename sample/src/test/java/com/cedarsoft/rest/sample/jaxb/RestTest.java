@@ -5,6 +5,7 @@ import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.test.framework.AppDescriptor;
 import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.WebAppDescriptor;
+import org.apache.commons.io.IOUtils;
 import org.junit.*;
 
 import javax.ws.rs.core.MediaType;
@@ -32,6 +33,7 @@ public class RestTest extends JerseyTest {
   @Test
   public void testConvert() throws Exception {
     assertXMLEquals( getClass().getResource( "Rest.testUser.xml" ), resource().path( "users/test" ).accept( MediaType.APPLICATION_XML ).get( String.class ) );
+    assertXMLEquals( getClass().getResource( "Rest.testUser.xml" ), resource().path( "users/test" ).accept( MediaType.TEXT_XML ).get( String.class ) );
 
     UserJaxb.Complete testUser = resource().path( "users/test" ).accept( MediaType.APPLICATION_XML ).get( UserJaxb.Complete.class );
     assertNotNull( testUser );
@@ -52,5 +54,10 @@ public class RestTest extends JerseyTest {
 
     assertXMLEquals( getClass().getResource( "Rest.users.xml" ), resource().path( "users" ).type( MediaType.APPLICATION_XML ).get( String.class ) );
     assertXMLEquals( getClass().getResource( "Rest.testUser.xml" ), resource().path( "users/test" ).type( MediaType.APPLICATION_XML ).get( String.class ) );
+  }
+
+  @Test
+  public void testJson() throws Exception {
+    assertEquals( IOUtils.toString( getClass().getResourceAsStream( "Rest.testUser.json" ) ), resource().path( "users/test" ).accept( MediaType.APPLICATION_JSON ).get( String.class ) );
   }
 }

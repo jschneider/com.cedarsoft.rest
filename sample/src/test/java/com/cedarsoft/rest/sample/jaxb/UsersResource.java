@@ -44,7 +44,6 @@ public class UsersResource {
     this.users = new ArrayList<User>( users );
   }
 
-  @Produces( MediaType.APPLICATION_XML )
   @GET
   public List<UserJaxb.Stub> getUsers( @Context HttpHeaders headers, @QueryParam( "minId" ) int minId, @QueryParam( "max-id" ) int maxId ) throws URISyntaxException {
     return userMapping.getJaxbStubs( users, uriInfo.getBaseUriBuilder() );
