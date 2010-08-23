@@ -32,35 +32,15 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.jaxb.AbstractJaxbObject;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement( name = "cameraInfo", namespace = "http://cedarsoft.com/rest/sample/camera-info" )
 @XmlAccessorType( XmlAccessType.FIELD )
-public class CameraInfoJaxb extends AbstractJaxbObject {
+public class CameraInfoJaxb extends CameraInfoJaxbStub {
   private long serial;
   private String internalSerial;
-  private String model;
-  private String make;
-
-  public String getModel() {
-    return model;
-  }
-
-  public void setModel( String model ) {
-    this.model = model;
-  }
-
-  public String getMake() {
-    return make;
-  }
-
-  public void setMake( String make ) {
-    this.make = make;
-  }
 
   public long getSerial() {
     return serial;

@@ -42,24 +42,5 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement( name = "user", namespace = "http://cedarsoft.com/rest/sample/user/stub" )
 @XmlAccessorType( XmlAccessType.FIELD )
 public class UserJaxbStub
-  extends AbstractJaxbObject implements JaxbStub {
-
-  private String email;
-  private String name;
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail( String email ) {
-    this.email = email;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName( String name ) {
-    this.name = name;
-  }
+  extends AbstractUserJaxb implements JaxbStub {
 }

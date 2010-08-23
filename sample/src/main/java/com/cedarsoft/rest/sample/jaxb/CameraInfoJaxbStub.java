@@ -41,23 +41,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement( name = "cameraInfo", namespace = "http://cedarsoft.com/rest/sample/camera-info/stub" )
 @XmlAccessorType( XmlAccessType.FIELD )
-public class CameraInfoJaxbStub extends AbstractJaxbObject implements JaxbStub {
-  private String model;
-  private String make;
+public class CameraInfoJaxbStub extends AbstractCameraInfoJaxb implements JaxbStub {
 
-  public String getModel() {
-    return model;
-  }
-
-  public void setModel( String model ) {
-    this.model = model;
-  }
-
-  public String getMake() {
-    return make;
-  }
-
-  public void setMake( String make ) {
-    this.make = make;
-  }
 }

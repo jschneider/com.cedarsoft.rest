@@ -43,29 +43,10 @@ import java.util.List;
 @XmlRootElement( name = "user", namespace = "http://cedarsoft.com/rest/sample/user" )
 @XmlAccessorType( XmlAccessType.FIELD )
 public class UserJaxb
-  extends AbstractJaxbObject {
-
-  private String email;
-  private String name;
+  extends AbstractUserJaxb {
 
   @XmlElement( name = "friend" )
   private List<UserJaxbStub> friends;
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail( String email ) {
-    this.email = email;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName( String name ) {
-    this.name = name;
-  }
 
   public List<UserJaxbStub> getFriends() {
     return friends;
