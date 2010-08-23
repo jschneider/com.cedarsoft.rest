@@ -43,9 +43,9 @@ import java.net.URISyntaxException;
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-public class UserJaxbMapping extends JaxbMapping<User, UserJaxb, UserJaxbStub> {
+public class UserJaxbMapping extends JaxbMapping<User, UserJaxb.Complete, UserJaxb.Stub> {
   public UserJaxbMapping() {
-    getDelegatesMapping().addMapping( UserJaxb.class, UserJaxbStub.class, this );
+    getDelegatesMapping().addMapping( UserJaxb.Complete.class, UserJaxb.Stub.class, this );
   }
 
   @Override
@@ -55,18 +55,18 @@ public class UserJaxbMapping extends JaxbMapping<User, UserJaxb, UserJaxbStub> {
 
   @NotNull
   @Override
-  protected UserJaxb createJaxbObject( @NotNull User object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
-    UserJaxb jaxbObject = new UserJaxb();
+  protected UserJaxb.Complete createJaxbObject( @NotNull User object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+    UserJaxb.Complete jaxbObject = new UserJaxb.Complete();
     jaxbObject.setId( object.getEmail() );
     jaxbObject.setEmail( object.getEmail() );
     jaxbObject.setName( object.getName() );
-    jaxbObject.setFriends( getStub( UserJaxbStub.class, object.getFriends(), context ) );
+    jaxbObject.setFriends( getStub( UserJaxb.Stub.class, object.getFriends(), context ) );
     return jaxbObject;
   }
 
   @Override
-  protected UserJaxbStub createJaxbObjectStub( @NotNull User object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
-    UserJaxbStub jaxbObject = new UserJaxbStub();
+  protected UserJaxb.Stub createJaxbObjectStub( @NotNull User object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+    UserJaxb.Stub jaxbObject = new UserJaxb.Stub();
     jaxbObject.setId( object.getEmail() );
     jaxbObject.setEmail( object.getEmail() );
     jaxbObject.setName( object.getName() );

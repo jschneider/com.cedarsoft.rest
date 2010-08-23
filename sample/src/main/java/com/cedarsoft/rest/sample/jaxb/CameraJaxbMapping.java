@@ -44,9 +44,9 @@ import java.net.URISyntaxException;
 /**
  *
  */
-public class CameraJaxbMapping extends JaxbMapping<Camera, CameraJaxb, CameraJaxbStub> {
+public class CameraJaxbMapping extends JaxbMapping<Camera, CameraJaxb.Complete, CameraJaxb.Stub> {
   public CameraJaxbMapping( @NotNull UserJaxbMapping userJaxbMapping ) {
-    this.getDelegatesMapping().addMapping( UserJaxb.class, UserJaxbStub.class, userJaxbMapping );
+    this.getDelegatesMapping().addMapping( UserJaxb.Complete.class, UserJaxb.Stub.class, userJaxbMapping );
   }
 
   @Override
@@ -56,30 +56,30 @@ public class CameraJaxbMapping extends JaxbMapping<Camera, CameraJaxb, CameraJax
 
   @NotNull
   @Override
-  protected CameraJaxb createJaxbObject( @NotNull Camera object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
-    CameraJaxb jaxbObject = new CameraJaxb();
+  protected CameraJaxb.Complete createJaxbObject( @NotNull Camera object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+    CameraJaxb.Complete jaxbObject = new CameraJaxb.Complete();
 
     jaxbObject.setId( object.getId() );
     jaxbObject.setDescription( "a nice description about the camera!" );
 
-    CameraInfoJaxb cameraInfo = new CameraInfoJaxb();
+    CameraInfoJaxb.Complete cameraInfo = new CameraInfoJaxb.Complete();
     cameraInfo.setInternalSerial( object.getCameraInfo().getInternalSerial() );
     cameraInfo.setMake( object.getCameraInfo().getMake() );
     cameraInfo.setModel( object.getCameraInfo().getModel() );
     cameraInfo.setSerial( object.getCameraInfo().getSerial() );
     jaxbObject.setCameraInfo( cameraInfo );
 
-    jaxbObject.setOwner( getStub( UserJaxbStub.class, object.getOwner(), context ) );
+    jaxbObject.setOwner( getStub( UserJaxb.Stub.class, object.getOwner(), context ) );
 
     return jaxbObject;
   }
 
   @Override
-  protected CameraJaxbStub createJaxbObjectStub( @NotNull Camera object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
-    CameraJaxbStub jaxbObject = new CameraJaxbStub();
+  protected CameraJaxb.Stub createJaxbObjectStub( @NotNull Camera object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+    CameraJaxb.Stub jaxbObject = new CameraJaxb.Stub();
     jaxbObject.setId( object.getId() );
 
-    CameraInfoJaxbStub cameraInfo = new CameraInfoJaxbStub();
+    CameraInfoJaxb.Stub cameraInfo = new CameraInfoJaxb.Stub();
     cameraInfo.setMake( object.getCameraInfo().getMake() );
     cameraInfo.setModel( object.getCameraInfo().getModel() );
     jaxbObject.setCameraInfo( cameraInfo );
