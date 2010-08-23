@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns3:user xmlns:ns3="http://cedarsoft.com/rest/sample/user" href="http://localhost:9998/users/test@test.com" id="test@test.com">
+  <email>test@test.com</email>
+  <name>Test User</name>
+  <friend href="http://localhost:9998/users/friend@asdf.de" id="friend@asdf.de">
+    <email>friend@asdf.de</email>
+    <name>A Friend</name>
+  </friend>
+</ns3:user>
+  

@@ -35,6 +35,7 @@ import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.JaxbMappingContext;
 import com.cedarsoft.rest.sample.User;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 import javax.ws.rs.core.UriBuilder;
@@ -44,13 +45,17 @@ import java.net.URISyntaxException;
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
 public class UserJaxbMapping extends JaxbMapping<User, UserJaxb.Complete, UserJaxb.Stub> {
+  @NonNls
+  @NotNull
+  public static final String PATH_USERS = "users";
+
   public UserJaxbMapping() {
     getDelegatesMapping().addMapping( UserJaxb.Complete.class, UserJaxb.Stub.class, this );
   }
 
   @Override
   protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
-    object.setHref( uriBuilder.path( "users" ).path( "{id}" ).build( object.getId() ) );
+    object.setHref( uriBuilder.path( PATH_USERS ).path( "{id}" ).build( object.getId() ) );
   }
 
   @NotNull
