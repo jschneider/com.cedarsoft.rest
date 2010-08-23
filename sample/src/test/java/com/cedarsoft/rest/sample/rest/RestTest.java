@@ -31,13 +31,16 @@
 
 package com.cedarsoft.rest.sample.rest;
 
+import com.cedarsoft.jaxb.JaxbStub;
 import com.cedarsoft.rest.sample.jaxb.User;
+import com.cedarsoft.rest.sample.jaxb.UserMapping;
 import com.google.inject.servlet.GuiceFilter;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.test.framework.AppDescriptor;
 import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.WebAppDescriptor;
 import org.apache.commons.io.IOUtils;
+import org.jetbrains.annotations.NotNull;
 import org.junit.*;
 
 import javax.ws.rs.core.MediaType;
@@ -74,17 +77,18 @@ public class RestTest extends JerseyTest {
     assertEquals( "Test User", testUser.getName() );
     assertEquals( "http://localhost:9998/users/test@test.com", testUser.getHref().toString() );
     assertEquals( "test@test.com", testUser.getId() );
-  }
 
-  @Test
-  public void testXml() throws Exception {
-    assertXMLEquals( getClass().getResource( "Rest.users.xml" ), resource().path( "users" ).type( MediaType.APPLICATION_XML ).get( String.class ) );
     assertXMLEquals( getClass().getResource( "Rest.testUser.xml" ), resource().path( "users/test" ).type( MediaType.APPLICATION_XML ).get( String.class ) );
   }
 
   @Test
+  public void testXml() throws Exception {
+    assertXMLEquals( getClass().getResource( "Rest.users.xml" ), resource().path( UserMapping.PATH_USERS ).type( MediaType.APPLICATION_XML ).get( String.class ) );
+  }
+
+  @Test
   public void testGetUsers() throws Exception {
-    List<User.Stub> users = resource().path( "users" ).type( MediaType.APPLICATION_XML ).get( new GenericType<List<User.Stub>>() {
+    List<User.Stub> users = resource().path( UserMapping.PATH_USERS ).type( MediaType.APPLICATION_XML ).get( new GenericType<List<User.Stub>>() {
     } );
     assertNotNull( users );
 
@@ -105,7 +109,7 @@ public class RestTest extends JerseyTest {
 
   @Test
   public void testFetchFurther() throws Exception {
-    List<User.Stub> users = resource().path( "users" ).type( MediaType.APPLICATION_XML ).get( new GenericType<List<User.Stub>>() {
+    List<User.Stub> users = resource().path( UserMapping.PATH_USERS ).type( MediaType.APPLICATION_XML ).get( new GenericType<List<User.Stub>>() {
     } );
 
     {
