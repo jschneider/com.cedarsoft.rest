@@ -47,6 +47,8 @@ public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, Use
   @NonNls
   @NotNull
   public static final String PATH_USERS = "users";
+  @NonNls
+  public static final String PATH_ID = "{id}";
 
   public UserMapping() {
     getDelegatesMapping().addMapping( User.Jaxb.class, User.Stub.class, this );
@@ -54,7 +56,7 @@ public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, Use
 
   @Override
   protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
-    object.setHref( uriBuilder.path( PATH_USERS ).path( "{id}" ).build( object.getId() ) );
+    object.setHref( uriBuilder.path( PATH_USERS ).path( PATH_ID ).build( object.getId() ) );
   }
 
   @NotNull

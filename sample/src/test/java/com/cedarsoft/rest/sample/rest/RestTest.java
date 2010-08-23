@@ -63,7 +63,7 @@ public class RestTest extends JerseyTest {
   }
 
   @Test
-  public void testConvert() throws Exception {
+  public void testTestUser() throws Exception {
     assertXMLEquals( getClass().getResource( "Rest.testUser.xml" ), resource().path( "users/test" ).accept( MediaType.APPLICATION_XML ).get( String.class ) );
     assertXMLEquals( getClass().getResource( "Rest.testUser.xml" ), resource().path( "users/test" ).accept( MediaType.TEXT_XML ).get( String.class ) );
 
@@ -77,15 +77,65 @@ public class RestTest extends JerseyTest {
   }
 
   @Test
-  public void testATest() throws Exception {
-    assertNotNull( resource().path( "users/test" ).accept( MediaType.APPLICATION_XML ).get( User.Jaxb.class ) );
-
-    assertNotNull( resource().path( "users/test" ).type( MediaType.APPLICATION_XML ).get( User.Jaxb.class ) );
-    assertNotNull( resource().path( "users" ).type( MediaType.APPLICATION_XML ).get( new GenericType<List<User.Jaxb>>() {
-    } ) );
-
+  public void testXml() throws Exception {
     assertXMLEquals( getClass().getResource( "Rest.users.xml" ), resource().path( "users" ).type( MediaType.APPLICATION_XML ).get( String.class ) );
     assertXMLEquals( getClass().getResource( "Rest.testUser.xml" ), resource().path( "users/test" ).type( MediaType.APPLICATION_XML ).get( String.class ) );
+  }
+
+  @Test
+  public void testGetUsers() throws Exception {
+    List<User.Stub> users = resource().path( "users" ).type( MediaType.APPLICATION_XML ).get( new GenericType<List<User.Stub>>() {
+    } );
+    assertNotNull( users );
+
+    assertEquals( 3, users.size() );
+
+    assertEquals( "Johannes Schneider", users.get( 0 ).getName() );
+    assertEquals( "info@cedarsoft.de", users.get( 0 ).getEmail() );
+    assertEquals( "http://localhost:9998/users/info@cedarsoft.de", users.get( 0 ).getHref().toString() );
+
+    assertEquals( "Markus Mustermann", users.get( 1 ).getName() );
+    assertEquals( "markus@mustermann.de", users.get( 1 ).getEmail() );
+    assertEquals( "http://localhost:9998/users/markus@mustermann.de", users.get( 1 ).getHref().toString() );
+
+    assertEquals( "Eva Mustermann", users.get( 2 ).getName() );
+    assertEquals( "eva@mustermann.de", users.get( 2 ).getEmail() );
+    assertEquals( "http://localhost:9998/users/eva@mustermann.de", users.get( 2 ).getHref().toString() );
+  }
+
+  @Test
+  public void testFetchFurther() throws Exception {
+    List<User.Stub> users = resource().path( "users" ).type( MediaType.APPLICATION_XML ).get( new GenericType<List<User.Stub>>() {
+    } );
+
+    {
+      User.Stub stub = users.get( 0 );
+      User.Jaxb user = client().resource( stub.getHref() ).type( MediaType.APPLICATION_XML ).get( User.Jaxb.class );
+      assertEquals( "Johannes Schneider", user.getName() );
+      assertEquals( "Johannes Schneider", stub.getName() );
+      assertEquals( 2, user.getFriends().size() );
+      assertEquals( "Markus Mustermann", user.getFriends().get( 0 ).getName() );
+      assertEquals( "Eva Mustermann", user.getFriends().get( 1 ).getName() );
+    }
+
+    {
+      User.Stub stub = users.get( 1 );
+      User.Jaxb user = client().resource( stub.getHref() ).type( MediaType.APPLICATION_XML ).get( User.Jaxb.class );
+      assertEquals( "Markus Mustermann", user.getName() );
+      assertEquals( "Markus Mustermann", stub.getName() );
+      assertEquals( 2, user.getFriends().size() );
+      assertEquals( "Eva Mustermann", user.getFriends().get( 0 ).getName() );
+      assertEquals( "Johannes Schneider", user.getFriends().get( 1 ).getName() );
+    }
+    
+    {
+      User.Stub stub = users.get( 2 );
+      User.Jaxb user = client().resource( stub.getHref() ).type( MediaType.APPLICATION_XML ).get( User.Jaxb.class );
+      assertEquals( "Eva Mustermann", user.getName() );
+      assertEquals( "Eva Mustermann", stub.getName() );
+      assertEquals( 1, user.getFriends().size() );
+      assertEquals( "Markus Mustermann", user.getFriends().get( 0 ).getName() );
+    }
   }
 
   @Test
