@@ -104,4 +104,24 @@ public class Link extends AbstractJaxbObject {
     result = 31 * result + ( type != null ? type.hashCode() : 0 );
     return result;
   }
+
+  /**
+   *
+   */
+  @XmlRootElement( name = "link" )
+  @XmlAccessorType( XmlAccessType.FIELD )
+  public static class Stub extends AbstractJaxbObject implements JaxbStub<Link> {
+    public Stub() {
+    }
+
+    public Stub( @NotNull URI href ) {
+      setHref( href );
+    }
+
+    @NotNull
+    @Override
+    public Class<Link> getJaxbType() {
+      return Link.class;
+    }
+  }
 }
