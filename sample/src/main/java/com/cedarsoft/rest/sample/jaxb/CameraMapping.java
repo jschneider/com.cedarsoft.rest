@@ -34,47 +34,55 @@ package com.cedarsoft.rest.sample.jaxb;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.JaxbMappingContext;
-import com.cedarsoft.rest.sample.User;
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 import javax.ws.rs.core.UriBuilder;
 import java.net.URISyntaxException;
 
-/**
- * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
- */
-public class UserJaxbMapping extends JaxbMapping<User, UserJaxb.Complete, UserJaxb.Stub> {
-  @NonNls
-  @NotNull
-  public static final String PATH_USERS = "users";
 
-  public UserJaxbMapping() {
-    getDelegatesMapping().addMapping( UserJaxb.Complete.class, UserJaxb.Stub.class, this );
+/**
+ *
+ */
+public class CameraMapping extends JaxbMapping<com.cedarsoft.rest.sample.Camera, Camera.Jaxb, Camera.Stub> {
+  public CameraMapping( @NotNull UserJaxbMapping userJaxbMapping ) {
+    this.getDelegatesMapping().addMapping( User.Jaxb.class, User.Stub.class, userJaxbMapping );
   }
 
   @Override
   protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
-    object.setHref( uriBuilder.path( PATH_USERS ).path( "{id}" ).build( object.getId() ) );
+    object.setHref( uriBuilder.path( "devices" ).path( "cameras" ).path( "{id}" ).build( object.getId() ) );
   }
 
   @NotNull
   @Override
-  protected UserJaxb.Complete createJaxbObject( @NotNull User object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
-    UserJaxb.Complete jaxbObject = new UserJaxb.Complete();
-    jaxbObject.setId( object.getEmail() );
-    jaxbObject.setEmail( object.getEmail() );
-    jaxbObject.setName( object.getName() );
-    jaxbObject.setFriends( getStub( UserJaxb.Stub.class, object.getFriends(), context ) );
+  protected Camera.Jaxb createJaxbObject( @NotNull com.cedarsoft.rest.sample.Camera object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+    Camera.Jaxb jaxbObject = new Camera.Jaxb();
+
+    jaxbObject.setId( object.getId() );
+    jaxbObject.setDescription( "a nice description about the camera!" );
+
+    CameraInfo.Jaxb cameraInfo = new CameraInfo.Jaxb();
+    cameraInfo.setInternalSerial( object.getCameraInfo().getInternalSerial() );
+    cameraInfo.setMake( object.getCameraInfo().getMake() );
+    cameraInfo.setModel( object.getCameraInfo().getModel() );
+    cameraInfo.setSerial( object.getCameraInfo().getSerial() );
+    jaxbObject.setCameraInfo( cameraInfo );
+
+    jaxbObject.setOwner( getStub( User.Stub.class, object.getOwner(), context ) );
+
     return jaxbObject;
   }
 
   @Override
-  protected UserJaxb.Stub createJaxbObjectStub( @NotNull User object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
-    UserJaxb.Stub jaxbObject = new UserJaxb.Stub();
-    jaxbObject.setId( object.getEmail() );
-    jaxbObject.setEmail( object.getEmail() );
-    jaxbObject.setName( object.getName() );
+  protected Camera.Stub createJaxbObjectStub( @NotNull com.cedarsoft.rest.sample.Camera object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+    Camera.Stub jaxbObject = new Camera.Stub();
+    jaxbObject.setId( object.getId() );
+
+    CameraInfo.Stub cameraInfo = new CameraInfo.Stub();
+    cameraInfo.setMake( object.getCameraInfo().getMake() );
+    cameraInfo.setModel( object.getCameraInfo().getModel() );
+    jaxbObject.setCameraInfo( cameraInfo );
+
     return jaxbObject;
   }
 }

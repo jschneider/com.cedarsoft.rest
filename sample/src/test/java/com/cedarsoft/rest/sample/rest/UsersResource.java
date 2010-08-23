@@ -1,6 +1,7 @@
-package com.cedarsoft.rest.sample.jaxb;
+package com.cedarsoft.rest.sample.rest;
 
-import com.cedarsoft.rest.sample.User;
+import com.cedarsoft.rest.sample.jaxb.User;
+import com.cedarsoft.rest.sample.jaxb.UserMapping;
 import com.google.inject.Inject;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +14,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-@Path( UserJaxbMapping.PATH_USERS )
+@Path( UserMapping.PATH_USERS )
 @Produces( {MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON} )
 public class UsersResource {
   @NotNull
@@ -33,27 +33,27 @@ public class UsersResource {
   @Context
   private Request request;
   @NotNull
-  private final List<User> users;
+  private final List<com.cedarsoft.rest.sample.User> users;
   @NotNull
-  private final UserJaxbMapping userMapping;
+  private final UserMapping userMapping;
 
   @Inject
-  public UsersResource( @NotNull UserJaxbMapping userMapping, @NotNull List<? extends User> users ) throws IOException {
+  public UsersResource( @NotNull UserMapping userMapping, @NotNull List<? extends com.cedarsoft.rest.sample.User> users ) throws IOException {
     FileUtils.touch( new File( "/tmp/UsersResources" ) );
     this.userMapping = userMapping;
-    this.users = new ArrayList<User>( users );
+    this.users = new ArrayList<com.cedarsoft.rest.sample.User>( users );
   }
 
   @GET
-  public List<UserJaxb.Stub> getUsers( @Context HttpHeaders headers, @QueryParam( "minId" ) int minId, @QueryParam( "max-id" ) int maxId ) throws URISyntaxException {
+  public List<User.Stub> getUsers( @Context HttpHeaders headers, @QueryParam( "minId" ) int minId, @QueryParam( "max-id" ) int maxId ) throws URISyntaxException {
     return userMapping.getJaxbStubs( users, uriInfo.getBaseUriBuilder() );
   }
 
   @GET
   @Path( "test" )
-  public UserJaxb.Complete getUser() throws URISyntaxException {
-    User user = new User( "test@test.com", "Test User" );
-    user.addFriend( new User( "friend@asdf.de", "A Friend" ) );
+  public User.Jaxb getUser() throws URISyntaxException {
+    com.cedarsoft.rest.sample.User user = new com.cedarsoft.rest.sample.User( "test@test.com", "Test User" );
+    user.addFriend( new com.cedarsoft.rest.sample.User( "friend@asdf.de", "A Friend" ) );
     return userMapping.getJaxbObject( user, uriInfo.getBaseUriBuilder() );
   }
 }

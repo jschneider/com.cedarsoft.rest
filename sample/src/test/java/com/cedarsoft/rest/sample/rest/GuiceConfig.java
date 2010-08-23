@@ -1,6 +1,8 @@
-package com.cedarsoft.rest.sample.jaxb;
+package com.cedarsoft.rest.sample.rest;
 
 import com.cedarsoft.rest.sample.User;
+import com.cedarsoft.rest.sample.jaxb.UserMapping;
+import com.cedarsoft.rest.sample.rest.UsersResource;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -9,27 +11,10 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.Stage;
 import com.google.inject.servlet.GuiceServletContextListener;
-import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.ServletModule;
-import com.sun.jersey.api.core.HttpContext;
-import com.sun.jersey.api.core.HttpRequestContext;
 import com.sun.jersey.api.core.PackagesResourceConfig;
-import com.sun.jersey.api.core.ResourceConfig;
-import com.sun.jersey.core.util.FeaturesAndProperties;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
-import com.sun.jersey.spi.MessageBodyWorkers;
-import com.sun.jersey.spi.container.ExceptionMapperContext;
-import com.sun.jersey.spi.container.WebApplication;
-import com.sun.jersey.spi.container.servlet.WebComponent;
-import org.fest.reflect.core.Reflection;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Request;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +47,7 @@ public class GuiceConfig extends GuiceServletContextListener {
 
     @Override
     protected void configure() {
-      bind( UserJaxbMapping.class ).in( Singleton.class );
+      bind( UserMapping.class ).in( Singleton.class );
     }
 
     @Provides

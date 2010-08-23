@@ -11,20 +11,20 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-public abstract class CameraJaxb extends AbstractJaxbObject {
+public abstract class Camera extends AbstractJaxbObject {
   @XmlType(name = "camera")
   @XmlRootElement( name = "camera", namespace = "http://cedarsoft.com/rest/sample/camera" )
   @XmlAccessorType( XmlAccessType.FIELD )
-  public static class Complete extends CameraJaxb {
-    private CameraInfoJaxb.Complete cameraInfo;
+  public static class Jaxb extends Camera {
+    private CameraInfo.Jaxb cameraInfo;
     private String description;
-    private UserJaxb.Stub owner;
+    private User.Stub owner;
 
-    public CameraInfoJaxb.Complete getCameraInfo() {
+    public CameraInfo.Jaxb getCameraInfo() {
       return cameraInfo;
     }
 
-    public void setCameraInfo( CameraInfoJaxb.Complete cameraInfo ) {
+    public void setCameraInfo( CameraInfo.Jaxb cameraInfo ) {
       this.cameraInfo = cameraInfo;
     }
 
@@ -36,11 +36,11 @@ public abstract class CameraJaxb extends AbstractJaxbObject {
       this.description = description;
     }
 
-    public UserJaxb.Stub getOwner() {
+    public User.Stub getOwner() {
       return owner;
     }
 
-    public void setOwner( UserJaxb.Stub owner ) {
+    public void setOwner( User.Stub owner ) {
       this.owner = owner;
     }
   }
@@ -51,14 +51,14 @@ public abstract class CameraJaxb extends AbstractJaxbObject {
   @XmlType(name = "cameraStub")
   @XmlRootElement( name = "camera", namespace = "http://cedarsoft.com/rest/sample/camera/stub" )
   @XmlAccessorType( XmlAccessType.FIELD )
-  public static class Stub extends CameraJaxb implements JaxbStub {
-    private CameraInfoJaxb.Stub cameraInfo;
+  public static class Stub extends Camera implements JaxbStub {
+    private CameraInfo.Stub cameraInfo;
 
-    public CameraInfoJaxb.Stub getCameraInfo() {
+    public CameraInfo.Stub getCameraInfo() {
       return cameraInfo;
     }
 
-    public void setCameraInfo( CameraInfoJaxb.Stub cameraInfo ) {
+    public void setCameraInfo( CameraInfo.Stub cameraInfo ) {
       this.cameraInfo = cameraInfo;
     }
   }

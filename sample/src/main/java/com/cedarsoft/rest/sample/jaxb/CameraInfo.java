@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-public abstract class CameraInfoJaxb extends AbstractJaxbObject {
+public abstract class CameraInfo extends AbstractJaxbObject {
   private String model;
   private String make;
 
@@ -35,13 +35,13 @@ public abstract class CameraInfoJaxb extends AbstractJaxbObject {
   @XmlType(name = "cameraInfoStub")
   @XmlRootElement( name = "cameraInfo", namespace = "http://cedarsoft.com/rest/sample/camera-info/stub" )
   @XmlAccessorType( XmlAccessType.FIELD )
-  public static class Stub extends CameraInfoJaxb implements JaxbStub {
+  public static class Stub extends CameraInfo implements JaxbStub {
   }
 
   @XmlType(name = "cameraInfo")
   @XmlRootElement( name = "cameraInfo", namespace = "http://cedarsoft.com/rest/sample/camera-info" )
   @XmlAccessorType( XmlAccessType.FIELD )
-  public static class Complete extends CameraInfoJaxb {
+  public static class Jaxb extends CameraInfo {
     private long serial;
     private String internalSerial;
 

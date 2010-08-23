@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-public abstract class UserJaxb extends AbstractJaxbObject {
+public abstract class User extends AbstractJaxbObject {
   private String email;
   private String name;
 
@@ -37,8 +37,8 @@ public abstract class UserJaxb extends AbstractJaxbObject {
   @XmlType(name = "user")
   @XmlRootElement( name = "user", namespace = "http://cedarsoft.com/rest/sample/user" )
   @XmlAccessorType( XmlAccessType.FIELD )
-  public static class Complete
-    extends UserJaxb {
+  public static class JAXB
+    extends User {
 
     @XmlElement( name = "friend" )
     private List<Stub> friends;
@@ -56,6 +56,6 @@ public abstract class UserJaxb extends AbstractJaxbObject {
   @XmlRootElement( name = "user", namespace = "http://cedarsoft.com/rest/sample/user/stub" )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Stub
-    extends UserJaxb implements JaxbStub {
+    extends User implements JaxbStub {
   }
 }
