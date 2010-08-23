@@ -91,7 +91,7 @@ public class GuiceConfig extends GuiceServletContextListener {
       js.addFriend( max );
       js.addFriend( eva );
       eva.addFriend( max );
-      max.addFriend( max );
+      max.addFriend( eva );
       max.addFriend( js );
 
       return ImmutableList.of(
