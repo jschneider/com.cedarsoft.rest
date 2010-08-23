@@ -33,6 +33,7 @@ package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
+import org.jetbrains.annotations.NotNull;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -44,7 +45,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType( name = "abstractCamera" )
 public abstract class Camera extends AbstractJaxbObject {
-  @XmlType(name = "camera")
+  @XmlType( name = "camera" )
   @XmlRootElement( name = "camera", namespace = "http://cedarsoft.com/rest/sample/camera" )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Jaxb extends Camera {
@@ -80,10 +81,10 @@ public abstract class Camera extends AbstractJaxbObject {
   /**
    * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
    */
-  @XmlType(name = "cameraStub")
+  @XmlType( name = "cameraStub" )
   @XmlRootElement( name = "camera", namespace = "http://cedarsoft.com/rest/sample/camera/stub" )
   @XmlAccessorType( XmlAccessType.FIELD )
-  public static class Stub extends Camera implements JaxbStub {
+  public static class Stub extends Camera implements JaxbStub<Jaxb> {
     private CameraInfo.Stub cameraInfo;
 
     public CameraInfo.Stub getCameraInfo() {
@@ -92,6 +93,12 @@ public abstract class Camera extends AbstractJaxbObject {
 
     public void setCameraInfo( CameraInfo.Stub cameraInfo ) {
       this.cameraInfo = cameraInfo;
+    }
+
+    @NotNull
+    @Override
+    public Class<Jaxb> getJaxbType() {
+      return Jaxb.class;
     }
   }
 }

@@ -31,8 +31,18 @@
 
 package com.cedarsoft.jaxb;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
+ * @param <J> the type of the jaxb type (this stub represents)
  */
-public interface JaxbStub extends JaxbObject {
+public interface JaxbStub<J extends JaxbObject> extends JaxbObject {
+  /**
+   * Returns the type of the jaxb type this stub is created for
+   *
+   * @return the type of the jaxb object
+   */
+  @NotNull
+  Class<J> getJaxbType();
 }

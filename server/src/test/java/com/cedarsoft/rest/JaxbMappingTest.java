@@ -240,9 +240,14 @@ public class JaxbMappingTest {
     }
   }
 
-  protected static class MyObjectJaxbStub extends AbstractJaxbObject implements JaxbStub {
+  protected static class MyObjectJaxbStub extends AbstractJaxbObject implements JaxbStub<MyObjectJaxb> {
     private int stubInt;
 
+    @NotNull
+    @Override
+    public Class<MyObjectJaxb> getJaxbType() {
+      return MyObjectJaxb.class;
+    }
   }
 
 
@@ -290,12 +295,20 @@ public class JaxbMappingTest {
 
   }
 
-  protected static class ParentJaxbStub extends AbstractJaxbObject implements JaxbStub {
-
+  protected static class ParentJaxbStub extends AbstractJaxbObject implements JaxbStub<ParentJaxb> {
+    @NotNull
+    @Override
+    public Class<ParentJaxb> getJaxbType() {
+      return ParentJaxb.class;
+    }
   }
 
-  protected static class GrandFatherJaxbStub extends AbstractJaxbObject implements JaxbStub {
-
+  protected static class GrandFatherJaxbStub extends AbstractJaxbObject implements JaxbStub<GrandFatherJaxb> {
+    @NotNull
+    @Override
+    public Class<GrandFatherJaxb> getJaxbType() {
+      return GrandFatherJaxb.class;
+    }
   }
 
   protected static class GrandFatherJaxb extends AbstractJaxbObject {

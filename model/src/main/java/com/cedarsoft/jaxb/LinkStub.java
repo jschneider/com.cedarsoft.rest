@@ -43,11 +43,17 @@ import java.net.URI;
  */
 @XmlRootElement( name = "link" )
 @XmlAccessorType( XmlAccessType.FIELD )
-public class LinkStub extends AbstractJaxbObject implements JaxbStub {
+public class LinkStub extends AbstractJaxbObject implements JaxbStub<Link> {
   public LinkStub() {
   }
 
   public LinkStub( @NotNull URI href ) {
     setHref( href );
+  }
+
+  @NotNull
+  @Override
+  public Class<Link> getJaxbType() {
+    return Link.class;
   }
 }

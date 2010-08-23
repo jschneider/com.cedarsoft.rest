@@ -33,6 +33,7 @@ package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
+import org.jetbrains.annotations.NotNull;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -65,7 +66,7 @@ public abstract class User extends AbstractJaxbObject {
     this.name = name;
   }
 
-  @XmlType(name = "user")
+  @XmlType( name = "user" )
   @XmlRootElement( name = "user", namespace = "http://cedarsoft.com/rest/sample/user" )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Jaxb
@@ -83,10 +84,15 @@ public abstract class User extends AbstractJaxbObject {
     }
   }
 
-  @XmlType(name = "userStub")
+  @XmlType( name = "userStub" )
   @XmlRootElement( name = "user", namespace = "http://cedarsoft.com/rest/sample/user/stub" )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Stub
-    extends User implements JaxbStub {
+    extends User implements JaxbStub<Jaxb> {
+    @NotNull
+    @Override
+    public Class<Jaxb> getJaxbType() {
+      return Jaxb.class;
+    }
   }
 }

@@ -33,6 +33,7 @@ package com.cedarsoft.rest;
 
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
+import org.jetbrains.annotations.NotNull;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -43,5 +44,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement( namespace = "test:foo/stub" )
 @XmlAccessorType( XmlAccessType.FIELD )
-public class FooStub extends AbstractJaxbObject implements JaxbStub {
+public class FooStub extends AbstractJaxbObject implements JaxbStub<Foo> {
+  @NotNull
+  @Override
+  public Class<Foo> getJaxbType() {
+    return Foo.class;
+  }
 }

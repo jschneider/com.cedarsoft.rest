@@ -31,6 +31,7 @@
 
 package com.cedarsoft.rest.sample.rest;
 
+import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
 import com.cedarsoft.rest.sample.jaxb.User;
 import com.cedarsoft.rest.sample.jaxb.UserMapping;
@@ -131,7 +132,7 @@ public class RestTest extends JerseyTest {
       assertEquals( "Eva Mustermann", user.getFriends().get( 0 ).getName() );
       assertEquals( "Johannes Schneider", user.getFriends().get( 1 ).getName() );
     }
-    
+
     {
       User.Stub stub = users.get( 2 );
       User.Jaxb user = client().resource( stub.getHref() ).type( MediaType.APPLICATION_XML ).get( User.Jaxb.class );
@@ -140,6 +141,23 @@ public class RestTest extends JerseyTest {
       assertEquals( 1, user.getFriends().size() );
       assertEquals( "Markus Mustermann", user.getFriends().get( 0 ).getName() );
     }
+  }
+
+  @Test
+  public void testApi() throws Exception {
+    List<User.Stub> users = resource().path( UserMapping.PATH_USERS ).type( MediaType.APPLICATION_XML ).get( new GenericType<List<User.Stub>>() {
+    } );
+
+    User.Stub stub = users.get( 0 );
+    User.Jaxb user = fetch( stub );
+
+    assertEquals( "Johannes Schneider", user.getName() );
+    assertEquals( 2, user.getFriends().size() );
+  }
+
+  @NotNull
+  private <J extends JaxbObject> J fetch( @NotNull JaxbStub<J> stub ) {
+    return client().resource( stub.getHref() ).type( MediaType.APPLICATION_XML ).get( stub.getJaxbType() );
   }
 
   @Test
