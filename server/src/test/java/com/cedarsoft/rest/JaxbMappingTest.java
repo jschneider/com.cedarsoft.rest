@@ -32,8 +32,8 @@
 package com.cedarsoft.rest;
 
 import com.cedarsoft.jaxb.AbstractJaxbObject;
-import com.cedarsoft.jaxb.AbstractJaxbStub;
 import com.cedarsoft.jaxb.JaxbObject;
+import com.cedarsoft.jaxb.JaxbStub;
 import com.google.common.collect.Lists;
 import com.sun.jersey.api.uri.UriBuilderImpl;
 import org.jetbrains.annotations.NotNull;
@@ -224,7 +224,7 @@ public class JaxbMappingTest {
     }
   }
 
-  protected static class MyObjectJaxbStub extends AbstractJaxbStub {
+  protected static class MyObjectJaxbStub extends AbstractJaxbObject implements JaxbStub {
     private int stubInt;
 
   }
@@ -274,11 +274,11 @@ public class JaxbMappingTest {
 
   }
 
-  protected static class ParentJaxbStub extends AbstractJaxbStub {
+  protected static class ParentJaxbStub extends AbstractJaxbObject implements JaxbStub {
 
   }
 
-  protected static class GrandFatherJaxbStub extends AbstractJaxbStub {
+  protected static class GrandFatherJaxbStub extends AbstractJaxbObject implements JaxbStub {
 
   }
 

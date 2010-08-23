@@ -31,7 +31,8 @@
 
 package com.cedarsoft.rest;
 
-import com.cedarsoft.jaxb.AbstractJaxbStub;
+import com.cedarsoft.jaxb.AbstractJaxbObject;
+import com.cedarsoft.jaxb.JaxbStub;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -42,6 +43,5 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement( namespace = "test:foo/stub" )
 @XmlAccessorType( XmlAccessType.FIELD )
-public class FooStub extends AbstractJaxbStub {
-  private String daValue = "default";
+public class FooStub extends AbstractJaxbObject implements JaxbStub {
 }

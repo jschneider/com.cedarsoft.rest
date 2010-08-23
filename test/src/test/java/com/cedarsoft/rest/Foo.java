@@ -47,7 +47,7 @@ import java.util.List;
 @XmlRootElement( namespace = "test:foo" )
 @XmlAccessorType( XmlAccessType.FIELD )
 public class Foo extends AbstractJaxbObject {
-  private String daValue = "default";
+  private String daValue;
 
   @XmlElement( name = "daName" )
   private List<String> names = new ArrayList<String>();

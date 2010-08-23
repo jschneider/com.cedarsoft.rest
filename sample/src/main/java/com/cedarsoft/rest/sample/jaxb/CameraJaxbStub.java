@@ -31,7 +31,8 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.jaxb.AbstractJaxbStub;
+import com.cedarsoft.jaxb.AbstractJaxbObject;
+import com.cedarsoft.jaxb.JaxbStub;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -42,7 +43,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement( name = "camera", namespace = "http://cedarsoft.com/rest/sample/camera/stub" )
 @XmlAccessorType( XmlAccessType.FIELD )
-public class CameraJaxbStub extends AbstractJaxbStub {
+public class CameraJaxbStub extends AbstractJaxbObject implements JaxbStub {
   private CameraInfoJaxbStub cameraInfo;
 
   public CameraInfoJaxbStub getCameraInfo() {

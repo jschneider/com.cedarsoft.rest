@@ -39,8 +39,8 @@ import com.cedarsoft.codegen.model.FieldTypeInformation;
 import com.cedarsoft.codegen.model.FieldWithInitializationInfo;
 import com.cedarsoft.id.NameSpaceSupport;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
-import com.cedarsoft.jaxb.AbstractJaxbStub;
 import com.cedarsoft.jaxb.JaxbObject;
+import com.cedarsoft.jaxb.JaxbStub;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.JaxbMappingContext;
 import com.sun.codemodel.JAnnotationUse;
@@ -279,7 +279,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
 
   @NotNull
   protected JDefinedClass createJaxbStub() throws JClassAlreadyExistsException {
-    JDefinedClass jaxbStub = codeGenerator.getModel()._class( getJaxbStubName() )._extends( AbstractJaxbStub.class );
+    JDefinedClass jaxbStub = codeGenerator.getModel()._class( getJaxbStubName() )._extends( AbstractJaxbObject.class )._implements( JaxbStub.class );
     jaxbStub.annotate( XmlRootElement.class )
       .param( NAME, NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) )
       .param( NAMESPACE, NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) + STUB_NAMESPACE_SUFFIX );

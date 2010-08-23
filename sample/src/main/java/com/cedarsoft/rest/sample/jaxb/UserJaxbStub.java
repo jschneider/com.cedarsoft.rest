@@ -32,7 +32,8 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.jaxb.AbstractJaxbStub;
+import com.cedarsoft.jaxb.AbstractJaxbObject;
+import com.cedarsoft.jaxb.JaxbStub;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -41,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement( name = "user", namespace = "http://cedarsoft.com/rest/sample/user/stub" )
 @XmlAccessorType( XmlAccessType.FIELD )
 public class UserJaxbStub
-  extends AbstractJaxbStub {
+  extends AbstractJaxbObject implements JaxbStub {
 
   private String email;
   private String name;
