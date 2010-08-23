@@ -1,0 +1,44 @@
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbTest.java-----------------------------------
+
+package com.cedarsoft.rest.generator.test.jaxb;
+
+import java.util.Arrays;
+import com.cedarsoft.rest.AbstractJaxbTest;
+import com.cedarsoft.rest.Entry;
+import com.cedarsoft.rest.JaxbTestUtils;
+import com.cedarsoft.rest.SimpleJaxbTest;
+import org.junit.experimental.theories.DataPoint;
+
+public class UserJaxbTest
+    extends SimpleJaxbTest<UserJaxb>
+{
+
+
+    public UserJaxbTest() {
+        super(UserJaxb.class, UserJaxbStub.class);
+    }
+
+    @DataPoint
+    public static Entry<? extends UserJaxb> entry1() {
+        UserJaxb object = new UserJaxb();
+        object.setHref(JaxbTestUtils.createTestUriBuilder().build());
+        object.setEmail("email");
+        object.setName("name");
+        object.setFriends(Arrays.asList(new UserJaxb()));
+        return AbstractJaxbTest.create(object, UserJaxbTest.class.getResource("UserJaxbTest.xml"));
+    }
+
+    @DataPoint
+    public static Entry<? extends UserJaxbStub> stub() {
+        UserJaxbStub object = new UserJaxbStub();
+        object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
+        object.setEmail( "email" );
+        object.setName( "name" );
+        return AbstractJaxbTest.create( object, UserJaxbTest.class.getResource( "UserJaxbTest.stub.xml" ) );
+    }
+
+}
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbTest.xml-----------------------------------
+<?xml version="1.0"?>
+<user>
+</user>

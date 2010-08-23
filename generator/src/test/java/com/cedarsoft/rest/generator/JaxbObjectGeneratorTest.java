@@ -176,6 +176,15 @@ public class JaxbObjectGeneratorTest {
   }
 
   @Test
+  public void testGeneratUserest() throws Exception {
+    new TestGenerator( codeGenerator, userDescriptor ).generateTest();
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    codeGenerator.getModel().build( new SingleStreamCodeWriter( out ) );
+
+    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.UserModelJaxbTest.txt" ), out.toString() );
+  }
+
+  @Test
   public void testPac() {
     assertEquals( "a.b.c.d.ins.E", Generator.insertSubPackage( "a.b.c.d.E", "ins" ) );
     assertEquals( "a.b.c.d.e.E", Generator.insertSubPackage( "a.b.c.d.E", "e" ) );
