@@ -142,6 +142,8 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     baseClass.annotate( XmlType.class )
       .param( NAME, "abstract" + descriptor.getClassDeclaration().getSimpleName() );
 
+    addFields( baseClass, Scope.COMMON );
+
     return baseClass;
   }
 
@@ -195,7 +197,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldInfos() ) {
       JInvocation getterInvocation = object.invoke( fieldInfo.getGetterDeclaration().getSimpleName() );
 
-      if ( isStub && skipInStub( fieldInfo ) ) {
+      if ( isStub && !shallAddFieldCopyStatementToStub( fieldInfo ) ) {
         continue;
       }
 
@@ -301,7 +303,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
       .param( NAMESPACE, NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) );
     jaxbObject.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
 
-    addFields( jaxbObject, false );
+    addFields( jaxbObject, Scope.JAXB );
 
     return jaxbObject;
   }
@@ -321,7 +323,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     jaxbStub.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
 
 
-    addFields( jaxbStub, true );
+    addFields( jaxbStub, Scope.STUB );
 
     return jaxbStub;
   }
@@ -331,18 +333,18 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
    *
    * @param jaxbObject the jaxb class
    */
-  private void addFields( @NotNull JDefinedClass jaxbObject, boolean isStub ) {
+  private void addFields( @NotNull JDefinedClass jaxbObject, @NotNull Scope type ) {
     for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldInfos() ) {
       //Skip the id, since it is defined in the super class
       if ( fieldInfo.getSimpleName().equals( ID ) ) {
         continue;
       }
 
-      if ( isStub && skipInStub( fieldInfo ) ) {
+      if ( !shallAddField( fieldInfo, type ) ) {
         continue;
       }
 
-      JClass fieldType = getJaxbModelType( fieldInfo.getType(), isStub );
+      JClass fieldType = getJaxbModelType( fieldInfo.getType(), type.isStub() );
       JFieldVar field = addField( jaxbObject, fieldType, fieldInfo );
 
       if ( TypeUtils.isCollectionType( fieldInfo.getType() ) ) {
@@ -355,8 +357,12 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     }
   }
 
-  private boolean skipInStub( @NotNull FieldWithInitializationInfo fieldInfo ) {
-    return codeGenerator.getDecisionCallback().skipInStub( fieldInfo );
+  private boolean shallAddFieldCopyStatementToStub( @NotNull FieldTypeInformation fieldInfo ) {
+    return isProbablyOwnType( fieldInfo.getType() );
+  }
+
+  protected boolean shallAddField( @NotNull FieldTypeInformation fieldInfo, @NotNull Scope type ) {
+    return codeGenerator.getDecisionCallback().shallAddFieldStatement( this, fieldInfo, type );
   }
 
   private void addSetter( @NotNull JDefinedClass jaxbObject, @NotNull JClass fieldType, @NotNull FieldWithInitializationInfo fieldInfo, @NotNull JFieldVar field ) {
@@ -373,5 +379,15 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   @NotNull
   private JFieldVar addField( @NotNull JDefinedClass jaxbObject, @NotNull JClass fieldType, @NotNull FieldWithInitializationInfo fieldInfo ) {
     return jaxbObject.field( JMod.PRIVATE, fieldType, fieldInfo.getSimpleName() );
+  }
+
+  public enum Scope {
+    COMMON,
+    JAXB,
+    STUB;
+
+    public boolean isStub() {
+      return this == STUB;
+    }
   }
 }

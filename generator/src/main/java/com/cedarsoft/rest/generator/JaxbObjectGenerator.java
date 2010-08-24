@@ -39,7 +39,6 @@ import com.cedarsoft.codegen.GeneratorConfiguration;
 import com.cedarsoft.codegen.model.DomainObjectDescriptor;
 import com.cedarsoft.codegen.model.DomainObjectDescriptorFactory;
 import com.cedarsoft.codegen.model.FieldTypeInformation;
-import com.cedarsoft.codegen.model.FieldWithInitializationInfo;
 import com.cedarsoft.codegen.parser.Parser;
 import com.cedarsoft.codegen.parser.Result;
 import com.cedarsoft.io.WriterOutputStream;
@@ -92,8 +91,20 @@ public class JaxbObjectGenerator extends AbstractGenerator {
   }
 
   public static class StubDecisionCallback implements DecisionCallback {
-    public boolean skipInStub( @NotNull FieldTypeInformation fieldInfo ) {
-      return fieldInfo.isCollectionType();
+    public boolean shallAddFieldStatement( @NotNull com.cedarsoft.rest.generator.AbstractGenerator<?> generator, @NotNull FieldTypeInformation fieldInfo, @NotNull Generator.Scope type ) {
+      boolean probablyOwnType = generator.isProbablyOwnType( fieldInfo.getType() );
+      boolean isCollectionType = fieldInfo.isCollectionType();
+
+      switch ( type ) {
+        case COMMON:
+          return !probablyOwnType && !isCollectionType;
+        case JAXB:
+          return probablyOwnType || isCollectionType;
+        case STUB:
+          return probablyOwnType && !isCollectionType;
+      }
+
+      throw new UnsupportedOperationException( "Invalid type " + type );
     }
   }
 }

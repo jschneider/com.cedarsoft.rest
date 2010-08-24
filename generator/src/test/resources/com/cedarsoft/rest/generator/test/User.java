@@ -18,11 +18,19 @@ public class User {
   private final String name;
 
   @NotNull
+  private final Group group;
+
+  @NotNull
   private final List<User> friends = new ArrayList<User>();
 
   public User( @NotNull String email, @NotNull String name ) {
+    this( email, name, new Group( "NOBODY" ) );
+  }
+
+  public User( @NotNull String email, @NotNull String name, @NotNull Group group ) {
     this.email = email;
     this.name = name;
+    this.group = group;
   }
 
   @NotNull
@@ -33,6 +41,11 @@ public class User {
   @NotNull
   public String getEmail() {
     return email;
+  }
+
+  @NotNull
+  public Group getGroup() {
+    return group;
   }
 
   @NotNull
