@@ -101,38 +101,38 @@ import com.cedarsoft.rest.JaxbMappingContext;
 import com.cedarsoft.rest.generator.test.User;
 
 public class UserMapping
-    extends JaxbMapping<User, UserJaxb, UserJaxbStub>
+    extends JaxbMapping<User, com.cedarsoft.rest.generator.test.jaxb.User.Jaxb, com.cedarsoft.rest.generator.test.jaxb.User.Stub>
 {
-    @NonNls
-    @NotNull
-    public static final String PATH_USERS = "users";
-    @NonNls
-    public static final String PATH_ID = "{id}";
 
+    public final static String PATH = "users";
+    public final static String ID = "{id}";
 
-    public UserJaxbMapping(UserJaxbMapping userMapping) {
-        getDelegatesMapping().addMapping(UserJaxb.class, userMapping);
+    public UserMapping(GroupMapping groupMapping, UserMapping userMapping) {
+        getDelegatesMapping().addMapping(com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.Group.Stub.class, groupMapping);
+        getDelegatesMapping().addMapping(com.cedarsoft.rest.generator.test.jaxb.User.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.User.Stub.class, userMapping);
     }
 
     @Override
     protected void setUris(JaxbObject object, UriBuilder uriBuilder) {
-        object.setHref(uriBuilder.path(PATH_USERS).path(PATH_ID).build(object.getId()));
+        object.setHref(uriBuilder.path(PATH).path(ID).build(object.getId()));
     }
 
     @Override
-    protected UserJaxb createJaxbObject(User object, JaxbMappingContext context) {
-        User.Jaxb jaxbObject = new User.Jaxb();
+    protected com.cedarsoft.rest.generator.test.jaxb.User.Jaxb createJaxbObject(User object, JaxbMappingContext context) {
+        com.cedarsoft.rest.generator.test.jaxb.User.Jaxb jaxbObject = new com.cedarsoft.rest.generator.test.jaxb.User.Jaxb();
         jaxbObject.setEmail(object.getEmail());
         jaxbObject.setName(object.getName());
-        jaxbObject.setFriends(getStub(UserJaxb.class, object.getFriends(), context));
+        jaxbObject.setGroup(getStub(com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb.class, object.getGroup(), context));
+        jaxbObject.setFriends(getStub(com.cedarsoft.rest.generator.test.jaxb.User.Jaxb.class, object.getFriends(), context));
         return jaxbObject;
     }
 
     @Override
-    protected UserJaxbStub createJaxbObjectStub(User object, JaxbMappingContext context) {
-        User.Stub stub = new User.Stub();
+    protected com.cedarsoft.rest.generator.test.jaxb.User.Stub createJaxbObjectStub(User object, JaxbMappingContext context) {
+        com.cedarsoft.rest.generator.test.jaxb.User.Stub stub = new com.cedarsoft.rest.generator.test.jaxb.User.Stub();
         stub.setEmail(object.getEmail());
         stub.setName(object.getName());
+        jaxbObject.setGroup(getStub(com.cedarsoft.rest.generator.test.jaxb.Group.Stub.class, object.getGroup(), context));
         return stub;
     }
 

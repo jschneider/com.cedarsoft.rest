@@ -122,6 +122,10 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   public static final String JAXB = "Jaxb";
   @NonNls
   public static final String STUB = "Stub";
+  @NonNls
+  public static final String CONST_PATH = "PATH";
+  @NonNls
+  public static final String CONST_ID = "ID";
 
   public Generator( @NotNull CodeGenerator<JaxbObjectGenerator.StubDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     super( codeGenerator, descriptor );
@@ -210,7 +214,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
           .arg( context )
         ;
 
-        ensureDelegateAvailable( mappingClass, fieldJaxbType );
+        ensureDelegateAvailable( mappingClass, fieldJaxbType,  );
 
       } else {
         value = getterInvocation;
@@ -232,10 +236,10 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     }
   }
 
-  private void ensureDelegateAvailable( @NotNull JDefinedClass mappingClass, @NotNull JClass jaxbObject ) {
+  private void ensureDelegateAvailable( @NotNull JDefinedClass mappingClass, @NotNull JClass jaxbObject, @NotNull JClass jaxbStub ) {
     JMethod constructor = getOrCreateConstructor( mappingClass );
 
-    String paramName = NamingSupport.createVarName( jaxbObject.name() + MAPPING_SUFFIX );
+    String paramName = NamingSupport.createVarName( jaxbObject.outer().name() + MAPPING_SUFFIX );
 
     JClass mappingType = codeGenerator.ref( getMappingNameFor( jaxbObject ) );
 
@@ -250,7 +254,10 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     JVar param = constructor.param( mappingType, paramName );
 
     constructor.body().add(
-      JExpr.invoke( METHOD_NAME_GET_DELEGATES_MAPPING ).invoke( METHOD_NAME_ADD_MAPPING ).arg( jaxbObject.dotclass() ).arg( param )
+      JExpr.invoke( METHOD_NAME_GET_DELEGATES_MAPPING ).invoke( METHOD_NAME_ADD_MAPPING )
+        .arg( jaxbObject.dotclass() )
+        .arg( jaxbStub.dotclass() )
+        .arg( param )
     );
   }
 
@@ -276,10 +283,14 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     JVar uriBuilder = method.param( UriBuilder.class, URI_BUILDER );
     method.annotate( Override.class );
 
+    JFieldVar pathConst = mappingClass.field( JMod.PUBLIC | JMod.STATIC | JMod.FINAL, String.class, CONST_PATH,
+                                              JExpr.lit( NamingSupport.plural( NamingSupport.createXmlElementName( getDescriptor().getClassDeclaration().getSimpleName() ) ) ) );
+    JFieldVar idConst = mappingClass.field( JMod.PUBLIC | JMod.STATIC | JMod.FINAL, String.class, CONST_ID, JExpr.lit( ARG_PLACEHOLDER_ID ) );
+
     JInvocation uriBuilderInvocation = uriBuilder.invoke( METHOD_NAME_PATH )
-      .arg( NamingSupport.createXmlElementName( getDescriptor().getClassDeclaration().getSimpleName() ) )
+      .arg( pathConst )
       .invoke( METHOD_NAME_PATH )
-      .arg( ARG_PLACEHOLDER_ID )
+      .arg( idConst )
       .invoke( METHOD_NAME_BUILD )
       .arg( object.invoke( METHOD_NAME_GET_ID ) );
 
