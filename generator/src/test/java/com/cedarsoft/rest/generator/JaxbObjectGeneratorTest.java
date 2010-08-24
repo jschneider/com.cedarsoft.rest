@@ -159,7 +159,7 @@ public class JaxbObjectGeneratorTest {
   }
 
   @Test
-  public void testGeneratTest() throws Exception {
+  public void testGeneratBarTest() throws Exception {
     new TestGenerator( codeGenerator, barDescriptor ).generateTest();
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     codeGenerator.getModel().build( new SingleStreamCodeWriter( out ) );
@@ -182,7 +182,7 @@ public class JaxbObjectGeneratorTest {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     codeGenerator.getModel().build( new SingleStreamCodeWriter( out ) );
 
-    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.UserModelJaxbTest.txt" ), out.toString() );
+    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.UserJaxbTest.txt" ), out.toString() );
   }
 
   @Test
