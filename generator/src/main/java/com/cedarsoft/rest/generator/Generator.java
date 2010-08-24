@@ -35,6 +35,7 @@ import com.cedarsoft.codegen.CodeGenerator;
 import com.cedarsoft.codegen.NamingSupport;
 import com.cedarsoft.codegen.TypeUtils;
 import com.cedarsoft.codegen.model.DomainObjectDescriptor;
+import com.cedarsoft.codegen.model.FieldInfo;
 import com.cedarsoft.codegen.model.FieldTypeInformation;
 import com.cedarsoft.codegen.model.FieldWithInitializationInfo;
 import com.cedarsoft.id.NameSpaceSupport;
@@ -55,6 +56,7 @@ import com.sun.codemodel.JInvocation;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import com.sun.codemodel.JStatement;
+import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -109,6 +111,8 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   @NonNls
   public static final String JAXB_OBJECT = "jaxbObject";
   @NonNls
+  public static final String STUB_OBJECT = "stub";
+  @NonNls
   public static final String METHOD_NAME_CREATE_JAXB_OBJECT = "createJaxbObject";
   @NonNls
   public static final String METHOD_NAME_CREATE_JAXB_STUB = "createJaxbObjectStub";
@@ -131,47 +135,60 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     super( codeGenerator, descriptor );
   }
 
+  private JDefinedClass baseClass;
+  private JDefinedClass jaxbObject;
+  private JDefinedClass jaxbStub;
+  private JDefinedClass mappingClass;
+
   public void generate() throws JClassAlreadyExistsException {
-    JDefinedClass baseClass = createBaseClass();
+    if ( baseClass != null || jaxbObject != null || jaxbStub != null || mappingClass != null ) {
+      throw new IllegalStateException( "generate has still been called!" );
+    }
 
-    JDefinedClass jaxbObject = createJaxbObject( baseClass );
-    JDefinedClass jaxbStub = createJaxbStub( baseClass, jaxbObject );
+    createBaseClass();
 
-    createJaxbMapping( jaxbObject, jaxbStub );
+    createJaxbObject();
+    createJaxbStub();
+
+    createJaxbMapping();
   }
 
-  @NotNull
-  private JDefinedClass createBaseClass() throws JClassAlreadyExistsException {
-    JDefinedClass baseClass = _class( getJaxbBaseName(), JMod.PUBLIC | JMod.ABSTRACT )._extends( AbstractJaxbObject.class );
+  private void createBaseClass() throws JClassAlreadyExistsException {
+    baseClass = _class( getJaxbBaseName(), JMod.PUBLIC | JMod.ABSTRACT )._extends( AbstractJaxbObject.class );
     baseClass.annotate( XmlType.class )
       .param( NAME, "abstract" + descriptor.getClassDeclaration().getSimpleName() );
 
     addFields( baseClass, Scope.COMMON );
-
-    return baseClass;
   }
 
   /**
    * @noinspection InstanceMethodNamingConvention
    */
   @NotNull
-  private JDefinedClass _class( @NotNull @NonNls String jaxbBaseName, int mods ) throws JClassAlreadyExistsException {
+  protected JDefinedClass _class( @NotNull @NonNls String jaxbBaseName, int mods ) throws JClassAlreadyExistsException {
     int idx = jaxbBaseName.lastIndexOf( '.' );
     return codeGenerator.getModel()._package( jaxbBaseName.substring( 0, idx ) )._class( mods, jaxbBaseName.substring( idx + 1 ) );
   }
 
-  private void createJaxbMapping( @NotNull JClass jaxbObject, @NotNull JClass jaxbStub ) throws JClassAlreadyExistsException {
+  private void createJaxbMapping() throws JClassAlreadyExistsException {
+    assert jaxbObject != null;
+    assert jaxbStub != null;
+
     JClass objectType = codeGenerator.ref( descriptor.getQualifiedName() );
     JClass superType = codeGenerator.ref( JaxbMapping.class ).narrow( objectType ).narrow( jaxbObject ).narrow( jaxbStub );
 
-    JDefinedClass mappingClass = codeGenerator.getModel()._class( getJaxbMappingTypeName() )._extends( superType );
+    mappingClass = codeGenerator.getModel()._class( getJaxbMappingTypeName() )._extends( superType );
 
-    createHrefMethod( mappingClass );
-    createCreateJaxbObjectMethod( mappingClass, jaxbObject );
-    createCreateJaxbStubMethod( mappingClass, jaxbStub );
+    createHrefMethod();
+    createCreateJaxbObjectMethod();
+    createCreateJaxbStubMethod();
   }
 
-  private void createCreateJaxbObjectMethod( @NotNull JDefinedClass mappingClass, @NotNull JClass jaxbObject ) {
+  private void createCreateJaxbObjectMethod() {
+    assert jaxbObject != null;
+    assert mappingClass != null;
+
+
     JMethod method = mappingClass.method( JMod.PROTECTED, jaxbObject, METHOD_NAME_CREATE_JAXB_OBJECT );
     JVar object = method.param( codeGenerator.ref( descriptor.getQualifiedName() ), OBJECT );
     JVar context = method.param( codeGenerator.ref( JaxbMappingContext.class ), CONTEXT );
@@ -179,23 +196,31 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
 
     JVar jaxbObjectInstance = method.body().decl( jaxbObject, JAXB_OBJECT, JExpr._new( jaxbObject ) );
 
-    addFieldCopyOperations( mappingClass, object, jaxbObjectInstance, jaxbObject, context, method.body(), false );
+    addFieldCopyOperations( object, jaxbObjectInstance, context, method.body(), false );
     method.body()._return( jaxbObjectInstance );
   }
 
-  private void createCreateJaxbStubMethod( @NotNull JDefinedClass mappingClass, @NotNull JClass jaxbStub ) {
+  private void createCreateJaxbStubMethod() {
+    assert jaxbStub != null;
+    assert mappingClass != null;
+
     JMethod method = mappingClass.method( JMod.PROTECTED, jaxbStub, METHOD_NAME_CREATE_JAXB_STUB );
     JVar object = method.param( codeGenerator.ref( descriptor.getQualifiedName() ), OBJECT );
     JVar context = method.param( codeGenerator.ref( JaxbMappingContext.class ), CONTEXT );
     method.annotate( Override.class );
 
-    JVar jaxbObjectInstance = method.body().decl( jaxbStub, JAXB_OBJECT, JExpr._new( jaxbStub ) );
+    JVar jaxbObjectInstance = method.body().decl( jaxbStub, STUB_OBJECT, JExpr._new( jaxbStub ) );
 
-    addFieldCopyOperations( mappingClass, object, jaxbObjectInstance, jaxbStub, context, method.body(), true );
+    addFieldCopyOperations( object, jaxbObjectInstance, context, method.body(), true );
     method.body()._return( jaxbObjectInstance );
   }
 
-  private void addFieldCopyOperations( @NotNull JDefinedClass mappingClass, @NotNull JExpression object, @NotNull JExpression jaxbObjectInstance, @NotNull JClass jaxbObject, @NotNull JExpression context, @NotNull JBlock block, boolean isStub ) {
+  private void addFieldCopyOperations( @NotNull JExpression object, @NotNull JExpression jaxbObjectInstance, @NotNull JExpression context, @NotNull JBlock block, boolean isStub ) {
+    assert jaxbObject != null;
+    assert jaxbStub != null;
+    assert mappingClass != null;
+
+
     Collection<JStatement> statements = new ArrayList<JStatement>();
 
     for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldInfos() ) {
@@ -207,14 +232,15 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
 
       JInvocation value;
       if ( isProbablyOwnType( fieldInfo.getType() ) ) {
-        JClass fieldJaxbType = getJaxbType( fieldInfo );
+        JClass fieldStubType = getJaxbType( fieldInfo, true );
+
         value = JExpr.invoke( METHOD_NAME_GET_STUB )
-          .arg( fieldJaxbType.dotclass() )
+          .arg( fieldStubType.dotclass() )
           .arg( getterInvocation )
           .arg( context )
-        ;
+          ;
 
-        ensureDelegateAvailable( mappingClass, fieldJaxbType,  );
+        ensureDelegateAvailable( getJaxbType( fieldInfo, false ), fieldStubType );
 
       } else {
         value = getterInvocation;
@@ -228,20 +254,20 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   }
 
   @NotNull
-  private JClass getJaxbType( @NotNull FieldTypeInformation fieldInfo ) {
+  private JClass getJaxbType( @NotNull FieldTypeInformation fieldInfo, boolean isStub ) {
     if ( TypeUtils.isCollectionType( fieldInfo.getType() ) ) {
-      return codeGenerator.ref( getJaxbTypeName( TypeUtils.getErasure( TypeUtils.getCollectionParam( fieldInfo.getType() ) ) ) );
+      return codeGenerator.ref( getJaxbTypeName( TypeUtils.getErasure( TypeUtils.getCollectionParam( fieldInfo.getType() ) ), isStub ) );
     } else {
-      return codeGenerator.ref( getJaxbTypeName( TypeUtils.getErasure( fieldInfo.getType() ) ) );
+      return codeGenerator.ref( getJaxbTypeName( TypeUtils.getErasure( fieldInfo.getType() ), isStub ) );
     }
   }
 
-  private void ensureDelegateAvailable( @NotNull JDefinedClass mappingClass, @NotNull JClass jaxbObject, @NotNull JClass jaxbStub ) {
-    JMethod constructor = getOrCreateConstructor( mappingClass );
+  private void ensureDelegateAvailable( @NotNull JClass fieldJaxbObject, @NotNull JClass fieldJaxbStub ) {
+    JMethod constructor = getOrCreateConstructor();
 
-    String paramName = NamingSupport.createVarName( jaxbObject.outer().name() + MAPPING_SUFFIX );
+    String paramName = NamingSupport.createVarName( fieldJaxbObject.outer().name() + MAPPING_SUFFIX );
 
-    JClass mappingType = codeGenerator.ref( getMappingNameFor( jaxbObject ) );
+    JClass mappingType = codeGenerator.ref( getMappingNameFor( fieldJaxbObject ) );
 
     //Check whether the mapping still exists
     for ( JVar param : constructor.listParams() ) {
@@ -255,8 +281,8 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
 
     constructor.body().add(
       JExpr.invoke( METHOD_NAME_GET_DELEGATES_MAPPING ).invoke( METHOD_NAME_ADD_MAPPING )
-        .arg( jaxbObject.dotclass() )
-        .arg( jaxbStub.dotclass() )
+        .arg( fieldJaxbObject.dotclass() )
+        .arg( fieldJaxbStub.dotclass() )
         .arg( param )
     );
   }
@@ -268,7 +294,9 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   }
 
   @NotNull
-  private JMethod getOrCreateConstructor( @NotNull JDefinedClass mappingClass ) {
+  private JMethod getOrCreateConstructor() {
+    assert mappingClass != null;
+
     //If no constructor exists, create one
     if ( !mappingClass.constructors().hasNext() ) {
       mappingClass.constructor( JMod.PUBLIC );
@@ -277,7 +305,9 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     return ( JMethod ) mappingClass.constructors().next();
   }
 
-  private void createHrefMethod( @NotNull JDefinedClass mappingClass ) {
+  private void createHrefMethod() {
+    assert mappingClass != null;
+
     JMethod method = mappingClass.method( JMod.PROTECTED, Void.TYPE, METHOD_NAME_SET_URIS );
     JVar object = method.param( JaxbObject.class, OBJECT );
     JVar uriBuilder = method.param( UriBuilder.class, URI_BUILDER );
@@ -308,11 +338,12 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     return insertSubPackage( modelClassName, JAXB_SUB_PACKAGE ) + MAPPING_SUFFIX;
   }
 
-  @NotNull
-  protected JDefinedClass createJaxbObject( @NotNull JDefinedClass baseClass ) throws JClassAlreadyExistsException {
+  protected void createJaxbObject() throws JClassAlreadyExistsException {
+    assert baseClass != null;
+
     String name = NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() );
 
-    JDefinedClass jaxbObject = baseClass._class( JMod.PUBLIC | JMod.STATIC, JAXB )._extends( baseClass );
+    jaxbObject = baseClass._class( JMod.PUBLIC | JMod.STATIC, JAXB )._extends( baseClass );
     jaxbObject.annotate( XmlType.class )
       .param( NAME, name );
     jaxbObject.annotate( XmlRootElement.class )
@@ -321,15 +352,15 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     jaxbObject.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
 
     addFields( jaxbObject, Scope.JAXB );
-
-    return jaxbObject;
   }
 
-  @NotNull
-  protected JDefinedClass createJaxbStub( @NotNull JDefinedClass baseClass, @NotNull JDefinedClass jaxbObject ) throws JClassAlreadyExistsException {
+  protected void createJaxbStub() throws JClassAlreadyExistsException {
+    assert baseClass != null;
+    assert jaxbObject != null;
+
     String name = NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) + STUB;
 
-    JDefinedClass jaxbStub = baseClass._class( JMod.PUBLIC | JMod.STATIC, STUB )._extends( baseClass )._implements(
+    jaxbStub = baseClass._class( JMod.PUBLIC | JMod.STATIC, STUB )._extends( baseClass )._implements(
       codeGenerator.ref( JaxbStub.class ).narrow( jaxbObject )
     );
 
@@ -345,13 +376,14 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
 
     addFields( jaxbStub, Scope.STUB );
 
-    addGetJaxbType( jaxbStub, jaxbObject );
-
-    return jaxbStub;
+    addGetJaxbType();
   }
 
-  private void addGetJaxbType( @NotNull JDefinedClass stub, @NotNull JDefinedClass jaxbObject ) {
-    JMethod method = stub.method( JMod.PUBLIC, codeGenerator.ref( Class.class ).narrow( jaxbObject ), "getJaxbType" );
+  private void addGetJaxbType() {
+    assert jaxbStub != null;
+    assert jaxbObject != null;
+
+    JMethod method = jaxbStub.method( JMod.PUBLIC, codeGenerator.ref( Class.class ).narrow( jaxbObject ), "getJaxbType" );
     method.annotate( Override.class );
     method.body()._return( jaxbObject.dotclass() );
   }
@@ -359,9 +391,10 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   /**
    * Adds all fields
    *
-   * @param jaxbObject the jaxb class
+   * @param currentClass the jaxb class
+   * @param type         the type
    */
-  private void addFields( @NotNull JDefinedClass jaxbObject, @NotNull Scope type ) {
+  private void addFields( @NotNull JDefinedClass currentClass, @NotNull Scope type ) {
     for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldInfos() ) {
       //Skip the id, since it is defined in the super class
       if ( fieldInfo.getSimpleName().equals( ID ) ) {
@@ -373,40 +406,40 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
       }
 
       JClass fieldType = getJaxbModelType( fieldInfo.getType(), type.isStub() );
-      JFieldVar field = addField( jaxbObject, fieldType, fieldInfo );
+      JFieldVar field = addField( currentClass, fieldType, fieldInfo );
 
       if ( TypeUtils.isCollectionType( fieldInfo.getType() ) ) {
         JAnnotationUse annotation = field.annotate( XmlElement.class );
         annotation.param( "name", NamingSupport.createSingular( field.name() ) );
       }
 
-      addGetter( jaxbObject, fieldType, fieldInfo, field );
-      addSetter( jaxbObject, fieldType, fieldInfo, field );
+      addGetter( currentClass, fieldType, fieldInfo, field );
+      addSetter( currentClass, fieldType, fieldInfo, field );
     }
   }
 
   private boolean shallAddFieldCopyStatementToStub( @NotNull FieldTypeInformation fieldInfo ) {
-    return isProbablyOwnType( fieldInfo.getType() );
+    return !fieldInfo.isCollectionType();
   }
 
   protected boolean shallAddField( @NotNull FieldTypeInformation fieldInfo, @NotNull Scope type ) {
     return codeGenerator.getDecisionCallback().shallAddFieldStatement( this, fieldInfo, type );
   }
 
-  private void addSetter( @NotNull JDefinedClass jaxbObject, @NotNull JClass fieldType, @NotNull FieldWithInitializationInfo fieldInfo, @NotNull JFieldVar field ) {
-    JMethod setter = jaxbObject.method( JMod.PUBLIC, Void.TYPE, NamingSupport.createSetter( fieldInfo.getSimpleName() ) );
+  private static void addSetter( @NotNull JDefinedClass currentClass, @NotNull JType fieldType, @NotNull FieldInfo fieldInfo, @NotNull JVar field ) {
+    JMethod setter = currentClass.method( JMod.PUBLIC, Void.TYPE, NamingSupport.createSetter( fieldInfo.getSimpleName() ) );
     JVar param = setter.param( fieldType, fieldInfo.getSimpleName() );
     setter.body().assign( JExpr._this().ref( field ), param );
   }
 
-  private void addGetter( @NotNull JDefinedClass jaxbObject, @NotNull JClass fieldType, @NotNull FieldWithInitializationInfo fieldInfo, @NotNull JFieldVar field ) {
-    JMethod getter = jaxbObject.method( JMod.PUBLIC, fieldType, NamingSupport.createGetterName( fieldInfo.getSimpleName() ) );
+  private static void addGetter( @NotNull JDefinedClass currentClass, @NotNull JType fieldType, @NotNull FieldInfo fieldInfo, @NotNull JExpression field ) {
+    JMethod getter = currentClass.method( JMod.PUBLIC, fieldType, NamingSupport.createGetterName( fieldInfo.getSimpleName() ) );
     getter.body()._return( field );
   }
 
   @NotNull
-  private JFieldVar addField( @NotNull JDefinedClass jaxbObject, @NotNull JClass fieldType, @NotNull FieldWithInitializationInfo fieldInfo ) {
-    return jaxbObject.field( JMod.PRIVATE, fieldType, fieldInfo.getSimpleName() );
+  private static JFieldVar addField( @NotNull JDefinedClass currentClass, @NotNull JType fieldType, @NotNull FieldInfo fieldInfo ) {
+    return currentClass.field( JMod.PRIVATE, fieldType, fieldInfo.getSimpleName() );
   }
 
   public enum Scope {

@@ -122,8 +122,8 @@ public class UserMapping
         com.cedarsoft.rest.generator.test.jaxb.User.Jaxb jaxbObject = new com.cedarsoft.rest.generator.test.jaxb.User.Jaxb();
         jaxbObject.setEmail(object.getEmail());
         jaxbObject.setName(object.getName());
-        jaxbObject.setGroup(getStub(com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb.class, object.getGroup(), context));
-        jaxbObject.setFriends(getStub(com.cedarsoft.rest.generator.test.jaxb.User.Jaxb.class, object.getFriends(), context));
+        jaxbObject.setGroup(getStub(com.cedarsoft.rest.generator.test.jaxb.Group.Stub.class, object.getGroup(), context));
+        jaxbObject.setFriends(getStub(com.cedarsoft.rest.generator.test.jaxb.User.Stub.class, object.getFriends(), context));
         return jaxbObject;
     }
 
@@ -132,7 +132,7 @@ public class UserMapping
         com.cedarsoft.rest.generator.test.jaxb.User.Stub stub = new com.cedarsoft.rest.generator.test.jaxb.User.Stub();
         stub.setEmail(object.getEmail());
         stub.setName(object.getName());
-        jaxbObject.setGroup(getStub(com.cedarsoft.rest.generator.test.jaxb.Group.Stub.class, object.getGroup(), context));
+        stub.setGroup(getStub(com.cedarsoft.rest.generator.test.jaxb.Group.Stub.class, object.getGroup(), context));
         return stub;
     }
 
