@@ -1,4 +1,4 @@
------------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelJaxb.java-----------------------------------
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModel.java-----------------------------------
 
 package com.cedarsoft.rest.generator.test.jaxb;
 
@@ -7,36 +7,71 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
+import com.cedarsoft.jaxb.JaxbStub;
 
-@XmlRootElement(name = "fooModel", namespace = "http://cedarsoft.com/rest/generator/test/foo-model")
-@XmlAccessorType(XmlAccessType.FIELD)
-public class FooModelJaxb
+@XmlType(name = "abstractFooModel")
+public abstract class FooModel
     extends AbstractJaxbObject
 {
 
-    private BarModelJaxb singleBar;
-    @XmlElement(name = "theBar")
-    private List<BarModelJaxb> theBars;
 
-    public BarModelJaxb getSingleBar() {
-        return singleBar;
+    @XmlType(name = "fooModel")
+    @XmlRootElement(name = "fooModel", namespace = "http://cedarsoft.com/rest/generator/test/foo-model")
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Jaxb
+        extends FooModel
+    {
+
+        private com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb singleBar;
+        @XmlElement(name = "theBar")
+        private List<com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb> theBars;
+
+        public com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb getSingleBar() {
+            return singleBar;
+        }
+
+        public void setSingleBar(com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb singleBar) {
+            this.singleBar = singleBar;
+        }
+
+        public List<com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb> getTheBars() {
+            return theBars;
+        }
+
+        public void setTheBars(List<com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb> theBars) {
+            this.theBars = theBars;
+        }
+
     }
 
-    public void setSingleBar(BarModelJaxb singleBar) {
-        this.singleBar = singleBar;
+    @XmlType(name = "fooModelStub")
+    @XmlRootElement(name = "fooModel", namespace = "http://cedarsoft.com/rest/generator/test/foo-model/stub")
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Stub
+        extends FooModel
+        implements JaxbStub<FooModel.Jaxb>
+    {
+
+        private com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub singleBar;
+
+        public com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub getSingleBar() {
+            return singleBar;
+        }
+
+        public void setSingleBar(com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub singleBar) {
+            this.singleBar = singleBar;
+        }
+
+        @Override
+        public Class<FooModel.Jaxb> getJaxbType() {
+            return FooModel.Jaxb.class;
+        }
+
     }
 
-    public List<BarModelJaxb> getTheBars() {
-        return theBars;
-    }
-
-    public void setTheBars(List<BarModelJaxb> theBars) {
-        this.theBars = theBars;
-    }
-
-}
------------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelJaxbMapping.java-----------------------------------
+}-----------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelJaxbMapping.java-----------------------------------
 
 package com.cedarsoft.rest.generator.test.jaxb;
 

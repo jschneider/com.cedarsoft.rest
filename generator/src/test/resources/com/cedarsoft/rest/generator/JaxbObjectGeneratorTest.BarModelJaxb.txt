@@ -1,4 +1,4 @@
------------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxb.java-----------------------------------
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModel.java-----------------------------------
 
 package com.cedarsoft.rest.generator.test.jaxb;
 
@@ -8,22 +8,17 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
+import com.cedarsoft.jaxb.JaxbStub;
 
-@XmlRootElement(name = "barModel", namespace = "http://cedarsoft.com/rest/generator/test/bar-model")
-@XmlAccessorType(XmlAccessType.FIELD)
-public class BarModelJaxb
+@XmlType(name = "abstractBarModel")
+public abstract class BarModel
     extends AbstractJaxbObject
 {
 
     private int daInt;
     private String daString;
-    @XmlElement(name = "stringList")
-    private List<String> stringList;
-    @XmlElement(name = "wildStringList")
-    private List<? extends String> wildStringList;
-    @XmlElement(name = "set")
-    private Set<? extends String> set;
 
     public int getDaInt() {
         return daInt;
@@ -41,28 +36,60 @@ public class BarModelJaxb
         this.daString = daString;
     }
 
-    public List<String> getStringList() {
-        return stringList;
+    @XmlType(name = "barModel")
+    @XmlRootElement(name = "barModel", namespace = "http://cedarsoft.com/rest/generator/test/bar-model")
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Jaxb
+        extends BarModel
+    {
+
+        @XmlElement(name = "stringList")
+        private List<String> stringList;
+        @XmlElement(name = "wildStringList")
+        private List<? extends String> wildStringList;
+        @XmlElement(name = "set")
+        private Set<? extends String> set;
+
+        public List<String> getStringList() {
+            return stringList;
+        }
+
+        public void setStringList(List<String> stringList) {
+            this.stringList = stringList;
+        }
+
+        public List<? extends String> getWildStringList() {
+            return wildStringList;
+        }
+
+        public void setWildStringList(List<? extends String> wildStringList) {
+            this.wildStringList = wildStringList;
+        }
+
+        public Set<? extends String> getSet() {
+            return set;
+        }
+
+        public void setSet(Set<? extends String> set) {
+            this.set = set;
+        }
+
     }
 
-    public void setStringList(List<String> stringList) {
-        this.stringList = stringList;
-    }
+    @XmlType(name = "barModelStub")
+    @XmlRootElement(name = "barModel", namespace = "http://cedarsoft.com/rest/generator/test/bar-model/stub")
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Stub
+        extends BarModel
+        implements JaxbStub<BarModel.Jaxb>
+    {
 
-    public List<? extends String> getWildStringList() {
-        return wildStringList;
-    }
 
-    public void setWildStringList(List<? extends String> wildStringList) {
-        this.wildStringList = wildStringList;
-    }
+        @Override
+        public Class<BarModel.Jaxb> getJaxbType() {
+            return BarModel.Jaxb.class;
+        }
 
-    public Set<? extends String> getSet() {
-        return set;
-    }
-
-    public void setSet(Set<? extends String> set) {
-        this.set = set;
     }
 
 }
