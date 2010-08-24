@@ -93,7 +93,7 @@ public abstract class BarModel
     }
 
 }
------------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbMapping.java-----------------------------------
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelMapping.java-----------------------------------
 
 package com.cedarsoft.rest.generator.test.jaxb;
 
@@ -103,19 +103,21 @@ import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.JaxbMappingContext;
 import com.cedarsoft.rest.generator.test.BarModel;
 
-public class BarModelJaxbMapping
-    extends JaxbMapping<BarModel, BarModelJaxb, BarModelJaxbStub>
+public class BarModelMapping
+    extends JaxbMapping<BarModel, com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb, com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub>
 {
 
+    public final static String PATH = "barmodels";
+    public final static String ID = "{id}";
 
     @Override
     protected void setUris(JaxbObject object, UriBuilder uriBuilder) {
-        object.setHref(uriBuilder.path("barmodel").path("{id}").build(object.getId()));
+        object.setHref(uriBuilder.path(PATH).path(ID).build(object.getId()));
     }
 
     @Override
-    protected BarModelJaxb createJaxbObject(BarModel object, JaxbMappingContext context) {
-        BarModelJaxb jaxbObject = new BarModelJaxb();
+    protected com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb createJaxbObject(BarModel object, JaxbMappingContext context) {
+        com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb jaxbObject = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb();
         jaxbObject.setId(object.getId());
         jaxbObject.setDaInt(object.getDaInt());
         jaxbObject.setDaString(object.getDaString());
@@ -126,47 +128,12 @@ public class BarModelJaxbMapping
     }
 
     @Override
-    protected BarModelJaxbStub createJaxbObjectStub(BarModel object, JaxbMappingContext context) {
-        BarModelJaxbStub jaxbObject = new BarModelJaxbStub();
-        jaxbObject.setId(object.getId());
-        jaxbObject.setDaInt(object.getDaInt());
-        jaxbObject.setDaString(object.getDaString());
-        return jaxbObject;
-    }
-
-}
------------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbStub.java-----------------------------------
-
-package com.cedarsoft.rest.generator.test.jaxb;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import com.cedarsoft.jaxb.AbstractJaxbStub;
-
-@XmlRootElement(name = "barModel", namespace = "http://cedarsoft.com/rest/generator/test/bar-model/stub")
-@XmlAccessorType(XmlAccessType.FIELD)
-public class BarModelJaxbStub
-    extends AbstractJaxbStub
-{
-
-    private int daInt;
-    private String daString;
-
-    public int getDaInt() {
-        return daInt;
-    }
-
-    public void setDaInt(int daInt) {
-        this.daInt = daInt;
-    }
-
-    public String getDaString() {
-        return daString;
-    }
-
-    public void setDaString(String daString) {
-        this.daString = daString;
+    protected com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub createJaxbObjectStub(BarModel object, JaxbMappingContext context) {
+        com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub stub = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub();
+        stub.setId(object.getId());
+        stub.setDaInt(object.getDaInt());
+        stub.setDaString(object.getDaString());
+        return stub;
     }
 
 }
