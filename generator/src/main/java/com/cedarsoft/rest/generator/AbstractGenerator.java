@@ -148,11 +148,11 @@ public class AbstractGenerator<T extends DecisionCallback> {
   @NotNull
   @NonNls
   public static String getJaxbTypeName( @NotNull TypeMirror type, boolean stub ) {
-    String baseName = insertSubPackage( type.toString(), JAXB_SUB_PACKAGE ) + JAXB_SUFFIX;
+    String base = insertSubPackage( type.toString(), JAXB_SUB_PACKAGE );
     if ( stub ) {
-      return baseName + JAXB_STUB_SUFFIX;
+      return base + "$" + JAXB_STUB_SUFFIX;
     } else {
-      return baseName;
+      return base + "$" + JAXB_SUFFIX;
     }
   }
 }

@@ -16,6 +16,24 @@ public abstract class User
     extends AbstractJaxbObject
 {
 
+    private String email;
+    private String name;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @XmlType(name = "user")
     @XmlRootElement(name = "user", namespace = "http://cedarsoft.com/rest/generator/test/user")
@@ -24,32 +42,23 @@ public abstract class User
         extends User
     {
 
-        private String email;
-        private String name;
+        private com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb group;
         @XmlElement(name = "friend")
-        private List<UserJaxb> friends;
+        private List<com.cedarsoft.rest.generator.test.jaxb.User.Jaxb> friends;
 
-        public String getEmail() {
-            return email;
+        public com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb getGroup() {
+            return group;
         }
 
-        public void setEmail(String email) {
-            this.email = email;
+        public void setGroup(com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb group) {
+            this.group = group;
         }
 
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public List<UserJaxb> getFriends() {
+        public List<com.cedarsoft.rest.generator.test.jaxb.User.Jaxb> getFriends() {
             return friends;
         }
 
-        public void setFriends(List<UserJaxb> friends) {
+        public void setFriends(List<com.cedarsoft.rest.generator.test.jaxb.User.Jaxb> friends) {
             this.friends = friends;
         }
 
@@ -62,7 +71,17 @@ public abstract class User
         extends User
         implements JaxbStub<Jaxb>
     {
-    
+
+        private com.cedarsoft.rest.generator.test.jaxb.Group.Stub group;
+
+        public com.cedarsoft.rest.generator.test.jaxb.Group.Stub getGroup() {
+            return group;
+        }
+
+        public void setGroup(com.cedarsoft.rest.generator.test.jaxb.Group.Stub group) {
+            this.group = group;
+        }
+
         @NotNull
         @Override
         public Class<Jaxb> getJaxbType() {

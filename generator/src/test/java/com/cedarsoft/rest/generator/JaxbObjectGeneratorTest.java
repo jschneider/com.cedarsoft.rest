@@ -87,11 +87,11 @@ public class JaxbObjectGeneratorTest {
     assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.BarModel>", fooDescriptor.findFieldDeclaration( "theBars" ).getType().toString() );
     assertEquals( "com.cedarsoft.rest.generator.test.BarModel", fooDescriptor.findFieldDeclaration( "singleBar" ).getType().toString() );
 
-    assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModelJaxb", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "singleBar" ).getType() ).binaryName() );
-    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModelJaxb>", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "theBars" ).getType() ).binaryName() );
+    assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "singleBar" ).getType() ).binaryName() );
+    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb>", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "theBars" ).getType() ).binaryName() );
 
-    assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbStub", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "singleBar" ).getType(), true ).binaryName() );
-    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbStub>", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "theBars" ).getType(), true ).binaryName() );
+    assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "singleBar" ).getType(), true ).binaryName() );
+    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub>", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "theBars" ).getType(), true ).binaryName() );
   }
 
   @Test

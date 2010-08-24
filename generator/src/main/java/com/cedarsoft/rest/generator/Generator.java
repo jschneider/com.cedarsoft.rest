@@ -237,7 +237,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
 
     String paramName = NamingSupport.createVarName( jaxbObject.name() + MAPPING_SUFFIX );
 
-    JClass mappingType = codeGenerator.ref( jaxbObject.fullName() + MAPPING_SUFFIX );
+    JClass mappingType = codeGenerator.ref( getMappingNameFor( jaxbObject ) );
 
     //Check whether the mapping still exists
     for ( JVar param : constructor.listParams() ) {
@@ -252,6 +252,11 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     constructor.body().add(
       JExpr.invoke( METHOD_NAME_GET_DELEGATES_MAPPING ).invoke( METHOD_NAME_ADD_MAPPING ).arg( jaxbObject.dotclass() ).arg( param )
     );
+  }
+
+  @NotNull @NonNls
+  private static String getMappingNameFor( @NotNull JClass jaxbObject ) {
+    return jaxbObject.outer().fullName() + MAPPING_SUFFIX;
   }
 
   @NotNull
@@ -288,7 +293,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   }
 
   protected String getJaxbMappingTypeName( @NotNull @NonNls String modelClassName ) {
-    return insertSubPackage( modelClassName, JAXB_SUB_PACKAGE ) + JAXB_SUFFIX + MAPPING_SUFFIX;
+    return insertSubPackage( modelClassName, JAXB_SUB_PACKAGE ) + MAPPING_SUFFIX;
   }
 
   @NotNull
