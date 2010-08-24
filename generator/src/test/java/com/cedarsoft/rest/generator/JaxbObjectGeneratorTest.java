@@ -87,11 +87,11 @@ public class JaxbObjectGeneratorTest {
     assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.BarModel>", fooDescriptor.findFieldDeclaration( "theBars" ).getType().toString() );
     assertEquals( "com.cedarsoft.rest.generator.test.BarModel", fooDescriptor.findFieldDeclaration( "singleBar" ).getType().toString() );
 
-    assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "singleBar" ).getType() ).binaryName() );
-    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb>", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "theBars" ).getType() ).binaryName() );
+    assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModel$Jaxb", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "singleBar" ).getType() ).binaryName() );
+    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModel$Jaxb>", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "theBars" ).getType() ).binaryName() );
 
-    assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "singleBar" ).getType(), true ).binaryName() );
-    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub>", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "theBars" ).getType(), true ).binaryName() );
+    assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModel$Stub", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "singleBar" ).getType(), true ).binaryName() );
+    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModel$Stub>", generator.getJaxbModelType( fooDescriptor.findFieldDeclaration( "theBars" ).getType(), true ).binaryName() );
   }
 
   @Test
@@ -110,6 +110,7 @@ public class JaxbObjectGeneratorTest {
     assertFalse( generator.isProbablyOwnType( integersDeclaration.getType() ) );
     assertFalse( generator.isProbablyOwnType( wildcardStringsDeclaration.getType() ) );
 
+    assertEquals( "java.util.List<? extends com.cedarsoft.rest.generator.test.BarModel>", wildcardBarsDeclaration.getType().toString() );
 
     assertEquals( "java.util.List<? extends java.lang.String>", wildcardStringsDeclaration.getType().toString() );
     assertEquals( "java.util.List<java.lang.Integer>", integersDeclaration.getType().toString() );
@@ -117,11 +118,11 @@ public class JaxbObjectGeneratorTest {
     assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.BarModel>", barsDeclaration.getType().toString() );
     assertEquals( "java.util.List<? extends com.cedarsoft.rest.generator.test.BarModel>", wildcardBarsDeclaration.getType().toString() );
 
-    assertEquals( "java.util.List<? extends java.lang.String>", generator.getJaxbModelType( wildcardStringsDeclaration.getType() ).binaryName() );
-    assertEquals( "java.util.List<java.lang.Integer>", generator.getJaxbModelType( integersDeclaration.getType() ).binaryName() );
-    assertEquals( "java.util.List<? extends com.cedarsoft.rest.generator.test.jaxb.BarModelJaxb>", generator.getJaxbModelType( wildcardBarsDeclaration.getType() ).binaryName() );
-    assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModelJaxb", generator.getJaxbModelType( singleBarDeclaration.getType() ).binaryName() );
-    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModelJaxb>", generator.getJaxbModelType( barsDeclaration.getType() ).binaryName() );
+    assertEquals( "java.util.List<? extends java.lang.String>", generator.getJaxbModelType( wildcardStringsDeclaration.getType() ).fullName() );
+    assertEquals( "java.util.List<java.lang.Integer>", generator.getJaxbModelType( integersDeclaration.getType() ).fullName() );
+    assertEquals( "java.util.List<? extends com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb>", generator.getJaxbModelType( wildcardBarsDeclaration.getType() ).fullName() );
+    assertEquals( "com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb", generator.getJaxbModelType( singleBarDeclaration.getType() ).fullName() );
+    assertEquals( "java.util.List<com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb>", generator.getJaxbModelType( barsDeclaration.getType() ).fullName() );
   }
 
   @Test
