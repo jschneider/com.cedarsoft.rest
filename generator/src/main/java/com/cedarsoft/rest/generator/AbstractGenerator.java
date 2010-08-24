@@ -64,11 +64,19 @@ public class AbstractGenerator<T extends DecisionCallback> {
     this.descriptor = descriptor;
   }
 
+  @Deprecated
   @NotNull
   @NonNls
   protected String getJaxbObjectName() {
     String fqn = descriptor.getQualifiedName();
     return insertSubPackage( fqn, JAXB_SUB_PACKAGE ) + JAXB_SUFFIX;
+  }
+
+  @NotNull
+  @NonNls
+  protected String getJaxbBaseName() {
+    String fqn = descriptor.getQualifiedName();
+    return insertSubPackage( fqn, JAXB_SUB_PACKAGE );
   }
 
   @NotNull

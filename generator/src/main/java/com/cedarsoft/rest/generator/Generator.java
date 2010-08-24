@@ -64,6 +64,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -117,16 +118,40 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   public static final String METHOD_NAME_ADD_MAPPING = "addMapping";
   @NonNls
   public static final String METHOD_NAME_GET_DELEGATES_MAPPING = "getDelegatesMapping";
+  @NonNls
+  public static final String JAXB = "Jaxb";
+  @NonNls
+  public static final String STUB = "Stub";
 
   public Generator( @NotNull CodeGenerator<JaxbObjectGenerator.StubDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     super( codeGenerator, descriptor );
   }
 
   public void generate() throws JClassAlreadyExistsException {
-    JDefinedClass jaxbObject = createJaxbObject();
-    JDefinedClass jaxbStub = createJaxbStub();
+    JDefinedClass baseClass = createBaseClass();
+
+    JDefinedClass jaxbObject = createJaxbObject( baseClass );
+    JDefinedClass jaxbStub = createJaxbStub( baseClass, jaxbObject );
 
     createJaxbMapping( jaxbObject, jaxbStub );
+  }
+
+  @NotNull
+  private JDefinedClass createBaseClass() throws JClassAlreadyExistsException {
+    JDefinedClass baseClass = _class( getJaxbBaseName(), JMod.PUBLIC | JMod.ABSTRACT )._extends( AbstractJaxbObject.class );
+    baseClass.annotate( XmlType.class )
+      .param( NAME, "abstract" + descriptor.getClassDeclaration().getSimpleName() );
+
+    return baseClass;
+  }
+
+  /**
+   * @noinspection InstanceMethodNamingConvention
+   */
+  @NotNull
+  private JDefinedClass _class( @NotNull @NonNls String jaxbBaseName, int mods ) throws JClassAlreadyExistsException {
+    int idx = jaxbBaseName.lastIndexOf( '.' );
+    return codeGenerator.getModel()._package( jaxbBaseName.substring( 0, idx ) )._class( mods, jaxbBaseName.substring( idx + 1 ) );
   }
 
   private void createJaxbMapping( @NotNull JClass jaxbObject, @NotNull JClass jaxbStub ) throws JClassAlreadyExistsException {
@@ -181,7 +206,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
           .arg( fieldJaxbType.dotclass() )
           .arg( getterInvocation )
           .arg( context )
-          ;
+        ;
 
         ensureDelegateAvailable( mappingClass, fieldJaxbType );
 
@@ -265,10 +290,14 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   }
 
   @NotNull
-  protected JDefinedClass createJaxbObject() throws JClassAlreadyExistsException {
-    JDefinedClass jaxbObject = codeGenerator.getModel()._class( getJaxbObjectName() )._extends( AbstractJaxbObject.class );
+  protected JDefinedClass createJaxbObject( @NotNull JDefinedClass baseClass ) throws JClassAlreadyExistsException {
+    String name = NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() );
+
+    JDefinedClass jaxbObject = baseClass._class( JMod.PUBLIC | JMod.STATIC, JAXB )._extends( baseClass );
+    jaxbObject.annotate( XmlType.class )
+      .param( NAME, name );
     jaxbObject.annotate( XmlRootElement.class )
-      .param( NAME, NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) )
+      .param( NAME, name )
       .param( NAMESPACE, NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) );
     jaxbObject.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
 
@@ -278,8 +307,14 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   }
 
   @NotNull
-  protected JDefinedClass createJaxbStub() throws JClassAlreadyExistsException {
-    JDefinedClass jaxbStub = codeGenerator.getModel()._class( getJaxbStubName() )._extends( AbstractJaxbObject.class )._implements( JaxbStub.class );
+  protected JDefinedClass createJaxbStub( @NotNull JDefinedClass baseClass, @NotNull JDefinedClass jaxbObject ) throws JClassAlreadyExistsException {
+    String name = NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) + STUB;
+
+    JDefinedClass jaxbStub = baseClass._class( JMod.PUBLIC | JMod.STATIC, STUB )._extends( baseClass )._implements( JaxbStub.class );
+    jaxbStub.narrow( jaxbObject );
+
+    jaxbStub.annotate( XmlType.class )
+      .param( NAME, name );
     jaxbStub.annotate( XmlRootElement.class )
       .param( NAME, NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) )
       .param( NAMESPACE, NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) + STUB_NAMESPACE_SUFFIX );

@@ -1,4 +1,4 @@
------------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxb.java-----------------------------------
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.User.java-----------------------------------
 
 package com.cedarsoft.rest.generator.test.jaxb;
 
@@ -7,45 +7,72 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
+import com.cedarsoft.jaxb.JaxbStub;
 
-@XmlRootElement(name = "user", namespace = "http://cedarsoft.com/rest/generator/test/user")
-@XmlAccessorType(XmlAccessType.FIELD)
-public class UserJaxb
+@XmlType(name = "abstractUser")
+public abstract class User
     extends AbstractJaxbObject
 {
 
-    private String email;
-    private String name;
-    @XmlElement(name = "friend")
-    private List<UserJaxb> friends;
 
-    public String getEmail() {
-        return email;
+    @XmlType(name = "user")
+    @XmlRootElement(name = "user", namespace = "http://cedarsoft.com/rest/generator/test/user")
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Jaxb
+        extends User
+    {
+
+        private String email;
+        private String name;
+        @XmlElement(name = "friend")
+        private List<UserJaxb> friends;
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public List<UserJaxb> getFriends() {
+            return friends;
+        }
+
+        public void setFriends(List<UserJaxb> friends) {
+            this.friends = friends;
+        }
+
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    @XmlType(name = "userStub")
+    @XmlRootElement(name = "user", namespace = "http://cedarsoft.com/rest/generator/test/user/stub")
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Stub
+        extends User
+        implements JaxbStub<Jaxb>
+    {
+    
+        @NotNull
+        @Override
+        public Class<Jaxb> getJaxbType() {
+            return Jaxb.class;
+        }
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<UserJaxb> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(List<UserJaxb> friends) {
-        this.friends = friends;
-    }
 
 }
------------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbMapping.java-----------------------------------
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserMapping.java-----------------------------------
 
 package com.cedarsoft.rest.generator.test.jaxb;
 
@@ -55,9 +82,14 @@ import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.JaxbMappingContext;
 import com.cedarsoft.rest.generator.test.User;
 
-public class UserJaxbMapping
+public class UserMapping
     extends JaxbMapping<User, UserJaxb, UserJaxbStub>
 {
+    @NonNls
+    @NotNull
+    public static final String PATH_USERS = "users";
+    @NonNls
+    public static final String PATH_ID = "{id}";
 
 
     public UserJaxbMapping(UserJaxbMapping userMapping) {
@@ -66,12 +98,12 @@ public class UserJaxbMapping
 
     @Override
     protected void setUris(JaxbObject object, UriBuilder uriBuilder) {
-        object.setHref(uriBuilder.path("user").path("{id}").build(object.getId()));
+        object.setHref(uriBuilder.path(PATH_USERS).path(PATH_ID).build(object.getId()));
     }
 
     @Override
     protected UserJaxb createJaxbObject(User object, JaxbMappingContext context) {
-        UserJaxb jaxbObject = new UserJaxb();
+        User.Jaxb jaxbObject = new User.Jaxb();
         jaxbObject.setEmail(object.getEmail());
         jaxbObject.setName(object.getName());
         jaxbObject.setFriends(getStub(UserJaxb.class, object.getFriends(), context));
@@ -80,45 +112,10 @@ public class UserJaxbMapping
 
     @Override
     protected UserJaxbStub createJaxbObjectStub(User object, JaxbMappingContext context) {
-        UserJaxbStub jaxbObject = new UserJaxbStub();
-        jaxbObject.setEmail(object.getEmail());
-        jaxbObject.setName(object.getName());
-        return jaxbObject;
-    }
-
-}
------------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbStub.java-----------------------------------
-
-package com.cedarsoft.rest.generator.test.jaxb;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import com.cedarsoft.jaxb.AbstractJaxbStub;
-
-@XmlRootElement(name = "user", namespace = "http://cedarsoft.com/rest/generator/test/user/stub")
-@XmlAccessorType(XmlAccessType.FIELD)
-public class UserJaxbStub
-    extends AbstractJaxbStub
-{
-
-    private String email;
-    private String name;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        User.Stub stub = new User.Stub();
+        stub.setEmail(object.getEmail());
+        stub.setName(object.getName());
+        return stub;
     }
 
 }
