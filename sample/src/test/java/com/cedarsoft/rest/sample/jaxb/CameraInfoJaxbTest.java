@@ -57,6 +57,8 @@ public class CameraInfoJaxbTest extends SimpleJaxbTest<CameraInfo.Jaxb, CameraIn
   @DataPoint
   public static Entry<? extends CameraInfo.Stub> stub() {
     CameraInfo.Stub stub = new CameraInfo.Stub();
+    stub.setHref( JaxbTestUtils.createTestUriBuilder().build() );
+    stub.setId( "daId" );
     stub.setModel( "model" );
     stub.setMake( "make" );
 
