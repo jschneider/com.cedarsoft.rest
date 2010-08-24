@@ -69,7 +69,7 @@ public abstract class User
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Stub
         extends User
-        implements JaxbStub<Jaxb>
+        implements JaxbStub<User.Jaxb>
     {
 
         private com.cedarsoft.rest.generator.test.jaxb.Group.Stub group;
@@ -82,13 +82,12 @@ public abstract class User
             this.group = group;
         }
 
-        @NotNull
         @Override
-        public Class<Jaxb> getJaxbType() {
-            return Jaxb.class;
+        public Class<User.Jaxb> getJaxbType() {
+            return User.Jaxb.class;
         }
-    }
 
+    }
 
 }
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserMapping.java-----------------------------------

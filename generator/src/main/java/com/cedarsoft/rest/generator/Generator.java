@@ -254,7 +254,8 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     );
   }
 
-  @NotNull @NonNls
+  @NotNull
+  @NonNls
   private static String getMappingNameFor( @NotNull JClass jaxbObject ) {
     return jaxbObject.outer().fullName() + MAPPING_SUFFIX;
   }
@@ -317,7 +318,10 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   protected JDefinedClass createJaxbStub( @NotNull JDefinedClass baseClass, @NotNull JDefinedClass jaxbObject ) throws JClassAlreadyExistsException {
     String name = NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) + STUB;
 
-    JDefinedClass jaxbStub = baseClass._class( JMod.PUBLIC | JMod.STATIC, STUB )._extends( baseClass )._implements( JaxbStub.class );
+    JDefinedClass jaxbStub = baseClass._class( JMod.PUBLIC | JMod.STATIC, STUB )._extends( baseClass )._implements(
+      codeGenerator.ref( JaxbStub.class ).narrow( jaxbObject )
+    );
+
     jaxbStub.narrow( jaxbObject );
 
     jaxbStub.annotate( XmlType.class )
@@ -330,7 +334,15 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
 
     addFields( jaxbStub, Scope.STUB );
 
+    addGetJaxbType( jaxbStub, jaxbObject );
+
     return jaxbStub;
+  }
+
+  private void addGetJaxbType( @NotNull JDefinedClass stub, @NotNull JDefinedClass jaxbObject ) {
+    JMethod method = stub.method( JMod.PUBLIC, codeGenerator.ref( Class.class ).narrow( jaxbObject ), "getJaxbType" );
+    method.annotate( Override.class );
+    method.body()._return( jaxbObject.dotclass() );
   }
 
   /**
