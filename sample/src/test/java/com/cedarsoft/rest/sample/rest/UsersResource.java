@@ -86,7 +86,7 @@ public class UsersResource {
   @GET
   @Path( UserMapping.PATH_ID )
   @NotNull
-  public User.Jaxb getUserResource( @PathParam( "id" ) @NotNull @NonNls String id ) throws URISyntaxException {
+  public User.Jaxb getUser( @PathParam( "id" ) @NotNull @NonNls String id ) throws URISyntaxException {
     for ( com.cedarsoft.rest.sample.User user : users ) {
       if ( user.getEmail().equals( id ) ) {
         return userMapping.getJaxbObject( user, uriInfo.getBaseUriBuilder() );
@@ -96,10 +96,11 @@ public class UsersResource {
     throw new NotFoundException();
   }
 
+  @Deprecated
   @GET
   @Path( "test" )
   @NotNull
-  public User.Jaxb getUser() throws URISyntaxException {
+  public User.Jaxb getTestUser() throws URISyntaxException {
     com.cedarsoft.rest.sample.User user = new com.cedarsoft.rest.sample.User( "test@test.com", "Test User" );
     user.addFriend( new com.cedarsoft.rest.sample.User( "friend@asdf.de", "A Friend" ) );
     return userMapping.getJaxbObject( user, uriInfo.getBaseUriBuilder() );
