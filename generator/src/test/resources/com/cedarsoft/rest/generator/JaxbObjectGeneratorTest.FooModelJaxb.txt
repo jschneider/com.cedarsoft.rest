@@ -105,7 +105,7 @@ public class FooModelMapping
     {
         com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb jaxbObject = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb();
         jaxbObject.setId(object.getId());
-        jaxbObject.setSingleBar(getStub(com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub.class, object.getSingleBar(), context));
+        jaxbObject.setSingleBar(get(com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb.class, object.getSingleBar(), context));
         jaxbObject.setTheBars(getStub(com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub.class, object.getTheBars(), context));
         return jaxbObject;
     }

@@ -80,6 +80,9 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   @NotNull
   @NonNls
   public static final String METHOD_NAME_GET_STUB = "getStub";
+  @NotNull
+  @NonNls
+  public static final String METHOD_NAME_GET = "get";
   @NonNls
   public static final String METHOD_NAME_SET_ID = "setId";
   @NonNls
@@ -234,16 +237,24 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
 
       JInvocation value;
       if ( isProbablyOwnType( fieldInfo.getType() ) ) {
+        JClass fieldJaxbType = getJaxbType( fieldInfo, false );
         JClass fieldStubType = getJaxbType( fieldInfo, true );
 
-        value = JExpr.invoke( METHOD_NAME_GET_STUB )
-          .arg( fieldStubType.dotclass() )
-          .arg( getterInvocation )
-          .arg( context )
-          ;
+        if ( isStub || TypeUtils.isCollectionType( fieldInfo.getType() ) ) {
+          value = JExpr.invoke( METHOD_NAME_GET_STUB )
+            .arg( fieldStubType.dotclass() )
+            .arg( getterInvocation )
+            .arg( context )
+            ;
+        } else {
+          value = JExpr.invoke( METHOD_NAME_GET )
+            .arg( fieldJaxbType.dotclass() )
+            .arg( getterInvocation )
+            .arg( context )
+            ;
+        }
 
-        ensureDelegateAvailable( getJaxbType( fieldInfo, false ), fieldStubType );
-
+        ensureDelegateAvailable( fieldJaxbType, fieldStubType );
       } else {
         value = getterInvocation;
       }

@@ -23,7 +23,7 @@ public class FooModelJaxbTest
         com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb object = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb();
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setId("id");
-        object.setSingleBar(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub());
+        object.setSingleBar(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb());
         object.setTheBars(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub()));
         return AbstractJaxbTest.create(object, FooModelJaxbTest.class.getResource("FooModelJaxbTest.dataPoint1.xml"));
     }

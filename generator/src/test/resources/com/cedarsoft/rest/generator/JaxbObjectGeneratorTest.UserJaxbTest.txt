@@ -24,7 +24,7 @@ public class UserJaxbTest
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setEmail("email");
         object.setName("name");
-        object.setGroup(new com.cedarsoft.rest.generator.test.jaxb.Group.Stub());
+        object.setGroup(new com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb());
         object.setFriends(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.User.Stub()));
         return AbstractJaxbTest.create(object, UserJaxbTest.class.getResource("UserJaxbTest.dataPoint1.xml"));
     }

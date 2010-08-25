@@ -204,12 +204,14 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
 
       JExpression value;
       if ( isProbablyOwnType( fieldInfo.getType() ) ) {
-        JClass jaxbType = getJaxbType( fieldInfo, true );
+        JClass fieldStubType = getJaxbType( fieldInfo, true );
+        JClass fieldJaxbType = getJaxbType( fieldInfo, false );
 
         if ( TypeUtils.isCollectionType( fieldInfo.getType() ) ) {
-          value = codeGenerator.getNewInstanceFactory().createCollectionInvocation( jaxbType, fieldInfo.getSimpleName(), TypeUtils.isSetType( fieldInfo.getType() ) );
+          value = codeGenerator.getNewInstanceFactory().createCollectionInvocation( fieldStubType, fieldInfo.getSimpleName(), TypeUtils.isSetType( fieldInfo.getType() ) );
         } else {
-          value = codeGenerator.getNewInstanceFactory().create( jaxbType, fieldInfo.getSimpleName() );
+          JClass fieldTypeToInstantiate = objectType == this.jaxbStub ? fieldStubType : fieldJaxbType;
+          value = codeGenerator.getNewInstanceFactory().create( fieldTypeToInstantiate, fieldInfo.getSimpleName() );
         }
       } else {
         value = codeGenerator.getNewInstanceFactory().create( fieldType, fieldInfo.getSimpleName() );
