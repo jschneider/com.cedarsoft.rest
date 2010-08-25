@@ -35,6 +35,7 @@ import com.cedarsoft.codegen.CodeGenerator;
 import com.cedarsoft.codegen.DecisionCallback;
 import com.cedarsoft.codegen.TypeUtils;
 import com.cedarsoft.codegen.model.DomainObjectDescriptor;
+import com.cedarsoft.codegen.model.FieldTypeInformation;
 import com.sun.codemodel.JClass;
 import com.sun.mirror.type.TypeMirror;
 import com.sun.mirror.type.WildcardType;
@@ -64,26 +65,11 @@ public class AbstractGenerator<T extends DecisionCallback> {
     this.descriptor = descriptor;
   }
 
-  @Deprecated
-  @NotNull
-  @NonNls
-  protected String getJaxbObjectName() {
-    String fqn = descriptor.getQualifiedName();
-    return insertSubPackage( fqn, JAXB_SUB_PACKAGE ) + JAXB_SUFFIX;
-  }
-
   @NotNull
   @NonNls
   protected String getJaxbBaseName() {
     String fqn = descriptor.getQualifiedName();
     return insertSubPackage( fqn, JAXB_SUB_PACKAGE );
-  }
-
-  @NotNull
-  @NonNls
-  protected String getJaxbStubName() {
-    String fqn = descriptor.getQualifiedName();
-    return insertSubPackage( fqn, JAXB_SUB_PACKAGE ) + JAXB_SUFFIX + JAXB_STUB_SUFFIX;
   }
 
   @NotNull
@@ -113,6 +99,15 @@ public class AbstractGenerator<T extends DecisionCallback> {
     }
 
     return codeGenerator.ref( getJaxbTypeName( type, stub ) );
+  }
+
+  @NotNull
+  protected JClass getJaxbType( @NotNull FieldTypeInformation fieldInfo, boolean isStub ) {
+    if ( TypeUtils.isCollectionType( fieldInfo.getType() ) ) {
+      return codeGenerator.ref( getJaxbTypeName( TypeUtils.getErasure( TypeUtils.getCollectionParam( fieldInfo.getType() ) ), isStub ) );
+    } else {
+      return codeGenerator.ref( getJaxbTypeName( TypeUtils.getErasure( fieldInfo.getType() ), isStub ) );
+    }
   }
 
   @NotNull

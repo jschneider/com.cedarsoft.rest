@@ -253,15 +253,6 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     }
   }
 
-  @NotNull
-  private JClass getJaxbType( @NotNull FieldTypeInformation fieldInfo, boolean isStub ) {
-    if ( TypeUtils.isCollectionType( fieldInfo.getType() ) ) {
-      return codeGenerator.ref( getJaxbTypeName( TypeUtils.getErasure( TypeUtils.getCollectionParam( fieldInfo.getType() ) ), isStub ) );
-    } else {
-      return codeGenerator.ref( getJaxbTypeName( TypeUtils.getErasure( fieldInfo.getType() ), isStub ) );
-    }
-  }
-
   private void ensureDelegateAvailable( @NotNull JClass fieldJaxbObject, @NotNull JClass fieldJaxbStub ) {
     JMethod constructor = getOrCreateConstructor();
 

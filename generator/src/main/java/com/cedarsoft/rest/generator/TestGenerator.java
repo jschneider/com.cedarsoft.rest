@@ -33,7 +33,9 @@ package com.cedarsoft.rest.generator;
 
 import com.cedarsoft.codegen.CodeGenerator;
 import com.cedarsoft.codegen.NamingSupport;
+import com.cedarsoft.codegen.TypeUtils;
 import com.cedarsoft.codegen.model.DomainObjectDescriptor;
+import com.cedarsoft.codegen.model.FieldTypeInformation;
 import com.cedarsoft.codegen.model.FieldWithInitializationInfo;
 import com.cedarsoft.rest.AbstractJaxbTest;
 import com.cedarsoft.rest.Entry;
@@ -57,8 +59,6 @@ import org.jetbrains.annotations.NotNull;
  */
 public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDecisionCallback> {
   @NonNls
-  public static final String DATA_POINT_METHOD_NAME = "entry1";
-  @NonNls
   public static final String METHOD_NAME_SET_HREF = "setHref";
   @NonNls
   public static final String METHOD_NAME_CREATE_TEST_URI_BUILDER = "createTestUriBuilder";
@@ -73,14 +73,14 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
   @NonNls
   public static final String OBJECT = "object";
   @NonNls
-  public static final String METHOD_NAME_GET_JAXB_TYPE = "getJaxbType";
-  @NonNls
-  public static final String TEST_SUFFIX = "Test";
+  public static final String TEST_SUFFIX = "JaxbTest";
 
 
   private JClass jaxbObject;
   private JClass jaxbStub;
   private JDefinedClass testClass;
+  @NonNls
+  public static final String DEFAULT_DATA_POINT_NAME = "default";
 
   public TestGenerator( @NotNull CodeGenerator<JaxbObjectGenerator.StubDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     super( codeGenerator, descriptor );
@@ -91,16 +91,15 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
       throw new IllegalStateException( "Invalid state - still have generated" );
     }
 
-    jaxbObject = codeGenerator.ref( getJaxbObjectName() );
-    jaxbStub = codeGenerator.ref( getJaxbStubName() );
+    jaxbObject = codeGenerator.ref( getJaxbBaseName() + "$Jaxb" );
+    jaxbStub = codeGenerator.ref( getJaxbBaseName() + "$Stub" );
 
     testClass = codeGenerator.getModel()._class( getTestClassName() )._extends( codeGenerator.ref( SimpleJaxbTest.class ).narrow( jaxbObject ) );
 
     createConstructor();
 
-    createDataPoint();
-
-    createTestResource();
+    createDataPoint( DEFAULT_DATA_POINT_NAME, jaxbObject );
+    createDataPoint( "stub", jaxbStub );
   }
 
   private void createConstructor() {
@@ -108,22 +107,19 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
     constructor.body().invoke( "super" ).arg( jaxbObject.dotclass() ).arg( jaxbStub.dotclass() );
   }
 
-  private void createDataPoint() {
-    JMethod method = testClass.method( JMod.STATIC | JMod.PUBLIC, codeGenerator.ref( Entry.class ).narrow( jaxbObject.wildcard() ), DATA_POINT_METHOD_NAME );
+  private void createDataPoint( @NotNull @NonNls String name, @NotNull JClass objectType ) {
+    JMethod method = testClass.method( JMod.STATIC | JMod.PUBLIC, codeGenerator.ref( Entry.class ).narrow( objectType.wildcard() ), name );
     method.annotate( codeGenerator.ref( "org.junit.experimental.theories.DataPoint" ) );
 
-    JVar jaxbObjectInstance = addJaxbObjectCreation( method.body(), jaxbObject );
+    JVar jaxbObjectInstance = addJaxbObjectCreation( method.body(), objectType );
     method.body()._return( codeGenerator.ref( AbstractJaxbTest.class ).staticInvoke( METHOD_NAME_CREATE ).arg( jaxbObjectInstance ).arg( createGetResourceStatement( testClass ) ) );
+
+    createTestResource( name );
   }
 
   @NotNull
-  private static JExpression createGetResourceStatement( @NotNull JClass testClass ) {
-    return testClass.dotclass().invoke( METHOD_NAME_GET_RESOURCE ).arg( testClass.name() + DOT_XML );
-  }
-
-  @NotNull
-  private JVar addJaxbObjectCreation( @NotNull JBlock block, @NotNull JClass jaxbObject ) {
-    JVar field = block.decl( jaxbObject, OBJECT, JExpr._new( jaxbObject ) );
+  private JVar addJaxbObjectCreation( @NotNull JBlock block, @NotNull JClass objectType ) {
+    JVar field = block.decl( objectType, OBJECT, JExpr._new( objectType ) );
 
     //Sets the href
     block.add( field.invoke( METHOD_NAME_SET_HREF ).arg( codeGenerator.ref( JaxbTestUtils.class ).staticInvoke( METHOD_NAME_CREATE_TEST_URI_BUILDER ).invoke( METHOD_NAME_BUILD ) ) );
@@ -132,16 +128,41 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
     for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldInfos() ) {
       JClass fieldType = getJaxbModelType( fieldInfo.getType() );
 
-      JExpression value = codeGenerator.getNewInstanceFactory().create( fieldType, fieldInfo.getSimpleName() );
+      if ( shallSkip( fieldInfo, objectType ) ) {
+        continue;
+      }
+
+      JExpression value;
+      if ( isProbablyOwnType( fieldInfo.getType() ) ) {
+        JClass jaxbType = getJaxbType( fieldInfo, true );
+
+        if ( TypeUtils.isCollectionType( fieldInfo.getType() ) ) {
+          value = codeGenerator.getNewInstanceFactory().createCollectionInvocation( jaxbType, fieldInfo.getSimpleName(), TypeUtils.isSetType( fieldInfo.getType() ) );
+        } else {
+          value = codeGenerator.getNewInstanceFactory().create( jaxbType, fieldInfo.getSimpleName() );
+        }
+      } else {
+        value = codeGenerator.getNewInstanceFactory().create( fieldType, fieldInfo.getSimpleName() );
+      }
+
+      //Now add it
       block.add( field.invoke( NamingSupport.createSetter( fieldInfo.getSimpleName() ) ).arg( value ) );
     }
     return field;
   }
 
-  public void createTestResource() {
+  private boolean shallSkip( @NotNull FieldTypeInformation fieldInfo, @NotNull JClass objectType ) {
+    if ( objectType == jaxbStub ) {
+      return fieldInfo.isCollectionType();
+    }
+
+    return false;
+  }
+
+  public void createTestResource( @NotNull @NonNls String identifier ) {
     String domainObjectName = descriptor.getClassDeclaration().getSimpleName();
 
-    String resourceName = testClass.name() + DOT_XML;
+    String resourceName = testClass.name() + "." + identifier + DOT_XML;
 
     JPackage testClassPackage = testClass._package();
     if ( !testClassPackage.hasResourceFile( resourceName ) ) {
@@ -161,6 +182,11 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
   }
 
   private String getTestClassName() {
-    return getJaxbObjectName() + TEST_SUFFIX;
+    return getJaxbBaseName() + TEST_SUFFIX;
+  }
+
+  @NotNull
+  private static JExpression createGetResourceStatement( @NotNull JClass testClass ) {
+    return testClass.dotclass().invoke( METHOD_NAME_GET_RESOURCE ).arg( testClass.name() + DOT_XML );
   }
 }

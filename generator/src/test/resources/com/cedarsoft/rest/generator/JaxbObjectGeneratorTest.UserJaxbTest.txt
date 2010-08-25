@@ -10,35 +10,41 @@ import com.cedarsoft.rest.SimpleJaxbTest;
 import org.junit.experimental.theories.DataPoint;
 
 public class UserJaxbTest
-    extends SimpleJaxbTest<UserJaxb>
+    extends SimpleJaxbTest<com.cedarsoft.rest.generator.test.jaxb.User.Jaxb>
 {
 
 
     public UserJaxbTest() {
-        super( com.cedarsoft.rest.generator.test.jaxb.User.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.User.Stub.class );
+        super(com.cedarsoft.rest.generator.test.jaxb.User.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.User.Stub.class);
     }
 
     @DataPoint
-    public static Entry<? extends UserJaxb> entry1() {
+    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.User.Jaxb> default() {
         com.cedarsoft.rest.generator.test.jaxb.User.Jaxb object = new com.cedarsoft.rest.generator.test.jaxb.User.Jaxb();
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setEmail("email");
         object.setName("name");
-        object.setFriends(Arrays.asList(new UserJaxb()));
-        return AbstractJaxbTest.create(object, UserJaxbTest.class.getResource("UserJaxbTest.xml"));
+        object.setGroup(new com.cedarsoft.rest.generator.test.jaxb.Group.Stub());
+        object.setFriends(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.User.Stub()));
+        return AbstractJaxbTest.create(object, UserJaxbTest.class.getResource("UserJaxbTest.default.xml"));
     }
 
     @DataPoint
-    public static Entry<? extends UserJaxbStub> stub() {
-        com.cedarsoft.rest.generator.test.jaxb.User.Stub object = new com.cedarsoft.rest.generator.test.jaxb.User.bStub();
-        object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
-        object.setEmail( "email" );
-        object.setName( "name" );
+    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.User.Stub> stub() {
+        com.cedarsoft.rest.generator.test.jaxb.User.Stub object = new com.cedarsoft.rest.generator.test.jaxb.User.Stub();
+        object.setHref(JaxbTestUtils.createTestUriBuilder().build());
+        object.setEmail("email");
+        object.setName("name");
+        object.setGroup(new com.cedarsoft.rest.generator.test.jaxb.Group.Stub());
         return AbstractJaxbTest.create( object, UserJaxbTest.class.getResource( "UserJaxbTest.stub.xml" ) );
     }
 
 }
------------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbTest.xml-----------------------------------
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbTest.stub.xml-----------------------------------
+<?xml version="1.0"?>
+<user>
+</user>
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbTest.default.xml-----------------------------------
 <?xml version="1.0"?>
 <user>
 </user>
