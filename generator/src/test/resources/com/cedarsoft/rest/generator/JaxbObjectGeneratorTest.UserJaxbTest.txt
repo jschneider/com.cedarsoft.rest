@@ -40,11 +40,11 @@ public class UserJaxbTest
     }
 
 }
------------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbTest.stub.xml-----------------------------------
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbTest.default.xml-----------------------------------
 <?xml version="1.0"?>
 <user>
 </user>
------------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbTest.default.xml-----------------------------------
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbTest.stub.xml-----------------------------------
 <?xml version="1.0"?>
 <user>
 </user>

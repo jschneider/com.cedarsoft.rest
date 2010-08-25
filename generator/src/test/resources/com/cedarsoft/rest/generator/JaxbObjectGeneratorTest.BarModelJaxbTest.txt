@@ -43,11 +43,11 @@ public class BarModelJaxbTest
     }
 
 }
------------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbTest.stub.xml-----------------------------------
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbTest.default.xml-----------------------------------
 <?xml version="1.0"?>
 <barModel>
 </barModel>
------------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbTest.default.xml-----------------------------------
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbTest.stub.xml-----------------------------------
 <?xml version="1.0"?>
 <barModel>
 </barModel>

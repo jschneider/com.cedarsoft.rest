@@ -33,6 +33,7 @@ package com.cedarsoft.rest.generator;
 
 import com.cedarsoft.AssertUtils;
 import com.cedarsoft.codegen.CodeGenerator;
+import com.cedarsoft.codegen.MemoryCodeWriter;
 import com.cedarsoft.codegen.model.DomainObjectDescriptor;
 import com.cedarsoft.codegen.model.DomainObjectDescriptorFactory;
 import com.cedarsoft.codegen.parser.Parser;
@@ -41,12 +42,14 @@ import com.google.common.collect.ImmutableList;
 import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.writer.SingleStreamCodeWriter;
 import com.sun.mirror.declaration.FieldDeclaration;
+import org.jetbrains.annotations.NotNull;
 import org.junit.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -129,60 +132,47 @@ public class JaxbObjectGeneratorTest {
   public void testGeneratModelBar() throws URISyntaxException, JClassAlreadyExistsException, IOException {
     new Generator( codeGenerator, barDescriptor ).generate();
 
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    codeGenerator.getModel().build( new SingleStreamCodeWriter( out ) );
-
-    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.BarModelJaxb.txt" ), out.toString() );
+    assertCodeGeneration( getClass().getResource( "JaxbObjectGeneratorTest.BarModelJaxb.txt" ) );
   }
 
   @Test
   public void testGeneratModelUser() throws URISyntaxException, JClassAlreadyExistsException, IOException {
     new Generator( codeGenerator, userDescriptor ).generate();
 
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    codeGenerator.getModel().build( new SingleStreamCodeWriter( out ) );
-
-    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.UserJaxb.txt" ), out.toString() );
+    assertCodeGeneration( getClass().getResource( "JaxbObjectGeneratorTest.UserJaxb.txt" ) );
   }
 
   @Test
   public void testGeneratModelFoo() throws URISyntaxException, JClassAlreadyExistsException, IOException {
     codeGenerator = new CodeGenerator<JaxbObjectGenerator.StubDecisionCallback>( new JaxbObjectGenerator.StubDecisionCallback() );
 
-
     new Generator( codeGenerator, fooDescriptor ).generate();
-
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    codeGenerator.getModel().build( new SingleStreamCodeWriter( out ) );
-
-    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.FooModelJaxb.txt" ), out.toString() );
+    assertCodeGeneration( getClass().getResource( "JaxbObjectGeneratorTest.FooModelJaxb.txt" ) );
   }
 
   @Test
   public void testGeneratBarTest() throws Exception {
     new TestGenerator( codeGenerator, barDescriptor ).generateTest();
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    codeGenerator.getModel().build( new SingleStreamCodeWriter( out ) );
-
-    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.BarModelJaxbTest.txt" ), out.toString() );
+    assertCodeGeneration( getClass().getResource( "JaxbObjectGeneratorTest.BarModelJaxbTest.txt" ) );
   }
 
   @Test
   public void testGeneratFooTest() throws Exception {
     new TestGenerator( codeGenerator, fooDescriptor ).generateTest();
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    codeGenerator.getModel().build( new SingleStreamCodeWriter( out ) );
-
-    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.FooModelJaxbTest.txt" ), out.toString() );
+    assertCodeGeneration( getClass().getResource( "JaxbObjectGeneratorTest.FooModelJaxbTest.txt" ) );
   }
 
   @Test
   public void testGeneratUserest() throws Exception {
     new TestGenerator( codeGenerator, userDescriptor ).generateTest();
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    codeGenerator.getModel().build( new SingleStreamCodeWriter( out ) );
+    URL expected = getClass().getResource( "JaxbObjectGeneratorTest.UserJaxbTest.txt" );
+    assertCodeGeneration( expected );
+  }
 
-    AssertUtils.assertEquals( getClass().getResource( "JaxbObjectGeneratorTest.UserJaxbTest.txt" ), out.toString() );
+  private void assertCodeGeneration( @NotNull URL expected ) throws IOException {
+    MemoryCodeWriter memoryWriter = new MemoryCodeWriter();
+    codeGenerator.getModel().build( memoryWriter );
+    AssertUtils.assertEquals( expected, memoryWriter.allFilesToString() );
   }
 
   @Test
