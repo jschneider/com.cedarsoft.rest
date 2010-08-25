@@ -1,3 +1,22 @@
-<?xml version="1.0"?>
-<user>
-</user>
+<?xml version="1.0" encoding="UTF-8"?>
+<ns5:user xmlns:ns5="http://cedarsoft.com/rest/sample/user" xmlns:ns2="http://cedarsoft.com/rest/sample/group"
+          xmlns:ns4="http://cedarsoft.com/rest/sample/user/stub" xmlns:ns3="http://cedarsoft.com/rest/sample/group/stub"
+          href="http://test.running/here" id="daId">
+  <email>email</email>
+  <name>name</name>
+  <group id="groupId" />
+  <friend>
+    <email>markus@mustermann.com</email>
+    <name>Markus Mustermann</name>
+  </friend>
+  <friend>
+    <email>eva@mustermann.com</email>
+    <name>Eva Mustermann</name>
+  </friend>
+  <detail id="1">
+    <text>a detail text...</text>
+  </detail>
+  <detail id="2">
+    <text>Another detail with a long text</text>
+  </detail>
+</ns5:user>

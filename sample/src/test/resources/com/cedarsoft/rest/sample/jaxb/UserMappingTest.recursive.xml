@@ -16,4 +16,10 @@
     <email>markus3@mustermann.de</email>
     <name>Markus3 Mustermann</name>
   </friend>
+   <detail href="http://test.running/here/users/info@cedarsoft.com/details/1" id="1">
+    <text>the first detail</text>
+  </detail>
+  <detail href="http://test.running/here/users/info@cedarsoft.com/details/2" id="2">
+    <text>the second detail</text>
+  </detail>
 </ns2:user>

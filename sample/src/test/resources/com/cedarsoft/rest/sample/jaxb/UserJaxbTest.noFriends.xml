@@ -3,4 +3,10 @@
   <email>email</email>
   <name>name</name>
   <group id="groupId" />
+  <detail id="1">
+    <text>a detail text...</text>
+  </detail>
+  <detail id="2">
+    <text>Another detail with a long text</text>
+  </detail>
 </ns2:user>

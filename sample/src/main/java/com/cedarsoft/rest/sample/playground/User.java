@@ -53,8 +53,6 @@ public class User {
 
   @NotNull
   private final List<User> friends = new ArrayList<User>();
-  @NotNull
-  private final List<Detail> details = new ArrayList<Detail>();
 
   public User( @NotNull String email, @NotNull String name, @NotNull Group group ) {
     this.email = email;
@@ -65,20 +63,6 @@ public class User {
   @NotNull
   public String getName() {
     return name;
-  }
-
-  @NotNull
-  public List<Detail> getDetails() {
-    return Collections.unmodifiableList( details );
-  }
-
-  public void addDetail( @NotNull Detail detail ) {
-    this.details.add( detail );
-  }
-
-  public void setDetails( @NotNull List<? extends Detail> details ) {
-    this.details.clear();
-    this.details.addAll( details );
   }
 
   @NotNull

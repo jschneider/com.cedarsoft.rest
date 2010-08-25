@@ -51,6 +51,8 @@ public class User {
   private final Group group;
   @NotNull
   private final List<User> friends = new ArrayList<User>();
+  @NotNull
+  private final List<Detail> details = new ArrayList<Detail>();
 
   public User( @NotNull String email, @NotNull String name ) {
     this( email, name, new Group( "NOBODY", "Nobody is in this group" ) );
@@ -84,5 +86,19 @@ public class User {
 
   public void addFriend( @NotNull User user ) {
     this.friends.add( user );
+  }
+
+  @NotNull
+  public List<Detail> getDetails() {
+    return Collections.unmodifiableList( details );
+  }
+
+  public void addDetail( @NotNull Detail detail ) {
+    this.details.add( detail );
+  }
+
+  public void setDetails( @NotNull List<? extends Detail> details ) {
+    this.details.clear();
+    this.details.addAll( details );
   }
 }

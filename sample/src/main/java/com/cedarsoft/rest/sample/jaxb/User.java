@@ -39,7 +39,7 @@ public abstract class User extends AbstractJaxbObject {
     private Group.Stub group;
     @XmlElement( name = "friend" )
     private List<com.cedarsoft.rest.sample.jaxb.User.Stub> friends;
-    @XmlElement( name = "friend" )
+    @XmlElement( name = "detail" )
     private List<com.cedarsoft.rest.sample.jaxb.Detail.Stub> details;
 
     public Group.Stub getGroup() {

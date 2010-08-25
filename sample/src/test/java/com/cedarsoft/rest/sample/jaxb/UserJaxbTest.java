@@ -45,7 +45,7 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
   }
 
   @DataPoint
-  public static Entry<? extends User.Jaxb> entry1() {
+  public static Entry<? extends User.Jaxb> dataPoint1() {
     User.Jaxb object = new User.Jaxb();
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
     Group.Stub group = new Group.Stub();
@@ -66,12 +66,14 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
     object.setFriends( Arrays.asList( friend, friend2 ) );
 
     Detail.Stub detail = new Detail.Stub();
+    detail.setId( "1" );
     detail.setText( "a detail text..." );
     Detail.Stub detail1 = new Detail.Stub();
+    detail1.setId( "2" );
     detail1.setText( "Another detail with a long text" );
     object.setDetails( Arrays.asList( detail, detail1 ) );
 
-    return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.xml" ) );
+    return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.dataPoint1.xml" ) );
   }
 
   @DataPoint
@@ -87,9 +89,11 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
     object.setGroup( group );
 
     Detail.Stub detail = new Detail.Stub();
+    detail.setId( "1" );
     detail.setText( "a detail text..." );
     Detail.Stub detail1 = new Detail.Stub();
     detail1.setText( "Another detail with a long text" );
+    detail1.setId( "2" );
     object.setDetails( Arrays.asList( detail, detail1 ) );
 
     return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.noFriends.xml" ) );
