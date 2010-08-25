@@ -24,15 +24,15 @@ public abstract class FooModel
         extends FooModel
     {
 
-        private com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub singleBar;
+        private com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb singleBar;
         @XmlElement(name = "theBar")
         private List<com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub> theBars;
 
-        public com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub getSingleBar() {
+        public com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb getSingleBar() {
             return singleBar;
         }
 
-        public void setSingleBar(com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub singleBar) {
+        public void setSingleBar(com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb singleBar) {
             this.singleBar = singleBar;
         }
 

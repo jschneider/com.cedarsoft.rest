@@ -42,15 +42,15 @@ public abstract class User
         extends User
     {
 
-        private com.cedarsoft.rest.generator.test.jaxb.Group.Stub group;
+        private com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb group;
         @XmlElement(name = "friend")
         private List<com.cedarsoft.rest.generator.test.jaxb.User.Stub> friends;
 
-        public com.cedarsoft.rest.generator.test.jaxb.Group.Stub getGroup() {
+        public com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb getGroup() {
             return group;
         }
 
-        public void setGroup(com.cedarsoft.rest.generator.test.jaxb.Group.Stub group) {
+        public void setGroup(com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb group) {
             this.group = group;
         }
 

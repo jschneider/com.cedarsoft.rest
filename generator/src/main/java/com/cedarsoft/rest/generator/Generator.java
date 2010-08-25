@@ -387,10 +387,14 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
         continue;
       }
 
-      JClass fieldType = getJaxbModelType( fieldInfo.getType(), true );
+      boolean isCollectionType = TypeUtils.isCollectionType( fieldInfo.getType() );
+
+      //If it is a collection --> always create a stub
+      //And for stubs also create stubs, otherwise create a "real" object
+      JClass fieldType = getJaxbModelType( fieldInfo.getType(), isCollectionType || type == Scope.STUB );
       JFieldVar field = addField( currentClass, fieldType, fieldInfo );
 
-      if ( TypeUtils.isCollectionType( fieldInfo.getType() ) ) {
+      if ( isCollectionType ) {
         JAnnotationUse annotation = field.annotate( XmlElement.class );
         annotation.param( "name", NamingSupport.createSingular( field.name() ) );
       }
