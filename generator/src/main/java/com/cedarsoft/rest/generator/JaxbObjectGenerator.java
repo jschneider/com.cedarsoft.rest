@@ -42,8 +42,11 @@ import com.cedarsoft.codegen.model.FieldTypeInformation;
 import com.cedarsoft.codegen.parser.Parser;
 import com.cedarsoft.codegen.parser.Result;
 import com.cedarsoft.io.WriterOutputStream;
+import com.sun.codemodel.JClassAlreadyExistsException;
+import com.sun.mirror.declaration.ClassDeclaration;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.io.PrintStream;
 
 /**
@@ -66,10 +69,15 @@ public class JaxbObjectGenerator extends AbstractGenerator {
     public void generate( @NotNull GeneratorConfiguration configuration ) throws Exception {
       Result result = Parser.parse( configuration.getClasspath(), configuration.getDomainSourceFiles() );
 
-      DomainObjectDescriptor descriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration() ).create();
-
       PrintStream statusPrinter = new PrintStream( new WriterOutputStream( configuration.getLogOut() ) );
 
+      for ( ClassDeclaration classDeclaration : result.getClassDeclarations() ) {
+        DomainObjectDescriptor descriptor = new DomainObjectDescriptorFactory( classDeclaration ).create();
+        generate( descriptor, configuration, statusPrinter );
+      }
+    }
+
+    protected void generate( @NotNull DomainObjectDescriptor descriptor, @NotNull GeneratorConfiguration configuration, @NotNull PrintStream statusPrinter ) throws JClassAlreadyExistsException, IOException {
       //Create the source files
       if ( configuration.getCreationMode().isCreate() ) {
         configuration.getLogOut().append( "Generating JAXB classes...\n" );
