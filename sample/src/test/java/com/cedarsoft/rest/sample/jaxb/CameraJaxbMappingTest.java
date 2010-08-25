@@ -50,7 +50,7 @@ public class CameraJaxbMappingTest extends AbstractMappedJaxbTest<com.cedarsoft.
   @NotNull
   @Override
   protected JaxbMapping<com.cedarsoft.rest.sample.Camera, Camera.Jaxb, Camera.Stub> createMapping() {
-    return new CameraMapping( new UserMapping() );
+    return new CameraMapping( new UserMapping( new GroupMapping() ) );
   }
 
   @DataPoint

@@ -47,13 +47,24 @@ public class User {
   @NotNull
   @NonNls
   private final String name;
-
+  @NotNull
+  private final Group group;
   @NotNull
   private final List<User> friends = new ArrayList<User>();
 
   public User( @NotNull String email, @NotNull String name ) {
+    this( email, name, new Group( "NOBODY", "Nobody is in this group" ) );
+  }
+
+  public User( @NotNull String email, @NotNull String name, @NotNull Group group ) {
     this.email = email;
     this.name = name;
+    this.group = group;
+  }
+
+  @NotNull
+  public Group getGroup() {
+    return group;
   }
 
   @NotNull

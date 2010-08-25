@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<ns2:group xmlns:ns2="http://cedarsoft.com/rest/sample/group" xmlns:ns3="http://cedarsoft.com/rest/sample/group/stub"
+           href="http://test.running/here/groups/id" id="id">
+  <description>description</description>
+</ns2:group>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<ns4:user xmlns:ns4="http://cedarsoft.com/rest/sample/user/stub" xmlns:ns2="http://cedarsoft.com/rest/sample/group"
+          xmlns:ns3="http://cedarsoft.com/rest/sample/group/stub" xmlns:ns5="http://cedarsoft.com/rest/sample/user"
+          href="http://test.running/here/users/email" id="email">
+  <email>email</email>
+  <name>name</name>
+</ns4:user>

@@ -50,8 +50,9 @@ public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, Use
   @NonNls
   public static final String PATH_ID = "{id}";
 
-  public UserMapping() {
+  public UserMapping( @NotNull GroupMapping groupMapping ) {
     getDelegatesMapping().addMapping( User.Jaxb.class, User.Stub.class, this );
+    getDelegatesMapping().addMapping( Group.Jaxb.class, Group.Stub.class, groupMapping );
   }
 
   @Override
@@ -67,6 +68,7 @@ public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, Use
     jaxbObject.setEmail( object.getEmail() );
     jaxbObject.setName( object.getName() );
     jaxbObject.setFriends( getStub( User.Stub.class, object.getFriends(), context ) );
+    jaxbObject.setGroup( getStub( Group.Stub.class, object.getGroup(), context ) );
     return jaxbObject;
   }
 

@@ -48,6 +48,9 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
   public static Entry<? extends User.Jaxb> entry1() {
     User.Jaxb object = new User.Jaxb();
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
+    Group.Stub group = new Group.Stub();
+    group.setId( "groupId" );
+    object.setGroup( group );
     object.setId( "daId" );
     object.setEmail( "email" );
     object.setName( "name" );
@@ -73,9 +76,13 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
     object.setEmail( "email" );
     object.setName( "name" );
 
+    Group.Stub group = new Group.Stub();
+    group.setId( "groupId" );
+    object.setGroup( group );
+
     return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.noFriends.xml" ) );
   }
-  
+
   @DataPoint
   public static Entry<? extends User.Stub> stub() {
     User.Stub object = new User.Stub();
