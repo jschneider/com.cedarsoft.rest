@@ -10,27 +10,39 @@ import com.cedarsoft.rest.SimpleJaxbTest;
 import org.junit.experimental.theories.DataPoint;
 
 public class FooModelJaxbTest
-    extends SimpleJaxbTest<FooModelJaxb>
+    extends SimpleJaxbTest<com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb>
 {
 
 
-    @Override
-    protected Class<FooModelJaxb> getJaxbType() {
-        return FooModelJaxb.class;
+    public FooModelJaxbTest() {
+        super(com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub.class);
     }
 
     @DataPoint
-    public static Entry<? extends FooModelJaxb> entry1() {
-        FooModelJaxb object = new FooModelJaxb();
+    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb> default() {
+        com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb object = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb();
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setId("id");
-        object.setSingleBar(new BarModelJaxb());
-        object.setTheBars(Arrays.asList(new BarModelJaxb()));
-        return AbstractJaxbTest.create(object, FooModelJaxbTest.class.getResource("FooModelJaxbTest.xml"));
+        object.setSingleBar(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub());
+        object.setTheBars(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub()));
+        return AbstractJaxbTest.create(object, FooModelJaxbTest.class.getResource("FooModelJaxbTest.default.xml"));
+    }
+
+    @DataPoint
+    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub> stub() {
+        com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub object = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub();
+        object.setHref(JaxbTestUtils.createTestUriBuilder().build());
+        object.setId("id");
+        object.setSingleBar(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub());
+        return AbstractJaxbTest.create(object, FooModelJaxbTest.class.getResource("FooModelJaxbTest.stub.xml"));
     }
 
 }
------------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelJaxbTest.xml-----------------------------------
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelJaxbTest.default.xml-----------------------------------
+<?xml version="1.0"?>
+<fooModel>
+</fooModel>
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelJaxbTest.stub.xml-----------------------------------
 <?xml version="1.0"?>
 <fooModel>
 </fooModel>

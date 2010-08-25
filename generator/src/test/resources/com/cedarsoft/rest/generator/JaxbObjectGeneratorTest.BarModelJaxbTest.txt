@@ -11,18 +11,17 @@ import com.cedarsoft.rest.SimpleJaxbTest;
 import org.junit.experimental.theories.DataPoint;
 
 public class BarModelJaxbTest
-    extends SimpleJaxbTest<BarModelJaxb>
+    extends SimpleJaxbTest<com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb>
 {
 
 
-    @Override
-    protected Class<BarModelJaxb> getJaxbType() {
-        return BarModelJaxb.class;
+    public BarModelJaxbTest() {
+        super(com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub.class);
     }
 
     @DataPoint
-    public static Entry<? extends BarModelJaxb> entry1() {
-        BarModelJaxb object = new BarModelJaxb();
+    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb> default() {
+        com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb object = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb();
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setId("id");
         object.setDaInt(42);
@@ -30,11 +29,25 @@ public class BarModelJaxbTest
         object.setStringList(Arrays.asList("stringList"));
         object.setWildStringList(Arrays.asList("wildStringList"));
         object.setSet(new HashSet(Arrays.asList("set")));
-        return AbstractJaxbTest.create(object, BarModelJaxbTest.class.getResource("BarModelJaxbTest.xml"));
+        return AbstractJaxbTest.create(object, BarModelJaxbTest.class.getResource("BarModelJaxbTest.default.xml"));
+    }
+
+    @DataPoint
+    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub> stub() {
+        com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub object = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub();
+        object.setHref(JaxbTestUtils.createTestUriBuilder().build());
+        object.setId("id");
+        object.setDaInt(42);
+        object.setDaString("daString");
+        return AbstractJaxbTest.create(object, BarModelJaxbTest.class.getResource("BarModelJaxbTest.stub.xml"));
     }
 
 }
------------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbTest.xml-----------------------------------
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbTest.stub.xml-----------------------------------
+<?xml version="1.0"?>
+<barModel>
+</barModel>
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbTest.default.xml-----------------------------------
 <?xml version="1.0"?>
 <barModel>
 </barModel>

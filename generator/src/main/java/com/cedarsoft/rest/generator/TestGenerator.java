@@ -107,14 +107,14 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
     constructor.body().invoke( "super" ).arg( jaxbObject.dotclass() ).arg( jaxbStub.dotclass() );
   }
 
-  private void createDataPoint( @NotNull @NonNls String name, @NotNull JClass objectType ) {
-    JMethod method = testClass.method( JMod.STATIC | JMod.PUBLIC, codeGenerator.ref( Entry.class ).narrow( objectType.wildcard() ), name );
+  private void createDataPoint( @NotNull @NonNls String identifier, @NotNull JClass objectType ) {
+    JMethod method = testClass.method( JMod.STATIC | JMod.PUBLIC, codeGenerator.ref( Entry.class ).narrow( objectType.wildcard() ), identifier );
     method.annotate( codeGenerator.ref( "org.junit.experimental.theories.DataPoint" ) );
 
     JVar jaxbObjectInstance = addJaxbObjectCreation( method.body(), objectType );
-    method.body()._return( codeGenerator.ref( AbstractJaxbTest.class ).staticInvoke( METHOD_NAME_CREATE ).arg( jaxbObjectInstance ).arg( createGetResourceStatement( testClass ) ) );
+    method.body()._return( codeGenerator.ref( AbstractJaxbTest.class ).staticInvoke( METHOD_NAME_CREATE ).arg( jaxbObjectInstance ).arg( createGetResourceStatement( identifier ) ) );
 
-    createTestResource( name );
+    createTestResource( identifier );
   }
 
   @NotNull
@@ -162,7 +162,7 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
   public void createTestResource( @NotNull @NonNls String identifier ) {
     String domainObjectName = descriptor.getClassDeclaration().getSimpleName();
 
-    String resourceName = testClass.name() + "." + identifier + DOT_XML;
+    String resourceName = createResourceName( identifier );
 
     JPackage testClassPackage = testClass._package();
     if ( !testClassPackage.hasResourceFile( resourceName ) ) {
@@ -185,8 +185,12 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
     return getJaxbBaseName() + TEST_SUFFIX;
   }
 
+  private String createResourceName( @NotNull @NonNls String identifier ) {
+    return testClass.name() + "." + identifier + DOT_XML;
+  }
+
   @NotNull
-  private static JExpression createGetResourceStatement( @NotNull JClass testClass ) {
-    return testClass.dotclass().invoke( METHOD_NAME_GET_RESOURCE ).arg( testClass.name() + DOT_XML );
+  private JExpression createGetResourceStatement( @NotNull @NonNls String identifier ) {
+    return testClass.dotclass().invoke( METHOD_NAME_GET_RESOURCE ).arg( createResourceName( identifier ) );
   }
 }

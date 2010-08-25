@@ -36,7 +36,7 @@ public class UserJaxbTest
         object.setEmail("email");
         object.setName("name");
         object.setGroup(new com.cedarsoft.rest.generator.test.jaxb.Group.Stub());
-        return AbstractJaxbTest.create( object, UserJaxbTest.class.getResource( "UserJaxbTest.stub.xml" ) );
+        return AbstractJaxbTest.create(object, UserJaxbTest.class.getResource("UserJaxbTest.stub.xml"));
     }
 
 }
