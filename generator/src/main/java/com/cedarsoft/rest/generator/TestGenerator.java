@@ -77,32 +77,38 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
   @NonNls
   public static final String TEST_SUFFIX = "Test";
 
+
+  private JClass jaxbObject;
+  private JClass jaxbStub;
+  private JDefinedClass testClass;
+
   public TestGenerator( @NotNull CodeGenerator<JaxbObjectGenerator.StubDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     super( codeGenerator, descriptor );
   }
 
   public void generateTest() throws JClassAlreadyExistsException {
-    JClass jaxbObject = codeGenerator.ref( getJaxbObjectName() );
-    JClass jaxbStub = codeGenerator.ref( getJaxbStubName() );
+    if ( jaxbObject != null || jaxbStub != null || testClass != null ) {
+      throw new IllegalStateException( "Invalid state - still have generated" );
+    }
 
-    JDefinedClass testClass = codeGenerator.getModel()._class( getTestClassName() )._extends( codeGenerator.ref( SimpleJaxbTest.class ).narrow( jaxbObject ) );
+    jaxbObject = codeGenerator.ref( getJaxbObjectName() );
+    jaxbStub = codeGenerator.ref( getJaxbStubName() );
 
-    createConstructor( testClass, jaxbObject, jaxbStub );
+    testClass = codeGenerator.getModel()._class( getTestClassName() )._extends( codeGenerator.ref( SimpleJaxbTest.class ).narrow( jaxbObject ) );
 
-    createGetJaxbTypeMethod( jaxbObject, testClass );
+    createConstructor();
 
-    createDataPoint( testClass, jaxbObject );
+    createDataPoint();
 
-    createTestResource( testClass, descriptor.getClassDeclaration().getSimpleName() );
+    createTestResource();
   }
 
-  private void createConstructor( @NotNull JDefinedClass testClass, @NotNull JClass jaxbObject, @NotNull JClass jaxbStub ) {
+  private void createConstructor() {
     JMethod constructor = testClass.constructor( JMod.PUBLIC );
     constructor.body().invoke( "super" ).arg( jaxbObject.dotclass() ).arg( jaxbStub.dotclass() );
-
   }
 
-  private void createDataPoint( @NotNull JDefinedClass testClass, @NotNull JClass jaxbObject ) {
+  private void createDataPoint() {
     JMethod method = testClass.method( JMod.STATIC | JMod.PUBLIC, codeGenerator.ref( Entry.class ).narrow( jaxbObject.wildcard() ), DATA_POINT_METHOD_NAME );
     method.annotate( codeGenerator.ref( "org.junit.experimental.theories.DataPoint" ) );
 
@@ -132,13 +138,9 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
     return field;
   }
 
-  private void createGetJaxbTypeMethod( @NotNull JClass jaxbObject, @NotNull JDefinedClass testClass ) {
-    JMethod method = testClass.method( JMod.PROTECTED, codeGenerator.ref( Class.class ).narrow( jaxbObject ), METHOD_NAME_GET_JAXB_TYPE );
-    method.annotate( Override.class );
-    method.body()._return( jaxbObject.dotclass() );
-  }
+  public void createTestResource() {
+    String domainObjectName = descriptor.getClassDeclaration().getSimpleName();
 
-  public void createTestResource( @NotNull JClass testClass, @NotNull @NonNls String domainObjectName ) {
     String resourceName = testClass.name() + DOT_XML;
 
     JPackage testClassPackage = testClass._package();
