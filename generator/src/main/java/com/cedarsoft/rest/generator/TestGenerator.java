@@ -80,7 +80,7 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
   @NonNls
   public static final String JAXB_TEST_SUFFIX = "JaxbTest";
   @NonNls
-  public static final String DEFAULT_DATA_POINT_NAME = "default";
+  public static final String DEFAULT_DATA_POINT_NAME = "dataPoint1";
   @NonNls
   public static final String SUPER = "super";
   @NonNls

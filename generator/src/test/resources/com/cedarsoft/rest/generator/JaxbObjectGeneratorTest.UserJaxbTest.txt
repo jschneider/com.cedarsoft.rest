@@ -19,14 +19,14 @@ public class UserJaxbTest
     }
 
     @DataPoint
-    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.User.Jaxb> default() {
+    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.User.Jaxb> dataPoint1() {
         com.cedarsoft.rest.generator.test.jaxb.User.Jaxb object = new com.cedarsoft.rest.generator.test.jaxb.User.Jaxb();
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setEmail("email");
         object.setName("name");
         object.setGroup(new com.cedarsoft.rest.generator.test.jaxb.Group.Stub());
         object.setFriends(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.User.Stub()));
-        return AbstractJaxbTest.create(object, UserJaxbTest.class.getResource("UserJaxbTest.default.xml"));
+        return AbstractJaxbTest.create(object, UserJaxbTest.class.getResource("UserJaxbTest.dataPoint1.xml"));
     }
 
     @DataPoint
@@ -67,13 +67,13 @@ public class UserMappingTest
     }
 
     @DataPoint
-    public static Entry<? extends User> default() {
+    public static Entry<? extends User> dataPoint1() {
         User object = new User("email", "name", new Group());
-        return AbstractJaxbTest.create(object, UserMappingTest.class.getResource("UserMappingTest.default.xml"), UserMappingTest.class.getResource("UserMappingTest.stub.xml"));
+        return AbstractJaxbTest.create(object, UserMappingTest.class.getResource("UserMappingTest.dataPoint1.xml"), UserMappingTest.class.getResource("UserMappingTest.stub.xml"));
     }
 
 }
------------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbTest.default.xml-----------------------------------
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbTest.dataPoint1.xml-----------------------------------
 <?xml version="1.0"?>
 <user>
 </user>

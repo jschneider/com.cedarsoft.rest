@@ -20,7 +20,7 @@ public class BarModelJaxbTest
     }
 
     @DataPoint
-    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb> default() {
+    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb> dataPoint1() {
         com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb object = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb();
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setId("id");
@@ -29,7 +29,7 @@ public class BarModelJaxbTest
         object.setStringList(Arrays.asList("stringList"));
         object.setWildStringList(Arrays.asList("wildStringList"));
         object.setSet(new HashSet(Arrays.asList("set")));
-        return AbstractJaxbTest.create(object, BarModelJaxbTest.class.getResource("BarModelJaxbTest.default.xml"));
+        return AbstractJaxbTest.create(object, BarModelJaxbTest.class.getResource("BarModelJaxbTest.dataPoint1.xml"));
     }
 
     @DataPoint
@@ -71,13 +71,13 @@ public class BarModelMappingTest
     }
 
     @DataPoint
-    public static Entry<? extends BarModel> default() {
+    public static Entry<? extends BarModel> dataPoint1() {
         BarModel object = new BarModel("id", 42, "daString", Arrays.asList("wildStringList"), Arrays.asList("stringList"), new HashSet(Arrays.asList("set")));
-        return AbstractJaxbTest.create(object, BarModelMappingTest.class.getResource("BarModelMappingTest.default.xml"), BarModelMappingTest.class.getResource("BarModelMappingTest.stub.xml"));
+        return AbstractJaxbTest.create(object, BarModelMappingTest.class.getResource("BarModelMappingTest.dataPoint1.xml"), BarModelMappingTest.class.getResource("BarModelMappingTest.stub.xml"));
     }
 
 }
------------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbTest.default.xml-----------------------------------
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbTest.dataPoint1.xml-----------------------------------
 <?xml version="1.0"?>
 <barModel>
 </barModel>

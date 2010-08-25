@@ -19,13 +19,13 @@ public class FooModelJaxbTest
     }
 
     @DataPoint
-    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb> default() {
+    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb> dataPoint1() {
         com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb object = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb();
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setId("id");
         object.setSingleBar(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub());
         object.setTheBars(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub()));
-        return AbstractJaxbTest.create(object, FooModelJaxbTest.class.getResource("FooModelJaxbTest.default.xml"));
+        return AbstractJaxbTest.create(object, FooModelJaxbTest.class.getResource("FooModelJaxbTest.dataPoint1.xml"));
     }
 
     @DataPoint
@@ -66,13 +66,13 @@ public class FooModelMappingTest
     }
 
     @DataPoint
-    public static Entry<? extends FooModel> default() {
+    public static Entry<? extends FooModel> dataPoint1() {
         FooModel object = new FooModel("id", new BarModel(), Arrays.asList(new BarModel()));
-        return AbstractJaxbTest.create(object, FooModelMappingTest.class.getResource("FooModelMappingTest.default.xml"), FooModelMappingTest.class.getResource("FooModelMappingTest.stub.xml"));
+        return AbstractJaxbTest.create(object, FooModelMappingTest.class.getResource("FooModelMappingTest.dataPoint1.xml"), FooModelMappingTest.class.getResource("FooModelMappingTest.stub.xml"));
     }
 
 }
------------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelJaxbTest.default.xml-----------------------------------
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelJaxbTest.dataPoint1.xml-----------------------------------
 <?xml version="1.0"?>
 <fooModel>
 </fooModel>

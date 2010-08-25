@@ -90,7 +90,7 @@ public class GeneratorMojoTest extends AbstractMojoTestCase {
                 containsOnlyFiles( "unit/basic/jaxb/DaObjectJaxbTest.java" ) );
     assertThat( ContainsFileMatcher.toMessage( mojo.testResourcesOutputDirectory ), mojo.testResourcesOutputDirectory,
                 containsOnlyFiles(
-                  "unit/basic/jaxb/DaObjectJaxbTest.default.xml",
+                  "unit/basic/jaxb/DaObjectJaxbTest.dataPoint1.xml",
                   "unit/basic/jaxb/DaObjectJaxbTest.stub.xml"
                 ) );
   }
