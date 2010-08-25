@@ -80,3 +80,11 @@ public class FooModelMappingTest
 <?xml version="1.0"?>
 <fooModel>
 </fooModel>
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelMappingTest.dataPoint1.xml-----------------------------------
+<?xml version="1.0"?>
+<fooModel>
+</fooModel>
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelMappingTest.stub.xml-----------------------------------
+<?xml version="1.0"?>
+<fooModel>
+</fooModel>

@@ -138,7 +138,8 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
       .arg( createGetResourceStatement( mappingTestClass, STUB_DATA_POINT_NAME ) )
     );
 
-    createTestResource( jaxbTestClass, DEFAULT_DATA_POINT_NAME );
+    createTestResource( mappingTestClass, DEFAULT_DATA_POINT_NAME );
+    createTestResource( mappingTestClass, STUB_DATA_POINT_NAME );
   }
 
   @NotNull

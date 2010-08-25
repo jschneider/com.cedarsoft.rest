@@ -81,3 +81,11 @@ public class UserMappingTest
 <?xml version="1.0"?>
 <user>
 </user>
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserMappingTest.dataPoint1.xml-----------------------------------
+<?xml version="1.0"?>
+<user>
+</user>
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserMappingTest.stub.xml-----------------------------------
+<?xml version="1.0"?>
+<user>
+</user>
