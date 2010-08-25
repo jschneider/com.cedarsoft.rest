@@ -10,7 +10,7 @@ import com.cedarsoft.rest.SimpleJaxbTest;
 import org.junit.experimental.theories.DataPoint;
 
 public class UserJaxbTest
-    extends SimpleJaxbTest<com.cedarsoft.rest.generator.test.jaxb.User.Jaxb>
+    extends SimpleJaxbTest<com.cedarsoft.rest.generator.test.jaxb.User.Jaxb, com.cedarsoft.rest.generator.test.jaxb.User.Stub>
 {
 
 

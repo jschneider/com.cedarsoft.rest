@@ -94,6 +94,7 @@ public abstract class User
 
 package com.cedarsoft.rest.generator.test.jaxb;
 
+import java.net.URISyntaxException;
 import javax.ws.rs.core.UriBuilder;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
@@ -118,7 +119,9 @@ public class UserMapping
     }
 
     @Override
-    protected com.cedarsoft.rest.generator.test.jaxb.User.Jaxb createJaxbObject(User object, JaxbMappingContext context) {
+    protected com.cedarsoft.rest.generator.test.jaxb.User.Jaxb createJaxbObject(User object, JaxbMappingContext context)
+        throws URISyntaxException
+    {
         com.cedarsoft.rest.generator.test.jaxb.User.Jaxb jaxbObject = new com.cedarsoft.rest.generator.test.jaxb.User.Jaxb();
         jaxbObject.setEmail(object.getEmail());
         jaxbObject.setName(object.getName());
@@ -128,7 +131,9 @@ public class UserMapping
     }
 
     @Override
-    protected com.cedarsoft.rest.generator.test.jaxb.User.Stub createJaxbObjectStub(User object, JaxbMappingContext context) {
+    protected com.cedarsoft.rest.generator.test.jaxb.User.Stub createJaxbObjectStub(User object, JaxbMappingContext context)
+        throws URISyntaxException
+    {
         com.cedarsoft.rest.generator.test.jaxb.User.Stub stub = new com.cedarsoft.rest.generator.test.jaxb.User.Stub();
         stub.setEmail(object.getEmail());
         stub.setName(object.getName());

@@ -97,6 +97,7 @@ public abstract class BarModel
 
 package com.cedarsoft.rest.generator.test.jaxb;
 
+import java.net.URISyntaxException;
 import javax.ws.rs.core.UriBuilder;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
@@ -116,7 +117,9 @@ public class BarModelMapping
     }
 
     @Override
-    protected com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb createJaxbObject(BarModel object, JaxbMappingContext context) {
+    protected com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb createJaxbObject(BarModel object, JaxbMappingContext context)
+        throws URISyntaxException
+    {
         com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb jaxbObject = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb();
         jaxbObject.setId(object.getId());
         jaxbObject.setDaInt(object.getDaInt());
@@ -128,7 +131,9 @@ public class BarModelMapping
     }
 
     @Override
-    protected com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub createJaxbObjectStub(BarModel object, JaxbMappingContext context) {
+    protected com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub createJaxbObjectStub(BarModel object, JaxbMappingContext context)
+        throws URISyntaxException
+    {
         com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub stub = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub();
         stub.setId(object.getId());
         stub.setDaInt(object.getDaInt());

@@ -11,7 +11,7 @@ import com.cedarsoft.rest.SimpleJaxbTest;
 import org.junit.experimental.theories.DataPoint;
 
 public class BarModelJaxbTest
-    extends SimpleJaxbTest<com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb>
+    extends SimpleJaxbTest<com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb, com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub>
 {
 
 

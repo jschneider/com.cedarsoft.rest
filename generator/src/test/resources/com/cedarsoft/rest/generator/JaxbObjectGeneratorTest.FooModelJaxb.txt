@@ -76,6 +76,7 @@ public abstract class FooModel
 
 package com.cedarsoft.rest.generator.test.jaxb;
 
+import java.net.URISyntaxException;
 import javax.ws.rs.core.UriBuilder;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
@@ -99,7 +100,9 @@ public class FooModelMapping
     }
 
     @Override
-    protected com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb createJaxbObject(FooModel object, JaxbMappingContext context) {
+    protected com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb createJaxbObject(FooModel object, JaxbMappingContext context)
+        throws URISyntaxException
+    {
         com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb jaxbObject = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb();
         jaxbObject.setId(object.getId());
         jaxbObject.setSingleBar(getStub(com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub.class, object.getSingleBar(), context));
@@ -108,7 +111,9 @@ public class FooModelMapping
     }
 
     @Override
-    protected com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub createJaxbObjectStub(FooModel object, JaxbMappingContext context) {
+    protected com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub createJaxbObjectStub(FooModel object, JaxbMappingContext context)
+        throws URISyntaxException
+    {
         com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub stub = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub();
         stub.setId(object.getId());
         stub.setSingleBar(getStub(com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub.class, object.getSingleBar(), context));

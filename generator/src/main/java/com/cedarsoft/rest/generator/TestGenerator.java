@@ -160,7 +160,10 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
   }
 
   private void createJaxbTest() throws JClassAlreadyExistsException {
-    jaxbTestClass = codeGenerator.getModel()._class( getJaxbTestClassName() )._extends( codeGenerator.ref( SimpleJaxbTest.class ).narrow( jaxbObject ) );
+    jaxbTestClass = codeGenerator.getModel()._class( getJaxbTestClassName() )._extends( codeGenerator.ref( SimpleJaxbTest.class )
+      .narrow( jaxbObject )
+      .narrow( jaxbStub )
+    );
 
     createConstructor( jaxbTestClass );
 
