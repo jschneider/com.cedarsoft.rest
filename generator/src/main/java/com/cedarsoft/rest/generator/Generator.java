@@ -396,7 +396,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
         continue;
       }
 
-      JClass fieldType = getJaxbModelType( fieldInfo.getType(), type.isStub() );
+      JClass fieldType = getJaxbModelType( fieldInfo.getType(), true );
       JFieldVar field = addField( currentClass, fieldType, fieldInfo );
 
       if ( TypeUtils.isCollectionType( fieldInfo.getType() ) ) {
