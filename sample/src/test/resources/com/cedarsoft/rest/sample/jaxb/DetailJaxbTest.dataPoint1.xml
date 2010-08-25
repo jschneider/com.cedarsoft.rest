@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<ns2:detail xmlns:ns2="http://cedarsoft.com/rest/sample/detail" xmlns:ns3="http://cedarsoft.com/rest/sample/detail/stub"
+            href="http://test.running/here" id="daid">
+  <text>text</text>
+</ns2:detail>
+  

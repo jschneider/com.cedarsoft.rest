@@ -65,6 +65,12 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
 
     object.setFriends( Arrays.asList( friend, friend2 ) );
 
+    Detail.Stub detail = new Detail.Stub();
+    detail.setText( "a detail text..." );
+    Detail.Stub detail1 = new Detail.Stub();
+    detail1.setText( "Another detail with a long text" );
+    object.setDetails( Arrays.asList( detail, detail1 ) );
+
     return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.xml" ) );
   }
 
@@ -79,6 +85,12 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
     Group.Stub group = new Group.Stub();
     group.setId( "groupId" );
     object.setGroup( group );
+
+    Detail.Stub detail = new Detail.Stub();
+    detail.setText( "a detail text..." );
+    Detail.Stub detail1 = new Detail.Stub();
+    detail1.setText( "Another detail with a long text" );
+    object.setDetails( Arrays.asList( detail, detail1 ) );
 
     return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.noFriends.xml" ) );
   }

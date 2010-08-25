@@ -39,6 +39,8 @@ public abstract class User extends AbstractJaxbObject {
     private Group.Stub group;
     @XmlElement( name = "friend" )
     private List<com.cedarsoft.rest.sample.jaxb.User.Stub> friends;
+    @XmlElement( name = "friend" )
+    private List<com.cedarsoft.rest.sample.jaxb.Detail.Stub> details;
 
     public Group.Stub getGroup() {
       return group;
@@ -54,6 +56,14 @@ public abstract class User extends AbstractJaxbObject {
 
     public void setFriends( List<com.cedarsoft.rest.sample.jaxb.User.Stub> friends ) {
       this.friends = friends;
+    }
+
+    public List<Detail.Stub> getDetails() {
+      return details;
+    }
+
+    public void setDetails( List<Detail.Stub> details ) {
+      this.details = details;
     }
   }
 
