@@ -79,9 +79,6 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   @NotNull
   @NonNls
   public static final String METHOD_NAME_GET_STUB = "getStub";
-  @NotNull
-  @NonNls
-  public static final String MAPPING_SUFFIX = "Mapping";
   @NonNls
   public static final String METHOD_NAME_SET_ID = "setId";
   @NonNls
@@ -316,17 +313,6 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
       .arg( object.invoke( METHOD_NAME_GET_ID ) );
 
     method.body().add( object.invoke( METHOD_NAME_SET_HREF ).arg( uriBuilderInvocation ) );
-  }
-
-  @NotNull
-  @NonNls
-  protected String getJaxbMappingTypeName() {
-    String fqn = descriptor.getQualifiedName();
-    return getJaxbMappingTypeName( fqn );
-  }
-
-  protected String getJaxbMappingTypeName( @NotNull @NonNls String modelClassName ) {
-    return insertSubPackage( modelClassName, JAXB_SUB_PACKAGE ) + MAPPING_SUFFIX;
   }
 
   protected void createJaxbObject() throws JClassAlreadyExistsException {

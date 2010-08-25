@@ -59,6 +59,9 @@ public class AbstractGenerator<T extends DecisionCallback> {
   protected final CodeGenerator<T> codeGenerator;
   @NotNull
   protected final DomainObjectDescriptor descriptor;
+  @NotNull
+  @NonNls
+  public static final String MAPPING_SUFFIX = "Mapping";
 
   public AbstractGenerator( @NotNull CodeGenerator<T> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     this.codeGenerator = codeGenerator;
@@ -149,5 +152,16 @@ public class AbstractGenerator<T extends DecisionCallback> {
     } else {
       return base + "$" + JAXB_SUFFIX;
     }
+  }
+
+  @NotNull
+  @NonNls
+  protected String getJaxbMappingTypeName() {
+    String fqn = descriptor.getQualifiedName();
+    return getJaxbMappingTypeName( fqn );
+  }
+
+  protected String getJaxbMappingTypeName( @NotNull @NonNls String modelClassName ) {
+    return insertSubPackage( modelClassName, JAXB_SUB_PACKAGE ) + MAPPING_SUFFIX;
   }
 }

@@ -40,6 +40,39 @@ public class UserJaxbTest
     }
 
 }
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserMappingTest.java-----------------------------------
+
+package com.cedarsoft.rest.generator.test.jaxb;
+
+import com.cedarsoft.rest.AbstractJaxbTest;
+import com.cedarsoft.rest.AbstractMappedJaxbTest;
+import com.cedarsoft.rest.Entry;
+import com.cedarsoft.rest.JaxbMapping;
+import com.cedarsoft.rest.generator.test.Group;
+import com.cedarsoft.rest.generator.test.User;
+import org.junit.experimental.theories.DataPoint;
+
+public class UserMappingTest
+    extends AbstractMappedJaxbTest<User, com.cedarsoft.rest.generator.test.jaxb.User.Jaxb, com.cedarsoft.rest.generator.test.jaxb.User.Stub>
+{
+
+
+    public UserMappingTest() {
+        super(com.cedarsoft.rest.generator.test.jaxb.User.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.User.Stub.class);
+    }
+
+    @Override
+    protected JaxbMapping<User, com.cedarsoft.rest.generator.test.jaxb.User.Jaxb, com.cedarsoft.rest.generator.test.jaxb.User.Stub> createMapping() {
+        return new UserMapping();
+    }
+
+    @DataPoint
+    public static Entry<? extends User> default() {
+        User object = new User("email", "name", new Group());
+        return AbstractJaxbTest.create(object, UserMappingTest.class.getResource("UserMappingTest.default.xml"), UserMappingTest.class.getResource("UserMappingTest.stub.xml"));
+    }
+
+}
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbTest.default.xml-----------------------------------
 <?xml version="1.0"?>
 <user>

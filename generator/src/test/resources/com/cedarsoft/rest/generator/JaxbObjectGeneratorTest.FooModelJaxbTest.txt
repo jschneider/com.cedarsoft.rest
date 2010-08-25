@@ -38,6 +38,40 @@ public class FooModelJaxbTest
     }
 
 }
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelMappingTest.java-----------------------------------
+
+package com.cedarsoft.rest.generator.test.jaxb;
+
+import java.util.Arrays;
+import com.cedarsoft.rest.AbstractJaxbTest;
+import com.cedarsoft.rest.AbstractMappedJaxbTest;
+import com.cedarsoft.rest.Entry;
+import com.cedarsoft.rest.JaxbMapping;
+import com.cedarsoft.rest.generator.test.BarModel;
+import com.cedarsoft.rest.generator.test.FooModel;
+import org.junit.experimental.theories.DataPoint;
+
+public class FooModelMappingTest
+    extends AbstractMappedJaxbTest<FooModel, com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb, com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub>
+{
+
+
+    public FooModelMappingTest() {
+        super(com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub.class);
+    }
+
+    @Override
+    protected JaxbMapping<FooModel, com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb, com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub> createMapping() {
+        return new FooModelMapping();
+    }
+
+    @DataPoint
+    public static Entry<? extends FooModel> default() {
+        FooModel object = new FooModel("id", new BarModel(), Arrays.asList(new BarModel()));
+        return AbstractJaxbTest.create(object, FooModelMappingTest.class.getResource("FooModelMappingTest.default.xml"), FooModelMappingTest.class.getResource("FooModelMappingTest.stub.xml"));
+    }
+
+}
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelJaxbTest.default.xml-----------------------------------
 <?xml version="1.0"?>
 <fooModel>

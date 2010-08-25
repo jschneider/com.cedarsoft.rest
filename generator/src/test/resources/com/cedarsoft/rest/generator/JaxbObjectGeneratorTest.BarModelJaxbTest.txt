@@ -43,6 +43,40 @@ public class BarModelJaxbTest
     }
 
 }
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelMappingTest.java-----------------------------------
+
+package com.cedarsoft.rest.generator.test.jaxb;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import com.cedarsoft.rest.AbstractJaxbTest;
+import com.cedarsoft.rest.AbstractMappedJaxbTest;
+import com.cedarsoft.rest.Entry;
+import com.cedarsoft.rest.JaxbMapping;
+import com.cedarsoft.rest.generator.test.BarModel;
+import org.junit.experimental.theories.DataPoint;
+
+public class BarModelMappingTest
+    extends AbstractMappedJaxbTest<BarModel, com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb, com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub>
+{
+
+
+    public BarModelMappingTest() {
+        super(com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub.class);
+    }
+
+    @Override
+    protected JaxbMapping<BarModel, com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb, com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub> createMapping() {
+        return new BarModelMapping();
+    }
+
+    @DataPoint
+    public static Entry<? extends BarModel> default() {
+        BarModel object = new BarModel("id", 42, "daString", Arrays.asList("wildStringList"), Arrays.asList("stringList"), new HashSet(Arrays.asList("set")));
+        return AbstractJaxbTest.create(object, BarModelMappingTest.class.getResource("BarModelMappingTest.default.xml"), BarModelMappingTest.class.getResource("BarModelMappingTest.stub.xml"));
+    }
+
+}
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbTest.default.xml-----------------------------------
 <?xml version="1.0"?>
 <barModel>
