@@ -1,1 +1,1 @@
-{"@href":"http://localhost:9998/users/test@test.com","@id":"test@test.com","email":"test@test.com","name":"Test User","friend":{"@href":"http://localhost:9998/users/friend@asdf.de","@id":"friend@asdf.de","email":"friend@asdf.de","name":"A Friend"}}
+{"@href":"http://localhost:9998/users/test@test.com","@id":"test@test.com","email":"test@test.com","name":"Test User","group":{"@href":"http://localhost:9998/groups/NOBODY","@id":"NOBODY"},"friend":{"@href":"http://localhost:9998/users/friend@asdf.de","@id":"friend@asdf.de","email":"friend@asdf.de","name":"A Friend"}}

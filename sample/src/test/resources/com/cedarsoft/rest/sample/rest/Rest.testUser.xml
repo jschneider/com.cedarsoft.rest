@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ns3:user xmlns:ns3="http://cedarsoft.com/rest/sample/user" href="http://localhost:9998/users/test@test.com" id="test@test.com">
+<ns4:user xmlns:ns4="http://cedarsoft.com/rest/sample/user" xmlns:ns2="http://cedarsoft.com/rest/sample/group/stub"
+          xmlns:ns3="http://cedarsoft.com/rest/sample/user/stub" href="http://localhost:9998/users/test@test.com" id="test@test.com">
   <email>test@test.com</email>
   <name>Test User</name>
+  <group href="http://localhost:9998/groups/NOBODY" id="NOBODY" />
   <friend href="http://localhost:9998/users/friend@asdf.de" id="friend@asdf.de">
     <email>friend@asdf.de</email>
     <name>A Friend</name>
   </friend>
-</ns3:user>
+</ns4:user>
   

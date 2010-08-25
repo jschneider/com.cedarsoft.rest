@@ -34,6 +34,7 @@ package com.cedarsoft.rest.sample.jaxb;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.JaxbMappingContext;
+import com.google.inject.Inject;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,6 +51,7 @@ public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, Use
   @NonNls
   public static final String PATH_ID = "{id}";
 
+  @Inject
   public UserMapping( @NotNull GroupMapping groupMapping ) {
     getDelegatesMapping().addMapping( User.Jaxb.class, User.Stub.class, this );
     getDelegatesMapping().addMapping( Group.Jaxb.class, Group.Stub.class, groupMapping );
