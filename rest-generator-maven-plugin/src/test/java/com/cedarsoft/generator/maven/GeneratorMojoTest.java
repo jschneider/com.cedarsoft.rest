@@ -87,7 +87,8 @@ public class GeneratorMojoTest extends AbstractMojoTestCase {
 
   private void assertTests( AbstractGenerateMojo mojo ) {
     assertThat( ContainsFileMatcher.toMessage( mojo.testOutputDirectory ), mojo.testOutputDirectory,
-                containsOnlyFiles( "unit/basic/jaxb/DaObjectJaxbTest.java" ) );
+                containsOnlyFiles( "unit/basic/jaxb/DaObjectJaxbTest.java",
+                                   "unit/basic/jaxb/DaObjectMappingTest.java") );
     assertThat( ContainsFileMatcher.toMessage( mojo.testResourcesOutputDirectory ), mojo.testResourcesOutputDirectory,
                 containsOnlyFiles(
                   "unit/basic/jaxb/DaObjectJaxbTest.dataPoint1.xml",
