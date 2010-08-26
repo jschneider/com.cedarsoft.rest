@@ -167,7 +167,6 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    * @param object  the object
    * @param context the context
    * @return the jaxb object
-   *
    */
   @NotNull
   protected final J createJaxbObject( @NotNull T object, @NotNull UriContext context ) {
@@ -191,7 +190,6 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    * @param object  the object
    * @param context the context
    * @return the stub
-   *
    */
   protected final S createJaxbObjectStub( @NotNull T object, @NotNull UriContext context ) {
     S jaxbStub = createJaxbStub( object );
@@ -199,7 +197,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
     UriContext localContext = createLocalContext( context, jaxbStub );
     setHref( jaxbStub, localContext );
 
-    copyFieldsToJaxbStub( object, jaxbStub, localContext );
+    copyFieldsToStub( object, jaxbStub, localContext );
     return jaxbStub;
 
   }
@@ -247,11 +245,11 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
   /**
    * Copy the fields from the source to the target
    *
-   * @param object  the source model
+   * @param source  the source object
    * @param target  the target jaxb object
    * @param context the context
    */
-  protected abstract void copyFieldsToJaxbObject( @NotNull T object, @NotNull J target, @NotNull UriContext context );
+  protected abstract void copyFieldsToJaxbObject( @NotNull T source, @NotNull J target, @NotNull UriContext context );
 
-  protected abstract void copyFieldsToJaxbStub( @NotNull T object, @NotNull S target, @NotNull UriContext context );
+  protected abstract void copyFieldsToStub( @NotNull T source, @NotNull S target, @NotNull UriContext context );
 }

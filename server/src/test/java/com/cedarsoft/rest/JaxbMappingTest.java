@@ -63,8 +63,8 @@ public class JaxbMappingTest {
       }
 
       @Override
-      protected void copyFieldsToJaxbObject( @NotNull MyObject object, @NotNull MyObjectJaxb target, @NotNull UriContext context ) {
-        target.setDaInt( object.daInt );
+      protected void copyFieldsToJaxbObject( @NotNull MyObject source, @NotNull MyObjectJaxb target, @NotNull UriContext context ) {
+        target.setDaInt( source.daInt );
       }
 
       @NotNull
@@ -81,8 +81,8 @@ public class JaxbMappingTest {
       }
 
       @Override
-      protected void copyFieldsToJaxbStub( @NotNull MyObject object, @NotNull MyObjectJaxbStub target, @NotNull UriContext context ) {
-        target.stubInt = object.daInt;
+      protected void copyFieldsToStub( @NotNull MyObject source, @NotNull MyObjectJaxbStub target, @NotNull UriContext context ) {
+        target.stubInt = source.daInt;
       }
     };
 
@@ -103,7 +103,7 @@ public class JaxbMappingTest {
       }
 
       @Override
-      protected void copyFieldsToJaxbStub( @NotNull Parent object, @NotNull ParentJaxbStub target, @NotNull UriContext context ) {
+      protected void copyFieldsToStub( @NotNull Parent source, @NotNull ParentJaxbStub target, @NotNull UriContext context ) {
       }
 
       @NotNull
@@ -113,8 +113,8 @@ public class JaxbMappingTest {
       }
 
       @Override
-      protected void copyFieldsToJaxbObject( @NotNull Parent object, @NotNull ParentJaxb target, @NotNull UriContext context ) {
-        target.setChild( get( MyObjectJaxb.class, object.child, context ) );
+      protected void copyFieldsToJaxbObject( @NotNull Parent source, @NotNull ParentJaxb target, @NotNull UriContext context ) {
+        target.setChild( get( MyObjectJaxb.class, source.child, context ) );
       }
     };
 
@@ -129,7 +129,7 @@ public class JaxbMappingTest {
       }
 
       @Override
-      protected void copyFieldsToJaxbStub( @NotNull GrandFather object, @NotNull GrandFatherJaxbStub target, @NotNull UriContext context ) {
+      protected void copyFieldsToStub( @NotNull GrandFather source, @NotNull GrandFatherJaxbStub target, @NotNull UriContext context ) {
       }
 
       @NotNull
@@ -145,8 +145,8 @@ public class JaxbMappingTest {
       }
 
       @Override
-      protected void copyFieldsToJaxbObject( @NotNull GrandFather object, @NotNull GrandFatherJaxb target, @NotNull UriContext context ) {
-        target.setParent( get( ParentJaxb.class, object.parent, context ) );
+      protected void copyFieldsToJaxbObject( @NotNull GrandFather source, @NotNull GrandFatherJaxb target, @NotNull UriContext context ) {
+        target.setParent( get( ParentJaxb.class, source.parent, context ) );
       }
     };
 

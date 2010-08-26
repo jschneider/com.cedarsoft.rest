@@ -65,24 +65,24 @@ public class CameraMapping extends JaxbMapping<com.cedarsoft.rest.sample.Camera,
   }
 
   @Override
-  protected void copyFieldsToJaxbObject( @NotNull com.cedarsoft.rest.sample.Camera object, @NotNull Camera.Jaxb target, @NotNull UriContext context ) {
+  protected void copyFieldsToJaxbObject( @NotNull com.cedarsoft.rest.sample.Camera source, @NotNull Camera.Jaxb target, @NotNull UriContext context ) {
     target.setDescription( "a nice description about the camera!" );
 
     CameraInfo.Jaxb cameraInfo = new CameraInfo.Jaxb();
-    cameraInfo.setInternalSerial( object.getCameraInfo().getInternalSerial() );
-    cameraInfo.setMake( object.getCameraInfo().getMake() );
-    cameraInfo.setModel( object.getCameraInfo().getModel() );
-    cameraInfo.setSerial( object.getCameraInfo().getSerial() );
+    cameraInfo.setInternalSerial( source.getCameraInfo().getInternalSerial() );
+    cameraInfo.setMake( source.getCameraInfo().getMake() );
+    cameraInfo.setModel( source.getCameraInfo().getModel() );
+    cameraInfo.setSerial( source.getCameraInfo().getSerial() );
     target.setCameraInfo( cameraInfo );
 
-    target.setOwner( getStub( User.Stub.class, object.getOwner(), context ) );
+    target.setOwner( getStub( User.Stub.class, source.getOwner(), context ) );
   }
 
   @Override
-  protected void copyFieldsToJaxbStub( @NotNull com.cedarsoft.rest.sample.Camera object, @NotNull Camera.Stub target, @NotNull UriContext context ) {
+  protected void copyFieldsToStub( @NotNull com.cedarsoft.rest.sample.Camera source, @NotNull Camera.Stub target, @NotNull UriContext context ) {
     CameraInfo.Stub cameraInfo = new CameraInfo.Stub();
-    cameraInfo.setMake( object.getCameraInfo().getMake() );
-    cameraInfo.setModel( object.getCameraInfo().getModel() );
+    cameraInfo.setMake( source.getCameraInfo().getMake() );
+    cameraInfo.setModel( source.getCameraInfo().getModel() );
     target.setCameraInfo( cameraInfo );
   }
 }

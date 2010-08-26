@@ -64,18 +64,18 @@ public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, Use
   /**
    * Copies the fields
    *
-   * @param object     the source source
+   * @param source
    * @param target the target jaxb source the fields are set at
    * @param context    the context
    */
   @Override
-  protected void copyFieldsToJaxbObject( @NotNull com.cedarsoft.rest.sample.User object, @NotNull User.Jaxb target, @NotNull UriContext context ) {
-    target.setEmail( object.getEmail() );
-    target.setName( object.getName() );
-    target.setFriends( getStub( User.Stub.class, object.getFriends(), context ) );
-    target.setGroup( getStub( Group.Stub.class, object.getGroup(), context ) );
+  protected void copyFieldsToJaxbObject( @NotNull com.cedarsoft.rest.sample.User source, @NotNull User.Jaxb target, @NotNull UriContext context ) {
+    target.setEmail( source.getEmail() );
+    target.setName( source.getName() );
+    target.setFriends( getStub( User.Stub.class, source.getFriends(), context ) );
+    target.setGroup( getStub( Group.Stub.class, source.getGroup(), context ) );
 
-    target.setDetails( getStub( Detail.Stub.class, object.getDetails(), context ) );
+    target.setDetails( getStub( Detail.Stub.class, source.getDetails(), context ) );
   }
 
   /**
@@ -96,8 +96,8 @@ public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, Use
   }
 
   @Override
-  protected void copyFieldsToJaxbStub( @NotNull com.cedarsoft.rest.sample.User object, @NotNull User.Stub target, @NotNull UriContext context ) {
-    target.setEmail( object.getEmail() );
-    target.setName( object.getName() );
+  protected void copyFieldsToStub( @NotNull com.cedarsoft.rest.sample.User source, @NotNull User.Stub target, @NotNull UriContext context ) {
+    target.setEmail( source.getEmail() );
+    target.setName( source.getName() );
   }
 }

@@ -17,6 +17,13 @@ public abstract class FooModel
 {
 
 
+    protected FooModel() {
+    }
+
+    protected FooModel(String id) {
+        super(id);
+    }
+
     @XmlType(name = "fooModel")
     @XmlRootElement(name = "fooModel", namespace = "http://cedarsoft.com/rest/generator/test/foo-model")
     @XmlAccessorType(XmlAccessType.FIELD)
@@ -27,6 +34,13 @@ public abstract class FooModel
         private com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb singleBar;
         @XmlElement(name = "theBar")
         private List<com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub> theBars;
+
+        public Jaxb() {
+        }
+
+        public Jaxb(String id) {
+            super(id);
+        }
 
         public com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb getSingleBar() {
             return singleBar;
@@ -56,6 +70,13 @@ public abstract class FooModel
 
         private com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub singleBar;
 
+        public Stub() {
+        }
+
+        public Stub(String id) {
+            super(id);
+        }
+
         public com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub getSingleBar() {
             return singleBar;
         }
@@ -79,7 +100,7 @@ package com.cedarsoft.rest.generator.test.jaxb;
 import javax.ws.rs.core.UriBuilder;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
-import com.cedarsoft.rest.JaxbMappingContext;
+import com.cedarsoft.rest.UriContext;
 import com.cedarsoft.rest.generator.test.FooModel;
 
 public class FooModelMapping
@@ -87,36 +108,37 @@ public class FooModelMapping
 {
 
     public final static String PATH = "foomodels";
-    public final static String ID = "{id}";
 
     public FooModelMapping(BarModelMapping barModelMapping) {
         getDelegatesMapping().addMapping(com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub.class, barModelMapping);
     }
 
     @Override
-    protected void setUris(JaxbObject object, UriBuilder uriBuilder) {
-        object.setHref(uriBuilder.path(PATH).path(ID).build(object.getId()));
+    protected UriBuilder getUri(JaxbObject object, UriContext context) {
+        return context.getBaseUriBuilder().path(PATH).path(object.getId());
     }
 
     @Override
-    protected com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb createJaxbObject(FooModel object, JaxbMappingContext context)
-        throws URISyntaxException
-    {
-        com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb jaxbObject = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb();
-        jaxbObject.setId(object.getId());
-        jaxbObject.setSingleBar(get(com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb.class, object.getSingleBar(), context));
-        jaxbObject.setTheBars(getStub(com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub.class, object.getTheBars(), context));
-        return jaxbObject;
+    protected com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb createJaxbObject(FooModel object) {
+        return new com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb(object.getId());
     }
 
     @Override
-    protected com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub createJaxbObjectStub(FooModel object, JaxbMappingContext context)
-        throws URISyntaxException
-    {
-        com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub stub = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub();
-        stub.setId(object.getId());
-        stub.setSingleBar(getStub(com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub.class, object.getSingleBar(), context));
-        return stub;
+    protected com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub createJaxbStub(FooModel object) {
+        return new com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub(object.getId());
+    }
+
+    @Override
+    protected void copyFieldsToJaxbObject(FooModel source, com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb target, UriContext context) {
+        target.setId(source.getId());
+        target.setSingleBar(get(com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb.class, source.getSingleBar(), context));
+        target.setTheBars(getStub(com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub.class, source.getTheBars(), context));
+    }
+
+    @Override
+    protected void copyFieldsToStub(FooModel source, com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub target, UriContext context) {
+        target.setId(source.getId());
+        target.setSingleBar(getStub(com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub.class, source.getSingleBar(), context));
     }
 
 }

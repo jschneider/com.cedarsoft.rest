@@ -20,6 +20,13 @@ public abstract class BarModel
     private int daInt;
     private String daString;
 
+    protected BarModel() {
+    }
+
+    protected BarModel(String id) {
+        super(id);
+    }
+
     public int getDaInt() {
         return daInt;
     }
@@ -49,6 +56,13 @@ public abstract class BarModel
         private List<? extends String> wildStringList;
         @XmlElement(name = "set")
         private Set<? extends String> set;
+
+        public Jaxb() {
+        }
+
+        public Jaxb(String id) {
+            super(id);
+        }
 
         public List<String> getStringList() {
             return stringList;
@@ -85,6 +99,13 @@ public abstract class BarModel
     {
 
 
+        public Stub() {
+        }
+
+        public Stub(String id) {
+            super(id);
+        }
+
         @Override
         public Class<BarModel.Jaxb> getJaxbType() {
             return BarModel.Jaxb.class;
@@ -100,7 +121,7 @@ package com.cedarsoft.rest.generator.test.jaxb;
 import javax.ws.rs.core.UriBuilder;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
-import com.cedarsoft.rest.JaxbMappingContext;
+import com.cedarsoft.rest.UriContext;
 import com.cedarsoft.rest.generator.test.BarModel;
 
 public class BarModelMapping
@@ -108,36 +129,37 @@ public class BarModelMapping
 {
 
     public final static String PATH = "barmodels";
-    public final static String ID = "{id}";
 
     @Override
-    protected void setUris(JaxbObject object, UriBuilder uriBuilder) {
-        object.setHref(uriBuilder.path(PATH).path(ID).build(object.getId()));
+    protected UriBuilder getUri(JaxbObject object, UriContext context) {
+        return context.getBaseUriBuilder().path(PATH).path(object.getId());
     }
 
     @Override
-    protected com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb createJaxbObject(BarModel object, JaxbMappingContext context)
-        throws URISyntaxException
-    {
-        com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb jaxbObject = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb();
-        jaxbObject.setId(object.getId());
-        jaxbObject.setDaInt(object.getDaInt());
-        jaxbObject.setDaString(object.getDaString());
-        jaxbObject.setStringList(object.getStringList());
-        jaxbObject.setWildStringList(object.getWildStringList());
-        jaxbObject.setSet(object.getSet());
-        return jaxbObject;
+    protected com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb createJaxbObject(BarModel object) {
+        return new com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb(object.getId());
     }
 
     @Override
-    protected com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub createJaxbObjectStub(BarModel object, JaxbMappingContext context)
-        throws URISyntaxException
-    {
-        com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub stub = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub();
-        stub.setId(object.getId());
-        stub.setDaInt(object.getDaInt());
-        stub.setDaString(object.getDaString());
-        return stub;
+    protected com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub createJaxbStub(BarModel object) {
+        return new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub(object.getId());
+    }
+
+    @Override
+    protected void copyFieldsToJaxbObject(BarModel source, com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb target, UriContext context) {
+        target.setId(source.getId());
+        target.setDaInt(source.getDaInt());
+        target.setDaString(source.getDaString());
+        target.setStringList(source.getStringList());
+        target.setWildStringList(source.getWildStringList());
+        target.setSet(source.getSet());
+    }
+
+    @Override
+    protected void copyFieldsToStub(BarModel source, com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub target, UriContext context) {
+        target.setId(source.getId());
+        target.setDaInt(source.getDaInt());
+        target.setDaString(source.getDaString());
     }
 
 }

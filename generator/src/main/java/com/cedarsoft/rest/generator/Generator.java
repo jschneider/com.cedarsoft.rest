@@ -113,7 +113,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   @NonNls
   public static final String METHOD_NAME_CREATE_JAXB_OBJECT = "createJaxbObject";
   @NonNls
-  public static final String METHOD_NAME_CREATE_JAXB_STUB = "createJaxbObjectStub";
+  public static final String METHOD_NAME_CREATE_JAXB_STUB = "createJaxbStub";
   @NonNls
   public static final String STUB_NAMESPACE_SUFFIX = "/stub";
   @NonNls
@@ -192,43 +192,33 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     mappingClass = codeGenerator.getModel()._class( getJaxbMappingTypeName() )._extends( superType );
 
     createHrefMethod();
-    createCreateJaxbObjectMethod();
-    createCreateJaxbStubMethod();
+    createCreateJaxbMethod( jaxbObject, METHOD_NAME_CREATE_JAXB_OBJECT );
+    createCreateJaxbMethod( jaxbStub, METHOD_NAME_CREATE_JAXB_STUB );
+
+    createCopyMethod( "copyFieldsToJaxbObject", jaxbObject, false );
+    createCopyMethod( "copyFieldsToStub", jaxbStub, true );
   }
 
-  private void createCreateJaxbObjectMethod() {
-    assert jaxbObject != null;
-    assert mappingClass != null;
-
-    JMethod method = mappingClass.method( JMod.PROTECTED, jaxbObject, METHOD_NAME_CREATE_JAXB_OBJECT );
-
-    JVar object = method.param( codeGenerator.ref( descriptor.getQualifiedName() ), OBJECT );
-    JVar context = method.param( codeGenerator.ref( UriContext.class ), CONTEXT );
-    method.annotate( Override.class );
-
-    JVar jaxbObjectInstance = method.body().decl( jaxbObject, JAXB_OBJECT, JExpr._new( jaxbObject ) );
-
-    addFieldCopyOperations( object, jaxbObjectInstance, context, method.body(), false );
-    method.body()._return( jaxbObjectInstance );
-  }
-
-  private void createCreateJaxbStubMethod() {
-    assert jaxbStub != null;
-    assert mappingClass != null;
-
-    JMethod method = mappingClass.method( JMod.PROTECTED, jaxbStub, METHOD_NAME_CREATE_JAXB_STUB );
+  private void createCreateJaxbMethod( @NotNull JClass jaxbType, @NotNull @NonNls String methodName ) {
+    JMethod method = mappingClass.method( JMod.PROTECTED, jaxbType, methodName );
     method.annotate( Override.class );
 
     JVar object = method.param( codeGenerator.ref( descriptor.getQualifiedName() ), OBJECT );
-    JVar context = method.param( codeGenerator.ref( UriContext.class ), CONTEXT );
-
-    JVar jaxbObjectInstance = method.body().decl( jaxbStub, STUB_OBJECT, JExpr._new( jaxbStub ) );
-
-    addFieldCopyOperations( object, jaxbObjectInstance, context, method.body(), true );
-    method.body()._return( jaxbObjectInstance );
+    method.body()._return( JExpr._new( jaxbType ).arg( object.invoke( METHOD_NAME_GET_ID ) ) );
   }
 
-  private void addFieldCopyOperations( @NotNull JExpression object, @NotNull JExpression jaxbObjectInstance, @NotNull JExpression context, @NotNull JBlock block, boolean isStub ) {
+  private void createCopyMethod( String methodName, JDefinedClass targetType, boolean stub ) {
+    JMethod method = mappingClass.method( JMod.PROTECTED, Void.TYPE, methodName );
+    method.annotate( Override.class );
+
+    JVar source = method.param( codeGenerator.ref( descriptor.getQualifiedName() ), "source" );
+    JVar target = method.param( targetType, "target" );
+    JVar context = method.param( codeGenerator.ref( UriContext.class ), CONTEXT );
+
+    addFieldCopyOperations( source, target, context, method.body(), stub );
+  }
+
+  private void addFieldCopyOperations( @NotNull JExpression source, @NotNull JExpression target, @NotNull JExpression context, @NotNull JBlock block, boolean isStub ) {
     assert jaxbObject != null;
     assert jaxbStub != null;
     assert mappingClass != null;
@@ -237,7 +227,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     Collection<JStatement> statements = new ArrayList<JStatement>();
 
     for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldInfos() ) {
-      JInvocation getterInvocation = object.invoke( fieldInfo.getGetterDeclaration().getSimpleName() );
+      JInvocation getterInvocation = source.invoke( fieldInfo.getGetterDeclaration().getSimpleName() );
 
       if ( isStub && !shallAddFieldCopyStatementToStub( fieldInfo ) ) {
         continue;
@@ -266,7 +256,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
       } else {
         value = getterInvocation;
       }
-      statements.add( jaxbObjectInstance.invoke( NamingSupport.createSetter( fieldInfo.getSimpleName() ) ).arg( value ) );
+      statements.add( target.invoke( NamingSupport.createSetter( fieldInfo.getSimpleName() ) ).arg( value ) );
     }
 
     for ( JStatement statement : statements ) {
@@ -327,7 +317,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
 
     JFieldVar pathConst = mappingClass.field( JMod.PUBLIC | JMod.STATIC | JMod.FINAL, String.class, CONST_PATH,
                                               JExpr.lit( NamingSupport.plural( NamingSupport.createXmlElementName( getDescriptor().getClassDeclaration().getSimpleName() ) ) ) );
-    method.body()._return( context.invoke( METHOD_GET_BASE_URI_BUILDER ).invoke( METHOD_NAME_PATH ).arg( pathConst ).invoke( METHOD_NAME_PATH ).arg( object.invoke( METHOD_NAME_GET_ID ) ));
+    method.body()._return( context.invoke( METHOD_GET_BASE_URI_BUILDER ).invoke( METHOD_NAME_PATH ).arg( pathConst ).invoke( METHOD_NAME_PATH ).arg( object.invoke( METHOD_NAME_GET_ID ) ) );
   }
 
   protected void createJaxbObject() throws JClassAlreadyExistsException {

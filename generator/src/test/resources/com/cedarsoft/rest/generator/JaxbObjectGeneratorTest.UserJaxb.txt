@@ -138,28 +138,28 @@ public class UserMapping
     }
 
     @Override
-    protected User.Jaxb createJaxbObject(User object) {
+    protected com.cedarsoft.rest.generator.test.jaxb.User.Jaxb createJaxbObject(User object) {
         return new com.cedarsoft.rest.generator.test.jaxb.User.Jaxb(object.getId());
     }
 
     @Override
-    protected User.Stub createJaxbStub(User object) {
+    protected com.cedarsoft.rest.generator.test.jaxb.User.Stub createJaxbStub(User object) {
         return new com.cedarsoft.rest.generator.test.jaxb.User.Stub(object.getId());
     }
 
     @Override
-    protected void copyFieldsToJaxbObject( @NotNull com.cedarsoft.rest.sample.User object, @NotNull User.Jaxb target, @NotNull UriContext context ) throws URISyntaxException {
-        target.setEmail( object.getEmail() );
-        target.setName( object.getName() );
-        target.setGroup(get(com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb.class, object.getGroup(), context));
-        target.setFriends(getStub(com.cedarsoft.rest.generator.test.jaxb.User.Stub.class, object.getFriends(), context));
+    protected void copyFieldsToJaxbObject(User source, com.cedarsoft.rest.generator.test.jaxb.User.Jaxb target, UriContext context) {
+        target.setEmail(source.getEmail());
+        target.setName(source.getName());
+        target.setGroup(get(com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb.class, source.getGroup(), context));
+        target.setFriends(getStub(com.cedarsoft.rest.generator.test.jaxb.User.Stub.class, source.getFriends(), context));
     }
 
     @Override
-    protected void copyFieldsToJaxbStub( @NotNull com.cedarsoft.rest.sample.User object, @NotNull User.Stub target, @NotNull UriContext context ) throws URISyntaxException {
-        target.setEmail(object.getEmail());
-        target.setName(object.getName());
-        target.setGroup(getStub(com.cedarsoft.rest.generator.test.jaxb.Group.Stub.class, object.getGroup(), context));
+    protected void copyFieldsToStub(User source, com.cedarsoft.rest.generator.test.jaxb.User.Stub target, UriContext context) {
+        target.setEmail(source.getEmail());
+        target.setName(source.getName());
+        target.setGroup(getStub(com.cedarsoft.rest.generator.test.jaxb.Group.Stub.class, source.getGroup(), context));
     }
 
 }

@@ -39,13 +39,10 @@ import com.cedarsoft.codegen.model.DomainObjectDescriptorFactory;
 import com.cedarsoft.codegen.parser.Parser;
 import com.cedarsoft.codegen.parser.Result;
 import com.google.common.collect.ImmutableList;
-import com.sun.codemodel.JClassAlreadyExistsException;
-import com.sun.codemodel.writer.SingleStreamCodeWriter;
 import com.sun.mirror.declaration.FieldDeclaration;
 import org.jetbrains.annotations.NotNull;
 import org.junit.*;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;

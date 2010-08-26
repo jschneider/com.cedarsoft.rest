@@ -78,8 +78,8 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo, FooStu
     }
 
     @Override
-    protected void copyFieldsToJaxbObject( @NotNull FooModel object, @NotNull Foo target, @NotNull UriContext context ) {
-      target.setDaValue( object.getDaValue() );
+    protected void copyFieldsToJaxbObject( @NotNull FooModel source, @NotNull Foo target, @NotNull UriContext context ) {
+      target.setDaValue( source.getDaValue() );
     }
 
     @Override
@@ -88,7 +88,7 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo, FooStu
     }
 
     @Override
-    protected void copyFieldsToJaxbStub( @NotNull FooModel object, @NotNull FooStub target, @NotNull UriContext context ) {
+    protected void copyFieldsToStub( @NotNull FooModel source, @NotNull FooStub target, @NotNull UriContext context ) {
     }
   }
 }

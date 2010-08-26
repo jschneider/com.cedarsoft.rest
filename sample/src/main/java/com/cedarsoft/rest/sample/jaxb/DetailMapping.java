@@ -33,12 +33,12 @@ public class DetailMapping extends JaxbMapping<Detail, com.cedarsoft.rest.sample
   }
 
   @Override
-  protected void copyFieldsToJaxbObject( @NotNull Detail object, @NotNull com.cedarsoft.rest.sample.jaxb.Detail.Jaxb target, @NotNull UriContext context ) {
-    target.setText( object.getText() );
+  protected void copyFieldsToJaxbObject( @NotNull Detail source, @NotNull com.cedarsoft.rest.sample.jaxb.Detail.Jaxb target, @NotNull UriContext context ) {
+    target.setText( source.getText() );
   }
 
   @Override
-  protected void copyFieldsToJaxbStub( @NotNull Detail object, @NotNull com.cedarsoft.rest.sample.jaxb.Detail.Stub target, @NotNull UriContext context ) {
-    target.setText( object.getText() );
+  protected void copyFieldsToStub( @NotNull Detail source, @NotNull com.cedarsoft.rest.sample.jaxb.Detail.Stub target, @NotNull UriContext context ) {
+    target.setText( source.getText() );
   }
 }

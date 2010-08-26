@@ -30,11 +30,11 @@ public class GroupMapping extends JaxbMapping<Group, com.cedarsoft.rest.sample.j
   }
 
   @Override
-  protected void copyFieldsToJaxbObject( @NotNull Group object, @NotNull com.cedarsoft.rest.sample.jaxb.Group.Jaxb target, @NotNull UriContext context ) {
-    target.setDescription( object.getDescription() );
+  protected void copyFieldsToJaxbObject( @NotNull Group source, @NotNull com.cedarsoft.rest.sample.jaxb.Group.Jaxb target, @NotNull UriContext context ) {
+    target.setDescription( source.getDescription() );
   }
 
   @Override
-  protected void copyFieldsToJaxbStub( @NotNull Group object, @NotNull com.cedarsoft.rest.sample.jaxb.Group.Stub target, @NotNull UriContext context ) {
+  protected void copyFieldsToStub( @NotNull Group source, @NotNull com.cedarsoft.rest.sample.jaxb.Group.Stub target, @NotNull UriContext context ) {
   }
 }
