@@ -240,6 +240,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    * @param object the object
    * @return the stub object (with the ID set)
    */
+  @NotNull
   protected abstract S createJaxbStub( @NotNull T object );
 
   /**
