@@ -43,7 +43,6 @@ import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
 import com.cedarsoft.rest.JaxbMapping;
-import com.cedarsoft.rest.JaxbMappingContext;
 import com.sun.codemodel.JAnnotationUse;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;

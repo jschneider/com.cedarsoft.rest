@@ -2,6 +2,8 @@ package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,6 +16,13 @@ import java.util.List;
 public abstract class User extends AbstractJaxbObject {
   private String email;
   private String name;
+
+  protected User() {
+  }
+
+  protected User( @NotNull @NonNls String id ) {
+    super( id );
+  }
 
   public String getEmail() {
     return email;
@@ -35,12 +44,18 @@ public abstract class User extends AbstractJaxbObject {
   @XmlRootElement( name = "user", namespace = "http://cedarsoft.com/rest/sample/user" )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Jaxb extends User {
-
     private Group.Stub group;
     @XmlElement( name = "friend" )
     private List<com.cedarsoft.rest.sample.jaxb.User.Stub> friends;
     @XmlElement( name = "detail" )
     private List<com.cedarsoft.rest.sample.jaxb.Detail.Stub> details;
+
+    public Jaxb() {
+    }
+
+    public Jaxb( @NotNull @NonNls String id ) {
+      super( id );
+    }
 
     public Group.Stub getGroup() {
       return group;
@@ -71,11 +86,16 @@ public abstract class User extends AbstractJaxbObject {
   @XmlRootElement( name = "user", namespace = "http://cedarsoft.com/rest/sample/user/stub" )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Stub extends User implements JaxbStub<User.Jaxb> {
+    public Stub() {
+    }
+
+    public Stub( @NotNull @NonNls String id ) {
+      super( id );
+    }
+
     @Override
     public Class<User.Jaxb> getJaxbType() {
       return User.Jaxb.class;
     }
-
   }
-
 }

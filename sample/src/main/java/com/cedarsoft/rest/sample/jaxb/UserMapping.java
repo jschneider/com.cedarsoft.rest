@@ -33,7 +33,6 @@ package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
-import com.cedarsoft.rest.JaxbMappingContext;
 import com.cedarsoft.rest.UriContext;
 import com.google.inject.Inject;
 import org.jetbrains.annotations.NonNls;
@@ -59,26 +58,26 @@ public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, Use
 
   @NotNull
   @Override
-  protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext uriContext ) {
-    return uriContext.getBaseUriBuilder().path( PATH_USERS ).path( object.getId() );
+  protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext context ) {
+    return context.getBaseUriBuilder().path( PATH_USERS ).path( object.getId() );
   }
 
   /**
    * Copies the fields
    *
-   * @param source  the source source
-   * @param target  the target jaxb source the fields are set at
-   * @param context the global context
+   * @param object  the source source
+   * @param jaxbObject  the target jaxb source the fields are set at
+   * @param context
    * @throws URISyntaxException
    */
   @Override
-  protected void copyFields( @NotNull com.cedarsoft.rest.sample.User source, @NotNull User.Jaxb target, @NotNull JaxbMappingContext context ) throws URISyntaxException {
-    target.setEmail( source.getEmail() );
-    target.setName( source.getName() );
-    target.setFriends( getStub( User.Stub.class, source.getFriends(), context ) );
-    target.setGroup( getStub( Group.Stub.class, source.getGroup(), context ) );
+  protected void copyFields( @NotNull com.cedarsoft.rest.sample.User object, @NotNull User.Jaxb jaxbObject, @NotNull UriContext context ) throws URISyntaxException {
+    jaxbObject.setEmail( object.getEmail() );
+    jaxbObject.setName( object.getName() );
+    jaxbObject.setFriends( getStub( User.Stub.class, object.getFriends(), context ) );
+    jaxbObject.setGroup( getStub( Group.Stub.class, object.getGroup(), context ) );
 
-    target.setDetails( getStub( Detail.Stub.class, source.getDetails(), context ) );
+    jaxbObject.setDetails( getStub( Detail.Stub.class, object.getDetails(), context ) );
   }
 
   /**
@@ -96,7 +95,7 @@ public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, Use
   }
 
   @Override
-  protected User.Stub createJaxbObjectStub( @NotNull com.cedarsoft.rest.sample.User object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+  protected User.Stub createJaxbObjectStub( @NotNull com.cedarsoft.rest.sample.User object, @NotNull UriContext context ) throws URISyntaxException {
     User.Stub jaxbObject = new User.Stub();
     jaxbObject.setId( object.getEmail() );
     jaxbObject.setEmail( object.getEmail() );

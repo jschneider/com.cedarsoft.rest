@@ -31,6 +31,7 @@
 
 package com.cedarsoft.jaxb;
 
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,6 +53,13 @@ public abstract class AbstractJaxbObject implements JaxbObject {
   @Nullable
   @XmlAttribute( required = false )
   protected String id;
+
+  protected AbstractJaxbObject() {
+  }
+
+  protected AbstractJaxbObject( @NotNull @NonNls String id ) {
+    this.id = id;
+  }
 
   @Override
   @NotNull

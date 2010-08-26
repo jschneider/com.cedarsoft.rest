@@ -32,6 +32,8 @@
 package com.cedarsoft.rest;
 
 import com.cedarsoft.jaxb.AbstractJaxbObject;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -53,6 +55,13 @@ public class Foo extends AbstractJaxbObject {
   private List<String> names = new ArrayList<String>();
   @XmlElementRef(name = "daBars" )
   private List<Bar> bars = new ArrayList<Bar>();
+
+  public Foo() {
+  }
+
+  public Foo( @NotNull @NonNls String id ) {
+    super( id );
+  }
 
   public List<String> getNames() {
     return names;

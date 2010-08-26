@@ -36,7 +36,6 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.experimental.theories.*;
 
 import javax.ws.rs.core.UriBuilder;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
@@ -58,40 +57,37 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo, FooStu
   public static Entry<? extends FooModel> entry1() {
     FooModel fooModel = new FooModel( "Hello", Arrays.asList( "A", "B", "C" ), Arrays.asList( new FooModel.BarModel( 1 ), new FooModel.BarModel( 2 ) ) );
     return create( fooModel,
-                   "<ns2:foo xmlns:ns2=\"test:foo\" href=\"test:daUri\" id=\"daId\">\n" +
+                   "<ns2:foo xmlns:ns2=\"test:foo\" href=\"http://test.running/here/test:daUri\" id=\"daId\">\n" +
                      "  <daValue>Hello</daValue>\n" +
                      "</ns2:foo>",
-                   "<ns4:fooStub xmlns:ns4=\"test:foo/stub\" href=\"test:daUri\" id=\"daId\">\n" +
+                   "<ns4:fooStub xmlns:ns4=\"test:foo/stub\" href=\"http://test.running/here/test:daUri\" id=\"daId\">\n" +
                      "</ns4:fooStub>" );
   }
 
 
   private static class FooMapping extends JaxbMapping<FooModel, Foo, FooStub> {
-//    @Override
-//    protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
-//      object.setHref( new URI( "test:daUri" ) );
-//    }
+    @NotNull
+    @Override
+    protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext context ) {
+      return context.getBaseUriBuilder().path( "test:daUri" );
+    }
 
     @NotNull
     @Override
-    protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) {
-      return uriBuilder.path( "test:daUri" );
+    protected Foo createJaxbObject( @NotNull FooModel object ) {
+      return new Foo( "daId" );
     }
 
     @Override
-    protected FooStub createJaxbObjectStub( @NotNull FooModel object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+    protected void copyFields( @NotNull FooModel object, @NotNull Foo jaxbObject, @NotNull UriContext context ) throws URISyntaxException {
+      jaxbObject.setDaValue( object.getDaValue() );
+    }
+
+    @Override
+    protected FooStub createJaxbObjectStub( @NotNull FooModel object, @NotNull UriContext context ) throws URISyntaxException {
       FooStub fooStub = new FooStub();
       fooStub.setId( "daId" );
       return fooStub;
-    }
-
-    @NotNull
-    @Override
-    protected Foo createJaxbObject( @NotNull FooModel object, @NotNull JaxbMappingContext context ) {
-      Foo foo = new Foo();
-      foo.setDaValue( object.getDaValue() );
-      foo.setId( "daId" );
-      return foo;
     }
   }
 }

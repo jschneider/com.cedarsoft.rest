@@ -2,7 +2,7 @@ package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
-import com.cedarsoft.rest.JaxbMappingContext;
+import com.cedarsoft.rest.UriContext;
 import com.cedarsoft.rest.sample.Group;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,7 +30,7 @@ public class GroupMapping
   }
 
   @Override
-  protected com.cedarsoft.rest.sample.jaxb.Group.Stub createJaxbObjectStub( @NotNull Group object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+  protected com.cedarsoft.rest.sample.jaxb.Group.Stub createJaxbObjectStub( @NotNull Group object, @NotNull UriContext context ) throws URISyntaxException {
     com.cedarsoft.rest.sample.jaxb.Group.Stub stub = new com.cedarsoft.rest.sample.jaxb.Group.Stub();
     stub.setId( object.getId() );
     return stub;

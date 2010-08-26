@@ -2,7 +2,6 @@ package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
-import com.cedarsoft.rest.JaxbMappingContext;
 import com.cedarsoft.rest.UriContext;
 import com.cedarsoft.rest.sample.Detail;
 import org.jetbrains.annotations.NonNls;
@@ -19,8 +18,8 @@ public class DetailMapping extends JaxbMapping<Detail, com.cedarsoft.rest.sample
 
   @NotNull
   @Override
-  protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext uriContext ) {
-    return uriContext.getUriBuilder().path( PATH ).path( object.getId() );
+  protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext context ) {
+    return context.getUriBuilder().path( PATH ).path( object.getId() );
   }
 
   @NotNull
@@ -34,7 +33,7 @@ public class DetailMapping extends JaxbMapping<Detail, com.cedarsoft.rest.sample
   }
 
   @Override
-  protected com.cedarsoft.rest.sample.jaxb.Detail.Stub createJaxbObjectStub( @NotNull Detail object, @NotNull JaxbMappingContext context )
+  protected com.cedarsoft.rest.sample.jaxb.Detail.Stub createJaxbObjectStub( @NotNull Detail object, @NotNull UriContext context )
     throws URISyntaxException {
     com.cedarsoft.rest.sample.jaxb.Detail.Stub stub = new com.cedarsoft.rest.sample.jaxb.Detail.Stub();
     stub.setText( object.getText() );

@@ -33,7 +33,7 @@ package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
-import com.cedarsoft.rest.JaxbMappingContext;
+import com.cedarsoft.rest.UriContext;
 import org.jetbrains.annotations.NotNull;
 
 import javax.ws.rs.core.UriBuilder;
@@ -74,7 +74,7 @@ public class CameraMapping extends JaxbMapping<com.cedarsoft.rest.sample.Camera,
   }
 
   @Override
-  protected Camera.Stub createJaxbObjectStub( @NotNull com.cedarsoft.rest.sample.Camera object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
+  protected Camera.Stub createJaxbObjectStub( @NotNull com.cedarsoft.rest.sample.Camera object, @NotNull UriContext context ) throws URISyntaxException {
     Camera.Stub jaxbObject = new Camera.Stub();
     jaxbObject.setId( object.getId() );
 
