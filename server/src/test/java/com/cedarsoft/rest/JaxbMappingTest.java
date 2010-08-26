@@ -150,7 +150,7 @@ public class JaxbMappingTest {
       }
     };
 
-    uriContext = JaxbTestUtils.createTestUriContext();
+    uriContext = UriContextTest.createTestUriContext();
   }
 
   @Test

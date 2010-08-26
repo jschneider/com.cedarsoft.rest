@@ -1,5 +1,6 @@
 package com.cedarsoft.rest;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.*;
 
 import javax.ws.rs.core.UriBuilder;
@@ -14,7 +15,7 @@ public class UriContextTest {
 
   @Before
   public void setUp() throws Exception {
-    context = new UriContext( JaxbTestUtils.createTestUriBuilder(), JaxbTestUtils.createTestUriBuilder() );
+    context = new UriContext( createTestUriBuilder(), createTestUriBuilder() );
   }
 
   @Test
@@ -73,4 +74,13 @@ public class UriContextTest {
     assertEquals( "http://test.running/here/users/info@cedarsoft.com/details/7", newContext.getUriBuilder().path( "details" ).path( "{id}" ).build( "7" ).toString() );
   }
 
+  @NotNull
+  public static UriBuilder createTestUriBuilder() {
+    return UriBuilder.fromUri( "http://test.running/here" );
+  }
+
+  @NotNull
+  public static UriContext createTestUriContext() {
+    return new UriContext( createTestUriBuilder(), createTestUriBuilder() );
+  }
 }

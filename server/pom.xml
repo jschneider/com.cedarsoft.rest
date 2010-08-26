@@ -36,10 +36,5 @@
       <artifactId>jersey-server</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>com.cedarsoft.rest</groupId>
-      <artifactId>test</artifactId>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 </project>
