@@ -76,7 +76,6 @@ public abstract class FooModel
 
 package com.cedarsoft.rest.generator.test.jaxb;
 
-import java.net.URISyntaxException;
 import javax.ws.rs.core.UriBuilder;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;

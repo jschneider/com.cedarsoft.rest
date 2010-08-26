@@ -43,7 +43,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.net.URISyntaxException;
 
 import static org.junit.Assert.*;
 
@@ -108,12 +107,12 @@ public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject, S extends 
   }
 
   @NotNull
-  protected J createJaxbObject( @NotNull T object ) throws URISyntaxException {
+  protected J createJaxbObject( @NotNull T object ) {
     return createMapping().getJaxbObject( object, JaxbTestUtils.createTestUriContext() );
   }
 
   @NotNull
-  protected S createJaxbObjectStub( @NotNull T object ) throws URISyntaxException {
+  protected S createJaxbObjectStub( @NotNull T object ) {
     return createMapping().getJaxbObjectStub( object, JaxbTestUtils.createTestUriContext() );
   }
 }

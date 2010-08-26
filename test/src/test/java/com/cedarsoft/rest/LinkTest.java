@@ -35,7 +35,6 @@ import com.cedarsoft.jaxb.Link;
 import org.junit.experimental.theories.*;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  *
@@ -46,7 +45,7 @@ public class LinkTest extends SimpleJaxbTest<Link, Link.Stub> {
   }
 
   @DataPoint
-  public static Entry<? extends Link> entry1() throws URISyntaxException {
+  public static Entry<? extends Link> entry1() throws Exception {
     Link link = new Link( new URI( "http://www.test.de/asdf" ), Link.SELF );
     link.setId( "daId" );
 
@@ -54,7 +53,7 @@ public class LinkTest extends SimpleJaxbTest<Link, Link.Stub> {
   }
 
   @DataPoint
-  public static Entry<? extends Link.Stub> stub() throws URISyntaxException {
+  public static Entry<? extends Link.Stub> stub() throws Exception {
     Link.Stub link = new Link.Stub( new URI( "http://www.test.de/asdf" ) );
     link.setId( "daId" );
 

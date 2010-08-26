@@ -37,7 +37,6 @@ import com.cedarsoft.rest.UriContext;
 import org.jetbrains.annotations.NotNull;
 
 import javax.ws.rs.core.UriBuilder;
-import java.net.URISyntaxException;
 
 
 /**
@@ -66,7 +65,7 @@ public class CameraMapping extends JaxbMapping<com.cedarsoft.rest.sample.Camera,
   }
 
   @Override
-  protected void copyFieldsToJaxbObject( @NotNull com.cedarsoft.rest.sample.Camera object, @NotNull Camera.Jaxb target, @NotNull UriContext context ) throws URISyntaxException {
+  protected void copyFieldsToJaxbObject( @NotNull com.cedarsoft.rest.sample.Camera object, @NotNull Camera.Jaxb target, @NotNull UriContext context ) {
     target.setDescription( "a nice description about the camera!" );
 
     CameraInfo.Jaxb cameraInfo = new CameraInfo.Jaxb();
@@ -80,7 +79,7 @@ public class CameraMapping extends JaxbMapping<com.cedarsoft.rest.sample.Camera,
   }
 
   @Override
-  protected void copyFieldsToJaxbStub( @NotNull com.cedarsoft.rest.sample.Camera object, @NotNull Camera.Stub target, @NotNull UriContext context ) throws URISyntaxException {
+  protected void copyFieldsToJaxbStub( @NotNull com.cedarsoft.rest.sample.Camera object, @NotNull Camera.Stub target, @NotNull UriContext context ) {
     CameraInfo.Stub cameraInfo = new CameraInfo.Stub();
     cameraInfo.setMake( object.getCameraInfo().getMake() );
     cameraInfo.setModel( object.getCameraInfo().getModel() );

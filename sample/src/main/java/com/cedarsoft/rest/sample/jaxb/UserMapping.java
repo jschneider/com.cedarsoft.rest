@@ -39,7 +39,6 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 import javax.ws.rs.core.UriBuilder;
-import java.net.URISyntaxException;
 
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
@@ -68,10 +67,9 @@ public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, Use
    * @param object     the source source
    * @param target the target jaxb source the fields are set at
    * @param context    the context
-   * @throws URISyntaxException
    */
   @Override
-  protected void copyFieldsToJaxbObject( @NotNull com.cedarsoft.rest.sample.User object, @NotNull User.Jaxb target, @NotNull UriContext context ) throws URISyntaxException {
+  protected void copyFieldsToJaxbObject( @NotNull com.cedarsoft.rest.sample.User object, @NotNull User.Jaxb target, @NotNull UriContext context ) {
     target.setEmail( object.getEmail() );
     target.setName( object.getName() );
     target.setFriends( getStub( User.Stub.class, object.getFriends(), context ) );
@@ -98,7 +96,7 @@ public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, Use
   }
 
   @Override
-  protected void copyFieldsToJaxbStub( @NotNull com.cedarsoft.rest.sample.User object, @NotNull User.Stub target, @NotNull UriContext context ) throws URISyntaxException {
+  protected void copyFieldsToJaxbStub( @NotNull com.cedarsoft.rest.sample.User object, @NotNull User.Stub target, @NotNull UriContext context ) {
     target.setEmail( object.getEmail() );
     target.setName( object.getName() );
   }

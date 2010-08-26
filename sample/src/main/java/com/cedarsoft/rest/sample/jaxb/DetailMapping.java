@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 import javax.ws.rs.core.UriBuilder;
-import java.net.URISyntaxException;
 
 public class DetailMapping extends JaxbMapping<Detail, com.cedarsoft.rest.sample.jaxb.Detail.Jaxb, com.cedarsoft.rest.sample.jaxb.Detail.Stub> {
 
@@ -34,12 +33,12 @@ public class DetailMapping extends JaxbMapping<Detail, com.cedarsoft.rest.sample
   }
 
   @Override
-  protected void copyFieldsToJaxbObject( @NotNull Detail object, @NotNull com.cedarsoft.rest.sample.jaxb.Detail.Jaxb target, @NotNull UriContext context ) throws URISyntaxException {
+  protected void copyFieldsToJaxbObject( @NotNull Detail object, @NotNull com.cedarsoft.rest.sample.jaxb.Detail.Jaxb target, @NotNull UriContext context ) {
     target.setText( object.getText() );
   }
 
   @Override
-  protected void copyFieldsToJaxbStub( @NotNull Detail object, @NotNull com.cedarsoft.rest.sample.jaxb.Detail.Stub target, @NotNull UriContext context ) throws URISyntaxException {
+  protected void copyFieldsToJaxbStub( @NotNull Detail object, @NotNull com.cedarsoft.rest.sample.jaxb.Detail.Stub target, @NotNull UriContext context ) {
     target.setText( object.getText() );
   }
 }

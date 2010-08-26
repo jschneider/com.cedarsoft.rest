@@ -50,7 +50,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,14 +77,14 @@ public class UsersResource {
 
   @GET
   @NotNull
-  public List<User.Stub> getUsers( @Context HttpHeaders headers, @QueryParam( "minId" ) int minId, @QueryParam( "max-id" ) int maxId ) throws URISyntaxException {
+  public List<User.Stub> getUsers( @Context HttpHeaders headers, @QueryParam( "minId" ) int minId, @QueryParam( "max-id" ) int maxId ) {
     return userMapping.getJaxbStubs( users, new UriContext( uriInfo.getBaseUriBuilder(), uriInfo.getBaseUriBuilder() ) );
   }
 
   @GET
   @Path( "{id}" )
   @NotNull
-  public User.Jaxb getUser( @PathParam( "id" ) @NotNull @NonNls String id ) throws URISyntaxException {
+  public User.Jaxb getUser( @PathParam( "id" ) @NotNull @NonNls String id ) {
     for ( com.cedarsoft.rest.sample.User user : users ) {
       if ( user.getEmail().equals( id ) ) {
         return userMapping.getJaxbObject( user, new UriContext( uriInfo.getBaseUriBuilder(), uriInfo.getBaseUriBuilder() ) );
@@ -99,7 +98,7 @@ public class UsersResource {
   @GET
   @Path( "test" )
   @NotNull
-  public User.Jaxb getTestUser() throws URISyntaxException {
+  public User.Jaxb getTestUser() {
     com.cedarsoft.rest.sample.User user = new com.cedarsoft.rest.sample.User( "test@test.com", "Test User" );
     user.addFriend( new com.cedarsoft.rest.sample.User( "friend@asdf.de", "A Friend" ) );
     user.addDetail( new Detail( "1", "a test detail" ) );

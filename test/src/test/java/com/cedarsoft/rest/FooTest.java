@@ -34,7 +34,6 @@ package com.cedarsoft.rest;
 import org.junit.experimental.theories.*;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 
 /**
@@ -46,7 +45,7 @@ public class FooTest extends SimpleJaxbTest<Foo, FooStub> {
   }
 
   @DataPoint
-  public static Entry<? extends Foo> entry1() throws URISyntaxException {
+  public static Entry<? extends Foo> entry1() throws Exception {
     Foo foo = new Foo();
     foo.setDaValue( "daValueA" );
     foo.setHref( new URI( "my:uri" ) );

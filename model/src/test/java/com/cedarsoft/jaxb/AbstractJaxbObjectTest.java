@@ -35,7 +35,6 @@ import org.junit.*;
 import org.junit.rules.*;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import static org.junit.Assert.*;
 
@@ -68,7 +67,7 @@ public class AbstractJaxbObjectTest {
   }
 
   @Test
-  public void testSetIt() throws URISyntaxException {
+  public void testSetIt() throws Exception {
     assertFalse( object.isHrefSet() );
     assertFalse( object.isIdSet() );
 

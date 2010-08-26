@@ -40,7 +40,6 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.*;
 
 import javax.ws.rs.core.UriBuilder;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -64,7 +63,7 @@ public class JaxbMappingTest {
       }
 
       @Override
-      protected void copyFieldsToJaxbObject( @NotNull MyObject object, @NotNull MyObjectJaxb target, @NotNull UriContext context ) throws URISyntaxException {
+      protected void copyFieldsToJaxbObject( @NotNull MyObject object, @NotNull MyObjectJaxb target, @NotNull UriContext context ) {
         target.setDaInt( object.daInt );
       }
 
@@ -82,7 +81,7 @@ public class JaxbMappingTest {
       }
 
       @Override
-      protected void copyFieldsToJaxbStub( @NotNull MyObject object, @NotNull MyObjectJaxbStub target, @NotNull UriContext context ) throws URISyntaxException {
+      protected void copyFieldsToJaxbStub( @NotNull MyObject object, @NotNull MyObjectJaxbStub target, @NotNull UriContext context ) {
         target.stubInt = object.daInt;
       }
     };
@@ -104,7 +103,7 @@ public class JaxbMappingTest {
       }
 
       @Override
-      protected void copyFieldsToJaxbStub( @NotNull Parent object, @NotNull ParentJaxbStub target, @NotNull UriContext context ) throws URISyntaxException {
+      protected void copyFieldsToJaxbStub( @NotNull Parent object, @NotNull ParentJaxbStub target, @NotNull UriContext context ) {
       }
 
       @NotNull
@@ -114,7 +113,7 @@ public class JaxbMappingTest {
       }
 
       @Override
-      protected void copyFieldsToJaxbObject( @NotNull Parent object, @NotNull ParentJaxb target, @NotNull UriContext context ) throws URISyntaxException {
+      protected void copyFieldsToJaxbObject( @NotNull Parent object, @NotNull ParentJaxb target, @NotNull UriContext context ) {
         target.setChild( get( MyObjectJaxb.class, object.child, context ) );
       }
     };
@@ -130,7 +129,7 @@ public class JaxbMappingTest {
       }
 
       @Override
-      protected void copyFieldsToJaxbStub( @NotNull GrandFather object, @NotNull GrandFatherJaxbStub target, @NotNull UriContext context ) throws URISyntaxException {
+      protected void copyFieldsToJaxbStub( @NotNull GrandFather object, @NotNull GrandFatherJaxbStub target, @NotNull UriContext context ) {
       }
 
       @NotNull
@@ -146,7 +145,7 @@ public class JaxbMappingTest {
       }
 
       @Override
-      protected void copyFieldsToJaxbObject( @NotNull GrandFather object, @NotNull GrandFatherJaxb target, @NotNull UriContext context ) throws URISyntaxException {
+      protected void copyFieldsToJaxbObject( @NotNull GrandFather object, @NotNull GrandFatherJaxb target, @NotNull UriContext context ) {
         target.setParent( get( ParentJaxb.class, object.parent, context ) );
       }
     };

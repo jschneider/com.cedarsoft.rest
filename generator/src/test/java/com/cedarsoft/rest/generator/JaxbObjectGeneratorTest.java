@@ -48,7 +48,6 @@ import org.junit.*;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
@@ -129,21 +128,21 @@ public class JaxbObjectGeneratorTest {
   }
 
   @Test
-  public void testGeneratModelBar() throws URISyntaxException, JClassAlreadyExistsException, IOException {
+  public void testGeneratModelBar() throws Exception {
     new Generator( codeGenerator, barDescriptor ).generate();
 
     assertCodeGeneration( getClass().getResource( "JaxbObjectGeneratorTest.BarModelJaxb.txt" ) );
   }
 
   @Test
-  public void testGeneratModelUser() throws URISyntaxException, JClassAlreadyExistsException, IOException {
+  public void testGeneratModelUser() throws Exception {
     new Generator( codeGenerator, userDescriptor ).generate();
 
     assertCodeGeneration( getClass().getResource( "JaxbObjectGeneratorTest.UserJaxb.txt" ) );
   }
 
   @Test
-  public void testGeneratModelFoo() throws URISyntaxException, JClassAlreadyExistsException, IOException {
+  public void testGeneratModelFoo() throws Exception {
     codeGenerator = new CodeGenerator<JaxbObjectGenerator.StubDecisionCallback>( new JaxbObjectGenerator.StubDecisionCallback() );
 
     new Generator( codeGenerator, fooDescriptor ).generate();

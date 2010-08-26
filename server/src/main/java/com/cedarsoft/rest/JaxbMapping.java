@@ -37,7 +37,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.ws.rs.core.UriBuilder;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,7 +61,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
   }
 
   @NotNull
-  public S getJaxbObjectStub( @NotNull T object, @NotNull UriContext context ) throws URISyntaxException {
+  public S getJaxbObjectStub( @NotNull T object, @NotNull UriContext context ) {
     S jaxbObject = jaxbStubObjects.get( object );
     if ( jaxbObject != null ) {
       return jaxbObject;
@@ -75,7 +74,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
   }
 
   @NotNull
-  public J getJaxbObject( @NotNull T object, @NotNull UriContext context ) throws URISyntaxException {
+  public J getJaxbObject( @NotNull T object, @NotNull UriContext context ) {
     J jaxbObject = jaxbObjects.get( object );
     if ( jaxbObject != null ) {
       return jaxbObject;
@@ -88,7 +87,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
   }
 
   @Nullable
-  protected <T, J extends JaxbObject> J get( @NotNull Class<J> jaxbType, @Nullable T object, @NotNull UriContext context ) throws URISyntaxException {
+  protected <T, J extends JaxbObject> J get( @NotNull Class<J> jaxbType, @Nullable T object, @NotNull UriContext context ) {
     if ( object == null ) {
       return null;
     }
@@ -97,7 +96,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
   }
 
   @Nullable
-  protected <T, J extends JaxbObject> List<J> get( @NotNull Class<J> jaxbType, @NotNull Iterable<? extends T> objects, @NotNull UriContext context ) throws URISyntaxException {
+  protected <T, J extends JaxbObject> List<J> get( @NotNull Class<J> jaxbType, @NotNull Iterable<? extends T> objects, @NotNull UriContext context ) {
     JaxbMapping<Object, J, ? extends JaxbStub<J>> mapping = getDelegatesMapping().getMapping( jaxbType );
 
     List<J> converted = new ArrayList<J>();
@@ -110,7 +109,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
   }
 
   @Nullable
-  protected <T, J extends JaxbObject, S extends JaxbStub<J>> S getStub( @NotNull Class<S> jaxbStubType, @Nullable T object, @NotNull UriContext context ) throws URISyntaxException {
+  protected <T, J extends JaxbObject, S extends JaxbStub<J>> S getStub( @NotNull Class<S> jaxbStubType, @Nullable T object, @NotNull UriContext context ) {
     if ( object == null ) {
       return null;
     }
@@ -118,7 +117,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
   }
 
   @Nullable
-  protected <T, J extends JaxbObject, S extends JaxbStub<J>> List<S> getStub( @NotNull Class<S> jaxbSubType, @NotNull Iterable<? extends T> objects, @NotNull UriContext context ) throws URISyntaxException {
+  protected <T, J extends JaxbObject, S extends JaxbStub<J>> List<S> getStub( @NotNull Class<S> jaxbSubType, @NotNull Iterable<? extends T> objects, @NotNull UriContext context ) {
     JaxbMapping<Object, ?, S> mapping = getDelegatesMapping().getMappingForStub( jaxbSubType );
 
     List<S> converted = new ArrayList<S>();
@@ -131,7 +130,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
   }
 
   @NotNull
-  public List<J> getJaxbObjects( @NotNull Iterable<? extends T> objects, @NotNull UriContext context ) throws URISyntaxException {
+  public List<J> getJaxbObjects( @NotNull Iterable<? extends T> objects, @NotNull UriContext context ) {
     List<J> currentJaxbObjects = new ArrayList<J>();
     for ( T object : objects ) {
       currentJaxbObjects.add( getJaxbObject( object, context ) );
@@ -140,7 +139,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
   }
 
   @NotNull
-  public List<S> getJaxbStubs( @NotNull Iterable<? extends T> objects, @NotNull UriContext context ) throws URISyntaxException {
+  public List<S> getJaxbStubs( @NotNull Iterable<? extends T> objects, @NotNull UriContext context ) {
     List<S> currentJaxbObjects = new ArrayList<S>();
     for ( T object : objects ) {
       currentJaxbObjects.add( getJaxbObjectStub( object, context ) );
@@ -169,10 +168,9 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    * @param context the context
    * @return the jaxb object
    *
-   * @throws URISyntaxException
    */
   @NotNull
-  protected final J createJaxbObject( @NotNull T object, @NotNull UriContext context ) throws URISyntaxException {
+  protected final J createJaxbObject( @NotNull T object, @NotNull UriContext context ) {
     J jaxbObject = createJaxbObject( object );
 
     UriContext localContext = createLocalContext( context, jaxbObject );
@@ -194,9 +192,8 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    * @param context the context
    * @return the stub
    *
-   * @throws URISyntaxException
    */
-  protected final S createJaxbObjectStub( @NotNull T object, @NotNull UriContext context ) throws URISyntaxException {
+  protected final S createJaxbObjectStub( @NotNull T object, @NotNull UriContext context ) {
     S jaxbStub = createJaxbStub( object );
 
     UriContext localContext = createLocalContext( context, jaxbStub );
@@ -253,9 +250,8 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    * @param object  the source model
    * @param target  the target jaxb object
    * @param context the context
-   * @throws URISyntaxException
    */
-  protected abstract void copyFieldsToJaxbObject( @NotNull T object, @NotNull J target, @NotNull UriContext context ) throws URISyntaxException;
+  protected abstract void copyFieldsToJaxbObject( @NotNull T object, @NotNull J target, @NotNull UriContext context );
 
-  protected abstract void copyFieldsToJaxbStub( @NotNull T object, @NotNull S target, @NotNull UriContext context ) throws URISyntaxException;
+  protected abstract void copyFieldsToJaxbStub( @NotNull T object, @NotNull S target, @NotNull UriContext context );
 }

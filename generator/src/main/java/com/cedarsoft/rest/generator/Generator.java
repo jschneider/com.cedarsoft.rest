@@ -67,7 +67,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -201,9 +200,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     assert jaxbObject != null;
     assert mappingClass != null;
 
-
     JMethod method = mappingClass.method( JMod.PROTECTED, jaxbObject, METHOD_NAME_CREATE_JAXB_OBJECT );
-    method._throws( URISyntaxException.class );
 
     JVar object = method.param( codeGenerator.ref( descriptor.getQualifiedName() ), OBJECT );
     JVar context = method.param( codeGenerator.ref( UriContext.class ), CONTEXT );
@@ -220,7 +217,6 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     assert mappingClass != null;
 
     JMethod method = mappingClass.method( JMod.PROTECTED, jaxbStub, METHOD_NAME_CREATE_JAXB_STUB );
-    method._throws( URISyntaxException.class );
     method.annotate( Override.class );
 
     JVar object = method.param( codeGenerator.ref( descriptor.getQualifiedName() ), OBJECT );

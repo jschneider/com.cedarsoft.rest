@@ -36,7 +36,6 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.experimental.theories.*;
 
 import javax.ws.rs.core.UriBuilder;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 
 /**
@@ -79,7 +78,7 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo, FooStu
     }
 
     @Override
-    protected void copyFieldsToJaxbObject( @NotNull FooModel object, @NotNull Foo target, @NotNull UriContext context ) throws URISyntaxException {
+    protected void copyFieldsToJaxbObject( @NotNull FooModel object, @NotNull Foo target, @NotNull UriContext context ) {
       target.setDaValue( object.getDaValue() );
     }
 
@@ -89,7 +88,7 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo, FooStu
     }
 
     @Override
-    protected void copyFieldsToJaxbStub( @NotNull FooModel object, @NotNull FooStub target, @NotNull UriContext context ) throws URISyntaxException {
+    protected void copyFieldsToJaxbStub( @NotNull FooModel object, @NotNull FooStub target, @NotNull UriContext context ) {
     }
   }
 }

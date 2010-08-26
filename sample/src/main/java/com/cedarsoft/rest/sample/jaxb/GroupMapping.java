@@ -7,7 +7,6 @@ import com.cedarsoft.rest.sample.Group;
 import org.jetbrains.annotations.NotNull;
 
 import javax.ws.rs.core.UriBuilder;
-import java.net.URISyntaxException;
 
 public class GroupMapping extends JaxbMapping<Group, com.cedarsoft.rest.sample.jaxb.Group.Jaxb, com.cedarsoft.rest.sample.jaxb.Group.Stub> {
 
@@ -31,11 +30,11 @@ public class GroupMapping extends JaxbMapping<Group, com.cedarsoft.rest.sample.j
   }
 
   @Override
-  protected void copyFieldsToJaxbObject( @NotNull Group object, @NotNull com.cedarsoft.rest.sample.jaxb.Group.Jaxb target, @NotNull UriContext context ) throws URISyntaxException {
+  protected void copyFieldsToJaxbObject( @NotNull Group object, @NotNull com.cedarsoft.rest.sample.jaxb.Group.Jaxb target, @NotNull UriContext context ) {
     target.setDescription( object.getDescription() );
   }
 
   @Override
-  protected void copyFieldsToJaxbStub( @NotNull Group object, @NotNull com.cedarsoft.rest.sample.jaxb.Group.Stub target, @NotNull UriContext context ) throws URISyntaxException {
+  protected void copyFieldsToJaxbStub( @NotNull Group object, @NotNull com.cedarsoft.rest.sample.jaxb.Group.Stub target, @NotNull UriContext context ) {
   }
 }
