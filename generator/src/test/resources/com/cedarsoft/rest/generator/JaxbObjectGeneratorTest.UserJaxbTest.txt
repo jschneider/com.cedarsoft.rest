@@ -74,18 +74,18 @@ public class UserMappingTest
 
 }
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbTest.dataPoint1.xml-----------------------------------
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <user>
 </user>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbTest.stub.xml-----------------------------------
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <user>
 </user>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserMappingTest.dataPoint1.xml-----------------------------------
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <user>
 </user>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserMappingTest.stub.xml-----------------------------------
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <user>
 </user>

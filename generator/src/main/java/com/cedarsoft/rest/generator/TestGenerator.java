@@ -266,7 +266,7 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
   private static String createSampleContent( @NotNull String domainObjectName ) {
     String simpleName = NamingSupport.createVarName( domainObjectName );
 
-    return "<?xml version=\"1.0\"?>\n" +
+    return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
       "<" + simpleName + ">\n" +
       "</" + simpleName + ">\n"
       ;

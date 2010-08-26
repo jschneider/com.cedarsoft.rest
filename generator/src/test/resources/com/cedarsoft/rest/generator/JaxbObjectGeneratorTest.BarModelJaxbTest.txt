@@ -78,18 +78,18 @@ public class BarModelMappingTest
 
 }
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbTest.dataPoint1.xml-----------------------------------
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <barModel>
 </barModel>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbTest.stub.xml-----------------------------------
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <barModel>
 </barModel>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelMappingTest.dataPoint1.xml-----------------------------------
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <barModel>
 </barModel>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelMappingTest.stub.xml-----------------------------------
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <barModel>
 </barModel>
