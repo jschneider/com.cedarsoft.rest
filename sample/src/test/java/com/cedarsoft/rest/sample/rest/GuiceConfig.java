@@ -31,6 +31,7 @@
 
 package com.cedarsoft.rest.sample.rest;
 
+import com.cedarsoft.rest.sample.Detail;
 import com.cedarsoft.rest.sample.User;
 import com.cedarsoft.rest.sample.jaxb.UserMapping;
 import com.google.common.collect.ImmutableList;
@@ -85,7 +86,11 @@ public class GuiceConfig extends GuiceServletContextListener {
     @Provides
     List<? extends User> provideUsers() {
       User js = new User( "info@cedarsoft.de", "Johannes Schneider" );
+      js.addDetail( new Detail("1", "A detail for Johannes") );
+      js.addDetail( new Detail("2", "A second detail for Johannes") );
+
       User max = new User( "markus@mustermann.de", "Markus Mustermann" );
+      max.addDetail( new Detail( "1", "A max detail" ) );
       User eva = new User( "eva@mustermann.de", "Eva Mustermann" );
 
       js.addFriend( max );

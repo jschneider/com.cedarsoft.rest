@@ -32,6 +32,7 @@
 package com.cedarsoft.rest.sample.rest;
 
 import com.cedarsoft.rest.UriContext;
+import com.cedarsoft.rest.sample.Detail;
 import com.cedarsoft.rest.sample.jaxb.User;
 import com.cedarsoft.rest.sample.jaxb.UserMapping;
 import com.google.inject.Inject;
@@ -101,6 +102,7 @@ public class UsersResource {
   public User.Jaxb getTestUser() throws URISyntaxException {
     com.cedarsoft.rest.sample.User user = new com.cedarsoft.rest.sample.User( "test@test.com", "Test User" );
     user.addFriend( new com.cedarsoft.rest.sample.User( "friend@asdf.de", "A Friend" ) );
+    user.addDetail( new Detail( "1", "a test detail" ) );
     return userMapping.getJaxbObject( user, new UriContext( uriInfo.getBaseUriBuilder(), uriInfo.getBaseUriBuilder() ) );
   }
 }
