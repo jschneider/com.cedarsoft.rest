@@ -88,7 +88,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   @NonNls
   public static final String METHOD_NAME_GET_ID = "getId";
   @NonNls
-  public static final String METHOD_NAME_SET_URIS = "setUris";
+  public static final String METHOD_NAME_GET_URIS = "getUri";
   @NonNls
   public static final String METHOD_NAME_PATH = "path";
   @NonNls
@@ -105,8 +105,6 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   public static final String VALUE = "value";
   @NonNls
   public static final String OBJECT = "object";
-  @NonNls
-  public static final String URI_BUILDER = "uriBuilder";
   @NonNls
   public static final String CONTEXT = "context";
   @NonNls
@@ -131,6 +129,8 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   public static final String CONST_PATH = "PATH";
   @NonNls
   public static final String CONST_ID = "ID";
+  @NonNls
+  public static final String METHOD_GET_BASE_URI_BUILDER = "getBaseUriBuilder";
 
   public Generator( @NotNull CodeGenerator<JaxbObjectGenerator.StubDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     super( codeGenerator, descriptor );
@@ -324,23 +324,14 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   private void createHrefMethod() {
     assert mappingClass != null;
 
-    JMethod method = mappingClass.method( JMod.PROTECTED, Void.TYPE, METHOD_NAME_SET_URIS );
+    JMethod method = mappingClass.method( JMod.PROTECTED, UriBuilder.class, METHOD_NAME_GET_URIS );
     JVar object = method.param( JaxbObject.class, OBJECT );
-    JVar uriBuilder = method.param( UriBuilder.class, URI_BUILDER );
+    JVar context = method.param( UriContext.class, CONTEXT );
     method.annotate( Override.class );
 
     JFieldVar pathConst = mappingClass.field( JMod.PUBLIC | JMod.STATIC | JMod.FINAL, String.class, CONST_PATH,
                                               JExpr.lit( NamingSupport.plural( NamingSupport.createXmlElementName( getDescriptor().getClassDeclaration().getSimpleName() ) ) ) );
-    JFieldVar idConst = mappingClass.field( JMod.PUBLIC | JMod.STATIC | JMod.FINAL, String.class, CONST_ID, JExpr.lit( ARG_PLACEHOLDER_ID ) );
-
-    JInvocation uriBuilderInvocation = uriBuilder.invoke( METHOD_NAME_PATH )
-      .arg( pathConst )
-      .invoke( METHOD_NAME_PATH )
-      .arg( idConst )
-      .invoke( METHOD_NAME_BUILD )
-      .arg( object.invoke( METHOD_NAME_GET_ID ) );
-
-    method.body().add( object.invoke( METHOD_NAME_SET_HREF ).arg( uriBuilderInvocation ) );
+    method.body()._return( context.invoke( METHOD_GET_BASE_URI_BUILDER ).invoke( METHOD_NAME_PATH ).arg( pathConst ).invoke( METHOD_NAME_PATH ).arg( object.invoke( METHOD_NAME_GET_ID ) ));
   }
 
   protected void createJaxbObject() throws JClassAlreadyExistsException {
