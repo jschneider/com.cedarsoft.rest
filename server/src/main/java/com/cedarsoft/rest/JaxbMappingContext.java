@@ -32,7 +32,6 @@
 package com.cedarsoft.rest;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -40,23 +39,46 @@ import javax.ws.rs.core.UriBuilder;
  *
  */
 public class JaxbMappingContext {
-  @Nullable
+  @NotNull
   private final UriBuilder uriBuilder;
   @NotNull
   private final DelegateJaxbMappings delegateJaxbMappings;
 
-  public JaxbMappingContext( @Nullable UriBuilder uriBuilder, @NotNull DelegateJaxbMappings delegateJaxbMappings ) {
-    this.uriBuilder = uriBuilder;
+  /**
+   * Generates a new mapping context.
+   * The uri builder is cloned so that the state of the builder won't change under the hood.
+   *
+   * @param uriBuilder           the uri builder that is used as base
+   * @param delegateJaxbMappings the delegate mappings
+   */
+  public JaxbMappingContext( @NotNull UriBuilder uriBuilder, @NotNull DelegateJaxbMappings delegateJaxbMappings ) {
+    this.uriBuilder = uriBuilder.clone();
     this.delegateJaxbMappings = delegateJaxbMappings;
   }
 
-  @Nullable
+  /**
+   * Returns an URI builder (that has been cloned) - and therefore is safe to use
+   *
+   * @return a new uri builder
+   */
+  @NotNull
   public UriBuilder getUriBuilder() {
-    return uriBuilder;
+    return uriBuilder.clone();
   }
 
   @NotNull
   public DelegateJaxbMappings getDelegateJaxbMappings() {
     return delegateJaxbMappings;
+  }
+
+  /**
+   * Creates a new context based on the changed uri builder
+   *
+   * @param newUriBuilder the updated uri builder
+   * @return a new context with the new uri builder and the old delegate jaxb mappings
+   */
+  @NotNull
+  public JaxbMappingContext create( @NotNull UriBuilder newUriBuilder ) {
+    return new JaxbMappingContext( newUriBuilder, delegateJaxbMappings );
   }
 }
