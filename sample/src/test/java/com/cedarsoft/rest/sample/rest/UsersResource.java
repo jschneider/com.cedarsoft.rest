@@ -84,7 +84,7 @@ public class UsersResource {
   }
 
   @GET
-  @Path( UserMapping.PATH_ID )
+  @Path( "{id}" )
   @NotNull
   public User.Jaxb getUser( @PathParam( "id" ) @NotNull @NonNls String id ) throws URISyntaxException {
     for ( com.cedarsoft.rest.sample.User user : users ) {

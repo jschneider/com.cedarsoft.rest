@@ -48,8 +48,6 @@ public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, Use
   @NonNls
   @NotNull
   public static final String PATH_USERS = "users";
-  @NonNls
-  public static final String PATH_ID = "{id}";
 
   @Inject
   public UserMapping( @NotNull GroupMapping groupMapping, @NotNull DetailMapping detailMapping ) {
@@ -59,8 +57,9 @@ public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, Use
   }
 
   @Override
-  protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
-    object.setHref( uriBuilder.path( PATH_USERS ).path( PATH_ID ).build( object.getId() ) );
+  @NotNull
+  protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) {
+    return uriBuilder.path( PATH_USERS ).path( object.getId() );
   }
 
   @NotNull
@@ -68,11 +67,16 @@ public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, Use
   protected User.Jaxb createJaxbObject( @NotNull com.cedarsoft.rest.sample.User object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
     User.Jaxb jaxbObject = new User.Jaxb();
     jaxbObject.setId( object.getEmail() );
+
+    JaxbMappingContext localContext = createLocalContext( context, jaxbObject );
+    jaxbObject.setHref( localContext.getUri() );
+
     jaxbObject.setEmail( object.getEmail() );
     jaxbObject.setName( object.getName() );
     jaxbObject.setFriends( getStub( User.Stub.class, object.getFriends(), context ) );
     jaxbObject.setGroup( getStub( Group.Stub.class, object.getGroup(), context ) );
-    jaxbObject.setDetails( getStub( Detail.Stub.class, object.getDetails(), context ) );
+
+    jaxbObject.setDetails( getStub( Detail.Stub.class, object.getDetails(), localContext ) );
     return jaxbObject;
   }
 
