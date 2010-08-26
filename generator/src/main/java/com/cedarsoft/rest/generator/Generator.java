@@ -43,6 +43,7 @@ import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
 import com.cedarsoft.rest.JaxbMapping;
+import com.cedarsoft.rest.UriContext;
 import com.sun.codemodel.JAnnotationUse;
 import com.sun.codemodel.JBlock;
 import com.sun.codemodel.JClass;
@@ -159,6 +160,18 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
       .param( NAME, "abstract" + descriptor.getClassDeclaration().getSimpleName() );
 
     addFields( baseClass, Scope.COMMON );
+    addConstructors( baseClass, JMod.PROTECTED );
+  }
+
+  private void addConstructors( @NotNull JDefinedClass type, int mod ) {
+    //Default constructor
+    type.constructor( mod );
+
+    //constructor with id
+    JMethod constructor = type.constructor( mod );
+    JVar id = constructor.param( String.class, "id" );
+
+    constructor.body().invoke( "super" ).arg( id );
   }
 
   /**
@@ -193,7 +206,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     method._throws( URISyntaxException.class );
 
     JVar object = method.param( codeGenerator.ref( descriptor.getQualifiedName() ), OBJECT );
-    JVar context = method.param( codeGenerator.ref( JaxbMappingContext.class ), CONTEXT );
+    JVar context = method.param( codeGenerator.ref( UriContext.class ), CONTEXT );
     method.annotate( Override.class );
 
     JVar jaxbObjectInstance = method.body().decl( jaxbObject, JAXB_OBJECT, JExpr._new( jaxbObject ) );
@@ -211,7 +224,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     method.annotate( Override.class );
 
     JVar object = method.param( codeGenerator.ref( descriptor.getQualifiedName() ), OBJECT );
-    JVar context = method.param( codeGenerator.ref( JaxbMappingContext.class ), CONTEXT );
+    JVar context = method.param( codeGenerator.ref( UriContext.class ), CONTEXT );
 
     JVar jaxbObjectInstance = method.body().decl( jaxbStub, STUB_OBJECT, JExpr._new( jaxbStub ) );
 
@@ -343,6 +356,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
       .param( NAMESPACE, NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) );
     jaxbObject.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
 
+    addConstructors( jaxbObject, JMod.PUBLIC );
     addFields( jaxbObject, Scope.JAXB );
   }
 
@@ -366,6 +380,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     jaxbStub.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
 
 
+    addConstructors( jaxbStub, JMod.PUBLIC );
     addFields( jaxbStub, Scope.STUB );
 
     addGetJaxbType();

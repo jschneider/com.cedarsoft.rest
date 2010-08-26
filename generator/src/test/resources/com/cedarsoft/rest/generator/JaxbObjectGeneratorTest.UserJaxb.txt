@@ -19,6 +19,13 @@ public abstract class User
     private String email;
     private String name;
 
+    protected User() {
+    }
+
+    protected User(String id) {
+        super(id);
+    }
+
     public String getEmail() {
         return email;
     }
@@ -45,6 +52,13 @@ public abstract class User
         private com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb group;
         @XmlElement(name = "friend")
         private List<com.cedarsoft.rest.generator.test.jaxb.User.Stub> friends;
+
+        public Jaxb() {
+        }
+
+        public Jaxb(String id) {
+            super(id);
+        }
 
         public com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb getGroup() {
             return group;
@@ -74,6 +88,13 @@ public abstract class User
 
         private com.cedarsoft.rest.generator.test.jaxb.Group.Stub group;
 
+        public Stub() {
+        }
+
+        public Stub(String id) {
+            super(id);
+        }
+
         public com.cedarsoft.rest.generator.test.jaxb.Group.Stub getGroup() {
             return group;
         }
@@ -98,7 +119,7 @@ import java.net.URISyntaxException;
 import javax.ws.rs.core.UriBuilder;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
-import com.cedarsoft.rest.JaxbMappingContext;
+import com.cedarsoft.rest.UriContext;
 import com.cedarsoft.rest.generator.test.User;
 
 public class UserMapping
@@ -119,7 +140,7 @@ public class UserMapping
     }
 
     @Override
-    protected com.cedarsoft.rest.generator.test.jaxb.User.Jaxb createJaxbObject(User object, JaxbMappingContext context)
+    protected com.cedarsoft.rest.generator.test.jaxb.User.Jaxb createJaxbObject(User object, UriContext context)
         throws URISyntaxException
     {
         com.cedarsoft.rest.generator.test.jaxb.User.Jaxb jaxbObject = new com.cedarsoft.rest.generator.test.jaxb.User.Jaxb();
@@ -131,7 +152,7 @@ public class UserMapping
     }
 
     @Override
-    protected com.cedarsoft.rest.generator.test.jaxb.User.Stub createJaxbObjectStub(User object, JaxbMappingContext context)
+    protected com.cedarsoft.rest.generator.test.jaxb.User.Stub createJaxbObjectStub(User object, UriContext context)
         throws URISyntaxException
     {
         com.cedarsoft.rest.generator.test.jaxb.User.Stub stub = new com.cedarsoft.rest.generator.test.jaxb.User.Stub();
