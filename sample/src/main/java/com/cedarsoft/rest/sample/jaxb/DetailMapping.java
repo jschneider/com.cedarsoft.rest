@@ -24,21 +24,22 @@ public class DetailMapping extends JaxbMapping<Detail, com.cedarsoft.rest.sample
 
   @NotNull
   @Override
-  protected com.cedarsoft.rest.sample.jaxb.Detail.Jaxb createJaxbObject( @NotNull Detail object, @NotNull JaxbMappingContext context )
-    throws URISyntaxException {
-    com.cedarsoft.rest.sample.jaxb.Detail.Jaxb jaxbObject = new com.cedarsoft.rest.sample.jaxb.Detail.Jaxb();
-    jaxbObject.setText( object.getText() );
-    jaxbObject.setId( object.getId() );
-    return jaxbObject;
+  protected com.cedarsoft.rest.sample.jaxb.Detail.Jaxb createJaxbObject( @NotNull Detail object ) {
+    return new com.cedarsoft.rest.sample.jaxb.Detail.Jaxb( object.getId() );
   }
 
   @Override
-  protected com.cedarsoft.rest.sample.jaxb.Detail.Stub createJaxbObjectStub( @NotNull Detail object, @NotNull UriContext context )
-    throws URISyntaxException {
-    com.cedarsoft.rest.sample.jaxb.Detail.Stub stub = new com.cedarsoft.rest.sample.jaxb.Detail.Stub();
-    stub.setText( object.getText() );
-    stub.setId( object.getId() );
-    return stub;
+  protected com.cedarsoft.rest.sample.jaxb.Detail.Stub createJaxbStub( @NotNull Detail object ) {
+    return new com.cedarsoft.rest.sample.jaxb.Detail.Stub( object.getId() );
   }
 
+  @Override
+  protected void copyFieldsToJaxbObject( @NotNull Detail object, @NotNull com.cedarsoft.rest.sample.jaxb.Detail.Jaxb target, @NotNull UriContext context ) throws URISyntaxException {
+    target.setText( object.getText() );
+  }
+
+  @Override
+  protected void copyFieldsToJaxbStub( @NotNull Detail object, @NotNull com.cedarsoft.rest.sample.jaxb.Detail.Stub target, @NotNull UriContext context ) throws URISyntaxException {
+    target.setText( object.getText() );
+  }
 }

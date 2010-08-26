@@ -31,11 +31,11 @@
 
 package com.cedarsoft.rest.sample.rest;
 
+import com.cedarsoft.rest.UriContext;
 import com.cedarsoft.rest.sample.jaxb.User;
 import com.cedarsoft.rest.sample.jaxb.UserMapping;
 import com.google.inject.Inject;
 import com.sun.jersey.api.NotFoundException;
-import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,8 +49,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
-import java.io.File;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +78,7 @@ public class UsersResource {
   @GET
   @NotNull
   public List<User.Stub> getUsers( @Context HttpHeaders headers, @QueryParam( "minId" ) int minId, @QueryParam( "max-id" ) int maxId ) throws URISyntaxException {
-    return userMapping.getJaxbStubs( users, uriInfo.getBaseUriBuilder() );
+    return userMapping.getJaxbStubs( users, new UriContext( uriInfo.getBaseUriBuilder(), uriInfo.getBaseUriBuilder() ) );
   }
 
   @GET
@@ -89,7 +87,7 @@ public class UsersResource {
   public User.Jaxb getUser( @PathParam( "id" ) @NotNull @NonNls String id ) throws URISyntaxException {
     for ( com.cedarsoft.rest.sample.User user : users ) {
       if ( user.getEmail().equals( id ) ) {
-        return userMapping.getJaxbObject( user, uriInfo.getBaseUriBuilder() );
+        return userMapping.getJaxbObject( user, new UriContext( uriInfo.getBaseUriBuilder(), uriInfo.getBaseUriBuilder() ) );
       }
     }
 
@@ -103,6 +101,6 @@ public class UsersResource {
   public User.Jaxb getTestUser() throws URISyntaxException {
     com.cedarsoft.rest.sample.User user = new com.cedarsoft.rest.sample.User( "test@test.com", "Test User" );
     user.addFriend( new com.cedarsoft.rest.sample.User( "friend@asdf.de", "A Friend" ) );
-    return userMapping.getJaxbObject( user, uriInfo.getBaseUriBuilder() );
+    return userMapping.getJaxbObject( user, new UriContext( uriInfo.getBaseUriBuilder(), uriInfo.getBaseUriBuilder() ) );
   }
 }

@@ -178,7 +178,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
     UriContext localContext = createLocalContext( context, jaxbObject );
     setHref( jaxbObject, localContext );
 
-    copyFields( object, jaxbObject, localContext );
+    copyFieldsToJaxbObject( object, jaxbObject, localContext );
     return jaxbObject;
   }
 
@@ -196,13 +196,13 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    *
    * @throws URISyntaxException
    */
-  protected final S createJaxbObjectStub( @NotNull T object, @NotNull UriContext context ) throws URISyntaxException{
+  protected final S createJaxbObjectStub( @NotNull T object, @NotNull UriContext context ) throws URISyntaxException {
     S jaxbStub = createJaxbStub( object );
 
     UriContext localContext = createLocalContext( context, jaxbStub );
     setHref( jaxbStub, localContext );
 
-    copyFields( object, jaxbStub, localContext );
+    copyFieldsToJaxbStub( object, jaxbStub, localContext );
     return jaxbStub;
 
   }
@@ -248,14 +248,14 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
   protected abstract S createJaxbStub( @NotNull T object );
 
   /**
-   * Copy the fields from the source
+   * Copy the fields from the source to the target
    *
-   * @param object     the source model
-   * @param jaxbObject the target jaxb object
-   * @param context    the context
+   * @param object  the source model
+   * @param target  the target jaxb object
+   * @param context the context
    * @throws URISyntaxException
    */
-  protected abstract void copyFields( @NotNull T object, @NotNull J jaxbObject, @NotNull UriContext context ) throws URISyntaxException;
-  
-  protected abstract void copyFields( @NotNull T object, @NotNull S jaxbStub, @NotNull UriContext context ) throws URISyntaxException;
+  protected abstract void copyFieldsToJaxbObject( @NotNull T object, @NotNull J target, @NotNull UriContext context ) throws URISyntaxException;
+
+  protected abstract void copyFieldsToJaxbStub( @NotNull T object, @NotNull S target, @NotNull UriContext context ) throws URISyntaxException;
 }

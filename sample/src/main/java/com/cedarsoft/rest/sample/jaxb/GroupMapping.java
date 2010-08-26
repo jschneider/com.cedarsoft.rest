@@ -9,31 +9,33 @@ import org.jetbrains.annotations.NotNull;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URISyntaxException;
 
-public class GroupMapping
-  extends JaxbMapping<Group, com.cedarsoft.rest.sample.jaxb.Group.Jaxb, com.cedarsoft.rest.sample.jaxb.Group.Stub> {
+public class GroupMapping extends JaxbMapping<Group, com.cedarsoft.rest.sample.jaxb.Group.Jaxb, com.cedarsoft.rest.sample.jaxb.Group.Stub> {
 
   public static final String PATH = "groups";
-  public static final String ID = "{id}";
 
+  @NotNull
   @Override
-  protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) {
-    object.setHref( uriBuilder.path( PATH ).path( ID ).build( object.getId() ) );
+  protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext context ) {
+    return context.getBaseUriBuilder().path( PATH ).path( object.getId() );
   }
 
   @NotNull
   @Override
-  protected com.cedarsoft.rest.sample.jaxb.Group.Jaxb createJaxbObject( @NotNull Group object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
-    com.cedarsoft.rest.sample.jaxb.Group.Jaxb jaxbObject = new com.cedarsoft.rest.sample.jaxb.Group.Jaxb();
-    jaxbObject.setId( object.getId() );
-    jaxbObject.setDescription( object.getDescription() );
-    return jaxbObject;
+  protected com.cedarsoft.rest.sample.jaxb.Group.Jaxb createJaxbObject( @NotNull Group object ) {
+    return new com.cedarsoft.rest.sample.jaxb.Group.Jaxb( object.getId() );
   }
 
   @Override
-  protected com.cedarsoft.rest.sample.jaxb.Group.Stub createJaxbObjectStub( @NotNull Group object, @NotNull UriContext context ) throws URISyntaxException {
-    com.cedarsoft.rest.sample.jaxb.Group.Stub stub = new com.cedarsoft.rest.sample.jaxb.Group.Stub();
-    stub.setId( object.getId() );
-    return stub;
+  protected com.cedarsoft.rest.sample.jaxb.Group.Stub createJaxbStub( @NotNull Group object ) {
+    return new com.cedarsoft.rest.sample.jaxb.Group.Stub( object.getId() );
   }
 
+  @Override
+  protected void copyFieldsToJaxbObject( @NotNull Group object, @NotNull com.cedarsoft.rest.sample.jaxb.Group.Jaxb target, @NotNull UriContext context ) throws URISyntaxException {
+    target.setDescription( object.getDescription() );
+  }
+
+  @Override
+  protected void copyFieldsToJaxbStub( @NotNull Group object, @NotNull com.cedarsoft.rest.sample.jaxb.Group.Stub target, @NotNull UriContext context ) throws URISyntaxException {
+  }
 }

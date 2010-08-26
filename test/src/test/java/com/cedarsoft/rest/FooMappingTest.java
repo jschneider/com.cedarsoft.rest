@@ -79,8 +79,8 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo, FooStu
     }
 
     @Override
-    protected void copyFields( @NotNull FooModel object, @NotNull Foo jaxbObject, @NotNull UriContext context ) throws URISyntaxException {
-      jaxbObject.setDaValue( object.getDaValue() );
+    protected void copyFieldsToJaxbObject( @NotNull FooModel object, @NotNull Foo target, @NotNull UriContext context ) throws URISyntaxException {
+      target.setDaValue( object.getDaValue() );
     }
 
     @Override
@@ -89,7 +89,7 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo, FooStu
     }
 
     @Override
-    protected void copyFields( @NotNull FooModel object, @NotNull FooStub jaxbStub, @NotNull UriContext context ) throws URISyntaxException {
+    protected void copyFieldsToJaxbStub( @NotNull FooModel object, @NotNull FooStub target, @NotNull UriContext context ) throws URISyntaxException {
     }
   }
 }

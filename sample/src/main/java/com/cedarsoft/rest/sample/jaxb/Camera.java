@@ -33,6 +33,7 @@ package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -45,6 +46,13 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType( name = "abstractCamera" )
 public abstract class Camera extends AbstractJaxbObject {
+  protected Camera() {
+  }
+
+  protected Camera( @NotNull @NonNls String id ) {
+    super( id );
+  }
+
   @XmlType( name = "camera" )
   @XmlRootElement( name = "camera", namespace = "http://cedarsoft.com/rest/sample/camera" )
   @XmlAccessorType( XmlAccessType.FIELD )
@@ -52,6 +60,13 @@ public abstract class Camera extends AbstractJaxbObject {
     private CameraInfo.Jaxb cameraInfo;
     private String description;
     private User.Stub owner;
+
+    public Jaxb() {
+    }
+
+    public Jaxb( @NotNull @NonNls String id ) {
+      super( id );
+    }
 
     public CameraInfo.Jaxb getCameraInfo() {
       return cameraInfo;
@@ -86,6 +101,13 @@ public abstract class Camera extends AbstractJaxbObject {
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Stub extends Camera implements JaxbStub<Jaxb> {
     private CameraInfo.Stub cameraInfo;
+
+    public Stub() {
+    }
+
+    public Stub( @NotNull @NonNls String id ) {
+      super( id );
+    }
 
     public CameraInfo.Stub getCameraInfo() {
       return cameraInfo;

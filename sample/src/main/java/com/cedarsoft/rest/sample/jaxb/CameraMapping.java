@@ -48,41 +48,42 @@ public class CameraMapping extends JaxbMapping<com.cedarsoft.rest.sample.Camera,
     this.getDelegatesMapping().addMapping( User.Jaxb.class, User.Stub.class, userMapping );
   }
 
+  @NotNull
   @Override
-  protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
-    object.setHref( uriBuilder.path( "devices" ).path( "cameras" ).path( "{id}" ).build( object.getId() ) );
+  protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext context ) {
+    return context.getBaseUriBuilder().path( "devices" ).path( "cameras" ).path( object.getId() );
   }
 
   @NotNull
   @Override
-  protected Camera.Jaxb createJaxbObject( @NotNull com.cedarsoft.rest.sample.Camera object, @NotNull JaxbMappingContext context ) throws URISyntaxException {
-    Camera.Jaxb jaxbObject = new Camera.Jaxb();
+  protected Camera.Jaxb createJaxbObject( @NotNull com.cedarsoft.rest.sample.Camera object ) {
+    return new Camera.Jaxb( object.getId() );
+  }
 
-    jaxbObject.setId( object.getId() );
-    jaxbObject.setDescription( "a nice description about the camera!" );
+  @Override
+  protected Camera.Stub createJaxbStub( @NotNull com.cedarsoft.rest.sample.Camera object ) {
+    return new Camera.Stub( object.getId() );
+  }
+
+  @Override
+  protected void copyFieldsToJaxbObject( @NotNull com.cedarsoft.rest.sample.Camera object, @NotNull Camera.Jaxb target, @NotNull UriContext context ) throws URISyntaxException {
+    target.setDescription( "a nice description about the camera!" );
 
     CameraInfo.Jaxb cameraInfo = new CameraInfo.Jaxb();
     cameraInfo.setInternalSerial( object.getCameraInfo().getInternalSerial() );
     cameraInfo.setMake( object.getCameraInfo().getMake() );
     cameraInfo.setModel( object.getCameraInfo().getModel() );
     cameraInfo.setSerial( object.getCameraInfo().getSerial() );
-    jaxbObject.setCameraInfo( cameraInfo );
+    target.setCameraInfo( cameraInfo );
 
-    jaxbObject.setOwner( getStub( User.Stub.class, object.getOwner(), context ) );
-
-    return jaxbObject;
+    target.setOwner( getStub( User.Stub.class, object.getOwner(), context ) );
   }
 
   @Override
-  protected Camera.Stub createJaxbObjectStub( @NotNull com.cedarsoft.rest.sample.Camera object, @NotNull UriContext context ) throws URISyntaxException {
-    Camera.Stub jaxbObject = new Camera.Stub();
-    jaxbObject.setId( object.getId() );
-
+  protected void copyFieldsToJaxbStub( @NotNull com.cedarsoft.rest.sample.Camera object, @NotNull Camera.Stub target, @NotNull UriContext context ) throws URISyntaxException {
     CameraInfo.Stub cameraInfo = new CameraInfo.Stub();
     cameraInfo.setMake( object.getCameraInfo().getMake() );
     cameraInfo.setModel( object.getCameraInfo().getModel() );
-    jaxbObject.setCameraInfo( cameraInfo );
-
-    return jaxbObject;
+    target.setCameraInfo( cameraInfo );
   }
 }
