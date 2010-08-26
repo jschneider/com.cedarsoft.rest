@@ -46,4 +46,9 @@ public class JaxbTestUtils {
   public static UriBuilder createTestUriBuilder() {
     return UriBuilder.fromUri( "http://test.running/here" );
   }
+
+  @NotNull
+  public static UriContext createTestUriContext() {
+    return new UriContext( createTestUriBuilder(), createTestUriBuilder() );
+  }
 }

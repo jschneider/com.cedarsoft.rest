@@ -67,9 +67,15 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo, FooStu
 
 
   private static class FooMapping extends JaxbMapping<FooModel, Foo, FooStub> {
+//    @Override
+//    protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
+//      object.setHref( new URI( "test:daUri" ) );
+//    }
+
+    @NotNull
     @Override
-    protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
-      object.setHref( new URI( "test:daUri" ) );
+    protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) {
+      return uriBuilder.path( "test:daUri" );
     }
 
     @Override

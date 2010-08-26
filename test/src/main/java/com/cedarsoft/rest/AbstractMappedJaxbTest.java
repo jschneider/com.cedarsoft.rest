@@ -109,11 +109,11 @@ public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject, S extends 
 
   @NotNull
   protected J createJaxbObject( @NotNull T object ) throws URISyntaxException {
-    return createMapping().getJaxbObject( object, JaxbTestUtils.createTestUriBuilder() );
+    return createMapping().getJaxbObject( object, JaxbTestUtils.createTestUriContext() );
   }
 
   @NotNull
   protected S createJaxbObjectStub( @NotNull T object ) throws URISyntaxException {
-    return createMapping().getJaxbObjectStub( object, JaxbTestUtils.createTestUriBuilder() );
+    return createMapping().getJaxbObjectStub( object, JaxbTestUtils.createTestUriContext() );
   }
 }

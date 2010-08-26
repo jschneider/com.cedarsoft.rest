@@ -52,13 +52,20 @@ public class JaxbMappingTest {
   private JaxbMapping<MyObject, MyObjectJaxb, MyObjectJaxbStub> mapping;
   private JaxbMapping<Parent, ParentJaxb, ParentJaxbStub> parentMapping;
   private JaxbMapping<GrandFather, GrandFatherJaxb, GrandFatherJaxbStub> grandFatherMapping;
+  private UriContext uriContext;
 
   @Before
   public void setUp() throws Exception {
     mapping = new JaxbMapping<MyObject, MyObjectJaxb, MyObjectJaxbStub>() {
+      //      @Override
+      //      protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
+      //        object.setHref( uriBuilder.path( "uriForMyObjectJaxb" ).build() );
+      //      }
+
+      @NotNull
       @Override
-      protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
-        object.setHref( uriBuilder.path( "uriForMyObjectJaxb" ).build() );
+      protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) {
+        return uriBuilder.path( "uriForMyObjectJaxb" );
       }
 
       @NotNull
@@ -84,9 +91,15 @@ public class JaxbMappingTest {
         getDelegatesMapping().addMapping( MyObjectJaxb.class, MyObjectJaxbStub.class, mapping );
       }
 
+//      @Override
+//      protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
+//        object.setHref( uriBuilder.path( "uriForParentJaxb" ).build() );
+//      }
+
+      @NotNull
       @Override
-      protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
-        object.setHref( uriBuilder.path( "uriForParentJaxb" ).build() );
+      protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) {
+        return uriBuilder.path( "uriForParentJaxb" );
       }
 
       @Override
@@ -113,10 +126,16 @@ public class JaxbMappingTest {
         throw new UnsupportedOperationException();
       }
 
+      @NotNull
       @Override
-      protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
-        object.setHref( uriBuilder.path( "uriGrandParent" ).build() );
+      protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) {
+        return uriBuilder.path( "uriGrandParent" );
       }
+
+//      @Override
+//      protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
+//        object.setHref( uriBuilder.path( "uriGrandParent" ).build() );
+//      }
 
       @NotNull
       @Override
@@ -126,28 +145,19 @@ public class JaxbMappingTest {
         return jaxbObject;
       }
     };
+
+    uriContext = JaxbTestUtils.createTestUriContext();
   }
 
   @Test
   public void testGetJaxbObject() throws Exception {
     MyObject myObject = new MyObject( 24 );
 
-    MyObjectJaxb myObjectJaxb = mapping.getJaxbObject( myObject, new UriBuilderImpl() );
+    MyObjectJaxb myObjectJaxb = mapping.getJaxbObject( myObject, uriContext );
     assertSame( myObject.daInt, myObjectJaxb.daInt );
 
     //test cache
-    assertSame( myObjectJaxb, mapping.getJaxbObject( myObject, new UriBuilderImpl() ) );
-  }
-
-  @Test
-  public void testGetJaxbObjectNull() throws Exception {
-    MyObject myObject = new MyObject( 42 );
-
-    MyObjectJaxb myObjectJaxb = mapping.getJaxbObject( myObject, null );
-    assertSame( myObject.daInt, myObjectJaxb.daInt );
-
-    //test cache
-    assertSame( myObjectJaxb, mapping.getJaxbObject( myObject, null ) );
+    assertSame( myObjectJaxb, mapping.getJaxbObject( myObject, uriContext ) );
   }
 
   @Test
@@ -155,13 +165,13 @@ public class JaxbMappingTest {
     MyObject myObject1 = new MyObject( 7 );
     MyObject myObject2 = new MyObject( 8 );
 
-    List<MyObjectJaxb> myObjectJaxbs = mapping.getJaxbObjects( Lists.newArrayList( myObject1, myObject2 ), new UriBuilderImpl() );
+    List<MyObjectJaxb> myObjectJaxbs = mapping.getJaxbObjects( Lists.newArrayList( myObject1, myObject2 ), uriContext );
     assertSame( myObject1.daInt, myObjectJaxbs.get( 0 ).daInt );
     assertSame( myObject2.daInt, myObjectJaxbs.get( 1 ).daInt );
 
     //test cache
-    assertSame( myObjectJaxbs.get( 0 ), mapping.getJaxbObject( myObject1, new UriBuilderImpl() ) );
-    assertSame( myObjectJaxbs.get( 1 ), mapping.getJaxbObject( myObject2, new UriBuilderImpl() ) );
+    assertSame( myObjectJaxbs.get( 0 ), mapping.getJaxbObject( myObject1, uriContext ) );
+    assertSame( myObjectJaxbs.get( 1 ), mapping.getJaxbObject( myObject2, uriContext ) );
   }
 
   @Test
@@ -169,18 +179,18 @@ public class JaxbMappingTest {
     MyObject myObject1 = new MyObject( 7 );
     MyObject myObject2 = new MyObject( 8 );
 
-    List<MyObjectJaxbStub> myObjectJaxbs = mapping.getJaxbStubs( Lists.newArrayList( myObject1, myObject2 ), new UriBuilderImpl() );
+    List<MyObjectJaxbStub> myObjectJaxbs = mapping.getJaxbStubs( Lists.newArrayList( myObject1, myObject2 ), uriContext );
     assertSame( myObject1.daInt, myObjectJaxbs.get( 0 ).stubInt );
     assertSame( myObject2.daInt, myObjectJaxbs.get( 1 ).stubInt );
 
     //test cache
-    assertSame( myObjectJaxbs.get( 0 ), mapping.getJaxbObjectStub( myObject1, new UriBuilderImpl() ) );
-    assertSame( myObjectJaxbs.get( 1 ), mapping.getJaxbObjectStub( myObject2, new UriBuilderImpl() ) );
+    assertSame( myObjectJaxbs.get( 0 ), mapping.getJaxbObjectStub( myObject1, uriContext ) );
+    assertSame( myObjectJaxbs.get( 1 ), mapping.getJaxbObjectStub( myObject2, uriContext ) );
   }
 
   @Test
   public void testUri() throws Exception {
-    assertEquals( "uriForMyObjectJaxb", mapping.getJaxbObject( new MyObject( 7 ), new UriBuilderImpl() ).getHref().toString() );
+    assertEquals( "uriForMyObjectJaxb", mapping.getJaxbObject( new MyObject( 7 ), uriContext ).getHref().toString() );
   }
 
   @Test
@@ -188,13 +198,13 @@ public class JaxbMappingTest {
     MyObject myObject1 = new MyObject( 7 );
     Parent parent = new Parent( myObject1 );
 
-    ParentJaxb parentJaxb = parentMapping.getJaxbObject( parent, null );
+    ParentJaxb parentJaxb = parentMapping.getJaxbObject( parent, uriContext );
     assertNotNull( parentJaxb );
     assertNotNull( parentJaxb.getChild() );
     assertEquals( myObject1.daInt, parentJaxb.getChild().daInt );
 
-    assertSame( parentJaxb, parentMapping.getJaxbObject( parent, null ) );
-    assertSame( parentJaxb.getChild(), parentMapping.getJaxbObject( parent, null ).getChild() );
+    assertSame( parentJaxb, parentMapping.getJaxbObject( parent, uriContext ) );
+    assertSame( parentJaxb.getChild(), parentMapping.getJaxbObject( parent, uriContext ).getChild() );
   }
 
   @Test
@@ -202,14 +212,14 @@ public class JaxbMappingTest {
     MyObject myObject1 = new MyObject( 7 );
     Parent parent = new Parent( myObject1 );
 
-    ParentJaxb parentJaxb = parentMapping.getJaxbObject( parent, new UriBuilderImpl() );
+    ParentJaxb parentJaxb = parentMapping.getJaxbObject( parent, uriContext );
     assertNotNull( parentJaxb );
     assertNotNull( parentJaxb.getChild() );
     assertEquals( "uriForParentJaxb", String.valueOf( parentJaxb.getHref() ) );
     assertEquals( myObject1.daInt, parentJaxb.getChild().daInt );
     assertEquals( "uriForMyObjectJaxb", String.valueOf( parentJaxb.getChild().getHref() ) );
 
-    assertSame( parentJaxb, parentMapping.getJaxbObject( parent, new UriBuilderImpl() ) );
+    assertSame( parentJaxb, parentMapping.getJaxbObject( parent, uriContext ) );
   }
 
   @Test
@@ -218,18 +228,18 @@ public class JaxbMappingTest {
     Parent parent = new Parent( myObject1 );
     GrandFather grandFather = new GrandFather( parent );
 
-    GrandFatherJaxb jaxbObject = grandFatherMapping.getJaxbObject( grandFather, null );
+    GrandFatherJaxb jaxbObject = grandFatherMapping.getJaxbObject( grandFather, uriContext );
     assertNotNull( jaxbObject );
     assertNotNull( jaxbObject.getParent() );
     assertNotNull( jaxbObject.getParent().getChild() );
     assertEquals( myObject1.daInt, jaxbObject.getParent().getChild().daInt );
 
-    assertSame( jaxbObject, grandFatherMapping.getJaxbObject( grandFather, null ) );
-    assertSame( jaxbObject.getParent(), grandFatherMapping.getJaxbObject( grandFather, null ).getParent() );
-    assertSame( jaxbObject.getParent().getChild(), grandFatherMapping.getJaxbObject( grandFather, null ).getParent().getChild() );
+    assertSame( jaxbObject, grandFatherMapping.getJaxbObject( grandFather, uriContext ) );
+    assertSame( jaxbObject.getParent(), grandFatherMapping.getJaxbObject( grandFather, uriContext ).getParent() );
+    assertSame( jaxbObject.getParent().getChild(), grandFatherMapping.getJaxbObject( grandFather, uriContext ).getParent().getChild() );
 
-    assertSame( jaxbObject.getParent(), parentMapping.getJaxbObject( parent, null ) );
-    assertSame( jaxbObject.getParent().getChild(), mapping.getJaxbObject( myObject1, null ) );
+    assertSame( jaxbObject.getParent(), parentMapping.getJaxbObject( parent, uriContext ) );
+    assertSame( jaxbObject.getParent().getChild(), mapping.getJaxbObject( myObject1, uriContext ) );
   }
 
   protected static class MyObject {

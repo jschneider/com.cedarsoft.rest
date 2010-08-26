@@ -37,43 +37,33 @@ import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 
 /**
- *
+ * Context object for JAXB Mappings
  */
 public class JaxbMappingContext {
   @NotNull
-  private final UriBuilder uriBuilder;
+  private final UriContext uriContext;
   @NotNull
   private final DelegateJaxbMappings delegateJaxbMappings;
 
+  @Deprecated
+  public JaxbMappingContext( @NotNull UriBuilder baseUriBuilder, @NotNull UriBuilder uriBuilder, @NotNull DelegateJaxbMappings delegateJaxbMappings ) {
+    this( new UriContext( baseUriBuilder, uriBuilder ), delegateJaxbMappings );
+  }
+
   /**
    * Generates a new mapping context.
-   * The uri builder is cloned so that the state of the builder won't change under the hood.
    *
-   * @param uriBuilder           the uri builder that is used as base
+   * @param uriContext           the uri context
    * @param delegateJaxbMappings the delegate mappings
    */
-  public JaxbMappingContext( @NotNull UriBuilder uriBuilder, @NotNull DelegateJaxbMappings delegateJaxbMappings ) {
-    this.uriBuilder = uriBuilder.clone();
+  public JaxbMappingContext( @NotNull UriContext uriContext, @NotNull DelegateJaxbMappings delegateJaxbMappings ) {
+    this.uriContext = uriContext;
     this.delegateJaxbMappings = delegateJaxbMappings;
   }
 
-  /**
-   * Returns an URI builder (that has been cloned) - and therefore is safe to use
-   *
-   * @return a new uri builder
-   */
   @NotNull
-  public UriBuilder getUriBuilder() {
-    return uriBuilder.clone();
-  }
-
-  /**
-   * Returns the URI
-   * @return the URI
-   */
-  @NotNull
-  public URI getUri() {
-    return uriBuilder.build();
+  public UriContext getUriContext() {
+    return uriContext;
   }
 
   @NotNull
@@ -89,6 +79,6 @@ public class JaxbMappingContext {
    */
   @NotNull
   public JaxbMappingContext create( @NotNull UriBuilder newUriBuilder ) {
-    return new JaxbMappingContext( newUriBuilder, delegateJaxbMappings );
+    return new JaxbMappingContext( uriContext.create( newUriBuilder ), delegateJaxbMappings );
   }
 }

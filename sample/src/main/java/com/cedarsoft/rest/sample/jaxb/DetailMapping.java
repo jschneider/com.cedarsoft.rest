@@ -3,6 +3,7 @@ package com.cedarsoft.rest.sample.jaxb;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.JaxbMappingContext;
+import com.cedarsoft.rest.UriContext;
 import com.cedarsoft.rest.sample.Detail;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -15,13 +16,11 @@ public class DetailMapping extends JaxbMapping<Detail, com.cedarsoft.rest.sample
   @NotNull
   @NonNls
   public static final String PATH = "details";
-  @NotNull
-  @NonNls
-  public static final String ID = "{id}";
 
+  @NotNull
   @Override
-  protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) {
-    object.setHref( uriBuilder.path( PATH ).path( ID ).build( object.getId() ) );
+  protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext uriContext ) {
+    return uriContext.getUriBuilder().path( PATH ).path( object.getId() );
   }
 
   @NotNull
