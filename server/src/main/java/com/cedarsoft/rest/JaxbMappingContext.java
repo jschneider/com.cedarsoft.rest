@@ -34,6 +34,7 @@ package com.cedarsoft.rest;
 import org.jetbrains.annotations.NotNull;
 
 import javax.ws.rs.core.UriBuilder;
+import java.net.URI;
 
 /**
  *
@@ -64,6 +65,15 @@ public class JaxbMappingContext {
   @NotNull
   public UriBuilder getUriBuilder() {
     return uriBuilder.clone();
+  }
+
+  /**
+   * Returns the URI
+   * @return the URI
+   */
+  @NotNull
+  public URI getUri() {
+    return uriBuilder.build();
   }
 
   @NotNull

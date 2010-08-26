@@ -56,4 +56,15 @@ public class JaxbMappingContextTest {
     assertEquals( "http://test.running/here/dir/sub", newContext.getUriBuilder().path( "sub" ).build().toString() );
     assertEquals( "http://test.running/here/dir/sub1", newContext.getUriBuilder().path( "sub1" ).build().toString() );
   }
+
+  @Test
+  public void testUriBuilder() throws Exception {
+    UriBuilder uriBuilder = context.getUriBuilder().path( "users" ).path( "{id}" );
+    assertEquals( "http://test.running/here/users/info@cedarsoft.com", uriBuilder.build( "info@cedarsoft.com" ).toString() );
+
+    JaxbMappingContext newContext = context.create( UriBuilder.fromUri( uriBuilder.build( "info@cedarsoft.com" ) ) );
+    
+    assertEquals( "http://test.running/here/users/info@cedarsoft.com/details/7", newContext.getUriBuilder().path( "details" ).path( "{id}" ).build( "7" ).toString() );
+
+  }
 }
