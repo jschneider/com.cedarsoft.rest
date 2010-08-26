@@ -84,10 +84,12 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo, FooStu
     }
 
     @Override
-    protected FooStub createJaxbObjectStub( @NotNull FooModel object, @NotNull UriContext context ) throws URISyntaxException {
-      FooStub fooStub = new FooStub();
-      fooStub.setId( "daId" );
-      return fooStub;
+    protected FooStub createJaxbStub( @NotNull FooModel object ) {
+      return new FooStub("daId");
+    }
+
+    @Override
+    protected void copyFields( @NotNull FooModel object, @NotNull FooStub jaxbStub, @NotNull UriContext context ) throws URISyntaxException {
     }
   }
 }

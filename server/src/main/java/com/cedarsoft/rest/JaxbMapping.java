@@ -183,6 +183,31 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
   }
 
   /**
+   * Creates the JaxbObjectStub.
+   * <p/>
+   * A stub only contains the very basic informations off the object. It is used in collections and when referenced
+   * from other objects.
+   * <p/>
+   * It has to contain a href to fetch the missing details later.
+   *
+   * @param object  the object
+   * @param context the context
+   * @return the stub
+   *
+   * @throws URISyntaxException
+   */
+  protected final S createJaxbObjectStub( @NotNull T object, @NotNull UriContext context ) throws URISyntaxException{
+    S jaxbStub = createJaxbStub( object );
+
+    UriContext localContext = createLocalContext( context, jaxbStub );
+    setHref( jaxbStub, localContext );
+
+    copyFields( object, jaxbStub, localContext );
+    return jaxbStub;
+
+  }
+
+  /**
    * Sets the URI to the jaxb object.
    * Override this method for custom behaviour (e.g. no href set)
    *
@@ -214,6 +239,15 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
   protected abstract J createJaxbObject( @NotNull T object );
 
   /**
+   * Creates the basic stub.
+   * This method also *must* set the ID
+   *
+   * @param object the object
+   * @return the stub object (with the ID set)
+   */
+  protected abstract S createJaxbStub( @NotNull T object );
+
+  /**
    * Copy the fields from the source
    *
    * @param object     the source model
@@ -222,20 +256,6 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    * @throws URISyntaxException
    */
   protected abstract void copyFields( @NotNull T object, @NotNull J jaxbObject, @NotNull UriContext context ) throws URISyntaxException;
-
-  /**
-   * Creates the JaxbObjectStub.
-   * <p/>
-   * A stub only contains the very basic informations off the object. It is used in collections and when referenced
-   * from other objects.
-   * <p/>
-   * It has to contain a href to fetch the missing details later
-   *
-   * @param object  the object
-   * @param context the context
-   * @return the stub
-   *
-   * @throws URISyntaxException
-   */
-  protected abstract S createJaxbObjectStub( @NotNull T object, @NotNull UriContext context ) throws URISyntaxException;
+  
+  protected abstract void copyFields( @NotNull T object, @NotNull S jaxbStub, @NotNull UriContext context ) throws URISyntaxException;
 }

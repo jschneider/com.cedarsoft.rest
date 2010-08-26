@@ -77,24 +77,20 @@ public class JaxbMappingTest {
       }
 
       @Override
-      protected MyObjectJaxbStub createJaxbObjectStub( @NotNull MyObject object, @NotNull UriContext context ) throws URISyntaxException {
-        MyObjectJaxbStub stub = new MyObjectJaxbStub();
-        stub.stubInt = object.daInt;
-        return stub;
+      protected MyObjectJaxbStub createJaxbStub( @NotNull MyObject object ) {
+        return new MyObjectJaxbStub( "daId" );
       }
 
-
+      @Override
+      protected void copyFields( @NotNull MyObject object, @NotNull MyObjectJaxbStub jaxbStub, @NotNull UriContext context ) throws URISyntaxException {
+        jaxbStub.stubInt = object.daInt;
+      }
     };
 
     parentMapping = new JaxbMapping<Parent, ParentJaxb, ParentJaxbStub>() {
       {
         getDelegatesMapping().addMapping( MyObjectJaxb.class, MyObjectJaxbStub.class, mapping );
       }
-
-      //      @Override
-      //      protected void setUris( @NotNull JaxbObject object, @NotNull UriBuilder uriBuilder ) throws URISyntaxException {
-      //        object.setHref( uriBuilder.path( "uriForParentJaxb" ).build() );
-      //      }
 
       @NotNull
       @Override
@@ -103,8 +99,12 @@ public class JaxbMappingTest {
       }
 
       @Override
-      protected ParentJaxbStub createJaxbObjectStub( @NotNull Parent object, @NotNull UriContext context ) throws URISyntaxException {
-        return new ParentJaxbStub();
+      protected ParentJaxbStub createJaxbStub( @NotNull Parent object ) {
+        return new ParentJaxbStub( "daId" );
+      }
+
+      @Override
+      protected void copyFields( @NotNull Parent object, @NotNull ParentJaxbStub jaxbStub, @NotNull UriContext context ) throws URISyntaxException {
       }
 
       @NotNull
@@ -125,8 +125,12 @@ public class JaxbMappingTest {
       }
 
       @Override
-      protected GrandFatherJaxbStub createJaxbObjectStub( @NotNull GrandFather object, @NotNull UriContext context ) throws URISyntaxException {
-        throw new UnsupportedOperationException();
+      protected GrandFatherJaxbStub createJaxbStub( @NotNull GrandFather object ) {
+        return new GrandFatherJaxbStub( "daId" );
+      }
+
+      @Override
+      protected void copyFields( @NotNull GrandFather object, @NotNull GrandFatherJaxbStub jaxbStub, @NotNull UriContext context ) throws URISyntaxException {
       }
 
       @NotNull
@@ -252,6 +256,13 @@ public class JaxbMappingTest {
   }
 
   protected static class MyObjectJaxbStub extends AbstractJaxbObject implements JaxbStub<MyObjectJaxb> {
+    public MyObjectJaxbStub() {
+    }
+
+    public MyObjectJaxbStub( @NotNull @NonNls String id ) {
+      super( id );
+    }
+
     private int stubInt;
 
     @NotNull
@@ -313,6 +324,13 @@ public class JaxbMappingTest {
   }
 
   protected static class ParentJaxbStub extends AbstractJaxbObject implements JaxbStub<ParentJaxb> {
+    public ParentJaxbStub() {
+    }
+
+    public ParentJaxbStub( @NotNull @NonNls String id ) {
+      super( id );
+    }
+
     @NotNull
     @Override
     public Class<ParentJaxb> getJaxbType() {
@@ -321,6 +339,13 @@ public class JaxbMappingTest {
   }
 
   protected static class GrandFatherJaxbStub extends AbstractJaxbObject implements JaxbStub<GrandFatherJaxb> {
+    public GrandFatherJaxbStub() {
+    }
+
+    public GrandFatherJaxbStub( @NotNull @NonNls String id ) {
+      super( id );
+    }
+
     @NotNull
     @Override
     public Class<GrandFatherJaxb> getJaxbType() {
