@@ -82,6 +82,7 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo, FooStu
       target.setDaValue( source.getDaValue() );
     }
 
+    @NotNull
     @Override
     protected FooStub createJaxbStub( @NotNull FooModel object ) {
       return new FooStub("daId");

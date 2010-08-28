@@ -59,6 +59,7 @@ public class CameraMapping extends JaxbMapping<com.cedarsoft.rest.sample.Camera,
     return new Camera.Jaxb( object.getId() );
   }
 
+  @NotNull
   @Override
   protected Camera.Stub createJaxbStub( @NotNull com.cedarsoft.rest.sample.Camera object ) {
     return new Camera.Stub( object.getId() );

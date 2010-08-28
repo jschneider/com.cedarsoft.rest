@@ -90,6 +90,7 @@ public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, Use
     return new User.Jaxb( object.getEmail() );
   }
 
+  @NotNull
   @Override
   protected User.Stub createJaxbStub( @NotNull com.cedarsoft.rest.sample.User object ) {
     return new User.Stub( object.getEmail() );

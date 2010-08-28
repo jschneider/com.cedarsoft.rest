@@ -75,6 +75,7 @@ public class JaxbMappingTest {
         return objectJaxb;
       }
 
+      @NotNull
       @Override
       protected MyObjectJaxbStub createJaxbStub( @NotNull MyObject object ) {
         return new MyObjectJaxbStub( "daId" );
@@ -97,6 +98,7 @@ public class JaxbMappingTest {
         return context.getUriBuilder().path( "uriForParentJaxb" );
       }
 
+      @NotNull
       @Override
       protected ParentJaxbStub createJaxbStub( @NotNull Parent object ) {
         return new ParentJaxbStub( "daId" );
@@ -123,6 +125,7 @@ public class JaxbMappingTest {
         getDelegatesMapping().addMapping( ParentJaxb.class, ParentJaxbStub.class, parentMapping );
       }
 
+      @NotNull
       @Override
       protected GrandFatherJaxbStub createJaxbStub( @NotNull GrandFather object ) {
         return new GrandFatherJaxbStub( "daId" );

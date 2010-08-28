@@ -55,6 +55,7 @@ public class GroupMapping extends JaxbMapping<Group, com.cedarsoft.rest.sample.j
     return new com.cedarsoft.rest.sample.jaxb.Group.Jaxb( object.getId() );
   }
 
+  @NotNull
   @Override
   protected com.cedarsoft.rest.sample.jaxb.Group.Stub createJaxbStub( @NotNull Group object ) {
     return new com.cedarsoft.rest.sample.jaxb.Group.Stub( object.getId() );

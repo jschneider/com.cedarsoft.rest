@@ -58,6 +58,7 @@ public class DetailMapping extends JaxbMapping<Detail, com.cedarsoft.rest.sample
     return new com.cedarsoft.rest.sample.jaxb.Detail.Jaxb( object.getId() );
   }
 
+  @NotNull
   @Override
   protected com.cedarsoft.rest.sample.jaxb.Detail.Stub createJaxbStub( @NotNull Detail object ) {
     return new com.cedarsoft.rest.sample.jaxb.Detail.Stub( object.getId() );

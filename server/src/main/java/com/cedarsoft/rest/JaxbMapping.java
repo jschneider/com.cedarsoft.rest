@@ -253,7 +253,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
   /**
    * Copies the fields from the source to the target.
    * <p/>
-   * Context: This is the local context that has been created using the URI returned by {@link #getUri(com.cedarsoft.jaxb.JaxbObject, UriContext)}.
+   * Context: This is the local context that has been created using the URI returned by {@link #getUri(JaxbObject, UriContext)}.
    * If that method returns null, there is no local context available and the given parameter is the context of the parent.
    *
    * @param source  the source object
