@@ -66,6 +66,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -155,8 +156,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
 
   private void createBaseClass() throws JClassAlreadyExistsException {
     baseClass = _class( getJaxbBaseName(), JMod.PUBLIC | JMod.ABSTRACT )._extends( AbstractJaxbObject.class );
-    baseClass.annotate( XmlType.class )
-      .param( NAME, "abstract" + descriptor.getClassDeclaration().getSimpleName() );
+    baseClass.annotate( XmlTransient.class );
 
     addFields( baseClass, Scope.COMMON );
     addConstructors( baseClass, JMod.PROTECTED );

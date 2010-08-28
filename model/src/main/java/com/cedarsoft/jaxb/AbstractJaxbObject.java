@@ -38,6 +38,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
 import java.net.URI;
 
 /**
@@ -45,6 +46,7 @@ import java.net.URI;
  * Every object contains an ID and a href
  */
 @XmlAccessorType( XmlAccessType.FIELD )
+@XmlTransient
 public abstract class AbstractJaxbObject implements JaxbObject {
   @XmlAttribute( required = false )
   @Nullable

@@ -58,7 +58,7 @@ public class JaxbInheritanceTest {
 
     AssertUtils.assertXMLEquals(
       "<ns2:daObject xmlns:ns2=\"daobject/super\" xmlns:ns3=\"daobject/super\">\n" +
-        "  <id>7</id>\n" +
+        "  <anid>7</anid>\n" +
         "</ns2:daObject>", out.toString() );
 
     Object deserialized = jaxbRule.createUnmarshaller().unmarshal( new ByteArrayInputStream( out.toByteArray() ) );
@@ -72,7 +72,7 @@ public class JaxbInheritanceTest {
 
     AssertUtils.assertXMLEquals(
       "<ns3:daObject xmlns:ns3=\"daobject/sub\" xmlns:ns2=\"daobject/sub\">\n" +
-        "  <id>7</id>\n" +
+        "  <anid>7</anid>\n" +
         "  <daString>asdf</daString>\n" +
         "</ns3:daObject>", out.toString() );
 
@@ -83,7 +83,7 @@ public class JaxbInheritanceTest {
   @XmlRootElement( name = "daObject", namespace = "daobject/super" )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class SuperClass extends AbstractJaxbObject {
-    private final int id = 7;
+    private final int anid = 7;
 
   }
 

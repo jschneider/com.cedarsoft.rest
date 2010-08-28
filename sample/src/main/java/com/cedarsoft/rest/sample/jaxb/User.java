@@ -40,10 +40,12 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
-@XmlType( name = "abstractUser" )
+//@XmlType( name = "abstractUser" )
+@XmlTransient
 public abstract class User extends AbstractJaxbObject {
   private String email;
   private String name;

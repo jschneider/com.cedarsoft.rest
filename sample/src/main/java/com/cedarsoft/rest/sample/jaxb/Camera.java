@@ -39,12 +39,14 @@ import org.jetbrains.annotations.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-@XmlType( name = "abstractCamera" )
+//@XmlType( name = "abstractCamera" )
+@XmlTransient
 public abstract class Camera extends AbstractJaxbObject {
   protected Camera() {
   }
