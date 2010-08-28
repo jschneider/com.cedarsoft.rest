@@ -76,7 +76,7 @@ public class RestTest extends JerseyTest {
     assertEquals( "test@test.com", testUser.getEmail() );
     assertEquals( 1, testUser.getFriends().size() );
     assertEquals( "Test User", testUser.getName() );
-    assertEquals( "http://localhost:9998/users/test@test.com", testUser.getHref().toString() );
+    assertEquals( getBaseURI() + "users/test@test.com", testUser.getHref().toString() );
     assertEquals( "test@test.com", testUser.getId() );
 
     assertXMLEquals( getClass().getResource( "Rest.testUser.xml" ), resource().path( "users/test" ).type( MediaType.APPLICATION_XML ).get( String.class ) );
@@ -97,15 +97,15 @@ public class RestTest extends JerseyTest {
 
     assertEquals( "Johannes Schneider", users.get( 0 ).getName() );
     assertEquals( "info@cedarsoft.de", users.get( 0 ).getEmail() );
-    assertEquals( "http://localhost:9998/users/info@cedarsoft.de", users.get( 0 ).getHref().toString() );
+    assertEquals( getBaseURI() + "users/info@cedarsoft.de", users.get( 0 ).getHref().toString() );
 
     assertEquals( "Markus Mustermann", users.get( 1 ).getName() );
     assertEquals( "markus@mustermann.de", users.get( 1 ).getEmail() );
-    assertEquals( "http://localhost:9998/users/markus@mustermann.de", users.get( 1 ).getHref().toString() );
+    assertEquals( getBaseURI() + "users/markus@mustermann.de", users.get( 1 ).getHref().toString() );
 
     assertEquals( "Eva Mustermann", users.get( 2 ).getName() );
     assertEquals( "eva@mustermann.de", users.get( 2 ).getEmail() );
-    assertEquals( "http://localhost:9998/users/eva@mustermann.de", users.get( 2 ).getHref().toString() );
+    assertEquals( getBaseURI() + "users/eva@mustermann.de", users.get( 2 ).getHref().toString() );
   }
 
   @Test
