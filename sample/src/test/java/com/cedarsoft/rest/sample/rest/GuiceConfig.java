@@ -40,12 +40,13 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.google.inject.Stage;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 import com.sun.jersey.api.core.PackagesResourceConfig;
 import com.sun.jersey.core.util.FeaturesAndProperties;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -61,12 +62,7 @@ public class GuiceConfig extends GuiceServletContextListener {
     params.put( PackagesResourceConfig.PROPERTY_PACKAGES, UsersResource.class.getPackage().getName() );
     params.put( FeaturesAndProperties.FEATURE_XMLROOTELEMENT_PROCESSING, "true" );
 
-    return Guice.createInjector( Stage.DEVELOPMENT, new ExampleModule(), new ServletModule() {
-      @Override
-      protected void configureServlets() {
-        serve( "/*" ).with( GuiceContainer.class, params );
-      }
-    } );
+    return Guice.createInjector( new ExampleModule(), new JerseyGuiceServletModule( params ) );
   }
 
   public static class ExampleModule extends AbstractModule {
@@ -86,8 +82,8 @@ public class GuiceConfig extends GuiceServletContextListener {
     @Provides
     List<? extends User> provideUsers() {
       User js = new User( "info@cedarsoft.de", "Johannes Schneider" );
-      js.addDetail( new Detail("1", "A detail for Johannes") );
-      js.addDetail( new Detail("2", "A second detail for Johannes") );
+      js.addDetail( new Detail( "1", "A detail for Johannes" ) );
+      js.addDetail( new Detail( "2", "A second detail for Johannes" ) );
 
       User max = new User( "markus@mustermann.de", "Markus Mustermann" );
       max.addDetail( new Detail( "1", "A max detail" ) );
@@ -106,81 +102,94 @@ public class GuiceConfig extends GuiceServletContextListener {
       );
     }
 
-//    @Nullable
-//    private transient WebApplication webApplicationReference;
-//
-//    @Provides
-//    public WebApplication webApp( @NotNull GuiceContainer guiceContainer ) {
-//      WebApplication copy = webApplicationReference;
-//      if ( copy == null ) {
-//        WebComponent component = Reflection.field( "webComponent" ).ofType( WebComponent.class ).in( guiceContainer ).get();
-//        copy = Reflection.field( "application" ).ofType( WebApplication.class ).in( component ).get();
-//        webApplicationReference = copy;
-//      }
-//      return copy;
-//    }
-//
-//    @RequestScoped
-//    @Provides
-//    public HttpContext httpContext( @NotNull WebApplication webApplication ) {
-//      return webApplication.getThreadLocalHttpContext();
-//    }
-//
-//    @Provides
-//    public ExceptionMapperContext exceptionMapperContext( @NotNull WebApplication webApplication ) {
-//      return webApplication.getExceptionMapperContext();
-//    }
-//
-//    @Provides
-//    public FeaturesAndProperties featuresAndProperties( @NotNull WebApplication webApplication ) {
-//      return webApplication.getFeaturesAndProperties();
-//    }
-//
-//    @Provides
-//    public ResourceConfig resourceConfig( @NotNull WebApplication webApplication ) {
-//      return ( ResourceConfig ) webApplication.getFeaturesAndProperties();
-//    }
-//
-//    @Provides
-//    public MessageBodyWorkers messageBodyFactory( @NotNull WebApplication webApplication ) {
-//      return webApplication.getMessageBodyWorkers();
-//    }
-//
-//    @RequestScoped
-//    @Provides
-//    public UriInfo uriInfo( @NotNull HttpContext httpContext ) {
-//      return httpContext.getUriInfo();
-//    }
-//
-//    @RequestScoped
-//    @Provides
-//    public HttpRequestContext requestContext( @NotNull HttpContext httpContext ) {
-//      return httpContext.getRequest();
-//    }
-//
-//    @RequestScoped
-//    @Provides
-//    public HttpHeaders httpHeaders( @NotNull HttpContext httpContext ) {
-//      return httpContext.getRequest();
-//    }
-//
-//    @RequestScoped
-//    @Provides
-//    public Request request( @NotNull HttpContext httpContext ) {
-//      return httpContext.getRequest();
-//    }
-//
-//    @RequestScoped
-//    @Provides
-//    public SecurityContext securityContext( @NotNull HttpContext httpContext ) {
-//      return httpContext.getRequest();
-//    }
-//
-//    @RequestScoped
-//    @Provides
-//    public UriBuilder uriBuilder( @NotNull UriInfo uriInfo ) {
-//      return uriInfo.getRequestUriBuilder();
-//    }
+    //    @Nullable
+    //    private transient WebApplication webApplicationReference;
+    //
+    //    @Provides
+    //    public WebApplication webApp( @NotNull GuiceContainer guiceContainer ) {
+    //      WebApplication copy = webApplicationReference;
+    //      if ( copy == null ) {
+    //        WebComponent component = Reflection.field( "webComponent" ).ofType( WebComponent.class ).in( guiceContainer ).get();
+    //        copy = Reflection.field( "application" ).ofType( WebApplication.class ).in( component ).get();
+    //        webApplicationReference = copy;
+    //      }
+    //      return copy;
+    //    }
+    //
+    //    @RequestScoped
+    //    @Provides
+    //    public HttpContext httpContext( @NotNull WebApplication webApplication ) {
+    //      return webApplication.getThreadLocalHttpContext();
+    //    }
+    //
+    //    @Provides
+    //    public ExceptionMapperContext exceptionMapperContext( @NotNull WebApplication webApplication ) {
+    //      return webApplication.getExceptionMapperContext();
+    //    }
+    //
+    //    @Provides
+    //    public FeaturesAndProperties featuresAndProperties( @NotNull WebApplication webApplication ) {
+    //      return webApplication.getFeaturesAndProperties();
+    //    }
+    //
+    //    @Provides
+    //    public ResourceConfig resourceConfig( @NotNull WebApplication webApplication ) {
+    //      return ( ResourceConfig ) webApplication.getFeaturesAndProperties();
+    //    }
+    //
+    //    @Provides
+    //    public MessageBodyWorkers messageBodyFactory( @NotNull WebApplication webApplication ) {
+    //      return webApplication.getMessageBodyWorkers();
+    //    }
+    //
+    //    @RequestScoped
+    //    @Provides
+    //    public UriInfo uriInfo( @NotNull HttpContext httpContext ) {
+    //      return httpContext.getUriInfo();
+    //    }
+    //
+    //    @RequestScoped
+    //    @Provides
+    //    public HttpRequestContext requestContext( @NotNull HttpContext httpContext ) {
+    //      return httpContext.getRequest();
+    //    }
+    //
+    //    @RequestScoped
+    //    @Provides
+    //    public HttpHeaders httpHeaders( @NotNull HttpContext httpContext ) {
+    //      return httpContext.getRequest();
+    //    }
+    //
+    //    @RequestScoped
+    //    @Provides
+    //    public Request request( @NotNull HttpContext httpContext ) {
+    //      return httpContext.getRequest();
+    //    }
+    //
+    //    @RequestScoped
+    //    @Provides
+    //    public SecurityContext securityContext( @NotNull HttpContext httpContext ) {
+    //      return httpContext.getRequest();
+    //    }
+    //
+    //    @RequestScoped
+    //    @Provides
+    //    public UriBuilder uriBuilder( @NotNull UriInfo uriInfo ) {
+    //      return uriInfo.getRequestUriBuilder();
+    //    }
+  }
+
+  public static class JerseyGuiceServletModule extends ServletModule {
+    private final Map<String, String> params;
+
+    public JerseyGuiceServletModule( @NotNull @NonNls Map<String, String> params ) {
+      this.params = params;
+    }
+
+    @Override
+    protected void configureServlets() {
+      serve( "/*" ).with( GuiceContainer.class, params );
+    }
   }
 }
 
