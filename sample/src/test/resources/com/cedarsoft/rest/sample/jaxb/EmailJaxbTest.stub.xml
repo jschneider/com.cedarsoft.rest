@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns2:email xmlns:ns2="http://cedarsoft.com/rest/sample/email/stub" xmlns="http://cedarsoft.com/rest/sample/email"
+           href="http://test.running/here" id="id">address
+</ns2:email>
