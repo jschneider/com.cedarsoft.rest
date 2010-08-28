@@ -153,12 +153,15 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    *
    * @param context    the base context (not local!)
    * @param jaxbObject the jaxb object
-   * @return the local context (with updated URI builder)
+   * @return the local context (with updated URI builder) - or null if no local context is available
    */
-  @NotNull
+  @Nullable
   protected UriContext createLocalContext( @NotNull UriContext context, @NotNull JaxbObject jaxbObject ) {
-    assert jaxbObject.getId() != null;
-    return context.create( getUri( jaxbObject, context ) );
+    UriBuilder localUri = getUri( jaxbObject, context );
+    if ( localUri == null ) {
+      return null;
+    }
+    return context.create( localUri );
   }
 
   /**
@@ -173,9 +176,11 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
     J jaxbObject = createJaxbObject( object );
 
     UriContext localContext = createLocalContext( context, jaxbObject );
-    setHref( jaxbObject, localContext );
+    if ( localContext != null ) {
+      setHref( jaxbObject, localContext );
+    }
 
-    copyFieldsToJaxbObject( object, jaxbObject, localContext );
+    copyFieldsToJaxbObject( object, jaxbObject, localContext != null ? localContext : context );
     return jaxbObject;
   }
 
@@ -195,9 +200,11 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
     S jaxbStub = createJaxbStub( object );
 
     UriContext localContext = createLocalContext( context, jaxbStub );
-    setHref( jaxbStub, localContext );
+    if ( localContext != null ) {
+      setHref( jaxbStub, localContext );
+    }
 
-    copyFieldsToStub( object, jaxbStub, localContext );
+    copyFieldsToStub( object, jaxbStub, localContext != null ? localContext : context );
     return jaxbStub;
 
   }
@@ -218,9 +225,9 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    *
    * @param object  the object (may be used to fetch the ID)
    * @param context the context
-   * @return the updated uri builder
+   * @return the updated uri builder or null of no URI is available
    */
-  @NotNull
+  @Nullable
   protected abstract UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext context );
 
   /**
@@ -244,11 +251,14 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
   protected abstract S createJaxbStub( @NotNull T object );
 
   /**
-   * Copy the fields from the source to the target
+   * Copies the fields from the source to the target.
+   * <p/>
+   * Context: This is the local context that has been created using the URI returned by {@link #getUri(com.cedarsoft.jaxb.JaxbObject, UriContext)}.
+   * If that method returns null, there is no local context available and the given parameter is the context of the parent.
    *
    * @param source  the source object
    * @param target  the target jaxb object
-   * @param context the context
+   * @param context the (local) context.
    */
   protected abstract void copyFieldsToJaxbObject( @NotNull T source, @NotNull J target, @NotNull UriContext context );
 
