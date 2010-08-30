@@ -46,17 +46,13 @@ public class LinkTest extends SimpleJaxbTest<Link, Link.Stub> {
 
   @DataPoint
   public static Entry<? extends Link> entry1() throws Exception {
-    Link link = new Link( new URI( "http://www.test.de/asdf" ), Link.SELF );
-    link.setId( "daId" );
-
+    Link link = new Link( "daId", new URI( "http://www.test.de/asdf" ), Link.SELF );
     return create( link, "<link xmlns=\"http://www.w3.org/1999/xlink\" href=\"http://www.test.de/asdf\" type=\"self\"  id=\"daId\" />" );
   }
 
   @DataPoint
   public static Entry<? extends Link.Stub> stub() throws Exception {
-    Link.Stub link = new Link.Stub( new URI( "http://www.test.de/asdf" ) );
-    link.setId( "daId" );
-
+    Link.Stub link = new Link.Stub( "daId", new URI( "http://www.test.de/asdf" ) );
     return create( link, "<link href=\"http://www.test.de/asdf\" id=\"daId\" />" );
   }
 }

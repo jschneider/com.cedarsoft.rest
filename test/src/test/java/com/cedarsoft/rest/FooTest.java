@@ -46,10 +46,9 @@ public class FooTest extends SimpleJaxbTest<Foo, FooStub> {
 
   @DataPoint
   public static Entry<? extends Foo> entry1() throws Exception {
-    Foo foo = new Foo();
+    Foo foo = new Foo( "daId" );
     foo.setDaValue( "daValueA" );
     foo.setHref( new URI( "my:uri" ) );
-    foo.setId( "daId" );
     foo.setNames( Arrays.asList( "a", "b", "c" ) );
 
     foo.setBars( Arrays.asList( new Foo.Bar( 1 ), new Foo.Bar( 2 ) ) );

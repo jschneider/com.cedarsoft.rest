@@ -44,19 +44,17 @@ public class DetailJaxbTest extends SimpleJaxbTest<Detail.Jaxb, Detail.Stub> {
 
   @DataPoint
   public static Entry<? extends Detail.Jaxb> dataPoint1() {
-    Detail.Jaxb object = new Detail.Jaxb();
+    Detail.Jaxb object = new Detail.Jaxb( "daid" );
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
     object.setText( "text" );
-    object.setId( "daid" );
     return AbstractJaxbTest.create( object, DetailJaxbTest.class.getResource( "DetailJaxbTest.dataPoint1.xml" ) );
   }
 
   @DataPoint
   public static Entry<? extends Detail.Stub> stub() {
-    Detail.Stub object = new Detail.Stub();
+    Detail.Stub object = new Detail.Stub( "daid" );
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
     object.setText( "text" );
-    object.setId( "daid" );
     return AbstractJaxbTest.create( object, DetailJaxbTest.class.getResource( "DetailJaxbTest.stub.xml" ) );
   }
 

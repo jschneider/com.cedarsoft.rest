@@ -64,7 +64,6 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
       new User.Stub( "b" ),
       new User.Stub( "c" )
     ), 7 );
-    collection.setId( "daId" );
     collection.setHref( JaxbTestUtils.createTestUriBuilder().build() );
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -137,12 +136,10 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
 
   @DataPoint
   public static Entry<? extends User.Jaxb> dataPoint1() {
-    User.Jaxb object = new User.Jaxb();
+    User.Jaxb object = new User.Jaxb( "daId" );
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
-    Group.Stub group = new Group.Stub();
-    group.setId( "groupId" );
+    Group.Stub group = new Group.Stub( "groupId" );
     object.setGroup( group );
-    object.setId( "daId" );
     object.setEmail( "email" );
     object.setName( "name" );
 
@@ -156,11 +153,9 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
 
     object.setFriends( Arrays.asList( friend, friend2 ) );
 
-    Detail.Stub detail = new Detail.Stub();
-    detail.setId( "1" );
+    Detail.Stub detail = new Detail.Stub( "1" );
     detail.setText( "a detail text..." );
-    Detail.Stub detail1 = new Detail.Stub();
-    detail1.setId( "2" );
+    Detail.Stub detail1 = new Detail.Stub( "2" );
     detail1.setText( "Another detail with a long text" );
     object.setDetails( Arrays.asList( detail, detail1 ) );
 
@@ -169,22 +164,18 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
 
   @DataPoint
   public static Entry<? extends User.Jaxb> notFriends() {
-    User.Jaxb object = new User.Jaxb();
+    User.Jaxb object = new User.Jaxb( "daId" );
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
-    object.setId( "daId" );
     object.setEmail( "email" );
     object.setName( "name" );
 
-    Group.Stub group = new Group.Stub();
-    group.setId( "groupId" );
+    Group.Stub group = new Group.Stub( "groupId" );
     object.setGroup( group );
 
-    Detail.Stub detail = new Detail.Stub();
-    detail.setId( "1" );
+    Detail.Stub detail = new Detail.Stub( "1" );
     detail.setText( "a detail text..." );
-    Detail.Stub detail1 = new Detail.Stub();
+    Detail.Stub detail1 = new Detail.Stub( "2" );
     detail1.setText( "Another detail with a long text" );
-    detail1.setId( "2" );
     object.setDetails( Arrays.asList( detail, detail1 ) );
 
     return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.noFriends.xml" ) );
@@ -192,9 +183,8 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
 
   @DataPoint
   public static Entry<? extends User.Stub> stub() {
-    User.Stub object = new User.Stub();
+    User.Stub object = new User.Stub( "daId" );
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
-    object.setId( "daId" );
     object.setEmail( "email" );
     object.setName( "name" );
 
@@ -204,7 +194,6 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
   @DataPoint
   public static Entry<? extends User.Collection> smallCollection() {
     User.Collection object = new User.Collection( Arrays.asList( new User.Stub( "a" ), new User.Stub( "b" ), new User.Stub( "c" ) ), 7 );
-    object.setId( "daId" );
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
     return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.collection.xml" ) );
   }

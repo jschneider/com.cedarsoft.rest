@@ -68,10 +68,11 @@ public class AbstractJaxbObjectTest {
 
   @Test
   public void testSetIt() throws Exception {
+    object = new AbstractJaxbObject( "daId" ) {
+    };
     assertFalse( object.isHrefSet() );
-    assertFalse( object.isIdSet() );
 
-    object.setId( "daId" );
+    assertTrue( object.isIdSet() );
     assertEquals( "daId", object.getId() );
 
     object.setHref( new URI( "aa:asdf" ) );
@@ -79,6 +80,20 @@ public class AbstractJaxbObjectTest {
 
     assertTrue( object.isHrefSet() );
     assertTrue( object.isIdSet() );
+  }
+
+  @Test
+  public void testNoId() throws Exception {
+    object = new AbstractJaxbObject() {
+    };
+
+    assertFalse( object.isHrefSet() );
+    assertFalse( object.isIdSet() );
+
+    object.setHref( new URI( "aa:asdf" ) );
+    assertEquals( new URI( "aa:asdf" ), object.getHref() );
+
+    assertTrue( object.isHrefSet() );
   }
 }
 

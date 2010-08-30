@@ -44,19 +44,15 @@ public class EmailJaxbTest extends SimpleJaxbTest<Email.Jaxb, Email.Stub> {
 
   @DataPoint
   public static Entry<? extends Email.Jaxb> dataPoint1() {
-    Email.Jaxb object = new Email.Jaxb();
+    Email.Jaxb object = new Email.Jaxb( "id", "address" );
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
-    object.setAddress( "address" );
-    object.setId( "id" );
     return AbstractJaxbTest.create( object, EmailJaxbTest.class.getResource( "EmailJaxbTest.dataPoint1.xml" ) );
   }
 
   @DataPoint
   public static Entry<? extends Email.Stub> stub() {
-    Email.Stub object = new Email.Stub();
+    Email.Stub object = new Email.Stub( "id", "address" );
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
-    object.setAddress( "address" );
-    object.setId( "id" );
     return AbstractJaxbTest.create( object, EmailJaxbTest.class.getResource( "EmailJaxbTest.stub.xml" ) );
   }
 

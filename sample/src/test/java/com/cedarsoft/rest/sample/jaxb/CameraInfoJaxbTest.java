@@ -44,8 +44,7 @@ public class CameraInfoJaxbTest extends SimpleJaxbTest<CameraInfo.Jaxb, CameraIn
 
   @DataPoint
   public static Entry<? extends CameraInfo.Jaxb> entry1() {
-    CameraInfo.Jaxb object = new CameraInfo.Jaxb();
-    object.setId( "daId" );
+    CameraInfo.Jaxb object = new CameraInfo.Jaxb( "daId" );
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
     object.setSerial( 43L );
     object.setModel( "model" );
@@ -56,9 +55,8 @@ public class CameraInfoJaxbTest extends SimpleJaxbTest<CameraInfo.Jaxb, CameraIn
 
   @DataPoint
   public static Entry<? extends CameraInfo.Stub> stub() {
-    CameraInfo.Stub stub = new CameraInfo.Stub();
+    CameraInfo.Stub stub = new CameraInfo.Stub( "daId" );
     stub.setHref( JaxbTestUtils.createTestUriBuilder().build() );
-    stub.setId( "daId" );
     stub.setModel( "model" );
     stub.setMake( "make" );
 

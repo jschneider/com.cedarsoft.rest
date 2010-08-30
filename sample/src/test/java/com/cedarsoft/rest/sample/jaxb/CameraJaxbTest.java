@@ -45,9 +45,8 @@ public class CameraJaxbTest
 
   @DataPoint
   public static Entry<? extends Camera.Jaxb> defaultEntry() {
-    Camera.Jaxb object = new Camera.Jaxb();
+    Camera.Jaxb object = new Camera.Jaxb( "id" );
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
-    object.setId( "id" );
     CameraInfo.Jaxb info = new CameraInfo.Jaxb();
     object.setCameraInfo( info );
     info.setInternalSerial( "INTERNAL_35138574" );
@@ -65,9 +64,8 @@ public class CameraJaxbTest
 
   @DataPoint
   public static Entry<? extends Camera.Stub> stub() {
-    Camera.Stub object = new Camera.Stub();
+    Camera.Stub object = new Camera.Stub( "id" );
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
-    object.setId( "id" );
     CameraInfo.Stub cameraInfoJaxb = new CameraInfo.Stub();
 
     cameraInfoJaxb.setMake( "Canon" );

@@ -37,6 +37,7 @@ import com.cedarsoft.jaxb.JaxbStub;
 import com.google.common.collect.Lists;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.*;
 
 import javax.ws.rs.core.UriBuilder;
@@ -70,9 +71,7 @@ public class JaxbMappingTest {
       @NotNull
       @Override
       protected MyObjectJaxb createJaxbObject( @NotNull MyObject object ) {
-        MyObjectJaxb objectJaxb = new MyObjectJaxb();
-        objectJaxb.setId( "daId" );
-        return objectJaxb;
+        return new MyObjectJaxb( "daId" );
       }
 
       @NotNull
@@ -277,6 +276,13 @@ public class JaxbMappingTest {
 
   protected static class MyObjectJaxb extends AbstractJaxbObject {
     private int daInt;
+
+    public MyObjectJaxb() {
+    }
+
+    public MyObjectJaxb( @Nullable @NonNls String id ) {
+      super( id );
+    }
 
     public int getDaInt() {
       return daInt;

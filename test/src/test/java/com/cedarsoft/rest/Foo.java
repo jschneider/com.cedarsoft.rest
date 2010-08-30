@@ -87,28 +87,6 @@ public class Foo extends AbstractJaxbObject {
     this.daValue = daValue;
   }
 
-  @Override
-  public boolean equals( Object o ) {
-    if ( this == o ) return true;
-    if ( !( o instanceof Foo ) ) return false;
-
-    Foo foo = ( Foo ) o;
-
-    if ( bars != null ? !bars.equals( foo.bars ) : foo.bars != null ) return false;
-    if ( daValue != null ? !daValue.equals( foo.daValue ) : foo.daValue != null ) return false;
-    if ( names != null ? !names.equals( foo.names ) : foo.names != null ) return false;
-
-    return true;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = daValue != null ? daValue.hashCode() : 0;
-    result = 31 * result + ( names != null ? names.hashCode() : 0 );
-    result = 31 * result + ( bars != null ? bars.hashCode() : 0 );
-    return result;
-  }
-
   @XmlRootElement( namespace = "test:bar" )
   public static class Bar extends AbstractJaxbObject {
     private int theId;
@@ -126,23 +104,6 @@ public class Foo extends AbstractJaxbObject {
 
     public void setTheId( int theId ) {
       this.theId = theId;
-    }
-
-    @Override
-    public boolean equals( Object o ) {
-      if ( this == o ) return true;
-      if ( !( o instanceof Bar ) ) return false;
-
-      Bar bar = ( Bar ) o;
-
-      if ( theId != bar.theId ) return false;
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      return theId;
     }
   }
 }

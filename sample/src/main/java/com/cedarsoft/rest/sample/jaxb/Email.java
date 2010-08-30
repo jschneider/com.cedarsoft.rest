@@ -35,6 +35,7 @@ import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -56,6 +57,11 @@ public abstract class Email extends AbstractJaxbObject {
   }
 
   protected Email( String address ) {
+    this( null, address );
+  }
+
+  protected Email( @Nullable @NonNls String id, String address ) {
+    super( id );
     this.address = address;
   }
 
@@ -74,10 +80,13 @@ public abstract class Email extends AbstractJaxbObject {
     public Jaxb() {
     }
 
-    public Jaxb( String id ) {
-      super( id );
+    public Jaxb( String address ) {
+      super( address );
     }
 
+    Jaxb( String id, String address ) {
+      super( id, address );
+    }
   }
 
   @XmlType( name = "emailStub", namespace = Stub.NS_STUB )
@@ -90,8 +99,12 @@ public abstract class Email extends AbstractJaxbObject {
     public Stub() {
     }
 
-    public Stub( String id ) {
-      super( id );
+    public Stub( String address ) {
+      super( address );
+    }
+
+    public Stub( String id, String address ) {
+      super( id, address );
     }
 
     @NotNull
