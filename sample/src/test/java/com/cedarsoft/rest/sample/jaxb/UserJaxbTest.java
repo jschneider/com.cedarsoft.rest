@@ -89,7 +89,7 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
     JSONMarshaller marshaller = context.createJSONMarshaller();
     marshaller.marshallToJSON( collection, out );
 
-    assertEquals( "{\"users:users\":{\"@xmlns\":{\"detail-s\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/detail\\/stub\",\"user\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/user\",\"cam-s\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera\\/stub\",\"ci\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera-info\",\"users\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/user\\/list\",\"email\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/email\",\"detail\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/detail\",\"ci-s\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera-info\\/stub\",\"group-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/group\\/stub\",\"group\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/group\",\"user-s\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/user\\/stub\",\"email-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/email\\/stub\",\"cam\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera\"},\"user-s:user\":[{\"@id\":\"a\"},{\"@id\":\"b\"},{\"@id\":\"c\"}]}}", out.toString() );
+    assertEquals( "{\"users:users\":{\"@xmlns\":{\"detail-s\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/detail\\/stub\",\"user\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/user\",\"cam-s\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera\\/stub\",\"ci\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera-info\",\"users\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/user\\/list\",\"email\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/email\",\"detail\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/detail\",\"ci-s\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera-info\\/stub\",\"group-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/group\\/stub\",\"group\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/group\",\"user-s\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/user\\/stub\",\"email-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/email\\/stub\",\"cam\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera\"},\"@startIndex\":\"0\",\"@size\":\"3\",\"user-s:user\":[{\"@id\":\"a\"},{\"@id\":\"b\"},{\"@id\":\"c\"}]}}", out.toString() );
   }
 
   @Test
@@ -108,7 +108,7 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
     assertEquals( JSONMarshallerImpl.class, marshaller.getClass() );
     marshaller.marshallToJSON( collection, out );
 
-    assertEquals( "{\"user\":[{\"@id\":\"a\"},{\"@id\":\"b\"},{\"@id\":\"c\"}]}", out.toString() );
+    assertEquals( "{\"@startIndex\":\"0\",\"@size\":\"3\",\"user\":[{\"@id\":\"a\"},{\"@id\":\"b\"},{\"@id\":\"c\"}]}", out.toString() );
   }
 
   @Test
@@ -127,7 +127,7 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
     assertEquals( JSONMarshallerImpl.class, marshaller.getClass() );
     marshaller.marshallToJSON( collection, out );
 
-    assertEquals( "{\"user\":[{\"id\":\"a\"},{\"id\":\"b\"},{\"id\":\"c\"}]}", out.toString() );
+    assertEquals( "{\"startIndex\":0,\"size\":3,\"user\":[{\"id\":\"a\"},{\"id\":\"b\"},{\"id\":\"c\"}]}", out.toString() );
 
     User.Collection unmarshalled = context.createJSONUnmarshaller().unmarshalFromJSON( new ByteArrayInputStream( out.toByteArray() ), User.Collection.class );
     assertEquals( 3, unmarshalled.getUsers().size() );

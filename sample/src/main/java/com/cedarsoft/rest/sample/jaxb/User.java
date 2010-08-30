@@ -31,6 +31,7 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
+import com.cedarsoft.jaxb.AbstractJaxbCollection;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
 import org.jetbrains.annotations.NonNls;
@@ -43,7 +44,6 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-import java.util.ArrayList;
 import java.util.List;
 
 @XmlTransient
@@ -143,26 +143,31 @@ public abstract class User extends AbstractJaxbObject {
   @XmlType( name = "users", namespace = Collection.NS_COLLECTION )
   @XmlRootElement( name = "users", namespace = Collection.NS_COLLECTION )
   @XmlAccessorType( XmlAccessType.FIELD )
-  public static class Collection {
+  public static class Collection extends AbstractJaxbCollection<Stub> {
     @NonNls
-    public static final String NS_COLLECTION = Stub.NS + "/list";
+    public static final String NS_COLLECTION = Stub.NS + NS_COLLECTION_SUFFIX;
+
     @XmlElementRef
-    private List<Stub> stubs = new ArrayList<Stub>();
+    private List<Stub> users;
 
     public Collection() {
     }
 
-    public Collection( List<Stub> stubs ) {
-      this.stubs = stubs;
+    public Collection( @NotNull List<Stub> users ) {
+      this( users, 0 );
+    }
+
+    public Collection( List<Stub> users, int startIndex ) {
+      super( startIndex, users.size() );
+      this.users = users;
     }
 
     public List<Stub> getUsers() {
-      return stubs;
+      return users;
     }
 
     public void setUsers( List<Stub> stubs ) {
-      this.stubs = stubs;
+      this.users = stubs;
     }
   }
-
 }
