@@ -59,12 +59,14 @@ public abstract class AbstractJaxbObject implements JaxbObject {
   @Nullable
   @XmlAttribute( required = false )
   @XmlID
-  protected String id;
+  @NonNls
+  protected final String id;
 
   protected AbstractJaxbObject() {
+    this( null );
   }
 
-  protected AbstractJaxbObject( @NotNull @NonNls String id ) {
+  protected AbstractJaxbObject( @Nullable @NonNls String id ) {
     this.id = id;
   }
 
@@ -86,10 +88,6 @@ public abstract class AbstractJaxbObject implements JaxbObject {
     return href != null;
   }
 
-  public void setId( @NotNull String id ) {
-    this.id = id;
-  }
-
   @Override
   @NotNull
   public String getId() {
@@ -106,11 +104,10 @@ public abstract class AbstractJaxbObject implements JaxbObject {
   @Override
   public boolean equals( Object o ) {
     if ( this == o ) return true;
-    if ( !( o instanceof AbstractJaxbObject ) ) return false;
+    if ( o == null || getClass() != o.getClass() ) return false;
 
     AbstractJaxbObject object = ( AbstractJaxbObject ) o;
 
-    if ( href != null ? !href.equals( object.href ) : object.href != null ) return false;
     if ( id != null ? !id.equals( object.id ) : object.id != null ) return false;
 
     return true;
@@ -118,8 +115,6 @@ public abstract class AbstractJaxbObject implements JaxbObject {
 
   @Override
   public int hashCode() {
-    int result = href != null ? href.hashCode() : 0;
-    result = 31 * result + ( id != null ? id.hashCode() : 0 );
-    return result;
+    return id != null ? id.hashCode() : 0;
   }
 }
