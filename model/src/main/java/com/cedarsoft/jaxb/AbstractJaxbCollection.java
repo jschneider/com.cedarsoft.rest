@@ -75,4 +75,8 @@ public abstract class AbstractJaxbCollection extends AbstractJaxbObject implemen
     this.size = size;
   }
 
+  @Override
+  public int size() {
+    return getSize();
+  }
 }

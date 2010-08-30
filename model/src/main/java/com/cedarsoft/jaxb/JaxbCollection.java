@@ -49,4 +49,6 @@ public interface JaxbCollection {
   int getSize();
 
   void setSize( int size );
+
+  int size();
 }
