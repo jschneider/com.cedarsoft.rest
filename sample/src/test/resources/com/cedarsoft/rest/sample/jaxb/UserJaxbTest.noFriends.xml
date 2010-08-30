@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ns2:user xmlns:ns2="http://cedarsoft.com/rest/sample/user" href="http://test.running/here" id="daId">
-  <email>email</email>
-  <name>name</name>
-  <group id="groupId" />
-  <detail id="1">
-    <text>a detail text...</text>
-  </detail>
-  <detail id="2">
-    <text>Another detail with a long text</text>
-  </detail>
-</ns2:user>
+<user:user xmlns:user="http://cedarsoft.com/rest/sample/user/stub" xmlns:ci-s="http://cedarsoft.com/rest/sample/camera-info/stub"
+           xmlns:detail="http://cedarsoft.com/rest/sample/detail" xmlns:group-stub="/stub"
+           xmlns:user-s="http://cedarsoft.com/rest/sample/user/stub/stub" xmlns:email-stub="http://cedarsoft.com/rest/sample/email/stub"
+           xmlns:ns13="http://cedarsoft.com/rest/sample/group/stub" xmlns:email="http://cedarsoft.com/rest/sample/email"
+           xmlns:cam-s="http://cedarsoft.com/rest/sample/camera/stub" xmlns:detail-s="http://cedarsoft.com/rest/sample/detail/stub"
+           xmlns:ci="http://cedarsoft.com/rest/sample/camera-info" xmlns:cam="http://cedarsoft.com/rest/sample/camera"
+           xmlns:group="http://cedarsoft.com/rest/sample/group" href="http://test.running/here" id="daId">
+  <user:email>email</user:email>
+  <user:name>name</user:name>
+  <user:group id="groupId" />
+  <user:detail id="1">
+    <detail-s:text>a detail text...</detail-s:text>
+  </user:detail>
+  <user:detail id="2">
+    <detail-s:text>Another detail with a long text</detail-s:text>
+  </user:detail>
+</user:user>

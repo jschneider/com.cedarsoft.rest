@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ns2:user xmlns:ns2="http://cedarsoft.com/rest/sample/user" href="http://test.running/here/users/info@cedarsoft.com"
-          id="info@cedarsoft.com">
-  <email>info@cedarsoft.com</email>
-  <name>Johannes Schneider</name>
-  <group href="http://test.running/here/groups/NOBODY" id="NOBODY" />
-  <friend href="http://test.running/here/users/markus@mustermann.de" id="markus@mustermann.de">
-    <email>markus@mustermann.de</email>
-    <name>Markus Mustermann</name>
-  </friend>
-  <friend href="http://test.running/here/users/markus2@mustermann.de" id="markus2@mustermann.de">
-    <email>markus2@mustermann.de</email>
-    <name>Markus2 Mustermann</name>
-  </friend>
-  <friend href="http://test.running/here/users/markus3@mustermann.de" id="markus3@mustermann.de">
-    <email>markus3@mustermann.de</email>
-    <name>Markus3 Mustermann</name>
-  </friend>
-   <detail href="http://test.running/here/users/info@cedarsoft.com/details/1" id="1">
-    <text>the first detail</text>
-  </detail>
-  <detail href="http://test.running/here/users/info@cedarsoft.com/details/2" id="2">
-    <text>the second detail</text>
-  </detail>
-</ns2:user>
+<user:user xmlns:user="http://cedarsoft.com/rest/sample/user/stub" xmlns:ci-s="http://cedarsoft.com/rest/sample/camera-info/stub"
+           xmlns:group-stub="http://cedarsoft.com/rest/sample/group/stub" xmlns:user-s="http://cedarsoft.com/rest/sample/user/stub/stub"
+           xmlns:detail="http://cedarsoft.com/rest/sample/detail" xmlns:email="http://cedarsoft.com/rest/sample/email"
+           xmlns:cam-s="http://cedarsoft.com/rest/sample/camera/stub" xmlns:detail-s="http://cedarsoft.com/rest/sample/detail/stub"
+           xmlns:ci="http://cedarsoft.com/rest/sample/camera-info" xmlns:cam="http://cedarsoft.com/rest/sample/camera"
+           xmlns:group="http://cedarsoft.com/rest/sample/group" xmlns:email-stub="http://cedarsoft.com/rest/sample/email/stub"
+           href="http://test.running/here/users/info@cedarsoft.com" id="info@cedarsoft.com">
+  <user:email>info@cedarsoft.com</user:email>
+  <user:name>Johannes Schneider</user:name>
+  <user:group href="http://test.running/here/groups/NOBODY" id="NOBODY" />
+  <user:friend href="http://test.running/here/users/markus@mustermann.de" id="markus@mustermann.de">
+    <user-s:email>markus@mustermann.de</user-s:email>
+    <user-s:name>Markus Mustermann</user-s:name>
+  </user:friend>
+  <user:friend href="http://test.running/here/users/markus2@mustermann.de" id="markus2@mustermann.de">
+    <user-s:email>markus2@mustermann.de</user-s:email>
+    <user-s:name>Markus2 Mustermann</user-s:name>
+  </user:friend>
+  <user:friend href="http://test.running/here/users/markus3@mustermann.de" id="markus3@mustermann.de">
+    <user-s:email>markus3@mustermann.de</user-s:email>
+    <user-s:name>Markus3 Mustermann</user-s:name>
+  </user:friend>
+  <user:detail href="http://test.running/here/users/info@cedarsoft.com/details/1" id="1">
+    <detail-s:text>the first detail</detail-s:text>
+  </user:detail>
+  <user:detail href="http://test.running/here/users/info@cedarsoft.com/details/2" id="2">
+    <detail-s:text>the second detail</detail-s:text>
+  </user:detail>
+</user:user>

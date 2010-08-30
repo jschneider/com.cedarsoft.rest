@@ -45,6 +45,9 @@ import javax.xml.bind.annotation.XmlType;
 //@XmlType( name = "abstractGroup" )
 @XmlTransient
 public abstract class Group extends AbstractJaxbObject {
+  @NonNls
+  public static final String NS = "http://cedarsoft.com/rest/sample/group";
+
   protected Group() {
   }
 
@@ -52,8 +55,8 @@ public abstract class Group extends AbstractJaxbObject {
     super( id );
   }
 
-  @XmlType( name = "group" )
-  @XmlRootElement( name = "group", namespace = "http://cedarsoft.com/rest/sample/group" )
+  @XmlType( name = "group", namespace = Jaxb.NS )
+  @XmlRootElement( name = "group", namespace = Jaxb.NS )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Jaxb extends Group {
     private String description;
@@ -74,10 +77,13 @@ public abstract class Group extends AbstractJaxbObject {
     }
   }
 
-  @XmlType( name = "groupStub" )
-  @XmlRootElement( name = "group", namespace = "http://cedarsoft.com/rest/sample/group/stub" )
+  @XmlType( name = "groupStub", namespace = Stub.NS_STUB )
+  @XmlRootElement( name = "group", namespace = Stub.NS_STUB )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Stub extends Group implements JaxbStub<Group.Jaxb> {
+    @NonNls
+    public static final String NS_STUB = NS + NS_STUB_SUFFIX;
+
     public Stub() {
     }
 

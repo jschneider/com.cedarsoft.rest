@@ -48,6 +48,9 @@ import javax.xml.bind.annotation.XmlType;
 //@XmlType( name = "abstractCamera" )
 @XmlTransient
 public abstract class Camera extends AbstractJaxbObject {
+  @NonNls
+  public static final String NS = "http://cedarsoft.com/rest/sample/camera";
+
   protected Camera() {
   }
 
@@ -55,8 +58,8 @@ public abstract class Camera extends AbstractJaxbObject {
     super( id );
   }
 
-  @XmlType( name = "camera" )
-  @XmlRootElement( name = "camera", namespace = "http://cedarsoft.com/rest/sample/camera" )
+  @XmlType( name = "camera", namespace = Jaxb.NS )
+  @XmlRootElement( name = "camera", namespace = Jaxb.NS )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Jaxb extends Camera {
     private CameraInfo.Jaxb cameraInfo;
@@ -98,10 +101,13 @@ public abstract class Camera extends AbstractJaxbObject {
   /**
    * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
    */
-  @XmlType( name = "cameraStub" )
-  @XmlRootElement( name = "camera", namespace = "http://cedarsoft.com/rest/sample/camera/stub" )
+  @XmlType( name = "cameraStub", namespace = Stub.NS_STUB )
+  @XmlRootElement( name = "camera", namespace = Stub.NS_STUB )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Stub extends Camera implements JaxbStub<Jaxb> {
+    @NonNls
+    public static final String NS_STUB = NS + NS_STUB_SUFFIX;
+
     private CameraInfo.Stub cameraInfo;
 
     public Stub() {

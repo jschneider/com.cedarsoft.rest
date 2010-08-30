@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ns4:camera xmlns:ns4="http://cedarsoft.com/rest/sample/camera" xmlns:ns2="http://cedarsoft.com/rest/sample/camera-info"
-            xmlns:ns3="http://cedarsoft.com/rest/sample/user" href="http://test.running/here" id="id">
-  <cameraInfo>
-    <serial>35138574</serial>
-    <model>EOS 7D</model>
-    <make>Canon</make>
-    <internalSerial>INTERNAL_35138574</internalSerial>
-  </cameraInfo>
-  <description>description</description>
-  <owner>
-    <email>mail@mail.com</email>
-    <name>daName</name>
-  </owner>
-</ns4:camera>
- 
+<cam:camera xmlns:cam="http://cedarsoft.com/rest/sample/camera" xmlns:ci-s="http://cedarsoft.com/rest/sample/camera-info/stub"
+            xmlns:user-s="http://cedarsoft.com/rest/sample/user/stub/stub" xmlns:cam-s="http://cedarsoft.com/rest/sample/camera/stub"
+            xmlns:ci="http://cedarsoft.com/rest/sample/camera-info" xmlns:user="http://cedarsoft.com/rest/sample/user/stub"
+            href="http://test.running/here" id="id">
+  <cam:cameraInfo>
+    <ci:model>EOS 7D</ci:model>
+    <ci:make>Canon</ci:make>
+    <ci:serial>35138574</ci:serial>
+    <ci:internalSerial>INTERNAL_35138574</ci:internalSerial>
+  </cam:cameraInfo>
+  <cam:description>description</cam:description>
+  <cam:owner>
+    <user-s:email>mail@mail.com</user-s:email>
+    <user-s:name>daName</user-s:name>
+  </cam:owner>
+</cam:camera>
+  

@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ns4:camera xmlns:ns4="http://cedarsoft.com/rest/sample/camera/stub" href="http://test.running/here/devices/cameras/CANON-77"
-            id="CANON-77">
-  <cameraInfo>
-    <model>EOS 7D</model>
-    <make>Canon</make>
-  </cameraInfo>
-</ns4:camera>
+<cam-s:camera xmlns:cam-s="http://cedarsoft.com/rest/sample/camera/stub" xmlns:ci-s="http://cedarsoft.com/rest/sample/camera-info/stub"
+              xmlns:user-s="http://cedarsoft.com/rest/sample/user/stub/stub" xmlns:group-stub="/stub"
+              xmlns:detail="http://cedarsoft.com/rest/sample/detail" xmlns:email="http://cedarsoft.com/rest/sample/email"
+              xmlns:detail-s="http://cedarsoft.com/rest/sample/detail/stub" xmlns:ci="http://cedarsoft.com/rest/sample/camera-info"
+              xmlns:cam="http://cedarsoft.com/rest/sample/camera" xmlns:group="http://cedarsoft.com/rest/sample/group"
+              xmlns:email-stub="http://cedarsoft.com/rest/sample/email/stub" xmlns:user="http://cedarsoft.com/rest/sample/user/stub"
+              href="http://test.running/here/devices/cameras/CANON-77" id="CANON-77">
+  <cam-s:cameraInfo>
+    <ci-s:model>EOS 7D</ci-s:model>
+    <ci-s:make>Canon</ci-s:make>
+  </cam-s:cameraInfo>
+</cam-s:camera>

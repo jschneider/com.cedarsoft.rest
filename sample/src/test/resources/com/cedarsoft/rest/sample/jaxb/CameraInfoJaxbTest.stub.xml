@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ns2:cameraInfo xmlns:ns2="http://cedarsoft.com/rest/sample/camera-info/stub" href="http://test.running/here" id="daId">
-  <model>model</model>
-  <make>make</make>
-</ns2:cameraInfo>
+<cis:cameraInfo xmlns:cis="http://cedarsoft.com/rest/sample/camera-info/stub"
+                href="http://test.running/here" id="daId">
+  <cis:model>model</cis:model>
+  <cis:make>make</cis:make>
+</cis:cameraInfo>

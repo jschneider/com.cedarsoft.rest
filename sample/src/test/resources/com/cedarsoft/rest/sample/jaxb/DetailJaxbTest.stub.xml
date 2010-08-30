@@ -1,5 +1,11 @@
 <?xml version="1.0"?>
-<ns3:detail xmlns:ns3="http://cedarsoft.com/rest/sample/detail/stub" xmlns:ns2="http://cedarsoft.com/rest/sample/detail"
-            href="http://test.running/here" id="daid">
-  <text>text</text>
-</ns3:detail>
+<detail-s:detail xmlns:detail-s="http://cedarsoft.com/rest/sample/detail/stub"
+                 xmlns:ci-s="http://cedarsoft.com/rest/sample/camera-info/stub"
+                 xmlns:user-s="http://cedarsoft.com/rest/sample/user/stub/stub" xmlns:group-stub="/stub"
+                 xmlns:detail="http://cedarsoft.com/rest/sample/detail" xmlns:email="http://cedarsoft.com/rest/sample/email"
+                 xmlns:cam-s="http://cedarsoft.com/rest/sample/camera/stub" xmlns:ci="http://cedarsoft.com/rest/sample/camera-info"
+                 xmlns:cam="http://cedarsoft.com/rest/sample/camera" xmlns:group="http://cedarsoft.com/rest/sample/group"
+                 xmlns:email-stub="http://cedarsoft.com/rest/sample/email/stub" xmlns:user="http://cedarsoft.com/rest/sample/user/stub"
+                 href="http://test.running/here" id="daid">
+  <detail-s:text>text</detail-s:text>
+</detail-s:detail>

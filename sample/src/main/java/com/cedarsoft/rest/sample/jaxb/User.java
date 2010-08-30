@@ -44,9 +44,12 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
-//@XmlType( name = "abstractUser" )
 @XmlTransient
+@XmlAccessorType( XmlAccessType.FIELD )
 public abstract class User extends AbstractJaxbObject {
+  @NonNls
+  public static final String NS = "http://cedarsoft.com/rest/sample/user/stub";
+
   private String email;
   private String name;
 
@@ -73,8 +76,8 @@ public abstract class User extends AbstractJaxbObject {
     this.name = name;
   }
 
-  @XmlType( name = "user" )
-  @XmlRootElement( name = "user", namespace = "http://cedarsoft.com/rest/sample/user" )
+  @XmlType( name = "user", namespace = Jaxb.NS )
+  @XmlRootElement( name = "user", namespace = Jaxb.NS )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Jaxb extends User {
     private Group.Stub group;
@@ -115,10 +118,13 @@ public abstract class User extends AbstractJaxbObject {
     }
   }
 
-  @XmlType( name = "userStub" )
-  @XmlRootElement( name = "user", namespace = "http://cedarsoft.com/rest/sample/user/stub" )
+  @XmlType( name = "userStub", namespace = Stub.NS_STUB )
+  @XmlRootElement( name = "user", namespace = Stub.NS_STUB )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Stub extends User implements JaxbStub<User.Jaxb> {
+    @NonNls
+    public static final String NS_STUB = NS + NS_STUB_SUFFIX;
+
     public Stub() {
     }
 

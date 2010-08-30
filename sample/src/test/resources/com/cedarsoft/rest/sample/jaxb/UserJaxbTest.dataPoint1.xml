@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ns5:user xmlns:ns5="http://cedarsoft.com/rest/sample/user" xmlns:ns2="http://cedarsoft.com/rest/sample/group"
-          xmlns:ns4="http://cedarsoft.com/rest/sample/user/stub" xmlns:ns3="http://cedarsoft.com/rest/sample/group/stub"
-          href="http://test.running/here" id="daId">
-  <email>email</email>
-  <name>name</name>
-  <group id="groupId" />
-  <friend>
-    <email>markus@mustermann.com</email>
-    <name>Markus Mustermann</name>
-  </friend>
-  <friend>
-    <email>eva@mustermann.com</email>
-    <name>Eva Mustermann</name>
-  </friend>
-  <detail id="1">
-    <text>a detail text...</text>
-  </detail>
-  <detail id="2">
-    <text>Another detail with a long text</text>
-  </detail>
-</ns5:user>
+<user:user xmlns:user="http://cedarsoft.com/rest/sample/user/stub" xmlns:ci-s="http://cedarsoft.com/rest/sample/camera-info/stub"
+           xmlns:detail="http://cedarsoft.com/rest/sample/detail" xmlns:group-stub="/stub"
+           xmlns:user-s="http://cedarsoft.com/rest/sample/user/stub/stub" xmlns:email-stub="http://cedarsoft.com/rest/sample/email/stub"
+           xmlns:ns13="http://cedarsoft.com/rest/sample/group/stub" xmlns:email="http://cedarsoft.com/rest/sample/email"
+           xmlns:cam-s="http://cedarsoft.com/rest/sample/camera/stub" xmlns:detail-s="http://cedarsoft.com/rest/sample/detail/stub"
+           xmlns:ci="http://cedarsoft.com/rest/sample/camera-info" xmlns:cam="http://cedarsoft.com/rest/sample/camera"
+           xmlns:group="http://cedarsoft.com/rest/sample/group" href="http://test.running/here" id="daId">
+  <user:email>email</user:email>
+  <user:name>name</user:name>
+  <user:group id="groupId" />
+  <user:friend>
+    <user-s:email>markus@mustermann.com</user-s:email>
+    <user-s:name>Markus Mustermann</user-s:name>
+  </user:friend>
+  <user:friend>
+    <user-s:email>eva@mustermann.com</user-s:email>
+    <user-s:name>Eva Mustermann</user-s:name>
+  </user:friend>
+  <user:detail id="1">
+    <detail-s:text>a detail text...</detail-s:text>
+  </user:detail>
+  <user:detail id="2">
+    <detail-s:text>Another detail with a long text</detail-s:text>
+  </user:detail>
+</user:user>

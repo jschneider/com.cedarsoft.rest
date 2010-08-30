@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ns2:cameraInfo xmlns:ns2="http://cedarsoft.com/rest/sample/camera-info" href="http://test.running/here" id="daId">
-  <serial>43</serial>
-  <model>model</model>
-  <make>make</make>
-  <internalSerial>internalSerial</internalSerial>
-</ns2:cameraInfo>
+<ci:cameraInfo xmlns:ci="http://cedarsoft.com/rest/sample/camera-info" href="http://test.running/here" id="daId">
+  <ci:model>model</ci:model>
+  <ci:make>make</ci:make>
+  <ci:serial>43</ci:serial>
+  <ci:internalSerial>internalSerial</ci:internalSerial>
+</ci:cameraInfo>

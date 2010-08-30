@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
-<ns5:user xmlns:ns5="http://cedarsoft.com/rest/sample/user" xmlns:ns2="http://cedarsoft.com/rest/sample/group"
-          xmlns:ns4="http://cedarsoft.com/rest/sample/user/stub" xmlns:ns3="http://cedarsoft.com/rest/sample/group/stub"
-          href="http://test.running/here/users/email" id="email">
-  <email>email</email>
-  <name>name</name>
-  <group href="http://test.running/here/groups/NOBODY" id="NOBODY"/>
-</ns5:user>
+<user:user xmlns:user="http://cedarsoft.com/rest/sample/user/stub" xmlns:ci-s="http://cedarsoft.com/rest/sample/camera-info/stub"
+           xmlns:group-stub="http://cedarsoft.com/rest/sample/group/stub" xmlns:user-s="http://cedarsoft.com/rest/sample/user/stub/stub"
+           xmlns:detail="http://cedarsoft.com/rest/sample/detail" xmlns:email="http://cedarsoft.com/rest/sample/email"
+           xmlns:cam-s="http://cedarsoft.com/rest/sample/camera/stub" xmlns:detail-s="http://cedarsoft.com/rest/sample/detail/stub"
+           xmlns:ci="http://cedarsoft.com/rest/sample/camera-info" xmlns:cam="http://cedarsoft.com/rest/sample/camera"
+           xmlns:group="http://cedarsoft.com/rest/sample/group" xmlns:email-stub="http://cedarsoft.com/rest/sample/email/stub"
+           href="http://test.running/here/users/email" id="email">
+  <user:email>email</user:email>
+  <user:name>name</user:name>
+  <user:group href="http://test.running/here/groups/NOBODY" id="NOBODY" />
+</user:user>

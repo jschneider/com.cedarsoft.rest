@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ns5:camera xmlns:ns5="http://cedarsoft.com/rest/sample/camera"
+<cam:camera xmlns:cam="http://cedarsoft.com/rest/sample/camera" xmlns:ci-s="http://cedarsoft.com/rest/sample/camera-info/stub"
+            xmlns:user-s="http://cedarsoft.com/rest/sample/user/stub/stub" xmlns:group-stub="/stub"
+            xmlns:detail="http://cedarsoft.com/rest/sample/detail" xmlns:email="http://cedarsoft.com/rest/sample/email"
+            xmlns:cam-s="http://cedarsoft.com/rest/sample/camera/stub" xmlns:detail-s="http://cedarsoft.com/rest/sample/detail/stub"
+            xmlns:ci="http://cedarsoft.com/rest/sample/camera-info" xmlns:group="http://cedarsoft.com/rest/sample/group"
+            xmlns:email-stub="http://cedarsoft.com/rest/sample/email/stub" xmlns:user="http://cedarsoft.com/rest/sample/user/stub"
             href="http://test.running/here/devices/cameras/CANON-77" id="CANON-77">
-  <cameraInfo>
-    <model>EOS 7D</model>
-    <make>Canon</make>
-    <serial>77</serial>
-    <internalSerial>35131343AFafsdf</internalSerial>
-  </cameraInfo>
-  <description>a nice description about the camera!</description>
-  <owner href="http://test.running/here/users/info@cedarsoft.de" id="info@cedarsoft.de">
-    <email>info@cedarsoft.de</email>
-    <name>Johannes Schneider</name>
-  </owner>
-</ns5:camera>
+  <cam:cameraInfo>
+    <ci:model>EOS 7D</ci:model>
+    <ci:make>Canon</ci:make>
+    <ci:serial>77</ci:serial>
+    <ci:internalSerial>35131343AFafsdf</ci:internalSerial>
+  </cam:cameraInfo>
+  <cam:description>a nice description about the camera!</cam:description>
+  <cam:owner href="http://test.running/here/users/info@cedarsoft.de" id="info@cedarsoft.de">
+    <user-s:email>info@cedarsoft.de</user-s:email>
+    <user-s:name>Johannes Schneider</user-s:name>
+  </cam:owner>
+</cam:camera>

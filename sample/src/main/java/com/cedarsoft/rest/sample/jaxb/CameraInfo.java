@@ -45,9 +45,12 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-//@XmlType( name = "abstractCameraInfo" )
+@XmlAccessorType( XmlAccessType.FIELD )
 @XmlTransient
 public abstract class CameraInfo extends AbstractJaxbObject {
+  @NonNls
+  public static final String NS = "http://cedarsoft.com/rest/sample/camera-info";
+
   private String model;
   private String make;
 
@@ -74,10 +77,13 @@ public abstract class CameraInfo extends AbstractJaxbObject {
     this.make = make;
   }
 
-  @XmlType( name = "cameraInfoStub" )
-  @XmlRootElement( name = "cameraInfo", namespace = "http://cedarsoft.com/rest/sample/camera-info/stub" )
+  @XmlType( name = "cameraInfoStub", namespace = Stub.NS_STUB )
+  @XmlRootElement( name = "cameraInfo", namespace = Stub.NS_STUB )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Stub extends CameraInfo implements JaxbStub<Jaxb> {
+    @NonNls
+    public static final String NS_STUB = NS + NS_STUB_SUFFIX;
+
     public Stub() {
     }
 
@@ -92,8 +98,8 @@ public abstract class CameraInfo extends AbstractJaxbObject {
     }
   }
 
-  @XmlType( name = "cameraInfo" )
-  @XmlRootElement( name = "cameraInfo", namespace = "http://cedarsoft.com/rest/sample/camera-info" )
+  @XmlType( name = "cameraInfo", namespace = Jaxb.NS )
+  @XmlRootElement( name = "cameraInfo", namespace = Jaxb.NS )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Jaxb extends CameraInfo {
     private long serial;

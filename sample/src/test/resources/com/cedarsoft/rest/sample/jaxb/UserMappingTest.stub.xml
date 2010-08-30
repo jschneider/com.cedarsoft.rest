@@ -1,7 +1,11 @@
 <?xml version="1.0"?>
-<ns4:user xmlns:ns4="http://cedarsoft.com/rest/sample/user/stub" xmlns:ns2="http://cedarsoft.com/rest/sample/group"
-          xmlns:ns3="http://cedarsoft.com/rest/sample/group/stub" xmlns:ns5="http://cedarsoft.com/rest/sample/user"
-          href="http://test.running/here/users/email" id="email">
-  <email>email</email>
-  <name>name</name>
-</ns4:user>
+<user-s:user xmlns:user-s="http://cedarsoft.com/rest/sample/user/stub/stub" xmlns:ci-s="http://cedarsoft.com/rest/sample/camera-info/stub"
+             xmlns:group-stub="http://cedarsoft.com/rest/sample/group/stub" xmlns:detail="http://cedarsoft.com/rest/sample/detail"
+             xmlns:email="http://cedarsoft.com/rest/sample/email" xmlns:cam-s="http://cedarsoft.com/rest/sample/camera/stub"
+             xmlns:detail-s="http://cedarsoft.com/rest/sample/detail/stub" xmlns:ci="http://cedarsoft.com/rest/sample/camera-info"
+             xmlns:cam="http://cedarsoft.com/rest/sample/camera" xmlns:group="http://cedarsoft.com/rest/sample/group"
+             xmlns:email-stub="http://cedarsoft.com/rest/sample/email/stub" xmlns:user="http://cedarsoft.com/rest/sample/user/stub"
+             href="http://test.running/here/users/email" id="email">
+  <user-s:email>email</user-s:email>
+  <user-s:name>name</user-s:name>
+</user-s:user>

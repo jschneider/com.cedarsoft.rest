@@ -33,6 +33,7 @@ package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -43,7 +44,11 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
 @XmlTransient
+@XmlAccessorType( XmlAccessType.FIELD )
 public abstract class Email extends AbstractJaxbObject {
+  @NonNls
+  public static final String NS = "http://cedarsoft.com/rest/sample/email";
+
   @XmlValue
   private String address;
 
@@ -62,11 +67,10 @@ public abstract class Email extends AbstractJaxbObject {
     this.address = address;
   }
 
-  @XmlType( name = "email" )
-  @XmlRootElement( name = "email", namespace = "http://cedarsoft.com/rest/sample/email" )
+  @XmlType( name = "email", namespace = Jaxb.NS )
+  @XmlRootElement( name = "email", namespace = Jaxb.NS )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Jaxb extends Email {
-
     public Jaxb() {
     }
 
@@ -76,10 +80,13 @@ public abstract class Email extends AbstractJaxbObject {
 
   }
 
-  @XmlType( name = "emailStub" )
-  @XmlRootElement( name = "email", namespace = "http://cedarsoft.com/rest/sample/email/stub" )
+  @XmlType( name = "emailStub", namespace = Stub.NS_STUB )
+  @XmlRootElement( name = "email", namespace = Stub.NS_STUB )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Stub extends Email implements JaxbStub<Email.Jaxb> {
+    @NonNls
+    public static final String NS_STUB = NS + NS_STUB_SUFFIX;
+
     public Stub() {
     }
 
