@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <cam-s:camera xmlns:cam-s="http://cedarsoft.com/rest/sample/camera/stub" xmlns:ci-s="http://cedarsoft.com/rest/sample/camera-info/stub"
-              xmlns:user-s="http://cedarsoft.com/rest/sample/user/stub/stub" xmlns:ci="http://cedarsoft.com/rest/sample/camera-info"
+              xmlns:user-s="http://cedarsoft.com/rest/sample/user/stub" xmlns:ci="http://cedarsoft.com/rest/sample/camera-info"
               xmlns:cam="http://cedarsoft.com/rest/sample/camera" xmlns:user="http://cedarsoft.com/rest/sample/user/stub"
               href="http://test.running/here" id="id">
   <cam-s:cameraInfo>

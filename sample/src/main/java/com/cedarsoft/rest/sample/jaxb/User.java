@@ -50,7 +50,7 @@ import java.util.List;
 @XmlAccessorType( XmlAccessType.FIELD )
 public abstract class User extends AbstractJaxbObject {
   @NonNls
-  public static final String NS = "http://cedarsoft.com/rest/sample/user/stub";
+  public static final String NS = "http://cedarsoft.com/rest/sample/user";
 
   private String email;
   private String name;

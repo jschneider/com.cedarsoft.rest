@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <detail:detail xmlns:detail="http://cedarsoft.com/rest/sample/detail" xmlns:ci-s="http://cedarsoft.com/rest/sample/camera-info/stub"
-               xmlns:user-s="http://cedarsoft.com/rest/sample/user/stub/stub" xmlns:group-stub="/stub"
+               xmlns:user-s="http://cedarsoft.com/rest/sample/user/stub" xmlns:group-stub="/stub"
                xmlns:email="http://cedarsoft.com/rest/sample/email" xmlns:cam-s="http://cedarsoft.com/rest/sample/camera/stub"
                xmlns:detail-s="http://cedarsoft.com/rest/sample/detail/stub" xmlns:ci="http://cedarsoft.com/rest/sample/camera-info"
                xmlns:cam="http://cedarsoft.com/rest/sample/camera" xmlns:group="http://cedarsoft.com/rest/sample/group"

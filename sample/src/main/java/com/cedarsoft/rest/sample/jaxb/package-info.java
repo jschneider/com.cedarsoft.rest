@@ -16,7 +16,9 @@
     @javax.xml.bind.annotation.XmlNs( prefix = "group-stub", namespaceURI = Group.Stub.NS_STUB ),
 
     @javax.xml.bind.annotation.XmlNs( prefix = "user", namespaceURI = User.Jaxb.NS ),
-    @javax.xml.bind.annotation.XmlNs( prefix = "user-s", namespaceURI = User.Stub.NS_STUB )
+    @javax.xml.bind.annotation.XmlNs( prefix = "user-s", namespaceURI = User.Stub.NS_STUB ),
+    @javax.xml.bind.annotation.XmlNs( prefix = "users", namespaceURI = User.Collection.NS_COLLECTION )
 
   },
-  elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED ) package com.cedarsoft.rest.sample.jaxb;
+  elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED )
+package com.cedarsoft.rest.sample.jaxb;
