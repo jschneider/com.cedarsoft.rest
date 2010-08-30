@@ -14,6 +14,7 @@ import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
 
 @XmlTransient
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class BarModel
     extends AbstractJaxbObject
 {

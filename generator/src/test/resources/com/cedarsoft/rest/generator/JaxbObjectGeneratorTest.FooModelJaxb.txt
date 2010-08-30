@@ -13,6 +13,7 @@ import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
 
 @XmlTransient
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class FooModel
     extends AbstractJaxbObject
 {

@@ -13,6 +13,7 @@ import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
 
 @XmlTransient
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class User
     extends AbstractJaxbObject
 {
@@ -20,7 +21,7 @@ public abstract class User
     private String email;
     private String name;
 
-    protected User() {
+    protected User() {g
     }
 
     protected User(String id) {

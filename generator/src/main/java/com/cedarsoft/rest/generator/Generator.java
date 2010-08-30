@@ -157,6 +157,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   private void createBaseClass() throws JClassAlreadyExistsException {
     baseClass = _class( getJaxbBaseName(), JMod.PUBLIC | JMod.ABSTRACT )._extends( AbstractJaxbObject.class );
     baseClass.annotate( XmlTransient.class );
+    baseClass.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
 
     addFields( baseClass, Scope.COMMON );
     addConstructors( baseClass, JMod.PROTECTED );
