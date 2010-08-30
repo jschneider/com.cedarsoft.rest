@@ -31,11 +31,14 @@
 
 package com.cedarsoft.rest;
 
+import com.cedarsoft.jaxb.AbstractJaxbCollection;
+import com.cedarsoft.jaxb.JaxbCollection;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.*;
 
 import javax.xml.bind.JAXBException;
@@ -59,11 +62,27 @@ public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub<
   private final Class<J> jaxbType;
   @NotNull
   private final Class<S> jaxbStubType;
+  @Nullable
+  private final Class<? extends JaxbCollection> jaxbCollectionType;
 
   protected AbstractJaxbTest( @NotNull Class<J> jaxbType, @NotNull Class<S> jaxbStubType ) {
+    this( jaxbType, jaxbStubType, null );
+  }
+
+  protected AbstractJaxbTest( @NotNull Class<J> jaxbType, @NotNull Class<S> jaxbStubType, @Nullable Class<? extends JaxbCollection> jaxbCollectionType ) {
     this.jaxbType = jaxbType;
     this.jaxbStubType = jaxbStubType;
-    jaxbRule = new JaxbRule( getJaxbType(), getJaxbStubType() );
+    this.jaxbCollectionType = jaxbCollectionType;
+
+    jaxbRule = new JaxbRule( getJaxbType(), getJaxbStubType(), jaxbCollectionType );
+  }
+
+  @NotNull
+  public Class<? extends JaxbCollection> getJaxbCollectionType() {
+    if ( jaxbCollectionType == null ) {
+      throw new IllegalStateException( "No jaxbCollectionType set" );
+    }
+    return jaxbCollectionType;
   }
 
   @NotNull
@@ -101,6 +120,10 @@ public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub<
     return className + ".xml";
   }
 
+  protected void verifyDeserialized( @NotNull JaxbCollection deserialized, @NotNull JaxbCollection originalCollection ) {
+    assertEquals( originalCollection, deserialized );
+  }
+
   protected void verifyDeserialized( @NotNull J deserialized, @NotNull J originalJaxbObject ) throws IllegalAccessException {
     assertEquals( originalJaxbObject, deserialized );
   }
@@ -109,11 +132,15 @@ public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub<
     assertEquals( originalJaxbStub, deserialized );
   }
 
-  protected boolean isJaxbObjectType( Entry<?> entry ) {
+  protected boolean isJaxbObjectType( @NotNull Entry<?> entry ) {
     return getJaxbType().equals( entry.getObject().getClass() );
   }
 
-  protected boolean isJaxbStubType( Entry<?> entry ) {
+  protected boolean isJaxbCollectionObjectType( @NotNull Entry<?> entry ) {
+    return AbstractJaxbCollection.class.isAssignableFrom( entry.getObject().getClass() );
+  }
+
+  protected boolean isJaxbStubType( @NotNull Entry<?> entry ) {
     Class<?> objectType = entry.getObject().getClass();
     return getJaxbStubType().equals( objectType );
   }

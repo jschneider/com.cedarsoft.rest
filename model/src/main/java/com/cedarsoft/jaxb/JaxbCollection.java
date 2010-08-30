@@ -37,7 +37,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-public interface JaxbCollection<T> {
+public interface JaxbCollection {
   @NotNull
   @NonNls
   String NS_COLLECTION_SUFFIX = "/list";

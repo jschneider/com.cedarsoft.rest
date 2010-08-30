@@ -54,7 +54,7 @@ import static org.junit.Assert.*;
 
 public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
   public UserJaxbTest() {
-    super( User.Jaxb.class, User.Stub.class );
+    super( User.Jaxb.class, User.Stub.class, User.Collection.class );
   }
 
   @Test
@@ -63,10 +63,12 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
       new User.Stub( "a" ),
       new User.Stub( "b" ),
       new User.Stub( "c" )
-    ) );
+    ), 7 );
+    collection.setId( "daId" );
+    collection.setHref( JaxbTestUtils.createTestUriBuilder().build() );
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
-    jaxbRule.addTypeToBound( User.Collection.class );
+    jaxbRule.addTypeToBeBound( User.Collection.class );
 
     JAXBContext context = JAXBContext.newInstance( User.Jaxb.class, User.Stub.class, User.Collection.class );
     context.createMarshaller().marshal( collection, out );
@@ -83,7 +85,7 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
     ) );
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
-    jaxbRule.addTypeToBound( User.Collection.class );
+    jaxbRule.addTypeToBeBound( User.Collection.class );
 
     JSONJAXBContext context = new JSONJAXBContext( JSONConfiguration.badgerFish().build(), User.Jaxb.class, User.Stub.class, User.Collection.class );
     JSONMarshaller marshaller = context.createJSONMarshaller();
@@ -101,7 +103,7 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
     ) );
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
-    jaxbRule.addTypeToBound( User.Collection.class );
+    jaxbRule.addTypeToBeBound( User.Collection.class );
 
     JSONJAXBContext context = new JSONJAXBContext( JSONConfiguration.DEFAULT, User.Jaxb.class, User.Stub.class, User.Collection.class );
     JSONMarshaller marshaller = context.createJSONMarshaller();
@@ -120,7 +122,7 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
     ) );
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
-    jaxbRule.addTypeToBound( User.Collection.class );
+    jaxbRule.addTypeToBeBound( User.Collection.class );
 
     JSONJAXBContext context = new JSONJAXBContext( JSONConfiguration.natural().build(), User.Jaxb.class, User.Stub.class, User.Collection.class );
     JSONMarshaller marshaller = context.createJSONMarshaller();
@@ -197,5 +199,13 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
     object.setName( "name" );
 
     return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.stub.xml" ) );
+  }
+
+  @DataPoint
+  public static Entry<? extends User.Collection> smallCollection() {
+    User.Collection object = new User.Collection( Arrays.asList( new User.Stub( "a" ), new User.Stub( "b" ), new User.Stub( "c" ) ), 7 );
+    object.setId( "daId" );
+    object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
+    return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.collection.xml" ) );
   }
 }

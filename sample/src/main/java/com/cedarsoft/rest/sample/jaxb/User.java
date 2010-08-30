@@ -78,6 +78,28 @@ public abstract class User extends AbstractJaxbObject {
     this.name = name;
   }
 
+  @Override
+  public boolean equals( Object o ) {
+    if ( this == o ) return true;
+    if ( !( o instanceof User ) ) return false;
+    if ( !super.equals( o ) ) return false;
+
+    User user = ( User ) o;
+
+    if ( email != null ? !email.equals( user.email ) : user.email != null ) return false;
+    if ( name != null ? !name.equals( user.name ) : user.name != null ) return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = super.hashCode();
+    result = 31 * result + ( email != null ? email.hashCode() : 0 );
+    result = 31 * result + ( name != null ? name.hashCode() : 0 );
+    return result;
+  }
+
   @XmlType( name = "user", namespace = Jaxb.NS )
   @XmlRootElement( name = "user", namespace = Jaxb.NS )
   @XmlAccessorType( XmlAccessType.FIELD )
@@ -118,6 +140,30 @@ public abstract class User extends AbstractJaxbObject {
     public void setDetails( List<Detail.Stub> details ) {
       this.details = details;
     }
+
+    @Override
+    public boolean equals( Object o ) {
+      if ( this == o ) return true;
+      if ( !( o instanceof Jaxb ) ) return false;
+      if ( !super.equals( o ) ) return false;
+
+      Jaxb jaxb = ( Jaxb ) o;
+
+      if ( details != null ? !details.equals( jaxb.details ) : jaxb.details != null ) return false;
+      if ( friends != null ? !friends.equals( jaxb.friends ) : jaxb.friends != null ) return false;
+      if ( group != null ? !group.equals( jaxb.group ) : jaxb.group != null ) return false;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int result = super.hashCode();
+      result = 31 * result + ( group != null ? group.hashCode() : 0 );
+      result = 31 * result + ( friends != null ? friends.hashCode() : 0 );
+      result = 31 * result + ( details != null ? details.hashCode() : 0 );
+      return result;
+    }
   }
 
   @XmlType( name = "userStub", namespace = Stub.NS_STUB )
@@ -143,7 +189,7 @@ public abstract class User extends AbstractJaxbObject {
   @XmlType( name = "users", namespace = Collection.NS_COLLECTION )
   @XmlRootElement( name = "users", namespace = Collection.NS_COLLECTION )
   @XmlAccessorType( XmlAccessType.FIELD )
-  public static class Collection extends AbstractJaxbCollection<Stub> {
+  public static class Collection extends AbstractJaxbCollection {
     @NonNls
     public static final String NS_COLLECTION = Stub.NS + NS_COLLECTION_SUFFIX;
 
@@ -168,6 +214,26 @@ public abstract class User extends AbstractJaxbObject {
 
     public void setUsers( List<Stub> stubs ) {
       this.users = stubs;
+    }
+
+    @Override
+    public boolean equals( Object o ) {
+      if ( this == o ) return true;
+      if ( !( o instanceof Collection ) ) return false;
+      if ( !super.equals( o ) ) return false;
+
+      Collection that = ( Collection ) o;
+
+      if ( users != null ? !users.equals( that.users ) : that.users != null ) return false;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int result = super.hashCode();
+      result = 31 * result + ( users != null ? users.hashCode() : 0 );
+      return result;
     }
   }
 }

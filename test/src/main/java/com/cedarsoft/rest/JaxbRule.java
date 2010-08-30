@@ -40,7 +40,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -49,14 +48,20 @@ import java.util.List;
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
 public class JaxbRule implements MethodRule {
-  private final List<Class<?>> typesToByBound = new ArrayList<Class<?>>();
+  private final List<Class<?>> typesToBeBound = new ArrayList<Class<?>>();
 
-  public JaxbRule( @NotNull Class<?>... typesToByBound ) {
-    this.typesToByBound.addAll( Arrays.asList( typesToByBound ) );
+  public JaxbRule( @NotNull Class<?>... typesToBeBound ) {
+    for ( Class<?> typeToBeBound : typesToBeBound ) {
+      if ( typeToBeBound == null ) {
+        continue;
+
+      }
+      this.typesToBeBound.add( typeToBeBound );
+    }
   }
 
-  public JaxbRule( @NotNull Collection<? extends Class<?>> typesToByBound ) {
-    this.typesToByBound.addAll( typesToByBound );
+  public JaxbRule( @NotNull Collection<? extends Class<?>> typesToBeBound ) {
+    this.typesToBeBound.addAll( typesToBeBound );
   }
 
   @Override
@@ -92,17 +97,17 @@ public class JaxbRule implements MethodRule {
     return context;
   }
 
-  public void addTypeToBound( @NotNull Class<?> type ) {
-    this.typesToByBound.add( type );
+  public void addTypeToBeBound( @NotNull Class<?> type ) {
+    this.typesToBeBound.add( type );
   }
 
-  public List<? extends Class<?>> getTypesToByBound() {
-    return Collections.unmodifiableList( typesToByBound );
+  public List<? extends Class<?>> getTypesToBeBound() {
+    return Collections.unmodifiableList( typesToBeBound );
   }
 
   @NotNull
   protected JAXBContext createContext() throws JAXBException {
-    return JAXBContext.newInstance( typesToByBound.toArray( new Class[new ArrayList<Class<?>>( typesToByBound ).size()] ) );
+    return JAXBContext.newInstance( typesToBeBound.toArray( new Class[new ArrayList<Class<?>>( typesToBeBound ).size()] ) );
   }
 
   private void prepareContext() throws JAXBException {

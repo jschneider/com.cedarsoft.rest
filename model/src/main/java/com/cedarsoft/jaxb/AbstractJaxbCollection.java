@@ -38,11 +38,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
- * @param <T> the JaxbStub type
  */
 @XmlAccessorType( XmlAccessType.FIELD )
 @XmlTransient
-public abstract class AbstractJaxbCollection<T> implements JaxbCollection<T> {
+public abstract class AbstractJaxbCollection extends AbstractJaxbObject implements JaxbCollection {
   @XmlAttribute
   private int startIndex;
   @XmlAttribute

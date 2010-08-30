@@ -32,9 +32,12 @@
 package com.cedarsoft.rest;
 
 import com.cedarsoft.AssertUtils;
+import com.cedarsoft.jaxb.AbstractJaxbCollection;
+import com.cedarsoft.jaxb.JaxbCollection;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.experimental.theories.*;
 import org.junit.runner.*;
 
@@ -52,6 +55,36 @@ import static org.junit.Assert.*;
 public abstract class SimpleJaxbTest<J extends JaxbObject, S extends JaxbStub<J>> extends AbstractJaxbTest<J, S> {
   protected SimpleJaxbTest( @NotNull Class<J> jaxbType, @NotNull Class<S> jaxbStubType ) {
     super( jaxbType, jaxbStubType );
+  }
+
+  protected SimpleJaxbTest( @NotNull Class<J> jaxbType, @NotNull Class<S> jaxbStubType, @Nullable Class<? extends JaxbCollection> jaxbCollectionType ) {
+    super( jaxbType, jaxbStubType, jaxbCollectionType );
+  }
+
+  @Theory
+  public void testRoundCollection( @NotNull Entry<? extends AbstractJaxbCollection> entry ) throws Exception {
+    if ( !isJaxbCollectionObjectType( entry ) ) {
+      return;
+    }
+
+    Marshaller marshaller = createMarshaller();
+    marshaller.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, true );
+
+    AbstractJaxbCollection jaxbCollection = entry.getObject();
+
+    StringWriter out = new StringWriter();
+    marshaller.marshal( jaxbCollection, out );
+
+    AssertUtils.assertXMLEquals( new String( entry.getExpected() ), out.toString() );
+
+    Object unserializedRaw = createUnmarshaller().unmarshal( new StringReader( out.toString() ) );
+    assertNotNull( unserializedRaw );
+    assertEquals( getJaxbCollectionType(), unserializedRaw.getClass() );
+
+    JaxbCollection deserialized = getJaxbCollectionType().cast( unserializedRaw );
+    assertNotNull( deserialized );
+
+    verifyDeserialized( deserialized, jaxbCollection );
   }
 
   @Theory
