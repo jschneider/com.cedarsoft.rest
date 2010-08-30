@@ -36,6 +36,7 @@ import com.cedarsoft.jaxb.JaxbCollection;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -122,14 +123,17 @@ public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub<
 
   protected void verifyDeserialized( @NotNull JaxbCollection deserialized, @NotNull JaxbCollection originalCollection ) {
     assertEquals( originalCollection, deserialized );
+    EqualsBuilder.reflectionEquals( deserialized, originalCollection );
   }
 
   protected void verifyDeserialized( @NotNull J deserialized, @NotNull J originalJaxbObject ) throws IllegalAccessException {
     assertEquals( originalJaxbObject, deserialized );
+    EqualsBuilder.reflectionEquals( deserialized, originalJaxbObject );
   }
 
   protected void verifyDeserializedStub( @NotNull S deserialized, @NotNull S originalJaxbStub ) throws IllegalAccessException {
     assertEquals( originalJaxbStub, deserialized );
+    EqualsBuilder.reflectionEquals( deserialized, originalJaxbStub );
   }
 
   protected boolean isJaxbObjectType( @NotNull Entry<?> entry ) {
