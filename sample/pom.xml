@@ -86,12 +86,6 @@
       <groupId>com.google.inject.extensions</groupId>
       <artifactId>guice-servlet</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.codehaus.jettison</groupId>
-      <artifactId>jettison</artifactId>
-      <version>1.2</version>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <build>
