@@ -92,6 +92,10 @@ public class JaxbRule implements MethodRule {
     return context;
   }
 
+  public void addTypeToBound( @NotNull Class<?> type ) {
+    this.typesToByBound.add( type );
+  }
+
   public List<? extends Class<?>> getTypesToByBound() {
     return Collections.unmodifiableList( typesToByBound );
   }
