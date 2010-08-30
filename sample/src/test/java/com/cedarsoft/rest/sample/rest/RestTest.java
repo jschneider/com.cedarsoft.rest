@@ -89,8 +89,7 @@ public class RestTest extends JerseyTest {
 
   @Test
   public void testGetUsers() throws Exception {
-    List<User.Stub> users = resource().path( UserMapping.PATH_USERS ).type( MediaType.APPLICATION_XML ).get( new GenericType<List<User.Stub>>() {
-    } );
+    List<User.Stub> users = resource().path( UserMapping.PATH_USERS ).type( MediaType.APPLICATION_XML ).get( User.Collection.class ).getUsers();
     assertNotNull( users );
 
     assertEquals( 3, users.size() );
@@ -106,6 +105,31 @@ public class RestTest extends JerseyTest {
     assertEquals( "Eva Mustermann", users.get( 2 ).getName() );
     assertEquals( "eva@mustermann.de", users.get( 2 ).getEmail() );
     assertEquals( getBaseURI() + "users/eva@mustermann.de", users.get( 2 ).getHref().toString() );
+  }
+
+  @Test
+  public void testGetUsersStartIndex() throws Exception {
+    User.Collection users = resource().path( UserMapping.PATH_USERS )
+      .queryParam( "min-index", "1" )
+      .type( MediaType.APPLICATION_XML )
+      .get( User.Collection.class );
+    assertNotNull( users );
+
+    assertEquals( 1, users.getStartIndex() );
+    assertEquals( 2, users.size() );
+  }
+
+  @Test
+  public void testGetUsersStartIndexLength() throws Exception {
+    User.Collection users = resource().path( UserMapping.PATH_USERS )
+      .queryParam( "min-index", "1" )
+      .queryParam( "max-length", "1" )
+      .type( MediaType.APPLICATION_XML )
+      .get( User.Collection.class );
+    assertNotNull( users );
+
+    assertEquals( 1, users.getStartIndex() );
+    assertEquals( 1, users.size() );
   }
 
   @Test

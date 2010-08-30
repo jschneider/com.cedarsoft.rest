@@ -77,8 +77,15 @@ public class UsersResource {
 
   @GET
   @NotNull
-  public User.Collection getUsers( @Context HttpHeaders headers, @QueryParam( "minId" ) int minId, @QueryParam( "max-id" ) int maxId ) {
-    return new User.Collection( userMapping.getJaxbStubs( users, new UriContext( uriInfo.getBaseUriBuilder(), uriInfo.getBaseUriBuilder() ) ), minId );
+  public User.Collection getUsers( @Context HttpHeaders headers, @QueryParam( "min-index" ) int minIndex, @QueryParam( "maxLength" ) int maxLength ) {
+    List<com.cedarsoft.rest.sample.User> selectedUsers;
+    if ( maxLength > 0 ) {
+      selectedUsers = users.subList( minIndex, minIndex + maxLength );
+    } else {
+      selectedUsers = users.subList( minIndex, users.size() );
+    }
+
+    return new User.Collection( userMapping.getJaxbStubs( selectedUsers, new UriContext( uriInfo.getBaseUriBuilder(), uriInfo.getBaseUriBuilder() ) ), minIndex );
   }
 
   @GET
