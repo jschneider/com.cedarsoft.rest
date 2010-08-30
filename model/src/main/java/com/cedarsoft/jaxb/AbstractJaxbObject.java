@@ -38,6 +38,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlTransient;
 import java.net.URI;
 
@@ -48,12 +49,16 @@ import java.net.URI;
 @XmlAccessorType( XmlAccessType.FIELD )
 @XmlTransient
 public abstract class AbstractJaxbObject implements JaxbObject {
+  @NonNls
+  public static final String NS_STUB_SUFFIX = "/stub";
+
   @XmlAttribute( required = false )
   @Nullable
   protected URI href;
 
   @Nullable
   @XmlAttribute( required = false )
+  @XmlID
   protected String id;
 
   protected AbstractJaxbObject() {
