@@ -77,8 +77,8 @@ public class UsersResource {
 
   @GET
   @NotNull
-  public List<User.Stub> getUsers( @Context HttpHeaders headers, @QueryParam( "minId" ) int minId, @QueryParam( "max-id" ) int maxId ) {
-    return userMapping.getJaxbStubs( users, new UriContext( uriInfo.getBaseUriBuilder(), uriInfo.getBaseUriBuilder() ) );
+  public User.Collection getUsers( @Context HttpHeaders headers, @QueryParam( "minId" ) int minId, @QueryParam( "max-id" ) int maxId ) {
+    return new User.Collection( userMapping.getJaxbStubs( users, new UriContext( uriInfo.getBaseUriBuilder(), uriInfo.getBaseUriBuilder() ) ), minId );
   }
 
   @GET

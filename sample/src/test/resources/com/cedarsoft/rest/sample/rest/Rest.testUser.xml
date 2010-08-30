@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ns5:user xmlns:ns5="http://cedarsoft.com/rest/sample/user" xmlns:ns2="http://cedarsoft.com/rest/sample/group/stub" xmlns:ns3="http://cedarsoft.com/rest/sample/user/stub" xmlns:ns4="http://cedarsoft.com/rest/sample/detail/stub" href="http://localhost:9998/users/test@test.com" id="test@test.com">
-  <email>test@test.com</email>
-  <name>Test User</name>
-  <group href="http://localhost:9998/groups/NOBODY" id="NOBODY" />
-  <friend href="http://localhost:9998/users/friend@asdf.de" id="friend@asdf.de">
-    <email>friend@asdf.de</email>
-    <name>A Friend</name>
-  </friend>
-  <detail href="http://localhost:9998/users/test@test.com/details/1" id="1">
-    <text>a test detail</text>
-  </detail>
-</ns5:user>
+<user:user xmlns:user="http://cedarsoft.com/rest/sample/user" xmlns:cam="http://cedarsoft.com/rest/sample/camera"
+           xmlns:email-stub="http://cedarsoft.com/rest/sample/email/stub" xmlns:detail-stub="http://cedarsoft.com/rest/sample/detail/stub"
+           xmlns:group="http://cedarsoft.com/rest/sample/group" xmlns:group-stub="http://cedarsoft.com/rest/sample/group/stub"
+           xmlns:cam-stub="http://cedarsoft.com/rest/sample/camera/stub" xmlns:detail="http://cedarsoft.com/rest/sample/detail"
+           xmlns:email="http://cedarsoft.com/rest/sample/email" xmlns:user-stub="http://cedarsoft.com/rest/sample/user/stub"
+           xmlns:users="http://cedarsoft.com/rest/sample/user/list" xmlns:ci="http://cedarsoft.com/rest/sample/camera-info"
+           xmlns:ci-stub="http://cedarsoft.com/rest/sample/camera-info/stub" href="http://localhost:9998/users/test@test.com"
+           id="test@test.com">
+  <user:email>test@test.com</user:email>
+  <user:name>Test User</user:name>
+  <user:group href="http://localhost:9998/groups/NOBODY" id="NOBODY" />
+  <user:friend href="http://localhost:9998/users/friend@asdf.de" id="friend@asdf.de">
+    <user-stub:email>friend@asdf.de</user-stub:email>
+    <user-stub:name>A Friend</user-stub:name>
+  </user:friend>
+  <user:detail href="http://localhost:9998/users/test@test.com/details/1" id="1">
+    <detail-stub:text>a test detail</detail-stub:text>
+  </user:detail>
+</user:user>
