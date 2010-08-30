@@ -39,9 +39,11 @@ import org.jetbrains.annotations.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
 import java.util.List;
 
 @XmlTransient
@@ -137,4 +139,30 @@ public abstract class User extends AbstractJaxbObject {
       return User.Jaxb.class;
     }
   }
+
+  @XmlType( name = "users", namespace = Collection.NS_COLLECTION )
+  @XmlRootElement( name = "users", namespace = Collection.NS_COLLECTION )
+  @XmlAccessorType( XmlAccessType.FIELD )
+  public static class Collection {
+    @NonNls
+    public static final String NS_COLLECTION = Stub.NS + "/list";
+    @XmlElementRef
+    private List<Stub> stubs = new ArrayList<Stub>();
+
+    public Collection() {
+    }
+
+    public Collection( List<Stub> stubs ) {
+      this.stubs = stubs;
+    }
+
+    public List<Stub> getUsers() {
+      return stubs;
+    }
+
+    public void setUsers( List<Stub> stubs ) {
+      this.stubs = stubs;
+    }
+  }
+
 }

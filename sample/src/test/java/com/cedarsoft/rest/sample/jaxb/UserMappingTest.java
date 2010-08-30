@@ -38,6 +38,7 @@ import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.sample.Group;
 import com.cedarsoft.rest.sample.User;
 import org.jetbrains.annotations.NotNull;
+import org.junit.*;
 import org.junit.experimental.theories.*;
 
 public class UserMappingTest extends AbstractMappedJaxbTest<User, com.cedarsoft.rest.sample.jaxb.User.Jaxb, com.cedarsoft.rest.sample.jaxb.User.Stub> {

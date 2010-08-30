@@ -32,16 +32,37 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
+import com.cedarsoft.AssertUtils;
 import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
 import com.cedarsoft.rest.SimpleJaxbTest;
+import com.google.common.collect.ImmutableList;
+import org.apache.commons.io.IOUtils;
+import org.junit.*;
 import org.junit.experimental.theories.*;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 
 public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
   public UserJaxbTest() {
     super( User.Jaxb.class, User.Stub.class );
+  }
+
+  @Test
+  public void testCollection() throws Exception {
+    User.Collection collection = new User.Collection( ImmutableList.<User.Stub>of(
+      new User.Stub( "a" ),
+      new User.Stub( "b" ),
+      new User.Stub( "c" )
+    ) );
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    jaxbRule.addTypeToBound( User.Collection.class );
+
+    createMarshaller().marshal( collection, out );
+
+    AssertUtils.assertXMLEquals( IOUtils.toString( getClass().getResourceAsStream( "UserJaxbTest.collection.xml" ) ), out.toString() );
   }
 
   @DataPoint

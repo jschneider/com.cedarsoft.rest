@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns13:users xmlns:ns13="http://cedarsoft.com/rest/sample/user/stub/list" xmlns:detail="http://cedarsoft.com/rest/sample/detail"
+            xmlns:cam="http://cedarsoft.com/rest/sample/camera" xmlns:email-stub="http://cedarsoft.com/rest/sample/email/stub"
+            xmlns:email="http://cedarsoft.com/rest/sample/email" xmlns:user-s="http://cedarsoft.com/rest/sample/user/stub/stub"
+            xmlns:user="http://cedarsoft.com/rest/sample/user/stub" xmlns:ci="http://cedarsoft.com/rest/sample/camera-info"
+            xmlns:cam-s="http://cedarsoft.com/rest/sample/camera/stub" xmlns:group="http://cedarsoft.com/rest/sample/group"
+            xmlns:group-stub="http://cedarsoft.com/rest/sample/group/stub" xmlns:detail-s="http://cedarsoft.com/rest/sample/detail/stub"
+            xmlns:ci-s="http://cedarsoft.com/rest/sample/camera-info/stub">
+  <user-s:user id="a" />
+  <user-s:user id="b" />
+  <user-s:user id="c" />
+</ns13:users>
+  
