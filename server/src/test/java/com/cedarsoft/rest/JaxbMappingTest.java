@@ -163,7 +163,7 @@ public class JaxbMappingTest {
     assertSame( myObject.daInt, myObjectJaxb.daInt );
 
     //test cache
-    assertSame( myObjectJaxb, mapping.getJaxbObject( myObject, uriContext ) );
+    assertEquals( myObjectJaxb, mapping.getJaxbObject( myObject, uriContext ) );
   }
 
   @Test
@@ -176,8 +176,8 @@ public class JaxbMappingTest {
     assertSame( myObject2.daInt, myObjectJaxbs.get( 1 ).daInt );
 
     //test cache
-    assertSame( myObjectJaxbs.get( 0 ), mapping.getJaxbObject( myObject1, uriContext ) );
-    assertSame( myObjectJaxbs.get( 1 ), mapping.getJaxbObject( myObject2, uriContext ) );
+    assertEquals( myObjectJaxbs.get( 0 ), mapping.getJaxbObject( myObject1, uriContext ) );
+    assertEquals( myObjectJaxbs.get( 1 ), mapping.getJaxbObject( myObject2, uriContext ) );
   }
 
   @Test
@@ -190,8 +190,8 @@ public class JaxbMappingTest {
     assertSame( myObject2.daInt, myObjectJaxbs.get( 1 ).stubInt );
 
     //test cache
-    assertSame( myObjectJaxbs.get( 0 ), mapping.getJaxbObjectStub( myObject1, uriContext ) );
-    assertSame( myObjectJaxbs.get( 1 ), mapping.getJaxbObjectStub( myObject2, uriContext ) );
+    assertEquals( myObjectJaxbs.get( 0 ), mapping.getJaxbObjectStub( myObject1, uriContext ) );
+    assertEquals( myObjectJaxbs.get( 1 ), mapping.getJaxbObjectStub( myObject2, uriContext ) );
   }
 
   @Test
@@ -209,8 +209,9 @@ public class JaxbMappingTest {
     assertNotNull( parentJaxb.getChild() );
     assertEquals( myObject1.daInt, parentJaxb.getChild().daInt );
 
-    assertSame( parentJaxb, parentMapping.getJaxbObject( parent, uriContext ) );
-    assertSame( parentJaxb.getChild(), parentMapping.getJaxbObject( parent, uriContext ).getChild() );
+    //Cached
+    assertEquals( parentJaxb, parentMapping.getJaxbObject( parent, uriContext ) );
+    assertEquals( parentJaxb.getChild(), parentMapping.getJaxbObject( parent, uriContext ).getChild() );
   }
 
   @Test
@@ -225,7 +226,7 @@ public class JaxbMappingTest {
     assertEquals( myObject1.daInt, parentJaxb.getChild().daInt );
     assertEquals( "http://test.running/here/uriForParentJaxb/uriForMyObjectJaxb", String.valueOf( parentJaxb.getChild().getHref() ) );
 
-    assertSame( parentJaxb, parentMapping.getJaxbObject( parent, uriContext ) );
+    assertEquals( parentJaxb, parentMapping.getJaxbObject( parent, uriContext ) );
   }
 
   @Test
@@ -240,12 +241,12 @@ public class JaxbMappingTest {
     assertNotNull( jaxbObject.getParent().getChild() );
     assertEquals( myObject1.daInt, jaxbObject.getParent().getChild().daInt );
 
-    assertSame( jaxbObject, grandFatherMapping.getJaxbObject( grandFather, uriContext ) );
-    assertSame( jaxbObject.getParent(), grandFatherMapping.getJaxbObject( grandFather, uriContext ).getParent() );
-    assertSame( jaxbObject.getParent().getChild(), grandFatherMapping.getJaxbObject( grandFather, uriContext ).getParent().getChild() );
+    assertEquals( jaxbObject, grandFatherMapping.getJaxbObject( grandFather, uriContext ) );
+    assertEquals( jaxbObject.getParent(), grandFatherMapping.getJaxbObject( grandFather, uriContext ).getParent() );
+    assertEquals( jaxbObject.getParent().getChild(), grandFatherMapping.getJaxbObject( grandFather, uriContext ).getParent().getChild() );
 
-    assertSame( jaxbObject.getParent(), parentMapping.getJaxbObject( parent, uriContext ) );
-    assertSame( jaxbObject.getParent().getChild(), mapping.getJaxbObject( myObject1, uriContext ) );
+    assertEquals( jaxbObject.getParent(), parentMapping.getJaxbObject( parent, uriContext ) );
+    assertEquals( jaxbObject.getParent().getChild(), mapping.getJaxbObject( myObject1, uriContext ) );
   }
 
   protected static class MyObject {

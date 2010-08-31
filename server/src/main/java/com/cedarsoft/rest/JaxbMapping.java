@@ -38,9 +38,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.ws.rs.core.UriBuilder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @param <T> the type
@@ -48,10 +46,6 @@ import java.util.Map;
  * @param <S> the Jaxb stub type
  */
 public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>> {
-  @NotNull
-  private final Map<T, J> jaxbObjects = new HashMap<T, J>();
-  @NotNull
-  private final Map<T, S> jaxbStubObjects = new HashMap<T, S>();
   @NotNull
   private final DelegateJaxbMappings delegateJaxbMappings = new DelegateJaxbMappings();
 
@@ -62,28 +56,12 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
 
   @NotNull
   public S getJaxbObjectStub( @NotNull T object, @NotNull UriContext context ) {
-    S jaxbObject = jaxbStubObjects.get( object );
-    if ( jaxbObject != null ) {
-      return jaxbObject;
-    }
-
-    S created = createJaxbObjectStub( object, context );
-    jaxbStubObjects.put( object, created );
-
-    return created;
+    return createJaxbObjectStub( object, context );
   }
 
   @NotNull
   public J getJaxbObject( @NotNull T object, @NotNull UriContext context ) {
-    J jaxbObject = jaxbObjects.get( object );
-    if ( jaxbObject != null ) {
-      return jaxbObject;
-    }
-
-    J created = createJaxbObject( object, context );
-    jaxbObjects.put( object, created );
-
-    return created;
+    return createJaxbObject( object, context );
   }
 
   @Nullable
