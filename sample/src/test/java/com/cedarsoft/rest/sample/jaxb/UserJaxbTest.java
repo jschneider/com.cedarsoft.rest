@@ -63,7 +63,7 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
       new User.Stub( "a" ),
       new User.Stub( "b" ),
       new User.Stub( "c" )
-    ), 7 );
+    ), 7, 0 );
     collection.setHref( JaxbTestUtils.createTestUriBuilder().build() );
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -90,7 +90,7 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
     JSONMarshaller marshaller = context.createJSONMarshaller();
     marshaller.marshallToJSON( collection, out );
 
-    assertEquals( "{\"users:users\":{\"@xmlns\":{\"detail-s\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/detail\\/stub\",\"user\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/user\",\"cam-s\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera\\/stub\",\"ci\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera-info\",\"users\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/user\\/list\",\"email\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/email\",\"detail\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/detail\",\"ci-s\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera-info\\/stub\",\"group-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/group\\/stub\",\"group\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/group\",\"user-s\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/user\\/stub\",\"email-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/email\\/stub\",\"cam\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera\"},\"@startIndex\":\"0\",\"@size\":\"3\",\"user-s:user\":[{\"@id\":\"a\"},{\"@id\":\"b\"},{\"@id\":\"c\"}]}}", out.toString() );
+    assertEquals( "{\"users:users\":{\"@xmlns\":{\"ci-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera-info\\/stub\",\"user\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/user\",\"ci\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera-info\",\"users\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/user\\/list\",\"user-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/user\\/stub\",\"email\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/email\",\"detail\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/detail\",\"cam-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera\\/stub\",\"group-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/group\\/stub\",\"group\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/group\",\"detail-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/detail\\/stub\",\"email-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/email\\/stub\",\"cam\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera\"},\"@startIndex\":\"0\",\"@maxLength\":\"0\",\"user-stub:user\":[{\"@id\":\"a\"},{\"@id\":\"b\"},{\"@id\":\"c\"}]}}", out.toString() );
   }
 
   @Test
@@ -109,7 +109,7 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
     assertEquals( JSONMarshallerImpl.class, marshaller.getClass() );
     marshaller.marshallToJSON( collection, out );
 
-    assertEquals( "{\"@startIndex\":\"0\",\"@size\":\"3\",\"user\":[{\"@id\":\"a\"},{\"@id\":\"b\"},{\"@id\":\"c\"}]}", out.toString() );
+    assertEquals( "{\"@startIndex\":\"0\",\"@maxLength\":\"0\",\"user\":[{\"@id\":\"a\"},{\"@id\":\"b\"},{\"@id\":\"c\"}]}", out.toString() );
   }
 
   @Test
@@ -128,7 +128,7 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
     assertEquals( JSONMarshallerImpl.class, marshaller.getClass() );
     marshaller.marshallToJSON( collection, out );
 
-    assertEquals( "{\"startIndex\":0,\"size\":3,\"user\":[{\"id\":\"a\"},{\"id\":\"b\"},{\"id\":\"c\"}]}", out.toString() );
+    assertEquals( "{\"startIndex\":0,\"maxLength\":0,\"user\":[{\"id\":\"a\"},{\"id\":\"b\"},{\"id\":\"c\"}]}", out.toString() );
 
     User.Collection unmarshalled = context.createJSONUnmarshaller().unmarshalFromJSON( new ByteArrayInputStream( out.toByteArray() ), User.Collection.class );
     assertEquals( 3, unmarshalled.getUsers().size() );
@@ -193,7 +193,7 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
 
   @DataPoint
   public static Entry<? extends User.Collection> smallCollection() {
-    User.Collection object = new User.Collection( Arrays.asList( new User.Stub( "a" ), new User.Stub( "b" ), new User.Stub( "c" ) ), 7 );
+    User.Collection object = new User.Collection( Arrays.asList( new User.Stub( "a" ), new User.Stub( "b" ), new User.Stub( "c" ) ), 7, 0 );
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
     return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.collection.xml" ) );
   }

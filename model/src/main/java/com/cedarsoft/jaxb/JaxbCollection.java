@@ -46,9 +46,7 @@ public interface JaxbCollection {
 
   void setStartIndex( int startIndex );
 
-  int getSize();
+  int getMaxLength();
 
-  void setSize( int size );
-
-  int size();
+  void setMaxLength( int maxLength );
 }

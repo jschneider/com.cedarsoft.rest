@@ -154,11 +154,11 @@ public abstract class User extends AbstractJaxbObject {
     }
 
     public Collection( @NotNull List<Stub> users ) {
-      this( users, 0 );
+      this( users, 0, 0 );
     }
 
-    public Collection( List<Stub> users, int startIndex ) {
-      super( startIndex, users.size() );
+    public Collection( List<Stub> users, int startIndex, int size ) {
+      super( startIndex, size );
       this.users = users;
     }
 

@@ -116,7 +116,8 @@ public class RestTest extends JerseyTest {
     assertNotNull( users );
 
     assertEquals( 1, users.getStartIndex() );
-    assertEquals( 2, users.size() );
+    assertEquals( 2, users.getUsers().size() );
+    assertEquals( 0, users.getMaxLength() );
   }
 
   @Test
@@ -129,7 +130,8 @@ public class RestTest extends JerseyTest {
     assertNotNull( users );
 
     assertEquals( 1, users.getStartIndex() );
-    assertEquals( 1, users.size() );
+    assertEquals( 1, users.getUsers().size() );
+    assertEquals( 1, users.getMaxLength() );
   }
 
   @Test

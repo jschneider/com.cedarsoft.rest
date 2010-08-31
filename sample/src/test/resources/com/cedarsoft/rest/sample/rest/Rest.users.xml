@@ -5,7 +5,7 @@
              xmlns:cam-stub="http://cedarsoft.com/rest/sample/camera/stub" xmlns:detail="http://cedarsoft.com/rest/sample/detail"
              xmlns:email="http://cedarsoft.com/rest/sample/email" xmlns:user-stub="http://cedarsoft.com/rest/sample/user/stub"
              xmlns:ci="http://cedarsoft.com/rest/sample/camera-info" xmlns:user="http://cedarsoft.com/rest/sample/user"
-             xmlns:ci-stub="http://cedarsoft.com/rest/sample/camera-info/stub" startIndex="0" size="3">
+             xmlns:ci-stub="http://cedarsoft.com/rest/sample/camera-info/stub" startIndex="0" maxLength="0">
   <user-stub:user href="http://localhost:9998/users/info@cedarsoft.de" id="info@cedarsoft.de">
     <user-stub:email>info@cedarsoft.de</user-stub:email>
     <user-stub:name>Johannes Schneider</user-stub:name>

@@ -6,7 +6,7 @@
              xmlns:email="http://cedarsoft.com/rest/sample/email" xmlns:ci="http://cedarsoft.com/rest/sample/camera-info"
              xmlns:cam-s="http://cedarsoft.com/rest/sample/camera/stub" xmlns:user="http://cedarsoft.com/rest/sample/user"
              xmlns:detail-s="http://cedarsoft.com/rest/sample/detail/stub" href="http://test.running/here" startIndex="7"
-             size="3">
+             maxLength="0">
   <user-s:user id="a" />
   <user-s:user id="b" />
   <user-s:user id="c" />

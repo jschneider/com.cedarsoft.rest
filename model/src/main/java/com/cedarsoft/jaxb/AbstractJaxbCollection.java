@@ -45,14 +45,14 @@ public abstract class AbstractJaxbCollection extends AbstractJaxbObject implemen
   @XmlAttribute
   private int startIndex;
   @XmlAttribute
-  private int size;
+  private int maxLength;
 
   protected AbstractJaxbCollection() {
   }
 
-  protected AbstractJaxbCollection( int startIndex, int size ) {
+  protected AbstractJaxbCollection( int startIndex, int maxLength ) {
     this.startIndex = startIndex;
-    this.size = size;
+    this.maxLength = maxLength;
   }
 
   @Override
@@ -66,17 +66,12 @@ public abstract class AbstractJaxbCollection extends AbstractJaxbObject implemen
   }
 
   @Override
-  public int getSize() {
-    return size;
+  public int getMaxLength() {
+    return maxLength;
   }
 
   @Override
-  public void setSize( int size ) {
-    this.size = size;
-  }
-
-  @Override
-  public int size() {
-    return getSize();
+  public void setMaxLength( int maxLength ) {
+    this.maxLength = maxLength;
   }
 }
