@@ -14,7 +14,7 @@ public class UserJaxbTest
 
 
     public UserJaxbTest() {
-        super(com.cedarsoft.rest.generator.test.jaxb.User.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.User.Stub.class);
+        super(com.cedarsoft.rest.generator.test.jaxb.User.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.User.Stub.class, com.cedarsoft.rest.generator.test.jaxb.User.Collection.class);
     }
 
     @DataPoint

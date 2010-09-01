@@ -199,9 +199,13 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
     createTestResource( jaxbTestClass, identifier );
   }
 
-  private void createConstructor( JDefinedClass parent ) {
+  private void createConstructor( @NotNull JDefinedClass parent ) {
     JMethod constructor = parent.constructor( JMod.PUBLIC );
-    constructor.body().invoke( SUPER ).arg( jaxbObject.dotclass() ).arg( jaxbStub.dotclass() );
+    JInvocation superInvocation = constructor.body().invoke( SUPER ).arg( jaxbObject.dotclass() ).arg( jaxbStub.dotclass() );
+
+    if ( parent == jaxbTestClass ) {
+      superInvocation.arg( jaxbCollection.dotclass() );
+    }
   }
 
   private void createDataPoint( @NotNull @NonNls String identifier, @NotNull JClass objectType ) {

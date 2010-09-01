@@ -14,7 +14,7 @@ public class GroupJaxbTest
 
 
     public GroupJaxbTest() {
-        super(com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.Group.Stub.class);
+        super(com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.Group.Stub.class, com.cedarsoft.rest.generator.test.jaxb.Group.Collection.class);
     }
 
     @DataPoint

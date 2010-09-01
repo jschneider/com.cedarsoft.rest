@@ -14,7 +14,7 @@ public class FooModelJaxbTest
 
 
     public FooModelJaxbTest() {
-        super(com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub.class);
+        super(com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub.class, com.cedarsoft.rest.generator.test.jaxb.FooModel.Collection.class);
     }
 
     @DataPoint

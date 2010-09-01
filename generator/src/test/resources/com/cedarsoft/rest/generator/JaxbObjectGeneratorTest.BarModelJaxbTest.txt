@@ -15,7 +15,7 @@ public class BarModelJaxbTest
 
 
     public BarModelJaxbTest() {
-        super(com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub.class);
+        super(com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub.class, com.cedarsoft.rest.generator.test.jaxb.BarModel.Collection.class);
     }
 
     @DataPoint
