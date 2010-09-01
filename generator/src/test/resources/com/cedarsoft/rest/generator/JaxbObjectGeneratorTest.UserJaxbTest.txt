@@ -19,7 +19,7 @@ public class UserJaxbTest
 
     @DataPoint
     public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.User.Jaxb> dataPoint1() {
-        com.cedarsoft.rest.generator.test.jaxb.User.Jaxb object = new com.cedarsoft.rest.generator.test.jaxb.User.Jaxb();
+        com.cedarsoft.rest.generator.test.jaxb.User.Jaxb object = new com.cedarsoft.rest.generator.test.jaxb.User.Jaxb("daId");
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setEmail("email");
         object.setName("name");
@@ -30,7 +30,7 @@ public class UserJaxbTest
 
     @DataPoint
     public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.User.Stub> stub() {
-        com.cedarsoft.rest.generator.test.jaxb.User.Stub object = new com.cedarsoft.rest.generator.test.jaxb.User.Stub();
+        com.cedarsoft.rest.generator.test.jaxb.User.Stub object = new com.cedarsoft.rest.generator.test.jaxb.User.Stub("daId");
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setEmail("email");
         object.setName("name");

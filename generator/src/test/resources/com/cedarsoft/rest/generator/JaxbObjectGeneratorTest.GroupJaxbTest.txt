@@ -19,7 +19,7 @@ public class GroupJaxbTest
 
     @DataPoint
     public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb> dataPoint1() {
-        com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb object = new com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb();
+        com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb object = new com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb("daId");
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setDescription("description");
         return create(object, GroupJaxbTest.class.getResource("GroupJaxbTest.dataPoint1.xml"));
@@ -27,7 +27,7 @@ public class GroupJaxbTest
 
     @DataPoint
     public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.Group.Stub> stub() {
-        com.cedarsoft.rest.generator.test.jaxb.Group.Stub object = new com.cedarsoft.rest.generator.test.jaxb.Group.Stub();
+        com.cedarsoft.rest.generator.test.jaxb.Group.Stub object = new com.cedarsoft.rest.generator.test.jaxb.Group.Stub("daId");
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setDescription("description");
         return create(object, GroupJaxbTest.class.getResource("GroupJaxbTest.stub.xml"));

@@ -19,7 +19,7 @@ public class FooModelJaxbTest
 
     @DataPoint
     public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb> dataPoint1() {
-        com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb object = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb();
+        com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb object = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb("daId");
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setSingleBar(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb());
         object.setTheBars(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub()));
@@ -28,7 +28,7 @@ public class FooModelJaxbTest
 
     @DataPoint
     public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub> stub() {
-        com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub object = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub();
+        com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub object = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub("daId");
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setSingleBar(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub());
         return create(object, FooModelJaxbTest.class.getResource("FooModelJaxbTest.stub.xml"));

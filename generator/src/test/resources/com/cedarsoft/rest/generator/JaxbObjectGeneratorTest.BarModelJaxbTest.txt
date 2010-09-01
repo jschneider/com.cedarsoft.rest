@@ -20,7 +20,7 @@ public class BarModelJaxbTest
 
     @DataPoint
     public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb> dataPoint1() {
-        com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb object = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb();
+        com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb object = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb("daId");
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setDaInt(42);
         object.setDaString("daString");
@@ -32,7 +32,7 @@ public class BarModelJaxbTest
 
     @DataPoint
     public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub> stub() {
-        com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub object = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub();
+        com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub object = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub("daId");
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setDaInt(42);
         object.setDaString("daString");

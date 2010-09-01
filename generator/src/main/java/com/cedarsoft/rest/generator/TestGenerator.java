@@ -227,7 +227,7 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
 
   @NotNull
   private JVar addJaxbObjectCreation( @NotNull JBlock block, @NotNull JClass objectType ) {
-    JVar field = block.decl( objectType, OBJECT, JExpr._new( objectType ) );
+    JVar field = block.decl( objectType, OBJECT, JExpr._new( objectType ).arg( "daId" ) );
 
     //Sets the href
     addHrefSet( block, field );
