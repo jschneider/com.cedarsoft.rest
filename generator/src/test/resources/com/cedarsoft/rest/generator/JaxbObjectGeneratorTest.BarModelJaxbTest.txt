@@ -41,7 +41,7 @@ public class BarModelJaxbTest
 
     @DataPoint
     public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.BarModel.Collection> collection() {
-        com.cedarsoft.rest.generator.test.jaxb.BarModel.Collection object = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Collection(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub("daId")));
+        com.cedarsoft.rest.generator.test.jaxb.BarModel.Collection object = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Collection(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub("daId"), new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub("daId2")));
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         return create(object, BarModelJaxbTest.class.getResource("BarModelJaxbTest.collection.xml"));
     }

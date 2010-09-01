@@ -187,7 +187,8 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
     JMethod method = createDataPointMethod( identifier, jaxbCollection );
 
     JExpression stubsExpression = codeGenerator.getClassRefSupport().ref( Arrays.class ).staticInvoke( NewInstanceFactory.METHOD_NAME_AS_LIST )
-      .arg( JExpr._new( jaxbStub ).arg( "daId" ) );
+      .arg( JExpr._new( jaxbStub ).arg( "daId" ) )
+      .arg( JExpr._new( jaxbStub ).arg( "daId2" ) );
     JVar jaxbObjectInstance = method.body().decl( jaxbCollection, OBJECT, JExpr._new( jaxbCollection ).arg( stubsExpression ) );
 
     //Sets the href

@@ -40,7 +40,7 @@ public class UserJaxbTest
 
     @DataPoint
     public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.User.Collection> collection() {
-        com.cedarsoft.rest.generator.test.jaxb.User.Collection object = new com.cedarsoft.rest.generator.test.jaxb.User.Collection(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.User.Stub("daId")));
+        com.cedarsoft.rest.generator.test.jaxb.User.Collection object = new com.cedarsoft.rest.generator.test.jaxb.User.Collection(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.User.Stub("daId"), new com.cedarsoft.rest.generator.test.jaxb.User.Stub("daId2")));
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         return create(object, UserJaxbTest.class.getResource("UserJaxbTest.collection.xml"));
     }

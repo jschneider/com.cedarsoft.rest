@@ -36,7 +36,7 @@ public class FooModelJaxbTest
 
     @DataPoint
     public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.FooModel.Collection> collection() {
-        com.cedarsoft.rest.generator.test.jaxb.FooModel.Collection object = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Collection(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub("daId")));
+        com.cedarsoft.rest.generator.test.jaxb.FooModel.Collection object = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Collection(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub("daId"), new com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub("daId2")));
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         return create(object, FooModelJaxbTest.class.getResource("FooModelJaxbTest.collection.xml"));
     }

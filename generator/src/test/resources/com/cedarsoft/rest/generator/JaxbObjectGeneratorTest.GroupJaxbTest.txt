@@ -35,7 +35,7 @@ public class GroupJaxbTest
 
     @DataPoint
     public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.Group.Collection> collection() {
-        com.cedarsoft.rest.generator.test.jaxb.Group.Collection object = new com.cedarsoft.rest.generator.test.jaxb.Group.Collection(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.Group.Stub("daId")));
+        com.cedarsoft.rest.generator.test.jaxb.Group.Collection object = new com.cedarsoft.rest.generator.test.jaxb.Group.Collection(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.Group.Stub("daId"), new com.cedarsoft.rest.generator.test.jaxb.Group.Stub("daId2")));
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         return create(object, GroupJaxbTest.class.getResource("GroupJaxbTest.collection.xml"));
     }
