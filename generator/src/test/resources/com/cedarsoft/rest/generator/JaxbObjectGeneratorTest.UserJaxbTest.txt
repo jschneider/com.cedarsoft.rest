@@ -40,7 +40,21 @@ public class UserJaxbTest
 
     @DataPoint
     public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.User.Collection> collection() {
-        com.cedarsoft.rest.generator.test.jaxb.User.Collection object = new com.cedarsoft.rest.generator.test.jaxb.User.Collection(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.User.Stub("daId"), new com.cedarsoft.rest.generator.test.jaxb.User.Stub("daId2")));
+        com.cedarsoft.rest.generator.test.jaxb.User.Stub firstStub = new com.cedarsoft.rest.generator.test.jaxb.User.Stub("daId0");
+        {
+            firstStub.setHref(JaxbTestUtils.createTestUriBuilder().build());
+            firstStub.setEmail("email");
+            firstStub.setName("name");
+            firstStub.setGroup(new com.cedarsoft.rest.generator.test.jaxb.Group.Stub());
+        }
+        com.cedarsoft.rest.generator.test.jaxb.User.Stub secondStub = new com.cedarsoft.rest.generator.test.jaxb.User.Stub("daId1");
+        {
+            secondStub.setHref(JaxbTestUtils.createTestUriBuilder().build());
+            secondStub.setEmail("email");
+            secondStub.setName("name");
+            secondStub.setGroup(new com.cedarsoft.rest.generator.test.jaxb.Group.Stub());
+        }
+        com.cedarsoft.rest.generator.test.jaxb.User.Collection object = new com.cedarsoft.rest.generator.test.jaxb.User.Collection(Arrays.asList(firstStub, secondStub));
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         return create(object, UserJaxbTest.class.getResource("UserJaxbTest.collection.xml"));
     }

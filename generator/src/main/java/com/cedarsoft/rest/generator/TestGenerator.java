@@ -186,9 +186,22 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
   private void createCollectionDataPoint( String identifier ) {
     JMethod method = createDataPointMethod( identifier, jaxbCollection );
 
+    JVar stub0 = method.body().decl( jaxbStub, "firstStub", JExpr._new( jaxbStub ).arg( "daId0" ) );
+
+    JBlock block0 = new JBlock( true, true );
+    method.body().add( block0 );
+    addFieldCopy( block0, jaxbStub, stub0 );
+
+
+    JVar stub1 = method.body().decl( jaxbStub, "secondStub", JExpr._new( jaxbStub ).arg( "daId1" ) );
+
+    JBlock block1 = new JBlock( true, true );
+    method.body().add( block1 );
+    addFieldCopy( block1, jaxbStub, stub1 );
+
     JExpression stubsExpression = codeGenerator.getClassRefSupport().ref( Arrays.class ).staticInvoke( NewInstanceFactory.METHOD_NAME_AS_LIST )
-      .arg( JExpr._new( jaxbStub ).arg( "daId" ) )
-      .arg( JExpr._new( jaxbStub ).arg( "daId2" ) );
+      .arg( stub0 )
+      .arg( stub1 );
     JVar jaxbObjectInstance = method.body().decl( jaxbCollection, OBJECT, JExpr._new( jaxbCollection ).arg( stubsExpression ) );
 
     //Sets the href
@@ -228,9 +241,13 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
   @NotNull
   private JVar addJaxbObjectCreation( @NotNull JBlock block, @NotNull JClass objectType ) {
     JVar field = block.decl( objectType, OBJECT, JExpr._new( objectType ).arg( "daId" ) );
+    addFieldCopy( block, objectType, field );
+    return field;
+  }
 
+  private void addFieldCopy( @NotNull JBlock block, @NotNull JClass objectType, @NotNull JVar targetObject ) {
     //Sets the href
-    addHrefSet( block, field );
+    addHrefSet( block, targetObject );
 
     //Sets the values
     for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldInfos() ) {
@@ -260,9 +277,8 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
       }
 
       //Now add it
-      block.add( field.invoke( NamingSupport.createSetter( fieldInfo.getSimpleName() ) ).arg( value ) );
+      block.add( targetObject.invoke( NamingSupport.createSetter( fieldInfo.getSimpleName() ) ).arg( value ) );
     }
-    return field;
   }
 
   private void addHrefSet( JBlock block, JVar field ) {

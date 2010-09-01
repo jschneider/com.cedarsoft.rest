@@ -36,7 +36,17 @@ public class FooModelJaxbTest
 
     @DataPoint
     public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.FooModel.Collection> collection() {
-        com.cedarsoft.rest.generator.test.jaxb.FooModel.Collection object = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Collection(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub("daId"), new com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub("daId2")));
+        com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub firstStub = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub("daId0");
+        {
+            firstStub.setHref(JaxbTestUtils.createTestUriBuilder().build());
+            firstStub.setSingleBar(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub());
+        }
+        com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub secondStub = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub("daId1");
+        {
+            secondStub.setHref(JaxbTestUtils.createTestUriBuilder().build());
+            secondStub.setSingleBar(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub());
+        }
+        com.cedarsoft.rest.generator.test.jaxb.FooModel.Collection object = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Collection(Arrays.asList(firstStub, secondStub));
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         return create(object, FooModelJaxbTest.class.getResource("FooModelJaxbTest.collection.xml"));
     }
