@@ -40,6 +40,7 @@ import com.cedarsoft.codegen.model.FieldInfo;
 import com.cedarsoft.codegen.model.FieldTypeInformation;
 import com.cedarsoft.codegen.model.FieldWithInitializationInfo;
 import com.cedarsoft.id.NameSpaceSupport;
+import com.cedarsoft.jaxb.AbstractJaxbCollection;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
@@ -66,11 +67,13 @@ import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -127,6 +130,8 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   @NonNls
   public static final String STUB = "Stub";
   @NonNls
+  public static final String COLLECTION = "Collection";
+  @NonNls
   public static final String CONST_PATH = "PATH";
   @NonNls
   public static final String CONST_ID = "ID";
@@ -135,6 +140,11 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
 
   private JFieldVar ns;
   private JFieldVar nsStub;
+  private JFieldVar nsCollection;
+  @NotNull
+  @NonNls
+  private final String varName = NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() );
+  private final String pluralName = NamingSupport.plural( NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) );
 
   public Generator( @NotNull CodeGenerator<JaxbObjectGenerator.StubDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     super( codeGenerator, descriptor );
@@ -143,6 +153,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   private JDefinedClass baseClass;
   private JDefinedClass jaxbObject;
   private JDefinedClass jaxbStub;
+  private JDefinedClass jaxbCollection;
   private JDefinedClass mappingClass;
 
   public void generate() throws JClassAlreadyExistsException {
@@ -154,6 +165,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
 
     createJaxbObject();
     createJaxbStub();
+    createJaxbCollection();
 
     createJaxbMapping();
   }
@@ -163,18 +175,16 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     baseClass.annotate( XmlTransient.class );
     baseClass.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
 
-    addNs();
+    addNameSpaces();
 
     addFields( baseClass, Scope.COMMON );
     addConstructors( baseClass, JMod.PROTECTED );
   }
 
-  private void addNs() {
+  private void addNameSpaces() {
     ns = baseClass.field( JMod.PUBLIC | JMod.STATIC | JMod.FINAL, String.class, "NS", JExpr.lit( NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) ) );
-  }
-
-  private void addStubNs() {
-    nsStub = jaxbStub.field( JMod.PUBLIC | JMod.STATIC | JMod.FINAL, String.class, "NS_STUB", ns.plus( JExpr.ref( "NS_STUB_SUFFIX" ) ) );
+    nsStub = baseClass.field( JMod.PUBLIC | JMod.STATIC | JMod.FINAL, String.class, "NS_STUB", ns.plus( JExpr.ref( "NS_STUB_SUFFIX" ) ) );
+    nsCollection = baseClass.field( JMod.PUBLIC | JMod.STATIC | JMod.FINAL, String.class, "NS_COLLECTION", nsStub.plus( JExpr.ref( "NS_COLLECTION_SUFFIX" ) ) );
   }
 
   private void addConstructors( @NotNull JDefinedClass type, int mod ) {
@@ -338,14 +348,12 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   protected void createJaxbObject() throws JClassAlreadyExistsException {
     assert baseClass != null;
 
-    String name = NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() );
-
     jaxbObject = baseClass._class( JMod.PUBLIC | JMod.STATIC, JAXB )._extends( baseClass );
     JAnnotationFieldReference.param(
-      jaxbObject.annotate( XmlType.class ).param( NAME, name ),
+      jaxbObject.annotate( XmlType.class ).param( NAME, varName ),
       NAMESPACE, ns );
     JAnnotationFieldReference.param(
-      jaxbObject.annotate( XmlRootElement.class ).param( NAME, name ),
+      jaxbObject.annotate( XmlRootElement.class ).param( NAME, varName ),
       NAMESPACE, ns
     );
     jaxbObject.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
@@ -358,24 +366,21 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     assert baseClass != null;
     assert jaxbObject != null;
 
-    String name = NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) + STUB;
+    String nameWithStub = varName + STUB;
 
     jaxbStub = baseClass._class( JMod.PUBLIC | JMod.STATIC, STUB )._extends( baseClass )._implements(
       codeGenerator.ref( JaxbStub.class ).narrow( jaxbObject )
     );
 
-    addStubNs();
-
     jaxbStub.narrow( jaxbObject );
 
     JAnnotationFieldReference.param(
       jaxbStub.annotate( XmlType.class )
-        .param( NAME, name ),
+        .param( NAME, nameWithStub ),
       NAMESPACE, nsStub );
     JAnnotationFieldReference.param(
       jaxbStub.annotate( XmlRootElement.class )
-        .param( NAME, NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) )
-        .param( NAMESPACE, NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) + STUB_NAMESPACE_SUFFIX ),
+        .param( NAME, varName ),
       NAMESPACE, nsStub
     );
     jaxbStub.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
@@ -386,6 +391,50 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
 
     addGetJaxbType();
   }
+
+  protected void createJaxbCollection() throws JClassAlreadyExistsException {
+    jaxbCollection = baseClass._class( JMod.PUBLIC | JMod.STATIC, COLLECTION )._extends( codeGenerator.ref( AbstractJaxbCollection.class ) );
+
+    JAnnotationFieldReference.param(
+      jaxbCollection.annotate( XmlType.class )
+        .param( NAME, pluralName ),
+      NAMESPACE, nsCollection );
+    JAnnotationFieldReference.param(
+      jaxbCollection.annotate( XmlRootElement.class )
+        .param( NAME, pluralName )
+        .param( NAMESPACE, NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) + STUB_NAMESPACE_SUFFIX ),
+      NAMESPACE, nsCollection
+    );
+    jaxbCollection.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
+
+
+    JClass stubsListType = codeGenerator.ref( List.class ).narrow( jaxbStub );
+    JFieldVar stubsField = jaxbCollection.field( JMod.PRIVATE, stubsListType, pluralName );
+    stubsField.annotate( XmlElementRef.class );
+
+    addGetter( jaxbCollection, stubsListType, stubsField, stubsField.name() );
+    addSetter( jaxbCollection, stubsListType, stubsField, stubsField.name() );
+
+    //Add constructors
+    jaxbCollection.constructor( JMod.PUBLIC );
+
+    {
+      JMethod constructor = jaxbCollection.constructor( JMod.PUBLIC );
+      JVar stubsParam = constructor.param( stubsListType, stubsField.name() );
+      constructor.body().invoke( "this" ).arg( stubsParam ).arg( JExpr.lit( 0 ) ).arg( JExpr.lit( 0 ) );
+    }
+
+    {
+      JMethod constructor = jaxbCollection.constructor( JMod.PUBLIC );
+      JVar stubsParam = constructor.param( stubsListType, stubsField.name() );
+      JVar startIndex = constructor.param( Integer.TYPE, "startIndex" );
+      JVar maxLength = constructor.param( Integer.TYPE, "maxLength" );
+      constructor.body().invoke( "super" ).arg( startIndex ).arg( maxLength );
+
+      constructor.body().assign( JExpr.refthis( stubsField.name() ), stubsParam );
+    }
+  }
+
 
   private void addGetJaxbType() {
     assert jaxbStub != null;
@@ -425,8 +474,8 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
         annotation.param( "name", NamingSupport.createSingular( field.name() ) );
       }
 
-      addGetter( currentClass, fieldType, fieldInfo, field );
-      addSetter( currentClass, fieldType, fieldInfo, field );
+      addGetter( currentClass, fieldType, field, fieldInfo.getSimpleName() );
+      addSetter( currentClass, fieldType, field, fieldInfo.getSimpleName() );
     }
   }
 
@@ -438,14 +487,14 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     return codeGenerator.getDecisionCallback().shallAddFieldStatement( this, fieldInfo, type );
   }
 
-  private static void addSetter( @NotNull JDefinedClass currentClass, @NotNull JType fieldType, @NotNull FieldInfo fieldInfo, @NotNull JVar field ) {
-    JMethod setter = currentClass.method( JMod.PUBLIC, Void.TYPE, NamingSupport.createSetter( fieldInfo.getSimpleName() ) );
-    JVar param = setter.param( fieldType, fieldInfo.getSimpleName() );
+  private static void addSetter( @NotNull JDefinedClass currentClass, @NotNull JType fieldType, @NotNull JVar field, String name ) {
+    JMethod setter = currentClass.method( JMod.PUBLIC, Void.TYPE, NamingSupport.createSetter( name ) );
+    JVar param = setter.param( fieldType, name );
     setter.body().assign( JExpr._this().ref( field ), param );
   }
 
-  private static void addGetter( @NotNull JDefinedClass currentClass, @NotNull JType fieldType, @NotNull FieldInfo fieldInfo, @NotNull JExpression field ) {
-    JMethod getter = currentClass.method( JMod.PUBLIC, fieldType, NamingSupport.createGetterName( fieldInfo.getSimpleName() ) );
+  private static void addGetter( @NotNull JDefinedClass currentClass, @NotNull JType fieldType, @NotNull JExpression field, @NotNull @NonNls String name ) {
+    JMethod getter = currentClass.method( JMod.PUBLIC, fieldType, NamingSupport.createGetterName( name ) );
     getter.body()._return( field );
   }
 

@@ -6,9 +6,11 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import com.cedarsoft.jaxb.AbstractJaxbCollection;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
 
@@ -18,6 +20,9 @@ public abstract class FooModel
     extends AbstractJaxbObject
 {
 
+    public final static String NS = "http://cedarsoft.com/rest/generator/test/foo-model";
+    public final static String NS_STUB = (NS + NS_STUB_SUFFIX);
+    public final static String NS_COLLECTION = (NS_STUB + NS_COLLECTION_SUFFIX);
 
     protected FooModel() {
     }
@@ -26,8 +31,40 @@ public abstract class FooModel
         super(id);
     }
 
-    @XmlType(name = "fooModel")
-    @XmlRootElement(name = "fooModel", namespace = "http://cedarsoft.com/rest/generator/test/foo-model")
+    @XmlType(name = "fooModels", namespace = FooModel.NS_COLLECTION)
+    @XmlRootElement(name = "fooModels", namespace = FooModel.NS_COLLECTION)
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Collection
+        extends AbstractJaxbCollection
+    {
+
+        @XmlElementRef
+        private List<FooModel.Stub> fooModels;
+
+        public Collection() {
+        }
+
+        public Collection(List<FooModel.Stub> fooModels) {
+            this(fooModels, 0, 0);
+        }
+
+        public Collection(List<FooModel.Stub> fooModels, int startIndex, int maxLength) {
+            super(startIndex, maxLength);
+            this.fooModels = fooModels;
+        }
+
+        public List<FooModel.Stub> getFooModels() {
+            return fooModels;
+        }
+
+        public void setFooModels(List<FooModel.Stub> fooModels) {
+            this.fooModels = fooModels;
+        }
+
+    }
+
+    @XmlType(name = "fooModel", namespace = FooModel.NS)
+    @XmlRootElement(name = "fooModel", namespace = FooModel.NS)
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Jaxb
         extends FooModel
@@ -62,8 +99,8 @@ public abstract class FooModel
 
     }
 
-    @XmlType(name = "fooModelStub")
-    @XmlRootElement(name = "fooModel", namespace = "http://cedarsoft.com/rest/generator/test/foo-model/stub")
+    @XmlType(name = "fooModelStub", namespace = FooModel.NS_STUB)
+    @XmlRootElement(name = "fooModel", namespace = FooModel.NS_STUB)
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Stub
         extends FooModel

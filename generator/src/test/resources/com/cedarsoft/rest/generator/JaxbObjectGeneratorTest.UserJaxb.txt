@@ -6,9 +6,11 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import com.cedarsoft.jaxb.AbstractJaxbCollection;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
 
@@ -19,6 +21,8 @@ public abstract class User
 {
 
     public final static String NS = "http://cedarsoft.com/rest/generator/test/user";
+    public final static String NS_STUB = (NS + NS_STUB_SUFFIX);
+    public final static String NS_COLLECTION = (NS_STUB + NS_COLLECTION_SUFFIX);
     private String email;
     private String name;
 
@@ -43,6 +47,38 @@ public abstract class User
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @XmlType(name = "users", namespace = User.NS_COLLECTION)
+    @XmlRootElement(name = "users", namespace = User.NS_COLLECTION)
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Collection
+        extends AbstractJaxbCollection
+    {
+
+        @XmlElementRef
+        private List<User.Stub> users;
+
+        public Collection() {
+        }
+
+        public Collection(List<User.Stub> users) {
+            this(users, 0, 0);
+        }
+
+        public Collection(List<User.Stub> users, int startIndex, int maxLength) {
+            super(startIndex, maxLength);
+            this.users = users;
+        }
+
+        public List<User.Stub> getUsers() {
+            return users;
+        }
+
+        public void setUsers(List<User.Stub> users) {
+            this.users = users;
+        }
+
     }
 
     @XmlType(name = "user", namespace = User.NS)
@@ -81,15 +117,14 @@ public abstract class User
 
     }
 
-    @XmlType(name = "userStub", namespace = Stub.NS_STUB)
-    @XmlRootElement(name = "user", namespace = Stub.NS_STUB)
+    @XmlType(name = "userStub", namespace = User.NS_STUB)
+    @XmlRootElement(name = "user", namespace = User.NS_STUB)
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Stub
         extends User
         implements JaxbStub<User.Jaxb>
     {
 
-        public final static String NS_STUB = (NS + NS_STUB_SUFFIX);
         private com.cedarsoft.rest.generator.test.jaxb.Group.Stub group;
 
         public Stub() {
@@ -110,37 +145,6 @@ public abstract class User
         @Override
         public Class<User.Jaxb> getJaxbType() {
             return User.Jaxb.class;
-        }
-
-    }
-
-    @XmlType( name = "users", namespace=Collection.NS_COLLECTION )
-    @XmlRootElement( name = "users", namespace=Collection.NS_COLLECTION )
-    @XmlAccessorType( XmlAccessType.FIELD )
-    public static class Collection {
-        public final static String NS_COLLECTION = Stub.NS + NS_COLLECTION_SUFFIX;
-
-        @XmlElementRef
-        private List<Stub> users = new ArrayList<Stub>();
-
-        public Collection() {
-        }
-
-        public Collection(List<Stub> users) {
-          this(users, 0);
-        }
-
-        public Collection(List<Stub> users, int startIndex) {
-          super(startIndex, users.maxLength());
-          this.users = users;
-        }
-
-        public List<Stub> getUsers() {
-            return users;
-        }
-
-        public void setUsers(List<Stub> users) {
-            this.users = users;
         }
 
     }

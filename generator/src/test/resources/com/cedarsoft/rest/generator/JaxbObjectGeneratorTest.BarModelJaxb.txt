@@ -7,9 +7,11 @@ import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import com.cedarsoft.jaxb.AbstractJaxbCollection;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
 
@@ -19,6 +21,9 @@ public abstract class BarModel
     extends AbstractJaxbObject
 {
 
+    public final static String NS = "http://cedarsoft.com/rest/generator/test/bar-model";
+    public final static String NS_STUB = (NS + NS_STUB_SUFFIX);
+    public final static String NS_COLLECTION = (NS_STUB + NS_COLLECTION_SUFFIX);
     private int daInt;
     private String daString;
 
@@ -45,8 +50,40 @@ public abstract class BarModel
         this.daString = daString;
     }
 
-    @XmlType(name = "barModel")
-    @XmlRootElement(name = "barModel", namespace = "http://cedarsoft.com/rest/generator/test/bar-model")
+    @XmlType(name = "barModels", namespace = BarModel.NS_COLLECTION)
+    @XmlRootElement(name = "barModels", namespace = BarModel.NS_COLLECTION)
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Collection
+        extends AbstractJaxbCollection
+    {
+
+        @XmlElementRef
+        private List<BarModel.Stub> barModels;
+
+        public Collection() {
+        }
+
+        public Collection(List<BarModel.Stub> barModels) {
+            this(barModels, 0, 0);
+        }
+
+        public Collection(List<BarModel.Stub> barModels, int startIndex, int maxLength) {
+            super(startIndex, maxLength);
+            this.barModels = barModels;
+        }
+
+        public List<BarModel.Stub> getBarModels() {
+            return barModels;
+        }
+
+        public void setBarModels(List<BarModel.Stub> barModels) {
+            this.barModels = barModels;
+        }
+
+    }
+
+    @XmlType(name = "barModel", namespace = BarModel.NS)
+    @XmlRootElement(name = "barModel", namespace = BarModel.NS)
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Jaxb
         extends BarModel
@@ -92,8 +129,8 @@ public abstract class BarModel
 
     }
 
-    @XmlType(name = "barModelStub")
-    @XmlRootElement(name = "barModel", namespace = "http://cedarsoft.com/rest/generator/test/bar-model/stub")
+    @XmlType(name = "barModelStub", namespace = BarModel.NS_STUB)
+    @XmlRootElement(name = "barModel", namespace = BarModel.NS_STUB)
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Stub
         extends BarModel
@@ -115,27 +152,6 @@ public abstract class BarModel
 
     }
 
-    @XmlRootElement( name = "stubs" )
-    @XmlAccessorType( XmlAccessType.FIELD )
-    public static class Collection {
-        @XmlElementRef
-        private List<Stub> stubs = new ArrayList<Stub>();
-
-        public Collection() {
-        }
-
-        public Collection( List<Stub> stubs ) {
-            this.stubs = stubs;
-        }
-
-        public List<Stub> getUsers() {
-            return stubs;
-        }
-
-        public void setUsers( List<Stub> stubs ) {
-            this.stubs = stubs;
-        }
-    }
 }
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelMapping.java-----------------------------------
 

@@ -51,6 +51,9 @@ import java.net.URI;
 public abstract class AbstractJaxbObject implements JaxbObject {
   @NonNls
   public static final String NS_STUB_SUFFIX = "/stub";
+  @NotNull
+  @NonNls
+  public static final String NS_COLLECTION_SUFFIX = "/list";
 
   @XmlAttribute( required = false )
   @Nullable

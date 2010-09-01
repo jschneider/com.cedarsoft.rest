@@ -159,7 +159,7 @@ public class JaxbObjectGeneratorTest {
   }
 
   @Test
-  public void testGeneratUserest() throws Exception {
+  public void testGeneratUserTest() throws Exception {
     new TestGenerator( codeGenerator, userDescriptor ).generateTest();
     URL expected = getClass().getResource( "JaxbObjectGeneratorTest.UserJaxbTest.txt" );
     assertCodeGeneration( expected );

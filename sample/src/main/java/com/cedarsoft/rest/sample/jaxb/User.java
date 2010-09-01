@@ -157,8 +157,8 @@ public abstract class User extends AbstractJaxbObject {
       this( users, 0, 0 );
     }
 
-    public Collection( List<Stub> users, int startIndex, int size ) {
-      super( startIndex, size );
+    public Collection( List<Stub> users, int startIndex, int maxLength ) {
+      super( startIndex, maxLength );
       this.users = users;
     }
 
