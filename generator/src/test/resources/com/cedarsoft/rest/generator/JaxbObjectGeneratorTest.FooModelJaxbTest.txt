@@ -3,7 +3,6 @@
 package com.cedarsoft.rest.generator.test.jaxb;
 
 import java.util.Arrays;
-import com.cedarsoft.rest.AbstractJaxbTest;
 import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
 import com.cedarsoft.rest.SimpleJaxbTest;
@@ -25,7 +24,7 @@ public class FooModelJaxbTest
         object.setId("id");
         object.setSingleBar(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb());
         object.setTheBars(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub()));
-        return AbstractJaxbTest.create(object, FooModelJaxbTest.class.getResource("FooModelJaxbTest.dataPoint1.xml"));
+        return create(object, FooModelJaxbTest.class.getResource("FooModelJaxbTest.dataPoint1.xml"));
     }
 
     @DataPoint
@@ -34,7 +33,14 @@ public class FooModelJaxbTest
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
         object.setId("id");
         object.setSingleBar(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub());
-        return AbstractJaxbTest.create(object, FooModelJaxbTest.class.getResource("FooModelJaxbTest.stub.xml"));
+        return create(object, FooModelJaxbTest.class.getResource("FooModelJaxbTest.stub.xml"));
+    }
+
+    @DataPoint
+    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.FooModel.Collection> collection() {
+        com.cedarsoft.rest.generator.test.jaxb.FooModel.Collection object = new com.cedarsoft.rest.generator.test.jaxb.FooModel.Collection(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub("daId")));
+        object.setHref(JaxbTestUtils.createTestUriBuilder().build());
+        return create(object, FooModelJaxbTest.class.getResource("FooModelJaxbTest.collection.xml"));
     }
 
 }
@@ -72,19 +78,13 @@ public class FooModelMappingTest
     }
 
 }
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelJaxbTest.collection.xml-----------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelJaxbTest.dataPoint1.xml-----------------------------------
 <?xml version="1.0" encoding="UTF-8"?>
-<fooModel>
-</fooModel>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelJaxbTest.stub.xml-----------------------------------
 <?xml version="1.0" encoding="UTF-8"?>
-<fooModel>
-</fooModel>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelMappingTest.dataPoint1.xml-----------------------------------
 <?xml version="1.0" encoding="UTF-8"?>
-<fooModel>
-</fooModel>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.FooModelMappingTest.stub.xml-----------------------------------
 <?xml version="1.0" encoding="UTF-8"?>
-<fooModel>
-</fooModel>

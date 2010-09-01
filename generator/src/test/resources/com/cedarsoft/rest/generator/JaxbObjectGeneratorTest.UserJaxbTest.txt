@@ -3,7 +3,6 @@
 package com.cedarsoft.rest.generator.test.jaxb;
 
 import java.util.Arrays;
-import com.cedarsoft.rest.AbstractJaxbTest;
 import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
 import com.cedarsoft.rest.SimpleJaxbTest;
@@ -26,7 +25,7 @@ public class UserJaxbTest
         object.setName("name");
         object.setGroup(new com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb());
         object.setFriends(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.User.Stub()));
-        return AbstractJaxbTest.create(object, UserJaxbTest.class.getResource("UserJaxbTest.dataPoint1.xml"));
+        return create(object, UserJaxbTest.class.getResource("UserJaxbTest.dataPoint1.xml"));
     }
 
     @DataPoint
@@ -36,15 +35,14 @@ public class UserJaxbTest
         object.setEmail("email");
         object.setName("name");
         object.setGroup(new com.cedarsoft.rest.generator.test.jaxb.Group.Stub());
-        return AbstractJaxbTest.create(object, UserJaxbTest.class.getResource("UserJaxbTest.stub.xml"));
+        return create(object, UserJaxbTest.class.getResource("UserJaxbTest.stub.xml"));
     }
 
     @DataPoint
-    public static Entry<? extends User.Collection> collection1() {
-        User.Collection object = new User.Collection( Arrays.asList( new User.Stub( "a" ), new User.Stub( "b" ), new User.Stub( "c" ) ), 7 );
-        object.setId( "daId" );
-        object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
-        return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.collection1.xml" ) );
+    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.User.Collection> collection() {
+        com.cedarsoft.rest.generator.test.jaxb.User.Collection object = new com.cedarsoft.rest.generator.test.jaxb.User.Collection(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.User.Stub("daId")));
+        object.setHref(JaxbTestUtils.createTestUriBuilder().build());
+        return create(object, UserJaxbTest.class.getResource("UserJaxbTest.collection.xml"));
     }
 
 }
@@ -81,19 +79,13 @@ public class UserMappingTest
     }
 
 }
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbTest.collection.xml-----------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbTest.dataPoint1.xml-----------------------------------
 <?xml version="1.0" encoding="UTF-8"?>
-<user>
-</user>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserJaxbTest.stub.xml-----------------------------------
 <?xml version="1.0" encoding="UTF-8"?>
-<user>
-</user>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserMappingTest.dataPoint1.xml-----------------------------------
 <?xml version="1.0" encoding="UTF-8"?>
-<user>
-</user>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserMappingTest.stub.xml-----------------------------------
 <?xml version="1.0" encoding="UTF-8"?>
-<user>
-</user>

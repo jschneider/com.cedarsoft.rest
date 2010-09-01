@@ -4,7 +4,6 @@ package com.cedarsoft.rest.generator.test.jaxb;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import com.cedarsoft.rest.AbstractJaxbTest;
 import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
 import com.cedarsoft.rest.SimpleJaxbTest;
@@ -29,7 +28,7 @@ public class BarModelJaxbTest
         object.setStringList(Arrays.asList("stringList"));
         object.setWildStringList(Arrays.asList("wildStringList"));
         object.setSet(new HashSet(Arrays.asList("set")));
-        return AbstractJaxbTest.create(object, BarModelJaxbTest.class.getResource("BarModelJaxbTest.dataPoint1.xml"));
+        return create(object, BarModelJaxbTest.class.getResource("BarModelJaxbTest.dataPoint1.xml"));
     }
 
     @DataPoint
@@ -39,7 +38,14 @@ public class BarModelJaxbTest
         object.setId("id");
         object.setDaInt(42);
         object.setDaString("daString");
-        return AbstractJaxbTest.create(object, BarModelJaxbTest.class.getResource("BarModelJaxbTest.stub.xml"));
+        return create(object, BarModelJaxbTest.class.getResource("BarModelJaxbTest.stub.xml"));
+    }
+
+    @DataPoint
+    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.BarModel.Collection> collection() {
+        com.cedarsoft.rest.generator.test.jaxb.BarModel.Collection object = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Collection(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub("daId")));
+        object.setHref(JaxbTestUtils.createTestUriBuilder().build());
+        return create(object, BarModelJaxbTest.class.getResource("BarModelJaxbTest.collection.xml"));
     }
 
 }
@@ -77,19 +83,13 @@ public class BarModelMappingTest
     }
 
 }
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbTest.collection.xml-----------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbTest.dataPoint1.xml-----------------------------------
 <?xml version="1.0" encoding="UTF-8"?>
-<barModel>
-</barModel>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelJaxbTest.stub.xml-----------------------------------
 <?xml version="1.0" encoding="UTF-8"?>
-<barModel>
-</barModel>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelMappingTest.dataPoint1.xml-----------------------------------
 <?xml version="1.0" encoding="UTF-8"?>
-<barModel>
-</barModel>
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelMappingTest.stub.xml-----------------------------------
 <?xml version="1.0" encoding="UTF-8"?>
-<barModel>
-</barModel>
