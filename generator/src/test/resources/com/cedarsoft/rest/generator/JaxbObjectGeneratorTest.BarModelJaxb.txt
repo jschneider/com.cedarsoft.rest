@@ -115,6 +115,27 @@ public abstract class BarModel
 
     }
 
+    @XmlRootElement( name = "stubs" )
+    @XmlAccessorType( XmlAccessType.FIELD )
+    public static class Collection {
+        @XmlElementRef
+        private List<Stub> stubs = new ArrayList<Stub>();
+
+        public Collection() {
+        }
+
+        public Collection( List<Stub> stubs ) {
+            this.stubs = stubs;
+        }
+
+        public List<Stub> getUsers() {
+            return stubs;
+        }
+
+        public void setUsers( List<Stub> stubs ) {
+            this.stubs = stubs;
+        }
+    }
 }
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.BarModelMapping.java-----------------------------------
 

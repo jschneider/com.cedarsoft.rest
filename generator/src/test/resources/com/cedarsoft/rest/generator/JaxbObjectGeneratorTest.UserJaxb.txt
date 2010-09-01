@@ -18,10 +18,11 @@ public abstract class User
     extends AbstractJaxbObject
 {
 
+    public final static String NS = "http://cedarsoft.com/rest/generator/test/user";
     private String email;
     private String name;
 
-    protected User() {g
+    protected User() {
     }
 
     protected User(String id) {
@@ -44,8 +45,8 @@ public abstract class User
         this.name = name;
     }
 
-    @XmlType(name = "user")
-    @XmlRootElement(name = "user", namespace = "http://cedarsoft.com/rest/generator/test/user")
+    @XmlType(name = "user", namespace = User.NS)
+    @XmlRootElement(name = "user", namespace = User.NS)
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Jaxb
         extends User
@@ -80,14 +81,15 @@ public abstract class User
 
     }
 
-    @XmlType(name = "userStub")
-    @XmlRootElement(name = "user", namespace = "http://cedarsoft.com/rest/generator/test/user/stub")
+    @XmlType(name = "userStub", namespace = Stub.NS_STUB)
+    @XmlRootElement(name = "user", namespace = Stub.NS_STUB)
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Stub
         extends User
         implements JaxbStub<User.Jaxb>
     {
 
+        public final static String NS_STUB = (NS + NS_STUB_SUFFIX);
         private com.cedarsoft.rest.generator.test.jaxb.Group.Stub group;
 
         public Stub() {
@@ -108,6 +110,37 @@ public abstract class User
         @Override
         public Class<User.Jaxb> getJaxbType() {
             return User.Jaxb.class;
+        }
+
+    }
+
+    @XmlType( name = "users", namespace=Collection.NS_COLLECTION )
+    @XmlRootElement( name = "users", namespace=Collection.NS_COLLECTION )
+    @XmlAccessorType( XmlAccessType.FIELD )
+    public static class Collection {
+        public final static String NS_COLLECTION = Stub.NS + NS_COLLECTION_SUFFIX;
+
+        @XmlElementRef
+        private List<Stub> users = new ArrayList<Stub>();
+
+        public Collection() {
+        }
+
+        public Collection(List<Stub> users) {
+          this(users, 0);
+        }
+
+        public Collection(List<Stub> users, int startIndex) {
+          super(startIndex, users.maxLength());
+          this.users = users;
+        }
+
+        public List<Stub> getUsers() {
+            return users;
+        }
+
+        public void setUsers(List<Stub> users) {
+            this.users = users;
         }
 
     }

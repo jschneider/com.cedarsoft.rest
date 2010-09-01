@@ -39,6 +39,14 @@ public class UserJaxbTest
         return AbstractJaxbTest.create(object, UserJaxbTest.class.getResource("UserJaxbTest.stub.xml"));
     }
 
+    @DataPoint
+    public static Entry<? extends User.Collection> collection1() {
+        User.Collection object = new User.Collection( Arrays.asList( new User.Stub( "a" ), new User.Stub( "b" ), new User.Stub( "c" ) ), 7 );
+        object.setId( "daId" );
+        object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
+        return create( object, UserJaxbTest.class.getResource( "UserJaxbTest.collection1.xml" ) );
+    }
+
 }
 -----------------------------------com.cedarsoft.rest.generator.test.jaxb.UserMappingTest.java-----------------------------------
 

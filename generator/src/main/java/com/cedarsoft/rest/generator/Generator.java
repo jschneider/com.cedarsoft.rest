@@ -32,6 +32,7 @@
 package com.cedarsoft.rest.generator;
 
 import com.cedarsoft.codegen.CodeGenerator;
+import com.cedarsoft.codegen.JAnnotationFieldReference;
 import com.cedarsoft.codegen.NamingSupport;
 import com.cedarsoft.codegen.TypeUtils;
 import com.cedarsoft.codegen.model.DomainObjectDescriptor;
@@ -132,6 +133,9 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   @NonNls
   public static final String METHOD_GET_BASE_URI_BUILDER = "getBaseUriBuilder";
 
+  private JFieldVar ns;
+  private JFieldVar nsStub;
+
   public Generator( @NotNull CodeGenerator<JaxbObjectGenerator.StubDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     super( codeGenerator, descriptor );
   }
@@ -159,8 +163,18 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     baseClass.annotate( XmlTransient.class );
     baseClass.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
 
+    addNs();
+
     addFields( baseClass, Scope.COMMON );
     addConstructors( baseClass, JMod.PROTECTED );
+  }
+
+  private void addNs() {
+    ns = baseClass.field( JMod.PUBLIC | JMod.STATIC | JMod.FINAL, String.class, "NS", JExpr.lit( NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) ) );
+  }
+
+  private void addStubNs() {
+    nsStub = jaxbStub.field( JMod.PUBLIC | JMod.STATIC | JMod.FINAL, String.class, "NS_STUB", ns.plus( JExpr.ref( "NS_STUB_SUFFIX" ) ) );
   }
 
   private void addConstructors( @NotNull JDefinedClass type, int mod ) {
@@ -327,11 +341,13 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
     String name = NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() );
 
     jaxbObject = baseClass._class( JMod.PUBLIC | JMod.STATIC, JAXB )._extends( baseClass );
-    jaxbObject.annotate( XmlType.class )
-      .param( NAME, name );
-    jaxbObject.annotate( XmlRootElement.class )
-      .param( NAME, name )
-      .param( NAMESPACE, NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) );
+    JAnnotationFieldReference.param(
+      jaxbObject.annotate( XmlType.class ).param( NAME, name ),
+      NAMESPACE, ns );
+    JAnnotationFieldReference.param(
+      jaxbObject.annotate( XmlRootElement.class ).param( NAME, name ),
+      NAMESPACE, ns
+    );
     jaxbObject.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
 
     addConstructors( jaxbObject, JMod.PUBLIC );
@@ -348,13 +364,20 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
       codeGenerator.ref( JaxbStub.class ).narrow( jaxbObject )
     );
 
+    addStubNs();
+
     jaxbStub.narrow( jaxbObject );
 
-    jaxbStub.annotate( XmlType.class )
-      .param( NAME, name );
-    jaxbStub.annotate( XmlRootElement.class )
-      .param( NAME, NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) )
-      .param( NAMESPACE, NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) + STUB_NAMESPACE_SUFFIX );
+    JAnnotationFieldReference.param(
+      jaxbStub.annotate( XmlType.class )
+        .param( NAME, name ),
+      NAMESPACE, nsStub );
+    JAnnotationFieldReference.param(
+      jaxbStub.annotate( XmlRootElement.class )
+        .param( NAME, NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) )
+        .param( NAMESPACE, NameSpaceSupport.createNameSpaceUriBase( descriptor.getQualifiedName() ) + STUB_NAMESPACE_SUFFIX ),
+      NAMESPACE, nsStub
+    );
     jaxbStub.annotate( XmlAccessorType.class ).param( VALUE, XmlAccessType.FIELD );
 
 
