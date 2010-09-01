@@ -169,14 +169,12 @@ public class FooModelMapping
 
     @Override
     protected void copyFieldsToJaxbObject(FooModel source, com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb target, UriContext context) {
-        target.setId(source.getId());
         target.setSingleBar(get(com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb.class, source.getSingleBar(), context));
         target.setTheBars(getStub(com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub.class, source.getTheBars(), context));
     }
 
     @Override
     protected void copyFieldsToStub(FooModel source, com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub target, UriContext context) {
-        target.setId(source.getId());
         target.setSingleBar(getStub(com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub.class, source.getSingleBar(), context));
     }
 

@@ -101,6 +101,8 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
   private JDefinedClass jaxbTestClass;
   private JDefinedClass mappingTestClass;
   private JClass mappingType;
+  @NonNls
+  public static final String ID = "id";
 
   public TestGenerator( @NotNull CodeGenerator<JaxbObjectGenerator.StubDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     super( codeGenerator, descriptor );
@@ -228,6 +230,10 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
     //Sets the values
     for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldInfos() ) {
       JClass fieldType = getJaxbModelType( fieldInfo.getType() );
+
+      if ( fieldInfo.getSimpleName().equals( ID ) ) {
+        continue;
+      }
 
       if ( shallSkip( fieldInfo, objectType ) ) {
         continue;

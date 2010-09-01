@@ -193,7 +193,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
 
     //constructor with id
     JMethod constructor = type.constructor( mod );
-    JVar id = constructor.param( String.class, "id" );
+    JVar id = constructor.param( String.class, ID );
 
     constructor.body().invoke( "super" ).arg( id );
   }
@@ -253,6 +253,11 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
 
     for ( FieldWithInitializationInfo fieldInfo : descriptor.getFieldInfos() ) {
       JInvocation getterInvocation = source.invoke( fieldInfo.getGetterDeclaration().getSimpleName() );
+
+      if ( fieldInfo.getSimpleName().equals( ID ) ) {
+        continue;
+      }
+
 
       if ( isStub && !shallAddFieldCopyStatementToStub( fieldInfo ) ) {
         continue;

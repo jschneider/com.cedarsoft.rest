@@ -22,7 +22,6 @@ public class BarModelJaxbTest
     public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb> dataPoint1() {
         com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb object = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb();
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
-        object.setId("id");
         object.setDaInt(42);
         object.setDaString("daString");
         object.setStringList(Arrays.asList("stringList"));
@@ -35,7 +34,6 @@ public class BarModelJaxbTest
     public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub> stub() {
         com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub object = new com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub();
         object.setHref(JaxbTestUtils.createTestUriBuilder().build());
-        object.setId("id");
         object.setDaInt(42);
         object.setDaString("daString");
         return create(object, BarModelJaxbTest.class.getResource("BarModelJaxbTest.stub.xml"));

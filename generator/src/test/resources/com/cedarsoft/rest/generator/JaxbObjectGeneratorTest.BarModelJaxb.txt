@@ -186,7 +186,6 @@ public class BarModelMapping
 
     @Override
     protected void copyFieldsToJaxbObject(BarModel source, com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb target, UriContext context) {
-        target.setId(source.getId());
         target.setDaInt(source.getDaInt());
         target.setDaString(source.getDaString());
         target.setStringList(source.getStringList());
@@ -196,7 +195,6 @@ public class BarModelMapping
 
     @Override
     protected void copyFieldsToStub(BarModel source, com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub target, UriContext context) {
-        target.setId(source.getId());
         target.setDaInt(source.getDaInt());
         target.setDaString(source.getDaString());
     }

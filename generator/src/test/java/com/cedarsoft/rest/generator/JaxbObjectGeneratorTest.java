@@ -59,6 +59,7 @@ public class JaxbObjectGeneratorTest {
   private DomainObjectDescriptor userDescriptor;
   private DomainObjectDescriptor fooDescriptor;
   private DomainObjectDescriptor anotherModelDescriptor;
+  private DomainObjectDescriptor groupDescriptor;
   private CodeGenerator<JaxbObjectGenerator.StubDecisionCallback> codeGenerator;
 
   @Before
@@ -67,6 +68,7 @@ public class JaxbObjectGeneratorTest {
       new File( getClass().getResource( "test/BarModel.java" ).toURI() ),
       new File( getClass().getResource( "test/FooModel.java" ).toURI() ),
       new File( getClass().getResource( "test/AnotherModel.java" ).toURI() ),
+      new File( getClass().getResource( "test/Group.java" ).toURI() ),
       new File( getClass().getResource( "test/User.java" ).toURI() )
     );
 
@@ -76,6 +78,7 @@ public class JaxbObjectGeneratorTest {
     userDescriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration( "com.cedarsoft.rest.generator.test.User" ) ).create();
     fooDescriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration( "com.cedarsoft.rest.generator.test.FooModel" ) ).create();
     anotherModelDescriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration( "com.cedarsoft.rest.generator.test.AnotherModel" ) ).create();
+    groupDescriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration( "com.cedarsoft.rest.generator.test.Group" ) ).create();
 
     codeGenerator = new CodeGenerator<JaxbObjectGenerator.StubDecisionCallback>( new JaxbObjectGenerator.StubDecisionCallback() );
   }
@@ -139,7 +142,13 @@ public class JaxbObjectGeneratorTest {
   }
 
   @Test
-  public void testGeneratModelFoo() throws Exception {
+  public void testGeneratModelGroup() throws Exception {
+    new Generator( codeGenerator, groupDescriptor ).generate();
+    assertCodeGeneration( getClass().getResource( "JaxbObjectGeneratorTest.GroupJaxb.txt" ) );
+  }
+
+  @Test
+  public void testGenerateModelFoo() throws Exception {
     codeGenerator = new CodeGenerator<JaxbObjectGenerator.StubDecisionCallback>( new JaxbObjectGenerator.StubDecisionCallback() );
 
     new Generator( codeGenerator, fooDescriptor ).generate();
@@ -147,9 +156,15 @@ public class JaxbObjectGeneratorTest {
   }
 
   @Test
-  public void testGeneratBarTest() throws Exception {
+  public void testGenerateBarTest() throws Exception {
     new TestGenerator( codeGenerator, barDescriptor ).generateTest();
     assertCodeGeneration( getClass().getResource( "JaxbObjectGeneratorTest.BarModelJaxbTest.txt" ) );
+  }
+
+  @Test
+  public void testGenerateGroupTest() throws Exception {
+    new TestGenerator( codeGenerator, groupDescriptor ).generateTest();
+    assertCodeGeneration( getClass().getResource( "JaxbObjectGeneratorTest.GroupJaxbTest.txt" ) );
   }
 
   @Test

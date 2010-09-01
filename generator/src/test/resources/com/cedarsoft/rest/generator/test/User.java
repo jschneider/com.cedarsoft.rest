@@ -24,7 +24,7 @@ public class User {
   private final List<User> friends = new ArrayList<User>();
 
   public User( @NotNull String email, @NotNull String name ) {
-    this( email, name, new Group( "NOBODY" ) );
+    this( email, name, new Group( "NOBODY", "description" ) );
   }
 
   public User( @NotNull String email, @NotNull String name, @NotNull Group group ) {

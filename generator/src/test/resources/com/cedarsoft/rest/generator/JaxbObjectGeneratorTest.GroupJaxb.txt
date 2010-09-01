@@ -1,0 +1,156 @@
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.Group.java-----------------------------------
+
+package com.cedarsoft.rest.generator.test.jaxb;
+
+import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+import com.cedarsoft.jaxb.AbstractJaxbCollection;
+import com.cedarsoft.jaxb.AbstractJaxbObject;
+import com.cedarsoft.jaxb.JaxbStub;
+
+@XmlTransient
+@XmlAccessorType(XmlAccessType.FIELD)
+public abstract class Group
+    extends AbstractJaxbObject
+{
+
+    public final static String NS = "http://cedarsoft.com/rest/generator/test/group";
+    public final static String NS_STUB = (NS + NS_STUB_SUFFIX);
+    public final static String NS_COLLECTION = (NS_STUB + NS_COLLECTION_SUFFIX);
+    private String description;
+
+    protected Group() {
+    }
+
+    protected Group(String id) {
+        super(id);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @XmlType(name = "groups", namespace = Group.NS_COLLECTION)
+    @XmlRootElement(name = "groups", namespace = Group.NS_COLLECTION)
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Collection
+        extends AbstractJaxbCollection
+    {
+
+        @XmlElementRef
+        private List<Group.Stub> groups;
+
+        public Collection() {
+        }
+
+        public Collection(List<Group.Stub> groups) {
+            this(groups, 0, 0);
+        }
+
+        public Collection(List<Group.Stub> groups, int startIndex, int maxLength) {
+            super(startIndex, maxLength);
+            this.groups = groups;
+        }
+
+        public List<Group.Stub> getGroups() {
+            return groups;
+        }
+
+        public void setGroups(List<Group.Stub> groups) {
+            this.groups = groups;
+        }
+
+    }
+
+    @XmlType(name = "group", namespace = Group.NS)
+    @XmlRootElement(name = "group", namespace = Group.NS)
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Jaxb
+        extends Group
+    {
+
+
+        public Jaxb() {
+        }
+
+        public Jaxb(String id) {
+            super(id);
+        }
+
+    }
+
+    @XmlType(name = "groupStub", namespace = Group.NS_STUB)
+    @XmlRootElement(name = "group", namespace = Group.NS_STUB)
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Stub
+        extends Group
+        implements JaxbStub<Group.Jaxb>
+    {
+
+
+        public Stub() {
+        }
+
+        public Stub(String id) {
+            super(id);
+        }
+
+        @Override
+        public Class<Group.Jaxb> getJaxbType() {
+            return Group.Jaxb.class;
+        }
+
+    }
+
+}
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.GroupMapping.java-----------------------------------
+
+package com.cedarsoft.rest.generator.test.jaxb;
+
+import javax.ws.rs.core.UriBuilder;
+import com.cedarsoft.jaxb.JaxbObject;
+import com.cedarsoft.rest.JaxbMapping;
+import com.cedarsoft.rest.UriContext;
+import com.cedarsoft.rest.generator.test.Group;
+
+public class GroupMapping
+    extends JaxbMapping<Group, com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb, com.cedarsoft.rest.generator.test.jaxb.Group.Stub>
+{
+
+    public final static String PATH = "groups";
+
+    @Override
+    protected UriBuilder getUri(JaxbObject object, UriContext context) {
+        return context.getBaseUriBuilder().path(PATH).path(object.getId());
+    }
+
+    @Override
+    protected com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb createJaxbObject(Group object) {
+        return new com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb(object.getId());
+    }
+
+    @Override
+    protected com.cedarsoft.rest.generator.test.jaxb.Group.Stub createJaxbStub(Group object) {
+        return new com.cedarsoft.rest.generator.test.jaxb.Group.Stub(object.getId());
+    }
+
+    @Override
+    protected void copyFieldsToJaxbObject(Group source, com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb target, UriContext context) {
+        target.setDescription(source.getDescription());
+    }
+
+    @Override
+    protected void copyFieldsToStub(Group source, com.cedarsoft.rest.generator.test.jaxb.Group.Stub target, UriContext context) {
+        target.setDescription(source.getDescription());
+    }
+
+}

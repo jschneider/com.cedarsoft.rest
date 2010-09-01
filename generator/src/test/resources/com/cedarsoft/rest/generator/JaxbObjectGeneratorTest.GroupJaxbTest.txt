@@ -1,0 +1,85 @@
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.GroupJaxbTest.java-----------------------------------
+
+package com.cedarsoft.rest.generator.test.jaxb;
+
+import java.util.Arrays;
+import com.cedarsoft.rest.Entry;
+import com.cedarsoft.rest.JaxbTestUtils;
+import com.cedarsoft.rest.SimpleJaxbTest;
+import org.junit.experimental.theories.DataPoint;
+
+public class GroupJaxbTest
+    extends SimpleJaxbTest<com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb, com.cedarsoft.rest.generator.test.jaxb.Group.Stub>
+{
+
+
+    public GroupJaxbTest() {
+        super(com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.Group.Stub.class);
+    }
+
+    @DataPoint
+    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb> dataPoint1() {
+        com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb object = new com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb();
+        object.setHref(JaxbTestUtils.createTestUriBuilder().build());
+        object.setDescription("description");
+        return create(object, GroupJaxbTest.class.getResource("GroupJaxbTest.dataPoint1.xml"));
+    }
+
+    @DataPoint
+    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.Group.Stub> stub() {
+        com.cedarsoft.rest.generator.test.jaxb.Group.Stub object = new com.cedarsoft.rest.generator.test.jaxb.Group.Stub();
+        object.setHref(JaxbTestUtils.createTestUriBuilder().build());
+        object.setDescription("description");
+        return create(object, GroupJaxbTest.class.getResource("GroupJaxbTest.stub.xml"));
+    }
+
+    @DataPoint
+    public static Entry<? extends com.cedarsoft.rest.generator.test.jaxb.Group.Collection> collection() {
+        com.cedarsoft.rest.generator.test.jaxb.Group.Collection object = new com.cedarsoft.rest.generator.test.jaxb.Group.Collection(Arrays.asList(new com.cedarsoft.rest.generator.test.jaxb.Group.Stub("daId")));
+        object.setHref(JaxbTestUtils.createTestUriBuilder().build());
+        return create(object, GroupJaxbTest.class.getResource("GroupJaxbTest.collection.xml"));
+    }
+
+}
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.GroupMappingTest.java-----------------------------------
+
+package com.cedarsoft.rest.generator.test.jaxb;
+
+import com.cedarsoft.rest.AbstractJaxbTest;
+import com.cedarsoft.rest.AbstractMappedJaxbTest;
+import com.cedarsoft.rest.Entry;
+import com.cedarsoft.rest.JaxbMapping;
+import com.cedarsoft.rest.generator.test.Group;
+import org.junit.experimental.theories.DataPoint;
+
+public class GroupMappingTest
+    extends AbstractMappedJaxbTest<Group, com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb, com.cedarsoft.rest.generator.test.jaxb.Group.Stub>
+{
+
+
+    public GroupMappingTest() {
+        super(com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb.class, com.cedarsoft.rest.generator.test.jaxb.Group.Stub.class);
+    }
+
+    @Override
+    protected JaxbMapping<Group, com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb, com.cedarsoft.rest.generator.test.jaxb.Group.Stub> createMapping() {
+        return new GroupMapping();
+    }
+
+    @DataPoint
+    public static Entry<? extends Group> dataPoint1() {
+        Group object = new Group("id", "description");
+        return AbstractJaxbTest.create(object, GroupMappingTest.class.getResource("GroupMappingTest.dataPoint1.xml"), GroupMappingTest.class.getResource("GroupMappingTest.stub.xml"));
+    }
+
+}
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.GroupJaxbTest.collection.xml-----------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.GroupJaxbTest.dataPoint1.xml-----------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.GroupJaxbTest.stub.xml-----------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.GroupMappingTest.dataPoint1.xml-----------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+-----------------------------------com.cedarsoft.rest.generator.test.jaxb.GroupMappingTest.stub.xml-----------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
