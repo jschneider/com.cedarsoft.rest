@@ -47,7 +47,9 @@ public class Entry<T> {
   @NonNls
   private final byte[] stubExpected;
 
-  public Entry( @NotNull T object, @NotNull @NonNls byte[] expected,@NotNull @NonNls byte[] stubExpected ) {
+  private boolean skipIdCheck;
+
+  public Entry( @NotNull T object, @NotNull @NonNls byte[] expected, @NotNull @NonNls byte[] stubExpected ) {
     this.object = object;
     this.expected = expected;
     this.stubExpected = stubExpected;
@@ -66,5 +68,14 @@ public class Entry<T> {
   @NotNull
   public T getObject() {
     return object;
+  }
+
+  public boolean isSkipIdCheck() {
+    return skipIdCheck;
+  }
+
+  public Entry<T> skipIdCheck() {
+    skipIdCheck = true;
+    return this;
   }
 }
