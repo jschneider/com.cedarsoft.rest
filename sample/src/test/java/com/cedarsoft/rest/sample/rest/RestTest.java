@@ -41,6 +41,7 @@ import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.test.framework.AppDescriptor;
 import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.WebAppDescriptor;
+import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.jetbrains.annotations.NotNull;
 import org.junit.*;
 
@@ -59,11 +60,15 @@ public class RestTest extends JerseyTest {
    */
   @Override
   protected AppDescriptor configure() {
-    return new WebAppDescriptor.Builder()
+    WebAppDescriptor descriptor = new WebAppDescriptor.Builder()
       .contextListenerClass( MyGuiceConfig.class )
       .filterClass( GuiceFilter.class )
       .servletPath( "/" )
       .build();
+
+    descriptor.getClientConfig().getClasses().add( JacksonJaxbJsonProvider.class );
+
+    return descriptor;
   }
 
   @Test
@@ -90,6 +95,26 @@ public class RestTest extends JerseyTest {
   @Test
   public void testGetUsers() throws Exception {
     List<User.Stub> users = resource().path( UserMapping.PATH_USERS ).type( MediaType.APPLICATION_XML ).get( User.Collection.class ).getUsers();
+    assertNotNull( users );
+
+    assertEquals( 3, users.size() );
+
+    assertEquals( "Johannes Schneider", users.get( 0 ).getName() );
+    assertEquals( "info@cedarsoft.de", users.get( 0 ).getEmail() );
+    assertEquals( getBaseURI() + "users/info@cedarsoft.de", users.get( 0 ).getHref().toString() );
+
+    assertEquals( "Markus Mustermann", users.get( 1 ).getName() );
+    assertEquals( "markus@mustermann.de", users.get( 1 ).getEmail() );
+    assertEquals( getBaseURI() + "users/markus@mustermann.de", users.get( 1 ).getHref().toString() );
+
+    assertEquals( "Eva Mustermann", users.get( 2 ).getName() );
+    assertEquals( "eva@mustermann.de", users.get( 2 ).getEmail() );
+    assertEquals( getBaseURI() + "users/eva@mustermann.de", users.get( 2 ).getHref().toString() );
+  }
+
+  @Test
+  public void testGetUsersJson() throws Exception {
+    List<User.Stub> users = resource().path( UserMapping.PATH_USERS ).type( MediaType.APPLICATION_JSON ).get( User.Collection.class ).getUsers();
     assertNotNull( users );
 
     assertEquals( 3, users.size() );
@@ -191,8 +216,9 @@ public class RestTest extends JerseyTest {
     JsonUtils.assertJsonEquals( getClass().getResource( "Rest.testUser.json" ), resource().path( "users/test" ).accept( MediaType.APPLICATION_JSON ).get( String.class ) );
 
     User.Jaxb deserialized = resource().path( "users/test" ).accept( MediaType.APPLICATION_JSON ).get( User.Jaxb.class );
-    assertEquals( "asdf", deserialized.getName() );
-    assertEquals( "asdf", deserialized.getEmail() );
+    assertEquals( "Test User", deserialized.getName() );
+    assertEquals( "test@test.com", deserialized.getEmail() );
+    assertEquals( "test@test.com", deserialized.getId() );
     assertEquals( 1, deserialized.getFriends().size() );
     assertEquals( 1, deserialized.getDetails().size() );
   }

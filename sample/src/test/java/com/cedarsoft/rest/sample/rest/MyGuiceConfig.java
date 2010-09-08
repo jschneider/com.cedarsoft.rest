@@ -31,38 +31,33 @@
 
 package com.cedarsoft.rest.sample.rest;
 
+import com.cedarsoft.rest.DefaultGuiceConfig;
 import com.cedarsoft.rest.sample.Detail;
 import com.cedarsoft.rest.sample.User;
 import com.cedarsoft.rest.sample.jaxb.UserMapping;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
-import com.sun.jersey.api.core.PackagesResourceConfig;
-import com.sun.jersey.core.util.FeaturesAndProperties;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
+import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-public class MyGuiceConfig extends GuiceServletContextListener {
-  @Override
-  protected Injector getInjector() {
-    final Map<String, String> params = new HashMap<String, String>();
-    params.put( PackagesResourceConfig.PROPERTY_PACKAGES, UsersResource.class.getPackage().getName() );
-    params.put( FeaturesAndProperties.FEATURE_XMLROOTELEMENT_PROCESSING, "true" );
+public class MyGuiceConfig extends DefaultGuiceConfig {
+  public MyGuiceConfig() {
+    super( UsersResource.class );
 
-    return Guice.createInjector( new ExampleModule(), new JerseyGuiceServletModule( params ) );
+    getJersey().addResource( JacksonJaxbJsonProvider.class );
+
+    addModule( new ExampleModule() );
   }
 
   public static class ExampleModule extends AbstractModule {

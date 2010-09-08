@@ -1,24 +1,25 @@
 {
-   "@href" : "http://localhost:9998/users/test@test.com",
-   "@id" : "test@test.com",
-   "email" : "test@test.com",
-   "name" : "Test User",
-   "group" :
-      {
-         "@href" : "http://localhost:9998/groups/NOBODY",
-         "@id" : "NOBODY"
-      },
-   "friend" :
-      {
-         "@href" : "http://localhost:9998/users/friend@asdf.de",
-         "@id" : "friend@asdf.de",
-         "email" : "friend@asdf.de",
-         "name" : "A Friend"
-      },
-   "detail" :
-      {
-         "@href" : "http://localhost:9998/users/test@test.com/details/1",
-         "@id" : "1",
-         "text" : "a test detail"
-      }
+  "href" : "http://localhost:9998/users/test@test.com",
+  "id" : "test@test.com",
+  "email" : "test@test.com",
+  "name" : "Test User",
+  "group" : {
+    "href" : "http://localhost:9998/groups/NOBODY",
+    "id" : "NOBODY"
+  },
+  "friend" : [
+    {
+      "href" : "http://localhost:9998/users/friend@asdf.de",
+      "id" : "friend@asdf.de",
+      "email" : "friend@asdf.de",
+      "name" : "A Friend"
+    }
+  ],
+  "detail" : [
+    {
+      "href" : "http://localhost:9998/users/test@test.com/details/1",
+      "id" : "1",
+      "text" : "a test detail"
+    }
+  ]
 }
