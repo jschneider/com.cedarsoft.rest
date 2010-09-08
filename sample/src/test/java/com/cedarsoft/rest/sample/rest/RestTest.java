@@ -60,7 +60,7 @@ public class RestTest extends JerseyTest {
   @Override
   protected AppDescriptor configure() {
     return new WebAppDescriptor.Builder()
-      .contextListenerClass( GuiceConfig.class )
+      .contextListenerClass( MyGuiceConfig.class )
       .filterClass( GuiceFilter.class )
       .servletPath( "/" )
       .build();

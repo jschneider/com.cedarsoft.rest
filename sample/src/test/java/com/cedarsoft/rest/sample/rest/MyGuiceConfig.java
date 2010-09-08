@@ -55,7 +55,7 @@ import java.util.Map;
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-public class GuiceConfig extends GuiceServletContextListener {
+public class MyGuiceConfig extends GuiceServletContextListener {
   @Override
   protected Injector getInjector() {
     final Map<String, String> params = new HashMap<String, String>();
@@ -69,7 +69,7 @@ public class GuiceConfig extends GuiceServletContextListener {
     public ExampleModule() {
       System.out.println( "---------------" );
       System.out.println( "---------------" );
-      System.out.println( "GuiceConfig$ExampleModule.ExampleModule" );
+      System.out.println( "MyGuiceConfig$ExampleModule.ExampleModule" );
       System.out.println( "---------------" );
       System.out.println( "---------------" );
     }
