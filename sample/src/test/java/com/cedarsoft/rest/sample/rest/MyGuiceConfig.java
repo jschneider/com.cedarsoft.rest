@@ -55,7 +55,8 @@ public class MyGuiceConfig extends DefaultGuiceConfig {
   public MyGuiceConfig() {
     super( UsersResource.class );
 
-    getJersey().addResource( JacksonJaxbJsonProvider.class );
+//    getJersey().addResource( JacksonJaxbJsonProvider.class );
+    getJersey().addResource( MyJacksonProvider.class );
 
     addModule( new ExampleModule() );
   }

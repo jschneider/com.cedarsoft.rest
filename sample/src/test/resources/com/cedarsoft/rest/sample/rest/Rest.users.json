@@ -1,0 +1,24 @@
+{
+  "startIndex" : 0,
+  "maxLength" : 0,
+  "users" : [
+    {
+      "href" : "http://localhost:9998/users/info@cedarsoft.de",
+      "id" : "info@cedarsoft.de",
+      "email" : "info@cedarsoft.de",
+      "name" : "Johannes Schneider"
+    },
+    {
+      "href" : "http://localhost:9998/users/markus@mustermann.de",
+      "id" : "markus@mustermann.de",
+      "email" : "markus@mustermann.de",
+      "name" : "Markus Mustermann"
+    },
+    {
+      "href" : "http://localhost:9998/users/eva@mustermann.de",
+      "id" : "eva@mustermann.de",
+      "email" : "eva@mustermann.de",
+      "name" : "Eva Mustermann"
+    }
+  ]
+}
