@@ -31,6 +31,7 @@
 
 package com.cedarsoft.rest.sample.rest;
 
+import com.cedarsoft.JsonUtils;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
 import com.cedarsoft.rest.sample.jaxb.User;
@@ -40,7 +41,6 @@ import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.test.framework.AppDescriptor;
 import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.WebAppDescriptor;
-import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
 import org.junit.*;
 
@@ -188,6 +188,6 @@ public class RestTest extends JerseyTest {
 
   @Test
   public void testJson() throws Exception {
-    assertEquals( IOUtils.toString( getClass().getResourceAsStream( "Rest.testUser.json" ) ), resource().path( "users/test" ).accept( MediaType.APPLICATION_JSON ).get( String.class ) );
+    JsonUtils.assertJsonEquals( getClass().getResource( "Rest.testUser.json" ), resource().path( "users/test" ).accept( MediaType.APPLICATION_JSON ).get( String.class ) );
   }
 }
