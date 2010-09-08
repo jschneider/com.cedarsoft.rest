@@ -45,6 +45,16 @@
       <groupId>org.easytesting</groupId>
       <artifactId>fest-reflect</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava-base</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava-collections</artifactId>
+    </dependency>
+
   </dependencies>
 
 </project>

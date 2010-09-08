@@ -43,7 +43,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * Default Guice Configuration that can be used for Jersey/Guice stuff.
+ * <p/>
+ * The corresponding section of your web.xml could look like that:
+ * <pre>&lt;listener&gt;<br/>  &lt;listener-class&gt;com.cedarsoft.myapp.MyGuiceConfig&lt;/listener-class&gt;<br/>&lt;/listener&gt;<br/>&lt;filter&gt;<br/>  &lt;filter-name&gt;guiceFilter&lt;/filter-name&gt;<br/>  &lt;filter-class&gt;com.google.inject.servlet.GuiceFilter&lt;/filter-class&gt;<br/>&lt;/filter&gt;<br/>&lt;filter-mapping&gt;<br/>  &lt;filter-name&gt;guiceFilter&lt;/filter-name&gt;<br/>  &lt;url-pattern&gt;/*&lt;/url-pattern&gt;<br/>&lt;/filter-mapping&gt;<br/>
+ * </pre>
  */
 public class DefaultGuiceConfig extends GuiceServletContextListener {
   @NotNull

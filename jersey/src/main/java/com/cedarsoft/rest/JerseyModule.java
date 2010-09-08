@@ -49,7 +49,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * Special module that contains the glue code for Jersey and Guice
  */
 public class JerseyModule extends ServletModule {
   @NotNull
