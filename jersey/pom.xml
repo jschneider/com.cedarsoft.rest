@@ -22,6 +22,12 @@
       <groupId>javax.ws.rs</groupId>
       <artifactId>jsr311-api</artifactId>
     </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <scope>provided</scope>
+      <version>2.5</version>
+    </dependency>
 
     <dependency>
       <groupId>com.google.inject</groupId>
