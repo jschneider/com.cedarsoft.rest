@@ -31,15 +31,18 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
+import com.cedarsoft.JsonUtils;
 import com.cedarsoft.rest.AbstractJaxbTest;
 import com.cedarsoft.rest.AbstractMappedJaxbTest;
 import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.sample.Group;
 import com.cedarsoft.rest.sample.User;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
-import org.junit.*;
 import org.junit.experimental.theories.*;
+
+import java.io.StringWriter;
 
 public class UserMappingTest extends AbstractMappedJaxbTest<User, com.cedarsoft.rest.sample.jaxb.User.Jaxb, com.cedarsoft.rest.sample.jaxb.User.Stub> {
   public UserMappingTest() {
@@ -81,7 +84,7 @@ public class UserMappingTest extends AbstractMappedJaxbTest<User, com.cedarsoft.
 
     user.addDetail( new com.cedarsoft.rest.sample.Detail( "1", "the first detail" ) );
     user.addDetail( new com.cedarsoft.rest.sample.Detail( "2", "the second detail" ) );
-    
+
     user1.addFriend( user );
 
     return create( user, UserJaxbTest.class.getResource( "UserMappingTest.recursive.xml" ), UserJaxbTest.class.getResource( "UserMappingTest.recursive.stub.xml" ) );

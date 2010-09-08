@@ -33,6 +33,7 @@
 package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.AssertUtils;
+import com.cedarsoft.JsonUtils;
 import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
 import com.cedarsoft.rest.SimpleJaxbTest;
@@ -42,12 +43,16 @@ import com.sun.jersey.api.json.JSONJAXBContext;
 import com.sun.jersey.api.json.JSONMarshaller;
 import com.sun.jersey.json.impl.JSONMarshallerImpl;
 import org.apache.commons.io.IOUtils;
+import org.codehaus.jackson.map.AnnotationIntrospector;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
 import org.junit.*;
 import org.junit.experimental.theories.*;
 
 import javax.xml.bind.JAXBContext;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.StringWriter;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
@@ -55,6 +60,73 @@ import static org.junit.Assert.*;
 public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
   public UserJaxbTest() {
     super( User.Jaxb.class, User.Stub.class, User.Collection.class );
+  }
+
+  @Test
+  public void testJson() throws Exception {
+    User.Collection collection = new User.Collection( ImmutableList.<User.Stub>of(
+      new User.Stub( "a" ),
+      new User.Stub( "b" ),
+      new User.Stub( "c" )
+    ), 77, 300 );
+
+    for ( User.Stub stub : collection.getUsers() ) {
+      stub.setHref( JaxbTestUtils.createTestUriBuilder().build() );
+    }
+
+    ObjectMapper mapper = new ObjectMapper();
+    AnnotationIntrospector introspector = new JaxbAnnotationIntrospector();
+    // make deserializer use JAXB annotations (only)
+    mapper.getDeserializationConfig().setAnnotationIntrospector( introspector );
+    // make serializer use JAXB annotations (only)
+    mapper.getSerializationConfig().setAnnotationIntrospector( introspector );
+
+
+    StringWriter out = new StringWriter();
+    mapper.writeValue( out, collection );
+
+    JsonUtils.assertJsonEquals( getClass().getResource( "UserJaxbTest.collection.json" ), out.toString() );
+
+    User.Collection read = mapper.readValue( out.toString(), User.Collection.class );
+    assertEquals( 300, read.getMaxLength() );
+    assertEquals( 77, read.getStartIndex() );
+    assertNotNull( read.getUsers() );
+    assertEquals( 3, read.getUsers().size() );
+
+    assertEquals( "a", read.getUsers().get( 0 ).getId() );
+    assertEquals( "b", read.getUsers().get( 1 ).getId() );
+    assertEquals( "c", read.getUsers().get( 2 ).getId() );
+  }
+
+  @Test
+  public void testJsonSimple() throws Exception {
+    ObjectMapper mapper = new ObjectMapper();
+    AnnotationIntrospector introspector = new JaxbAnnotationIntrospector();
+    // make deserializer use JAXB annotations (only)
+    mapper.getDeserializationConfig().setAnnotationIntrospector( introspector );
+    // make serializer use JAXB annotations (only)
+    mapper.getSerializationConfig().setAnnotationIntrospector( introspector );
+
+
+    User.Stub object = new User.Stub( "a" );
+    object.setName( "daName" );
+    object.setEmail( "daMail" );
+    object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
+
+    StringWriter out = new StringWriter();
+    mapper.writeValue( out, object );
+
+    JsonUtils.assertJsonEquals( "{" +
+      "  \"href\" : \"http://test.running/here\"," +
+      "  \"id\" : \"a\"," +
+      "  \"email\" : \"daMail\"," +
+      "  \"name\" : \"daName\"" +
+      "}", out.toString() );
+
+    User.Stub read = mapper.readValue( out.toString(), User.Stub.class );
+    assertEquals( "http://test.running/here", read.getHref().toString() );
+    assertEquals( "daName", read.getName() );
+    assertEquals( "daMail", read.getEmail() );
   }
 
   @Test

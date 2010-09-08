@@ -189,5 +189,11 @@ public class RestTest extends JerseyTest {
   @Test
   public void testJson() throws Exception {
     JsonUtils.assertJsonEquals( getClass().getResource( "Rest.testUser.json" ), resource().path( "users/test" ).accept( MediaType.APPLICATION_JSON ).get( String.class ) );
+
+    User.Jaxb deserialized = resource().path( "users/test" ).accept( MediaType.APPLICATION_JSON ).get( User.Jaxb.class );
+    assertEquals( "asdf", deserialized.getName() );
+    assertEquals( "asdf", deserialized.getEmail() );
+    assertEquals( 1, deserialized.getFriends().size() );
+    assertEquals( 1, deserialized.getDetails().size() );
   }
 }
