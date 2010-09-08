@@ -82,7 +82,7 @@ public class JaxbObjectGenerator extends AbstractGenerator {
       if ( configuration.getCreationMode().isCreate() ) {
         configuration.getLogOut().append( "Generating JAXB classes...\n" );
 
-        CodeGenerator<StubDecisionCallback> codeGenerator = new CodeGenerator<StubDecisionCallback>( new StubDecisionCallback() );
+        CodeGenerator codeGenerator = new CodeGenerator( new StubDecisionCallback() );
         new Generator( codeGenerator, descriptor ).generate();
         codeGenerator.getModel().build( configuration.getDestination(), configuration.getResourcesDestination(), statusPrinter );
       }
@@ -91,7 +91,7 @@ public class JaxbObjectGenerator extends AbstractGenerator {
       if ( configuration.getCreationMode().isCreateTests() ) {
         configuration.getLogOut().append( "Generating tests...\n" );
 
-        CodeGenerator<StubDecisionCallback> codeGenerator = new CodeGenerator<StubDecisionCallback>( new StubDecisionCallback() );
+        CodeGenerator codeGenerator = new CodeGenerator( new StubDecisionCallback() );
         new TestGenerator( codeGenerator, descriptor ).generateTest();
         codeGenerator.getModel().build( configuration.getTestDestination(), configuration.getTestResourcesDestination(), statusPrinter );
       }

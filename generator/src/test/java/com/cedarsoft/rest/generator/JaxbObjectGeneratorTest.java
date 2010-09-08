@@ -60,7 +60,7 @@ public class JaxbObjectGeneratorTest {
   private DomainObjectDescriptor fooDescriptor;
   private DomainObjectDescriptor anotherModelDescriptor;
   private DomainObjectDescriptor groupDescriptor;
-  private CodeGenerator<JaxbObjectGenerator.StubDecisionCallback> codeGenerator;
+  private CodeGenerator codeGenerator;
 
   @Before
   public void setUp() throws Exception {
@@ -80,7 +80,7 @@ public class JaxbObjectGeneratorTest {
     anotherModelDescriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration( "com.cedarsoft.rest.generator.test.AnotherModel" ) ).create();
     groupDescriptor = new DomainObjectDescriptorFactory( result.getClassDeclaration( "com.cedarsoft.rest.generator.test.Group" ) ).create();
 
-    codeGenerator = new CodeGenerator<JaxbObjectGenerator.StubDecisionCallback>( new JaxbObjectGenerator.StubDecisionCallback() );
+    codeGenerator = new CodeGenerator( new JaxbObjectGenerator.StubDecisionCallback() );
   }
 
   @Test
@@ -149,7 +149,7 @@ public class JaxbObjectGeneratorTest {
 
   @Test
   public void testGenerateModelFoo() throws Exception {
-    codeGenerator = new CodeGenerator<JaxbObjectGenerator.StubDecisionCallback>( new JaxbObjectGenerator.StubDecisionCallback() );
+    codeGenerator = new CodeGenerator( new JaxbObjectGenerator.StubDecisionCallback() );
 
     new Generator( codeGenerator, fooDescriptor ).generate();
     assertCodeGeneration( getClass().getResource( "JaxbObjectGeneratorTest.FooModelJaxb.txt" ) );

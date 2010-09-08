@@ -56,14 +56,14 @@ public class AbstractGenerator<T extends DecisionCallback> {
   @NotNull
   public static final String JAXB_STUB_SUFFIX = "Stub";
   @NotNull
-  protected final CodeGenerator<T> codeGenerator;
+  protected final CodeGenerator codeGenerator;
   @NotNull
   protected final DomainObjectDescriptor descriptor;
   @NotNull
   @NonNls
   public static final String MAPPING_SUFFIX = "Mapping";
 
-  public AbstractGenerator( @NotNull CodeGenerator<T> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
+  public AbstractGenerator( @NotNull CodeGenerator codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     this.codeGenerator = codeGenerator;
     this.descriptor = descriptor;
   }

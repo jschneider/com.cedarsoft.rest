@@ -104,7 +104,7 @@ public class TestGenerator extends AbstractGenerator<JaxbObjectGenerator.StubDec
   @NonNls
   public static final String ID = "id";
 
-  public TestGenerator( @NotNull CodeGenerator<JaxbObjectGenerator.StubDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
+  public TestGenerator( @NotNull CodeGenerator codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     super( codeGenerator, descriptor );
   }
 

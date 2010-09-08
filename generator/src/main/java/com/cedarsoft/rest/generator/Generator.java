@@ -146,7 +146,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   private final String varName = NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() );
   private final String pluralName = NamingSupport.plural( NamingSupport.createVarName( descriptor.getClassDeclaration().getSimpleName() ) );
 
-  public Generator( @NotNull CodeGenerator<JaxbObjectGenerator.StubDecisionCallback> codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
+  public Generator( @NotNull CodeGenerator codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
     super( codeGenerator, descriptor );
   }
 
@@ -489,7 +489,7 @@ public class Generator extends AbstractGenerator<JaxbObjectGenerator.StubDecisio
   }
 
   protected boolean shallAddField( @NotNull FieldTypeInformation fieldInfo, @NotNull Scope type ) {
-    return codeGenerator.getDecisionCallback().shallAddFieldStatement( this, fieldInfo, type );
+    return ( ( JaxbObjectGenerator.StubDecisionCallback ) codeGenerator.getDecisionCallback() ).shallAddFieldStatement( this, fieldInfo, type );
   }
 
   private static void addSetter( @NotNull JDefinedClass currentClass, @NotNull JType fieldType, @NotNull JVar field, String name ) {
