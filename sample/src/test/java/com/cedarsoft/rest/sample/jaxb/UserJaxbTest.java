@@ -38,10 +38,6 @@ import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
 import com.cedarsoft.rest.SimpleJaxbTest;
 import com.google.common.collect.ImmutableList;
-import com.sun.jersey.api.json.JSONConfiguration;
-import com.sun.jersey.api.json.JSONJAXBContext;
-import com.sun.jersey.api.json.JSONMarshaller;
-import com.sun.jersey.json.impl.JSONMarshallerImpl;
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.AnnotationIntrospector;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -146,66 +142,7 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
 
     AssertUtils.assertXMLEquals( IOUtils.toString( getClass().getResourceAsStream( "UserJaxbTest.collection.xml" ) ), out.toString() );
   }
-
-  @Test
-  public void testCollectionJsonBadger() throws Exception {
-    User.Collection collection = new User.Collection( ImmutableList.<User.Stub>of(
-      new User.Stub( "a" ),
-      new User.Stub( "b" ),
-      new User.Stub( "c" )
-    ) );
-
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    jaxbRule.addTypeToBeBound( User.Collection.class );
-
-    JSONJAXBContext context = new JSONJAXBContext( JSONConfiguration.badgerFish().build(), User.Jaxb.class, User.Stub.class, User.Collection.class );
-    JSONMarshaller marshaller = context.createJSONMarshaller();
-    marshaller.marshallToJSON( collection, out );
-
-    assertEquals( "{\"users:users\":{\"@xmlns\":{\"ci-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera-info\\/stub\",\"user\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/user\",\"ci\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera-info\",\"users\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/user\\/list\",\"user-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/user\\/stub\",\"email\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/email\",\"detail\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/detail\",\"cam-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera\\/stub\",\"group-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/group\\/stub\",\"group\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/group\",\"detail-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/detail\\/stub\",\"email-stub\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/email\\/stub\",\"cam\":\"http:\\/\\/cedarsoft.com\\/rest\\/sample\\/camera\"},\"@startIndex\":\"0\",\"@maxLength\":\"0\",\"user-stub:user\":[{\"@id\":\"a\"},{\"@id\":\"b\"},{\"@id\":\"c\"}]}}", out.toString() );
-  }
-
-  @Test
-  public void testCollectionJsonDefault() throws Exception {
-    User.Collection collection = new User.Collection( ImmutableList.<User.Stub>of(
-      new User.Stub( "a" ),
-      new User.Stub( "b" ),
-      new User.Stub( "c" )
-    ) );
-
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    jaxbRule.addTypeToBeBound( User.Collection.class );
-
-    JSONJAXBContext context = new JSONJAXBContext( JSONConfiguration.DEFAULT, User.Jaxb.class, User.Stub.class, User.Collection.class );
-    JSONMarshaller marshaller = context.createJSONMarshaller();
-    assertEquals( JSONMarshallerImpl.class, marshaller.getClass() );
-    marshaller.marshallToJSON( collection, out );
-
-    assertEquals( "{\"@startIndex\":\"0\",\"@maxLength\":\"0\",\"user\":[{\"@id\":\"a\"},{\"@id\":\"b\"},{\"@id\":\"c\"}]}", out.toString() );
-  }
-
-  @Test
-  public void testCollectionJsonNatural() throws Exception {
-    User.Collection collection = new User.Collection( ImmutableList.<User.Stub>of(
-      new User.Stub( "a" ),
-      new User.Stub( "b" ),
-      new User.Stub( "c" )
-    ) );
-
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    jaxbRule.addTypeToBeBound( User.Collection.class );
-
-    JSONJAXBContext context = new JSONJAXBContext( JSONConfiguration.natural().build(), User.Jaxb.class, User.Stub.class, User.Collection.class );
-    JSONMarshaller marshaller = context.createJSONMarshaller();
-    assertEquals( JSONMarshallerImpl.class, marshaller.getClass() );
-    marshaller.marshallToJSON( collection, out );
-
-    assertEquals( "{\"startIndex\":0,\"maxLength\":0,\"user\":[{\"id\":\"a\"},{\"id\":\"b\"},{\"id\":\"c\"}]}", out.toString() );
-
-    User.Collection unmarshalled = context.createJSONUnmarshaller().unmarshalFromJSON( new ByteArrayInputStream( out.toByteArray() ), User.Collection.class );
-    assertEquals( 3, unmarshalled.getUsers().size() );
-  }
-
+  
   @DataPoint
   public static Entry<? extends User.Jaxb> dataPoint1() {
     User.Jaxb object = new User.Jaxb( "daId" );
