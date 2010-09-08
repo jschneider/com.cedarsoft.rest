@@ -32,15 +32,39 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
+import com.cedarsoft.JsonUtils;
 import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbTestUtils;
 import com.cedarsoft.rest.SimpleJaxbTest;
+import org.codehaus.jackson.map.AnnotationIntrospector;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
+import org.junit.*;
 import org.junit.experimental.theories.*;
+
+import java.io.StringWriter;
 
 public class CameraJaxbTest
   extends SimpleJaxbTest<Camera.Jaxb, Camera.Stub> {
   public CameraJaxbTest() {
     super( Camera.Jaxb.class, Camera.Stub.class );
+  }
+
+  @Test
+  public void testJson() throws Exception {
+    ObjectMapper mapper = new ObjectMapper();
+    AnnotationIntrospector introspector = new JaxbAnnotationIntrospector();
+    mapper.getDeserializationConfig().setAnnotationIntrospector( introspector );
+    mapper.getSerializationConfig().setAnnotationIntrospector( introspector );
+    mapper.getSerializationConfig().setSerializationInclusion( JsonSerialize.Inclusion.NON_NULL );
+
+    StringWriter out = new StringWriter();
+    mapper.writeValue( out, defaultEntry().getObject() );
+    JsonUtils.assertJsonEquals( getClass().getResource( "CameraJaxbTest.json" ), out.toString() );
+
+    Camera.Jaxb deserialized = mapper.readValue( out.toString(), Camera.Jaxb.class );
+    verifyDeserialized( deserialized, defaultEntry().getObject() );
   }
 
   @DataPoint

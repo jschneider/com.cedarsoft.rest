@@ -72,9 +72,7 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
 
     ObjectMapper mapper = new ObjectMapper();
     AnnotationIntrospector introspector = new JaxbAnnotationIntrospector();
-    // make deserializer use JAXB annotations (only)
     mapper.getDeserializationConfig().setAnnotationIntrospector( introspector );
-    // make serializer use JAXB annotations (only)
     mapper.getSerializationConfig().setAnnotationIntrospector( introspector );
 
 
