@@ -22,12 +22,21 @@
       <artifactId>io</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.cedarsoft.commons</groupId>
+      <artifactId>id</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>com.cedarsoft.rest</groupId>
       <artifactId>test</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.cedarsoft.commons</groupId>
-      <artifactId>id</artifactId>
+      <groupId>com.cedarsoft.rest</groupId>
+      <artifactId>server</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.cedarsoft.rest</groupId>
+      <artifactId>jersey</artifactId>
     </dependency>
 
     <dependency>
