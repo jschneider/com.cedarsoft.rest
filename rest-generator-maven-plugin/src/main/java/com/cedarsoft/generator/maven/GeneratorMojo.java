@@ -35,6 +35,8 @@ import com.cedarsoft.codegen.AbstractGenerator;
 import com.cedarsoft.rest.generator.JaxbObjectGenerator;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 /**
  * Generate a REST mapper and the corresponding unit tests.
  * <p/>
@@ -46,6 +48,10 @@ import org.jetbrains.annotations.NotNull;
  * @requiresDependencyResolution compile
  */
 public class GeneratorMojo extends AbstractGenerateMojo {
+  public GeneratorMojo() {
+    super( Arrays.asList( "**/*Jaxb*.java" ) );
+  }
+
   @NotNull
   @Override
   protected AbstractGenerator createGenerator() {
