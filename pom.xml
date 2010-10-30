@@ -242,7 +242,7 @@
 
 
   <properties>
-    <commons.version>3.0.1-SNAPSHOT</commons.version>
+    <commons.version>3.0.1</commons.version>
     <jersey.version>1.4</jersey.version>
   </properties>
 
