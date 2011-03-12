@@ -230,8 +230,8 @@
 
 
   <properties>
-    <commons.version>3.0.1</commons.version>
-    <jersey.version>1.4</jersey.version>
+    <commons.version>3.0.2</commons.version>
+    <jersey.version>1.5</jersey.version>
   </properties>
 
   <issueManagement>
