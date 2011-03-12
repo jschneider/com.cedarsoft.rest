@@ -230,7 +230,7 @@
 
 
   <properties>
-    <commons.version>3.0.2</commons.version>
+    <commons.version>4.0.0</commons.version>
     <jersey.version>1.5</jersey.version>
   </properties>
 
