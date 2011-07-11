@@ -31,41 +31,41 @@
 
 package com.cedarsoft.rest;
 
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
 public class Entry<T> {
-  @NotNull
+  @Nonnull
   private final T object;
-  @NotNull
-  @NonNls
+  @Nonnull
+
   private final byte[] expected;
-  @NotNull
-  @NonNls
+  @Nonnull
+
   private final byte[] stubExpected;
 
   private boolean skipIdCheck;
 
-  public Entry( @NotNull T object, @NotNull @NonNls byte[] expected, @NotNull @NonNls byte[] stubExpected ) {
+  public Entry( @Nonnull T object, @Nonnull  byte[] expected, @Nonnull  byte[] stubExpected ) {
     this.object = object;
     this.expected = expected;
     this.stubExpected = stubExpected;
   }
 
-  @NotNull
+  @Nonnull
   public byte[] getExpected() {
     return expected;
   }
 
-  @NotNull
+  @Nonnull
   public byte[] getStubExpected() {
     return stubExpected;
   }
 
-  @NotNull
+  @Nonnull
   public T getObject() {
     return object;
   }

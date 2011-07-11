@@ -33,8 +33,8 @@ package com.cedarsoft.rest;
 
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import javax.ws.rs.core.UriBuilder;
 import java.util.ArrayList;
@@ -46,26 +46,26 @@ import java.util.List;
  * @param <S> the Jaxb stub type
  */
 public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>> {
-  @NotNull
+  @Nonnull
   private final DelegateJaxbMappings delegateJaxbMappings = new DelegateJaxbMappings();
 
-  @NotNull
+  @Nonnull
   public DelegateJaxbMappings getDelegatesMapping() {
     return delegateJaxbMappings;
   }
 
-  @NotNull
-  public S getJaxbObjectStub( @NotNull T object, @NotNull UriContext context ) {
+  @Nonnull
+  public S getJaxbObjectStub( @Nonnull T object, @Nonnull UriContext context ) {
     return createJaxbObjectStub( object, context );
   }
 
-  @NotNull
-  public J getJaxbObject( @NotNull T object, @NotNull UriContext context ) {
+  @Nonnull
+  public J getJaxbObject( @Nonnull T object, @Nonnull UriContext context ) {
     return createJaxbObject( object, context );
   }
 
   @Nullable
-  protected <T, J extends JaxbObject> J get( @NotNull Class<J> jaxbType, @Nullable T object, @NotNull UriContext context ) {
+  protected <T, J extends JaxbObject> J get( @Nonnull Class<J> jaxbType, @Nullable T object, @Nonnull UriContext context ) {
     if ( object == null ) {
       return null;
     }
@@ -74,7 +74,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
   }
 
   @Nullable
-  protected <T, J extends JaxbObject> List<J> get( @NotNull Class<J> jaxbType, @NotNull Iterable<? extends T> objects, @NotNull UriContext context ) {
+  protected <T, J extends JaxbObject> List<J> get( @Nonnull Class<J> jaxbType, @Nonnull Iterable<? extends T> objects, @Nonnull UriContext context ) {
     JaxbMapping<Object, J, ? extends JaxbStub<J>> mapping = getDelegatesMapping().getMapping( jaxbType );
 
     List<J> converted = new ArrayList<J>();
@@ -87,7 +87,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
   }
 
   @Nullable
-  protected <T, J extends JaxbObject, S extends JaxbStub<J>> S getStub( @NotNull Class<S> jaxbStubType, @Nullable T object, @NotNull UriContext context ) {
+  protected <T, J extends JaxbObject, S extends JaxbStub<J>> S getStub( @Nonnull Class<S> jaxbStubType, @Nullable T object, @Nonnull UriContext context ) {
     if ( object == null ) {
       return null;
     }
@@ -95,7 +95,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
   }
 
   @Nullable
-  protected <T, J extends JaxbObject, S extends JaxbStub<J>> List<S> getStub( @NotNull Class<S> jaxbSubType, @NotNull Iterable<? extends T> objects, @NotNull UriContext context ) {
+  protected <T, J extends JaxbObject, S extends JaxbStub<J>> List<S> getStub( @Nonnull Class<S> jaxbSubType, @Nonnull Iterable<? extends T> objects, @Nonnull UriContext context ) {
     JaxbMapping<Object, ?, S> mapping = getDelegatesMapping().getMappingForStub( jaxbSubType );
 
     List<S> converted = new ArrayList<S>();
@@ -107,8 +107,8 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
     return converted;
   }
 
-  @NotNull
-  public List<J> getJaxbObjects( @NotNull Iterable<? extends T> objects, @NotNull UriContext context ) {
+  @Nonnull
+  public List<J> getJaxbObjects( @Nonnull Iterable<? extends T> objects, @Nonnull UriContext context ) {
     List<J> currentJaxbObjects = new ArrayList<J>();
     for ( T object : objects ) {
       currentJaxbObjects.add( getJaxbObject( object, context ) );
@@ -116,8 +116,8 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
     return currentJaxbObjects;
   }
 
-  @NotNull
-  public List<S> getJaxbStubs( @NotNull Iterable<? extends T> objects, @NotNull UriContext context ) {
+  @Nonnull
+  public List<S> getJaxbStubs( @Nonnull Iterable<? extends T> objects, @Nonnull UriContext context ) {
     List<S> currentJaxbObjects = new ArrayList<S>();
     for ( T object : objects ) {
       currentJaxbObjects.add( getJaxbObjectStub( object, context ) );
@@ -134,7 +134,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    * @return the local context (with updated URI builder) - or null if no local context is available
    */
   @Nullable
-  protected UriContext createLocalContext( @NotNull UriContext context, @NotNull JaxbObject jaxbObject ) {
+  protected UriContext createLocalContext( @Nonnull UriContext context, @Nonnull JaxbObject jaxbObject ) {
     UriBuilder localUri = getUri( jaxbObject, context );
     if ( localUri == null ) {
       return null;
@@ -149,8 +149,8 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    * @param context the context
    * @return the jaxb object
    */
-  @NotNull
-  protected final J createJaxbObject( @NotNull T object, @NotNull UriContext context ) {
+  @Nonnull
+  protected final J createJaxbObject( @Nonnull T object, @Nonnull UriContext context ) {
     J jaxbObject = createJaxbObject( object );
 
     UriContext localContext = createLocalContext( context, jaxbObject );
@@ -174,7 +174,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    * @param context the context
    * @return the stub
    */
-  protected final S createJaxbObjectStub( @NotNull T object, @NotNull UriContext context ) {
+  protected final S createJaxbObjectStub( @Nonnull T object, @Nonnull UriContext context ) {
     S jaxbStub = createJaxbStub( object );
 
     UriContext localContext = createLocalContext( context, jaxbStub );
@@ -194,7 +194,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    * @param jaxbObject the jaxb object
    * @param context    the context
    */
-  protected void setHref( @NotNull JaxbObject jaxbObject, @NotNull UriContext context ) {
+  protected void setHref( @Nonnull JaxbObject jaxbObject, @Nonnull UriContext context ) {
     jaxbObject.setHref( context.getUri() );
   }
 
@@ -206,7 +206,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    * @return the updated uri builder or null of no URI is available
    */
   @Nullable
-  protected abstract UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext context );
+  protected abstract UriBuilder getUri( @Nonnull JaxbObject object, @Nonnull UriContext context );
 
   /**
    * Creates the basic JaxbObject.
@@ -215,8 +215,8 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    * @param object the object
    * @return the jaxb object (with the ID set)
    */
-  @NotNull
-  protected abstract J createJaxbObject( @NotNull T object );
+  @Nonnull
+  protected abstract J createJaxbObject( @Nonnull T object );
 
   /**
    * Creates the basic stub.
@@ -225,8 +225,8 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    * @param object the object
    * @return the stub object (with the ID set)
    */
-  @NotNull
-  protected abstract S createJaxbStub( @NotNull T object );
+  @Nonnull
+  protected abstract S createJaxbStub( @Nonnull T object );
 
   /**
    * Copies the fields from the source to the target.
@@ -238,7 +238,7 @@ public abstract class JaxbMapping<T, J extends JaxbObject, S extends JaxbStub<J>
    * @param target  the target jaxb object
    * @param context the (local) context.
    */
-  protected abstract void copyFieldsToJaxbObject( @NotNull T source, @NotNull J target, @NotNull UriContext context );
+  protected abstract void copyFieldsToJaxbObject( @Nonnull T source, @Nonnull J target, @Nonnull UriContext context );
 
-  protected abstract void copyFieldsToStub( @NotNull T source, @NotNull S target, @NotNull UriContext context );
+  protected abstract void copyFieldsToStub( @Nonnull T source, @Nonnull S target, @Nonnull UriContext context );
 }

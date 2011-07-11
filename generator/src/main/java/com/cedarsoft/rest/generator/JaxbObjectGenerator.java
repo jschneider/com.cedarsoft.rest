@@ -44,7 +44,7 @@ import com.cedarsoft.codegen.parser.Result;
 import com.cedarsoft.io.WriterOutputStream;
 import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.mirror.declaration.ClassDeclaration;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -58,7 +58,7 @@ public class JaxbObjectGenerator extends AbstractGenerator {
     cliSupport.run( args );
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected String getRunnerClassName() {
     return "com.cedarsoft.rest.generator.JaxbObjectGenerator$MyRunner";
@@ -66,7 +66,7 @@ public class JaxbObjectGenerator extends AbstractGenerator {
 
   public static class MyRunner implements Runner {
     @Override
-    public void generate( @NotNull GeneratorConfiguration configuration ) throws Exception {
+    public void generate( @Nonnull GeneratorConfiguration configuration ) throws Exception {
       Result result = Parser.parse( configuration.getClasspath(), configuration.getDomainSourceFiles() );
 
       PrintStream statusPrinter = new PrintStream( new WriterOutputStream( configuration.getLogOut() ) );
@@ -77,7 +77,7 @@ public class JaxbObjectGenerator extends AbstractGenerator {
       }
     }
 
-    protected void generate( @NotNull DomainObjectDescriptor descriptor, @NotNull GeneratorConfiguration configuration, @NotNull PrintStream statusPrinter ) throws JClassAlreadyExistsException, IOException {
+    protected void generate( @Nonnull DomainObjectDescriptor descriptor, @Nonnull GeneratorConfiguration configuration, @Nonnull PrintStream statusPrinter ) throws JClassAlreadyExistsException, IOException {
       //Create the source files
       if ( configuration.getCreationMode().isCreate() ) {
         configuration.getLogOut().append( "Generating JAXB classes...\n" );
@@ -99,7 +99,7 @@ public class JaxbObjectGenerator extends AbstractGenerator {
   }
 
   public static class StubDecisionCallback implements DecisionCallback {
-    public boolean shallAddFieldStatement( @NotNull com.cedarsoft.rest.generator.AbstractGenerator<?> generator, @NotNull FieldTypeInformation fieldInfo, @NotNull Generator.Scope type ) {
+    public boolean shallAddFieldStatement( @Nonnull com.cedarsoft.rest.generator.AbstractGenerator<?> generator, @Nonnull FieldTypeInformation fieldInfo, @Nonnull Generator.Scope type ) {
       boolean probablyOwnType = generator.isProbablyOwnType( fieldInfo.getType() );
       boolean isCollectionType = fieldInfo.isCollectionType();
 

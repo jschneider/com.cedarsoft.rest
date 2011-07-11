@@ -39,7 +39,7 @@ import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.sample.Group;
 import com.cedarsoft.rest.sample.User;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.junit.experimental.theories.*;
 
 import java.io.StringWriter;
@@ -49,7 +49,7 @@ public class UserMappingTest extends AbstractMappedJaxbTest<User, com.cedarsoft.
     super( com.cedarsoft.rest.sample.jaxb.User.Jaxb.class, com.cedarsoft.rest.sample.jaxb.User.Stub.class );
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected JaxbMapping<User, com.cedarsoft.rest.sample.jaxb.User.Jaxb, com.cedarsoft.rest.sample.jaxb.User.Stub> createMapping() {
     return new UserMapping( new GroupMapping(), new DetailMapping() );

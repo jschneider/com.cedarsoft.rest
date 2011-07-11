@@ -31,7 +31,7 @@
 
 package com.cedarsoft.rest;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.junit.rules.*;
 import org.junit.runners.model.*;
 
@@ -50,7 +50,7 @@ import java.util.List;
 public class JaxbRule implements MethodRule {
   private final List<Class<?>> typesToBeBound = new ArrayList<Class<?>>();
 
-  public JaxbRule( @NotNull Class<?>... typesToBeBound ) {
+  public JaxbRule( @Nonnull Class<?>... typesToBeBound ) {
     for ( Class<?> typeToBeBound : typesToBeBound ) {
       if ( typeToBeBound == null ) {
         continue;
@@ -60,7 +60,7 @@ public class JaxbRule implements MethodRule {
     }
   }
 
-  public JaxbRule( @NotNull Collection<? extends Class<?>> typesToBeBound ) {
+  public JaxbRule( @Nonnull Collection<? extends Class<?>> typesToBeBound ) {
     this.typesToBeBound.addAll( typesToBeBound );
   }
 
@@ -79,17 +79,17 @@ public class JaxbRule implements MethodRule {
     };
   }
 
-  @NotNull
+  @Nonnull
   public Marshaller createMarshaller() throws JAXBException {
     return getContext().createMarshaller();
   }
 
-  @NotNull
+  @Nonnull
   public Unmarshaller createUnmarshaller() throws JAXBException {
     return getContext().createUnmarshaller();
   }
 
-  @NotNull
+  @Nonnull
   public JAXBContext getContext() throws JAXBException {
     if ( context == null ) {
       context = createContext();
@@ -97,7 +97,7 @@ public class JaxbRule implements MethodRule {
     return context;
   }
 
-  public void addTypeToBeBound( @NotNull Class<?> type ) {
+  public void addTypeToBeBound( @Nonnull Class<?> type ) {
     this.typesToBeBound.add( type );
   }
 
@@ -105,7 +105,7 @@ public class JaxbRule implements MethodRule {
     return Collections.unmodifiableList( typesToBeBound );
   }
 
-  @NotNull
+  @Nonnull
   protected JAXBContext createContext() throws JAXBException {
     return JAXBContext.newInstance( typesToBeBound.toArray( new Class[new ArrayList<Class<?>>( typesToBeBound ).size()] ) );
   }

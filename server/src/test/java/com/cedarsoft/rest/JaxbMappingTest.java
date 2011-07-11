@@ -35,9 +35,9 @@ import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
 import com.google.common.collect.Lists;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.junit.*;
 
 import javax.ws.rs.core.UriBuilder;
@@ -57,31 +57,31 @@ public class JaxbMappingTest {
   @Before
   public void setUp() throws Exception {
     mapping = new JaxbMapping<MyObject, MyObjectJaxb, MyObjectJaxbStub>() {
-      @NotNull
+      @Nonnull
       @Override
-      protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext context ) {
+      protected UriBuilder getUri( @Nonnull JaxbObject object, @Nonnull UriContext context ) {
         return context.getUriBuilder().path( "uriForMyObjectJaxb" );
       }
 
       @Override
-      protected void copyFieldsToJaxbObject( @NotNull MyObject source, @NotNull MyObjectJaxb target, @NotNull UriContext context ) {
+      protected void copyFieldsToJaxbObject( @Nonnull MyObject source, @Nonnull MyObjectJaxb target, @Nonnull UriContext context ) {
         target.setDaInt( source.daInt );
       }
 
-      @NotNull
+      @Nonnull
       @Override
-      protected MyObjectJaxb createJaxbObject( @NotNull MyObject object ) {
+      protected MyObjectJaxb createJaxbObject( @Nonnull MyObject object ) {
         return new MyObjectJaxb( "daId" );
       }
 
-      @NotNull
+      @Nonnull
       @Override
-      protected MyObjectJaxbStub createJaxbStub( @NotNull MyObject object ) {
+      protected MyObjectJaxbStub createJaxbStub( @Nonnull MyObject object ) {
         return new MyObjectJaxbStub( "daId" );
       }
 
       @Override
-      protected void copyFieldsToStub( @NotNull MyObject source, @NotNull MyObjectJaxbStub target, @NotNull UriContext context ) {
+      protected void copyFieldsToStub( @Nonnull MyObject source, @Nonnull MyObjectJaxbStub target, @Nonnull UriContext context ) {
         target.stubInt = source.daInt;
       }
     };
@@ -91,30 +91,30 @@ public class JaxbMappingTest {
         getDelegatesMapping().addMapping( MyObjectJaxb.class, MyObjectJaxbStub.class, mapping );
       }
 
-      @NotNull
+      @Nonnull
       @Override
-      protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext context ) {
+      protected UriBuilder getUri( @Nonnull JaxbObject object, @Nonnull UriContext context ) {
         return context.getUriBuilder().path( "uriForParentJaxb" );
       }
 
-      @NotNull
+      @Nonnull
       @Override
-      protected ParentJaxbStub createJaxbStub( @NotNull Parent object ) {
+      protected ParentJaxbStub createJaxbStub( @Nonnull Parent object ) {
         return new ParentJaxbStub( "daId" );
       }
 
       @Override
-      protected void copyFieldsToStub( @NotNull Parent source, @NotNull ParentJaxbStub target, @NotNull UriContext context ) {
+      protected void copyFieldsToStub( @Nonnull Parent source, @Nonnull ParentJaxbStub target, @Nonnull UriContext context ) {
       }
 
-      @NotNull
+      @Nonnull
       @Override
-      protected ParentJaxb createJaxbObject( @NotNull Parent object ) {
+      protected ParentJaxb createJaxbObject( @Nonnull Parent object ) {
         return new ParentJaxb( "daId" );
       }
 
       @Override
-      protected void copyFieldsToJaxbObject( @NotNull Parent source, @NotNull ParentJaxb target, @NotNull UriContext context ) {
+      protected void copyFieldsToJaxbObject( @Nonnull Parent source, @Nonnull ParentJaxb target, @Nonnull UriContext context ) {
         target.setChild( get( MyObjectJaxb.class, source.child, context ) );
       }
     };
@@ -124,30 +124,30 @@ public class JaxbMappingTest {
         getDelegatesMapping().addMapping( ParentJaxb.class, ParentJaxbStub.class, parentMapping );
       }
 
-      @NotNull
+      @Nonnull
       @Override
-      protected GrandFatherJaxbStub createJaxbStub( @NotNull GrandFather object ) {
+      protected GrandFatherJaxbStub createJaxbStub( @Nonnull GrandFather object ) {
         return new GrandFatherJaxbStub( "daId" );
       }
 
       @Override
-      protected void copyFieldsToStub( @NotNull GrandFather source, @NotNull GrandFatherJaxbStub target, @NotNull UriContext context ) {
+      protected void copyFieldsToStub( @Nonnull GrandFather source, @Nonnull GrandFatherJaxbStub target, @Nonnull UriContext context ) {
       }
 
-      @NotNull
+      @Nonnull
       @Override
-      protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext context ) {
+      protected UriBuilder getUri( @Nonnull JaxbObject object, @Nonnull UriContext context ) {
         return context.getUriBuilder().path( "uriGrandParent" );
       }
 
-      @NotNull
+      @Nonnull
       @Override
-      protected GrandFatherJaxb createJaxbObject( @NotNull GrandFather object ) {
+      protected GrandFatherJaxb createJaxbObject( @Nonnull GrandFather object ) {
         return new GrandFatherJaxb( "daId" );
       }
 
       @Override
-      protected void copyFieldsToJaxbObject( @NotNull GrandFather source, @NotNull GrandFatherJaxb target, @NotNull UriContext context ) {
+      protected void copyFieldsToJaxbObject( @Nonnull GrandFather source, @Nonnull GrandFatherJaxb target, @Nonnull UriContext context ) {
         target.setParent( get( ParentJaxb.class, source.parent, context ) );
       }
     };
@@ -261,13 +261,13 @@ public class JaxbMappingTest {
     public MyObjectJaxbStub() {
     }
 
-    public MyObjectJaxbStub( @NotNull @NonNls String id ) {
+    public MyObjectJaxbStub( @Nonnull  String id ) {
       super( id );
     }
 
     private int stubInt;
 
-    @NotNull
+    @Nonnull
     @Override
     public Class<MyObjectJaxb> getJaxbType() {
       return MyObjectJaxb.class;
@@ -281,7 +281,7 @@ public class JaxbMappingTest {
     public MyObjectJaxb() {
     }
 
-    public MyObjectJaxb( @Nullable @NonNls String id ) {
+    public MyObjectJaxb( @Nullable  String id ) {
       super( id );
     }
 
@@ -306,7 +306,7 @@ public class JaxbMappingTest {
     public ParentJaxb() {
     }
 
-    public ParentJaxb( @NotNull @NonNls String id ) {
+    public ParentJaxb( @Nonnull  String id ) {
       super( id );
     }
 
@@ -336,11 +336,11 @@ public class JaxbMappingTest {
     public ParentJaxbStub() {
     }
 
-    public ParentJaxbStub( @NotNull @NonNls String id ) {
+    public ParentJaxbStub( @Nonnull  String id ) {
       super( id );
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Class<ParentJaxb> getJaxbType() {
       return ParentJaxb.class;
@@ -351,11 +351,11 @@ public class JaxbMappingTest {
     public GrandFatherJaxbStub() {
     }
 
-    public GrandFatherJaxbStub( @NotNull @NonNls String id ) {
+    public GrandFatherJaxbStub( @Nonnull  String id ) {
       super( id );
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Class<GrandFatherJaxb> getJaxbType() {
       return GrandFatherJaxb.class;
@@ -368,7 +368,7 @@ public class JaxbMappingTest {
     public GrandFatherJaxb() {
     }
 
-    public GrandFatherJaxb( @NotNull @NonNls String id ) {
+    public GrandFatherJaxb( @Nonnull  String id ) {
       super( id );
     }
 

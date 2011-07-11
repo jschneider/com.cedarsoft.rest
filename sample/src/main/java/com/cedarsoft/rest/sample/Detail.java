@@ -31,32 +31,32 @@
 
 package com.cedarsoft.rest.sample;
 
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
 public class Detail {
-  @NotNull
-  @NonNls
+  @Nonnull
+
   private final String id;
-  @NotNull
-  @NonNls
+  @Nonnull
+
   private final String text;
 
-  public Detail( String id, @NotNull String text ) {
+  public Detail( String id, @Nonnull String text ) {
     this.id = id;
     this.text = text;
   }
 
-  @NotNull
-  @NonNls
+  @Nonnull
+
   public String getId() {
     return id;
   }
 
-  @NotNull
+  @Nonnull
   public String getText() {
     return text;
   }

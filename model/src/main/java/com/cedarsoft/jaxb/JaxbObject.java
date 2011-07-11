@@ -31,8 +31,8 @@
 
 package com.cedarsoft.jaxb;
 
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 import java.net.URI;
 
@@ -45,10 +45,10 @@ public interface JaxbObject {
    *
    * @return the URI
    */
-  @NotNull
+  @Nonnull
   URI getHref();
 
-  void setHref( @NotNull URI href );
+  void setHref( @Nonnull URI href );
 
   /**
    * Returns the id
@@ -57,7 +57,7 @@ public interface JaxbObject {
    *
    * @throws IllegalStateException if no ID is available
    */
-  @NonNls
-  @NotNull
+
+  @Nonnull
   String getId() throws IllegalStateException;
 }

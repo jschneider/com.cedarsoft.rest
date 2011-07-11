@@ -34,8 +34,8 @@ package com.cedarsoft.rest.sample.jaxb;
 import com.cedarsoft.jaxb.AbstractJaxbCollection;
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -49,7 +49,7 @@ import java.util.List;
 @XmlTransient
 @XmlAccessorType( XmlAccessType.FIELD )
 public abstract class User extends AbstractJaxbObject {
-  @NonNls
+
   public static final String NS = "http://cedarsoft.com/rest/sample/user";
 
   private String email;
@@ -58,7 +58,7 @@ public abstract class User extends AbstractJaxbObject {
   protected User() {
   }
 
-  protected User( @NotNull @NonNls String id ) {
+  protected User( @Nonnull  String id ) {
     super( id );
   }
 
@@ -91,7 +91,7 @@ public abstract class User extends AbstractJaxbObject {
     public Jaxb() {
     }
 
-    public Jaxb( @NotNull @NonNls String id ) {
+    public Jaxb( @Nonnull  String id ) {
       super( id );
     }
 
@@ -124,13 +124,13 @@ public abstract class User extends AbstractJaxbObject {
   @XmlRootElement( name = "user", namespace = Stub.NS_STUB )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Stub extends User implements JaxbStub<User.Jaxb> {
-    @NonNls
+
     public static final String NS_STUB = NS + NS_STUB_SUFFIX;
 
     public Stub() {
     }
 
-    public Stub( @NotNull @NonNls String id ) {
+    public Stub( @Nonnull  String id ) {
       super( id );
     }
 
@@ -144,7 +144,7 @@ public abstract class User extends AbstractJaxbObject {
   @XmlRootElement( name = "users", namespace = Collection.NS_COLLECTION )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Collection extends AbstractJaxbCollection {
-    @NonNls
+
     public static final String NS_COLLECTION = Stub.NS + NS_COLLECTION_SUFFIX;
 
     @XmlElementRef
@@ -153,7 +153,7 @@ public abstract class User extends AbstractJaxbObject {
     public Collection() {
     }
 
-    public Collection( @NotNull List<Stub> users ) {
+    public Collection( @Nonnull List<Stub> users ) {
       this( users, 0, 0 );
     }
 

@@ -35,8 +35,8 @@ import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.UriContext;
 import com.google.inject.Inject;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -44,20 +44,20 @@ import javax.ws.rs.core.UriBuilder;
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
 public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, User.Jaxb, User.Stub> {
-  @NonNls
-  @NotNull
+
+  @Nonnull
   public static final String PATH_USERS = "users";
 
   @Inject
-  public UserMapping( @NotNull GroupMapping groupMapping, @NotNull DetailMapping detailMapping ) {
+  public UserMapping( @Nonnull GroupMapping groupMapping, @Nonnull DetailMapping detailMapping ) {
     getDelegatesMapping().addMapping( User.Jaxb.class, User.Stub.class, this );
     getDelegatesMapping().addMapping( Group.Jaxb.class, Group.Stub.class, groupMapping );
     getDelegatesMapping().addMapping( Detail.Jaxb.class, Detail.Stub.class, detailMapping );
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext context ) {
+  protected UriBuilder getUri( @Nonnull JaxbObject object, @Nonnull UriContext context ) {
     return context.getBaseUriBuilder().path( PATH_USERS ).path( object.getId() );
   }
 
@@ -69,7 +69,7 @@ public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, Use
    * @param context    the context
    */
   @Override
-  protected void copyFieldsToJaxbObject( @NotNull com.cedarsoft.rest.sample.User source, @NotNull User.Jaxb target, @NotNull UriContext context ) {
+  protected void copyFieldsToJaxbObject( @Nonnull com.cedarsoft.rest.sample.User source, @Nonnull User.Jaxb target, @Nonnull UriContext context ) {
     target.setEmail( source.getEmail() );
     target.setName( source.getName() );
     target.setFriends( getStub( User.Stub.class, source.getFriends(), context ) );
@@ -85,19 +85,19 @@ public class UserMapping extends JaxbMapping<com.cedarsoft.rest.sample.User, Use
    * @return the created jaxb object
    */
   @Override
-  @NotNull
-  protected User.Jaxb createJaxbObject( @NotNull com.cedarsoft.rest.sample.User object ) {
+  @Nonnull
+  protected User.Jaxb createJaxbObject( @Nonnull com.cedarsoft.rest.sample.User object ) {
     return new User.Jaxb( object.getEmail() );
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected User.Stub createJaxbStub( @NotNull com.cedarsoft.rest.sample.User object ) {
+  protected User.Stub createJaxbStub( @Nonnull com.cedarsoft.rest.sample.User object ) {
     return new User.Stub( object.getEmail() );
   }
 
   @Override
-  protected void copyFieldsToStub( @NotNull com.cedarsoft.rest.sample.User source, @NotNull User.Stub target, @NotNull UriContext context ) {
+  protected void copyFieldsToStub( @Nonnull com.cedarsoft.rest.sample.User source, @Nonnull User.Stub target, @Nonnull UriContext context ) {
     target.setEmail( source.getEmail() );
     target.setName( source.getName() );
   }

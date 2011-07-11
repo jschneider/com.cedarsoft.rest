@@ -42,7 +42,7 @@ import com.sun.jersey.test.framework.AppDescriptor;
 import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.WebAppDescriptor;
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.junit.*;
 
 import javax.ws.rs.core.MediaType;
@@ -206,8 +206,8 @@ public class RestTest extends JerseyTest {
     assertEquals( 2, user.getFriends().size() );
   }
 
-  @NotNull
-  private <J extends JaxbObject> J fetch( @NotNull JaxbStub<J> stub ) {
+  @Nonnull
+  private <J extends JaxbObject> J fetch( @Nonnull JaxbStub<J> stub ) {
     return client().resource( stub.getHref() ).type( MediaType.APPLICATION_XML ).get( stub.getJaxbType() );
   }
 

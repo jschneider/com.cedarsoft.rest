@@ -37,9 +37,9 @@ import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.junit.*;
 
 import javax.xml.bind.JAXBException;
@@ -59,18 +59,18 @@ public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub<
   @Rule
   public JaxbRule jaxbRule;
 
-  @NotNull
+  @Nonnull
   private final Class<J> jaxbType;
-  @NotNull
+  @Nonnull
   private final Class<S> jaxbStubType;
   @Nullable
   private final Class<? extends JaxbCollection> jaxbCollectionType;
 
-  protected AbstractJaxbTest( @NotNull Class<J> jaxbType, @NotNull Class<S> jaxbStubType ) {
+  protected AbstractJaxbTest( @Nonnull Class<J> jaxbType, @Nonnull Class<S> jaxbStubType ) {
     this( jaxbType, jaxbStubType, null );
   }
 
-  protected AbstractJaxbTest( @NotNull Class<J> jaxbType, @NotNull Class<S> jaxbStubType, @Nullable Class<? extends JaxbCollection> jaxbCollectionType ) {
+  protected AbstractJaxbTest( @Nonnull Class<J> jaxbType, @Nonnull Class<S> jaxbStubType, @Nullable Class<? extends JaxbCollection> jaxbCollectionType ) {
     this.jaxbType = jaxbType;
     this.jaxbStubType = jaxbStubType;
     this.jaxbCollectionType = jaxbCollectionType;
@@ -78,7 +78,7 @@ public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub<
     jaxbRule = new JaxbRule( getJaxbType(), getJaxbStubType(), jaxbCollectionType );
   }
 
-  @NotNull
+  @Nonnull
   public Class<? extends JaxbCollection> getJaxbCollectionType() {
     if ( jaxbCollectionType == null ) {
       throw new IllegalStateException( "No jaxbCollectionType set" );
@@ -86,12 +86,12 @@ public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub<
     return jaxbCollectionType;
   }
 
-  @NotNull
+  @Nonnull
   protected final Class<J> getJaxbType() {
     return jaxbType;
   }
 
-  @NotNull
+  @Nonnull
   protected final Class<S> getJaxbStubType() {
     return jaxbStubType;
   }
@@ -104,78 +104,78 @@ public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub<
     Assert.assertTrue( namespace.length() > 0 );
   }
 
-  @NotNull
+  @Nonnull
   public Marshaller createMarshaller() throws JAXBException {
     return jaxbRule.createMarshaller();
   }
 
-  @NotNull
+  @Nonnull
   public Unmarshaller createUnmarshaller() throws JAXBException {
     return jaxbRule.createUnmarshaller();
   }
 
-  @NotNull
-  @NonNls
+  @Nonnull
+
   protected String getXmlName() {
     String className = getClass().getSimpleName();
     return className + ".xml";
   }
 
-  protected void verifyDeserialized( @NotNull JaxbCollection deserialized, @NotNull JaxbCollection originalCollection ) {
+  protected void verifyDeserialized( @Nonnull JaxbCollection deserialized, @Nonnull JaxbCollection originalCollection ) {
     assertEquals( originalCollection, deserialized );
     EqualsBuilder.reflectionEquals( deserialized, originalCollection );
   }
 
-  protected void verifyDeserialized( @NotNull J deserialized, @NotNull J originalJaxbObject ) throws IllegalAccessException {
+  protected void verifyDeserialized( @Nonnull J deserialized, @Nonnull J originalJaxbObject ) throws IllegalAccessException {
     assertEquals( originalJaxbObject, deserialized );
     EqualsBuilder.reflectionEquals( deserialized, originalJaxbObject );
   }
 
-  protected void verifyDeserializedStub( @NotNull S deserialized, @NotNull S originalJaxbStub ) throws IllegalAccessException {
+  protected void verifyDeserializedStub( @Nonnull S deserialized, @Nonnull S originalJaxbStub ) throws IllegalAccessException {
     assertEquals( originalJaxbStub, deserialized );
     EqualsBuilder.reflectionEquals( deserialized, originalJaxbStub );
   }
 
-  protected boolean isJaxbObjectType( @NotNull Entry<?> entry ) {
+  protected boolean isJaxbObjectType( @Nonnull Entry<?> entry ) {
     return getJaxbType().equals( entry.getObject().getClass() );
   }
 
-  protected boolean isJaxbCollectionObjectType( @NotNull Entry<?> entry ) {
+  protected boolean isJaxbCollectionObjectType( @Nonnull Entry<?> entry ) {
     return AbstractJaxbCollection.class.isAssignableFrom( entry.getObject().getClass() );
   }
 
-  protected boolean isJaxbStubType( @NotNull Entry<?> entry ) {
+  protected boolean isJaxbStubType( @Nonnull Entry<?> entry ) {
     Class<?> objectType = entry.getObject().getClass();
     return getJaxbStubType().equals( objectType );
   }
 
-  @NotNull
-  protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls byte[] expected ) {
+  @Nonnull
+  protected static <T> Entry<? extends T> create( @Nonnull T object, @Nonnull  byte[] expected ) {
     return create( object, expected, expected );
   }
 
-  @NotNull
-  protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls byte[] expected, @NotNull @NonNls byte[] stubExpected ) {
+  @Nonnull
+  protected static <T> Entry<? extends T> create( @Nonnull T object, @Nonnull  byte[] expected, @Nonnull  byte[] stubExpected ) {
     return new Entry<T>( object, expected, stubExpected );
   }
 
-  @NotNull
-  protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls String expected ) {
+  @Nonnull
+  protected static <T> Entry<? extends T> create( @Nonnull T object, @Nonnull  String expected ) {
     return create( object, expected, expected );
   }
 
-  @NotNull
-  protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls String expected, @NotNull @NonNls String stubExpected ) {
+  @Nonnull
+  protected static <T> Entry<? extends T> create( @Nonnull T object, @Nonnull  String expected, @Nonnull  String stubExpected ) {
     return new Entry<T>( object, expected.getBytes(), stubExpected.getBytes() );
   }
 
-  @NotNull
-  protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls URL expected ) {
+  @Nonnull
+  protected static <T> Entry<? extends T> create( @Nonnull T object, @Nonnull  URL expected ) {
     return create( object, expected, expected );
   }
 
-  @NotNull
-  protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls URL expected, @NotNull @NonNls URL stubExpected ) {
+  @Nonnull
+  protected static <T> Entry<? extends T> create( @Nonnull T object, @Nonnull  URL expected, @Nonnull  URL stubExpected ) {
     try {
       return new Entry<T>( object, IOUtils.toByteArray( expected.openStream() ), IOUtils.toByteArray( stubExpected.openStream() ) );
     } catch ( IOException e ) {
@@ -183,13 +183,13 @@ public abstract class AbstractJaxbTest<J extends JaxbObject, S extends JaxbStub<
     }
   }
 
-  @NotNull
-  protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls InputStream expected ) {
+  @Nonnull
+  protected static <T> Entry<? extends T> create( @Nonnull T object, @Nonnull  InputStream expected ) {
     return create( object, expected, expected );
   }
 
-  @NotNull
-  protected static <T> Entry<? extends T> create( @NotNull T object, @NotNull @NonNls InputStream expected, @NotNull @NonNls InputStream stubExpected ) {
+  @Nonnull
+  protected static <T> Entry<? extends T> create( @Nonnull T object, @Nonnull  InputStream expected, @Nonnull  InputStream stubExpected ) {
     try {
       return new Entry<T>( object, IOUtils.toByteArray( expected ), IOUtils.toByteArray( stubExpected ) );
     } catch ( IOException e ) {

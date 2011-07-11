@@ -35,42 +35,42 @@ import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.UriContext;
 import com.cedarsoft.rest.sample.Detail;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 import javax.ws.rs.core.UriBuilder;
 
 public class DetailMapping extends JaxbMapping<Detail, com.cedarsoft.rest.sample.jaxb.Detail.Jaxb, com.cedarsoft.rest.sample.jaxb.Detail.Stub> {
 
-  @NotNull
-  @NonNls
+  @Nonnull
+
   public static final String PATH = "details";
 
-  @NotNull
+  @Nonnull
   @Override
-  protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext context ) {
+  protected UriBuilder getUri( @Nonnull JaxbObject object, @Nonnull UriContext context ) {
     return context.getUriBuilder().path( PATH ).path( object.getId() );
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected com.cedarsoft.rest.sample.jaxb.Detail.Jaxb createJaxbObject( @NotNull Detail object ) {
+  protected com.cedarsoft.rest.sample.jaxb.Detail.Jaxb createJaxbObject( @Nonnull Detail object ) {
     return new com.cedarsoft.rest.sample.jaxb.Detail.Jaxb( object.getId() );
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected com.cedarsoft.rest.sample.jaxb.Detail.Stub createJaxbStub( @NotNull Detail object ) {
+  protected com.cedarsoft.rest.sample.jaxb.Detail.Stub createJaxbStub( @Nonnull Detail object ) {
     return new com.cedarsoft.rest.sample.jaxb.Detail.Stub( object.getId() );
   }
 
   @Override
-  protected void copyFieldsToJaxbObject( @NotNull Detail source, @NotNull com.cedarsoft.rest.sample.jaxb.Detail.Jaxb target, @NotNull UriContext context ) {
+  protected void copyFieldsToJaxbObject( @Nonnull Detail source, @Nonnull com.cedarsoft.rest.sample.jaxb.Detail.Jaxb target, @Nonnull UriContext context ) {
     target.setText( source.getText() );
   }
 
   @Override
-  protected void copyFieldsToStub( @NotNull Detail source, @NotNull com.cedarsoft.rest.sample.jaxb.Detail.Stub target, @NotNull UriContext context ) {
+  protected void copyFieldsToStub( @Nonnull Detail source, @Nonnull com.cedarsoft.rest.sample.jaxb.Detail.Stub target, @Nonnull UriContext context ) {
     target.setText( source.getText() );
   }
 }

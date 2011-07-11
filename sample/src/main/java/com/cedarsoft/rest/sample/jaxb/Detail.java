@@ -33,8 +33,8 @@ package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -46,7 +46,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlTransient
 @XmlAccessorType( XmlAccessType.FIELD )
 public abstract class Detail extends AbstractJaxbObject {
-  @NonNls
+
   public static final String NS = "http://cedarsoft.com/rest/sample/detail";
 
   private String text;
@@ -54,7 +54,7 @@ public abstract class Detail extends AbstractJaxbObject {
   protected Detail() {
   }
 
-  protected Detail( @NotNull @NonNls String id ) {
+  protected Detail( @Nonnull  String id ) {
     super( id );
   }
 
@@ -73,7 +73,7 @@ public abstract class Detail extends AbstractJaxbObject {
     public Jaxb() {
     }
 
-    public Jaxb( @NotNull @NonNls String id ) {
+    public Jaxb( @Nonnull  String id ) {
       super( id );
     }
   }
@@ -82,17 +82,17 @@ public abstract class Detail extends AbstractJaxbObject {
   @XmlRootElement( name = "detail", namespace = Stub.NS_STUB )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Stub extends Detail implements JaxbStub<Detail.Jaxb> {
-    @NonNls
+
     public static final String NS_STUB = NS + NS_STUB_SUFFIX;
 
     public Stub() {
     }
 
-    public Stub( @NotNull @NonNls String id ) {
+    public Stub( @Nonnull  String id ) {
       super( id );
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Class<Detail.Jaxb> getJaxbType() {
       return Detail.Jaxb.class;

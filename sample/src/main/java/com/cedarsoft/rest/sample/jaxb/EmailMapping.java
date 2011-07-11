@@ -35,42 +35,42 @@ import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.UriContext;
 import com.cedarsoft.rest.sample.Email;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import javax.ws.rs.core.UriBuilder;
 
 public class EmailMapping extends JaxbMapping<Email, com.cedarsoft.rest.sample.jaxb.Email.Jaxb, com.cedarsoft.rest.sample.jaxb.Email.Stub> {
-  @NotNull
-  @NonNls
+  @Nonnull
+
   public static final String PATH = "emails";
 
   @Nullable
   @Override
-  protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext context ) {
+  protected UriBuilder getUri( @Nonnull JaxbObject object, @Nonnull UriContext context ) {
     return null;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected com.cedarsoft.rest.sample.jaxb.Email.Jaxb createJaxbObject( @NotNull Email object ) {
+  protected com.cedarsoft.rest.sample.jaxb.Email.Jaxb createJaxbObject( @Nonnull Email object ) {
     return new com.cedarsoft.rest.sample.jaxb.Email.Jaxb( object.getAddress() );
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected com.cedarsoft.rest.sample.jaxb.Email.Stub createJaxbStub( @NotNull Email object ) {
+  protected com.cedarsoft.rest.sample.jaxb.Email.Stub createJaxbStub( @Nonnull Email object ) {
     return new com.cedarsoft.rest.sample.jaxb.Email.Stub( object.getAddress() );
   }
 
   @Override
-  protected void copyFieldsToJaxbObject( @NotNull Email source, @NotNull com.cedarsoft.rest.sample.jaxb.Email.Jaxb target, @NotNull UriContext context ) {
+  protected void copyFieldsToJaxbObject( @Nonnull Email source, @Nonnull com.cedarsoft.rest.sample.jaxb.Email.Jaxb target, @Nonnull UriContext context ) {
     target.setAddress( source.getAddress() );
   }
 
   @Override
-  protected void copyFieldsToStub( @NotNull Email source, @NotNull com.cedarsoft.rest.sample.jaxb.Email.Stub target, @NotNull UriContext context ) {
+  protected void copyFieldsToStub( @Nonnull Email source, @Nonnull com.cedarsoft.rest.sample.jaxb.Email.Stub target, @Nonnull UriContext context ) {
     target.setAddress( source.getAddress() );
   }
 

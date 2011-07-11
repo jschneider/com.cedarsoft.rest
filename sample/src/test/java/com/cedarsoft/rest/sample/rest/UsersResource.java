@@ -37,8 +37,8 @@ import com.cedarsoft.rest.sample.jaxb.User;
 import com.cedarsoft.rest.sample.jaxb.UserMapping;
 import com.google.inject.Inject;
 import com.sun.jersey.api.NotFoundException;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -59,24 +59,24 @@ import java.util.List;
 @Path( UserMapping.PATH_USERS )
 @Produces( {MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON} )
 public class UsersResource {
-  @NotNull
+  @Nonnull
   @Context
   private UriInfo uriInfo;
   @Context
   private Request request;
-  @NotNull
+  @Nonnull
   private final List<com.cedarsoft.rest.sample.User> users;
-  @NotNull
+  @Nonnull
   private final UserMapping userMapping;
 
   @Inject
-  public UsersResource( @NotNull UserMapping userMapping, @NotNull List<? extends com.cedarsoft.rest.sample.User> users ) {
+  public UsersResource( @Nonnull UserMapping userMapping, @Nonnull List<? extends com.cedarsoft.rest.sample.User> users ) {
     this.userMapping = userMapping;
     this.users = new ArrayList<com.cedarsoft.rest.sample.User>( users );
   }
 
   @GET
-  @NotNull
+  @Nonnull
   public User.Collection getUsers( @Context HttpHeaders headers, @QueryParam( "min-index" ) int minIndex, @QueryParam( "max-length" ) int maxLength ) {
     List<com.cedarsoft.rest.sample.User> selectedUsers;
     if ( maxLength > 0 ) {
@@ -90,8 +90,8 @@ public class UsersResource {
 
   @GET
   @Path( "{id}" )
-  @NotNull
-  public User.Jaxb getUser( @PathParam( "id" ) @NotNull @NonNls String id ) {
+  @Nonnull
+  public User.Jaxb getUser( @PathParam( "id" ) @Nonnull  String id ) {
     for ( com.cedarsoft.rest.sample.User user : users ) {
       if ( user.getEmail().equals( id ) ) {
         return userMapping.getJaxbObject( user, new UriContext( uriInfo.getBaseUriBuilder(), uriInfo.getBaseUriBuilder() ) );
@@ -104,7 +104,7 @@ public class UsersResource {
   @Deprecated
   @GET
   @Path( "test" )
-  @NotNull
+  @Nonnull
   public User.Jaxb getTestUser() {
     com.cedarsoft.rest.sample.User user = new com.cedarsoft.rest.sample.User( "test@test.com", "Test User" );
     user.addFriend( new com.cedarsoft.rest.sample.User( "friend@asdf.de", "A Friend" ) );

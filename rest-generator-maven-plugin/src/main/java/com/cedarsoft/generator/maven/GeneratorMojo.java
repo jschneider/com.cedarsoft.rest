@@ -33,7 +33,7 @@ package com.cedarsoft.generator.maven;
 
 import com.cedarsoft.codegen.AbstractGenerator;
 import com.cedarsoft.rest.generator.JaxbObjectGenerator;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.Arrays;
 
@@ -52,7 +52,7 @@ public class GeneratorMojo extends AbstractGenerateMojo {
     super( Arrays.asList( "**/*Jaxb*.java" ) );
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected AbstractGenerator createGenerator() {
     return new JaxbObjectGenerator();

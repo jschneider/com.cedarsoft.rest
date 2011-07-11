@@ -36,8 +36,8 @@ import com.cedarsoft.jaxb.AbstractJaxbCollection;
 import com.cedarsoft.jaxb.JaxbCollection;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.junit.experimental.theories.*;
 import org.junit.runner.*;
 
@@ -53,16 +53,16 @@ import static org.junit.Assert.*;
  */
 @RunWith( Theories.class )
 public abstract class SimpleJaxbTest<J extends JaxbObject, S extends JaxbStub<J>> extends AbstractJaxbTest<J, S> {
-  protected SimpleJaxbTest( @NotNull Class<J> jaxbType, @NotNull Class<S> jaxbStubType ) {
+  protected SimpleJaxbTest( @Nonnull Class<J> jaxbType, @Nonnull Class<S> jaxbStubType ) {
     super( jaxbType, jaxbStubType );
   }
 
-  protected SimpleJaxbTest( @NotNull Class<J> jaxbType, @NotNull Class<S> jaxbStubType, @Nullable Class<? extends JaxbCollection> jaxbCollectionType ) {
+  protected SimpleJaxbTest( @Nonnull Class<J> jaxbType, @Nonnull Class<S> jaxbStubType, @Nullable Class<? extends JaxbCollection> jaxbCollectionType ) {
     super( jaxbType, jaxbStubType, jaxbCollectionType );
   }
 
   @Theory
-  public void testRoundCollection( @NotNull Entry<? extends AbstractJaxbCollection> entry ) throws Exception {
+  public void testRoundCollection( @Nonnull Entry<? extends AbstractJaxbCollection> entry ) throws Exception {
     if ( !isJaxbCollectionObjectType( entry ) ) {
       return;
     }
@@ -88,7 +88,7 @@ public abstract class SimpleJaxbTest<J extends JaxbObject, S extends JaxbStub<J>
   }
 
   @Theory
-  public void testRoundTripWithDataPoints( @NotNull Entry<? extends J> entry ) throws Exception {
+  public void testRoundTripWithDataPoints( @Nonnull Entry<? extends J> entry ) throws Exception {
     if ( !isJaxbObjectType( entry ) ) {
       return;
     }
@@ -120,7 +120,7 @@ public abstract class SimpleJaxbTest<J extends JaxbObject, S extends JaxbStub<J>
   }
 
   @Theory
-  public void testRoundStub( @NotNull Entry<? extends S> entry ) throws Exception {
+  public void testRoundStub( @Nonnull Entry<? extends S> entry ) throws Exception {
     if ( !isJaxbStubType( entry ) ) {
       return;
     }

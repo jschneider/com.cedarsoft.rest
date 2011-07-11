@@ -34,7 +34,7 @@ package com.cedarsoft.rest.sample.jaxb;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.UriContext;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -43,30 +43,30 @@ import javax.ws.rs.core.UriBuilder;
  *
  */
 public class CameraMapping extends JaxbMapping<com.cedarsoft.rest.sample.Camera, Camera.Jaxb, Camera.Stub> {
-  public CameraMapping( @NotNull UserMapping userMapping ) {
+  public CameraMapping( @Nonnull UserMapping userMapping ) {
     this.getDelegatesMapping().addMapping( User.Jaxb.class, User.Stub.class, userMapping );
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext context ) {
+  protected UriBuilder getUri( @Nonnull JaxbObject object, @Nonnull UriContext context ) {
     return context.getBaseUriBuilder().path( "devices" ).path( "cameras" ).path( object.getId() );
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected Camera.Jaxb createJaxbObject( @NotNull com.cedarsoft.rest.sample.Camera object ) {
+  protected Camera.Jaxb createJaxbObject( @Nonnull com.cedarsoft.rest.sample.Camera object ) {
     return new Camera.Jaxb( object.getId() );
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected Camera.Stub createJaxbStub( @NotNull com.cedarsoft.rest.sample.Camera object ) {
+  protected Camera.Stub createJaxbStub( @Nonnull com.cedarsoft.rest.sample.Camera object ) {
     return new Camera.Stub( object.getId() );
   }
 
   @Override
-  protected void copyFieldsToJaxbObject( @NotNull com.cedarsoft.rest.sample.Camera source, @NotNull Camera.Jaxb target, @NotNull UriContext context ) {
+  protected void copyFieldsToJaxbObject( @Nonnull com.cedarsoft.rest.sample.Camera source, @Nonnull Camera.Jaxb target, @Nonnull UriContext context ) {
     target.setDescription( "a nice description about the camera!" );
 
     CameraInfo.Jaxb cameraInfo = new CameraInfo.Jaxb();
@@ -80,7 +80,7 @@ public class CameraMapping extends JaxbMapping<com.cedarsoft.rest.sample.Camera,
   }
 
   @Override
-  protected void copyFieldsToStub( @NotNull com.cedarsoft.rest.sample.Camera source, @NotNull Camera.Stub target, @NotNull UriContext context ) {
+  protected void copyFieldsToStub( @Nonnull com.cedarsoft.rest.sample.Camera source, @Nonnull Camera.Stub target, @Nonnull UriContext context ) {
     CameraInfo.Stub cameraInfo = new CameraInfo.Stub();
     cameraInfo.setMake( source.getCameraInfo().getMake() );
     cameraInfo.setModel( source.getCameraInfo().getModel() );

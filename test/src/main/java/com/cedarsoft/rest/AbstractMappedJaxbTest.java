@@ -34,7 +34,7 @@ package com.cedarsoft.rest;
 import com.cedarsoft.AssertUtils;
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.junit.*;
 import org.junit.experimental.theories.*;
 import org.junit.runner.*;
@@ -50,7 +50,7 @@ import static org.junit.Assert.*;
 public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject, S extends JaxbStub<J>> extends AbstractJaxbTest<J, S> {
   protected JaxbMapping<T, J, S> mapping;
 
-  protected AbstractMappedJaxbTest( @NotNull Class<J> jaxbType, @NotNull Class<S> jaxbStubType ) {
+  protected AbstractMappedJaxbTest( @Nonnull Class<J> jaxbType, @Nonnull Class<S> jaxbStubType ) {
     super( jaxbType, jaxbStubType );
   }
 
@@ -59,11 +59,11 @@ public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject, S extends 
     mapping = createMapping();
   }
 
-  @NotNull
+  @Nonnull
   protected abstract JaxbMapping<T, J, S> createMapping();
 
   @Theory
-  public void testRoundTripWithDataPoints( @NotNull Entry<? extends T> entry ) throws Exception {
+  public void testRoundTripWithDataPoints( @Nonnull Entry<? extends T> entry ) throws Exception {
     Marshaller marshaller = createMarshaller();
     marshaller.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, true );
 
@@ -82,7 +82,7 @@ public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject, S extends 
   }
 
   @Theory
-  public void testRoundStub( @NotNull Entry<? extends T> entry ) throws Exception {
+  public void testRoundStub( @Nonnull Entry<? extends T> entry ) throws Exception {
     Marshaller marshaller = createMarshaller();
     marshaller.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, true );
 
@@ -100,13 +100,13 @@ public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject, S extends 
     verifyDeserializedStub( deserialized, jaxbStub );
   }
 
-  @NotNull
-  protected J createJaxbObject( @NotNull T object ) {
+  @Nonnull
+  protected J createJaxbObject( @Nonnull T object ) {
     return createMapping().getJaxbObject( object, JaxbTestUtils.createTestUriContext() );
   }
 
-  @NotNull
-  protected S createJaxbObjectStub( @NotNull T object ) {
+  @Nonnull
+  protected S createJaxbObjectStub( @Nonnull T object ) {
     return createMapping().getJaxbObjectStub( object, JaxbTestUtils.createTestUriContext() );
   }
 }

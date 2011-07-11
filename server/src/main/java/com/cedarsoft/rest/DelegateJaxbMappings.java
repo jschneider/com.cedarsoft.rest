@@ -33,7 +33,7 @@ package com.cedarsoft.rest;
 
 import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,18 +42,18 @@ import java.util.Map;
  *
  */
 public class DelegateJaxbMappings {
-  @NotNull
+  @Nonnull
   private final Map<Class<? extends JaxbObject>, JaxbMapping<?, ?, ?>> delegates = new HashMap<Class<? extends JaxbObject>, JaxbMapping<?, ?, ?>>();
-  @NotNull
+  @Nonnull
   private final Map<Class<? extends JaxbObject>, JaxbMapping<?, ?, ?>> delegatesByStub = new HashMap<Class<? extends JaxbObject>, JaxbMapping<?, ?, ?>>();
 
-  public <T, J extends JaxbObject, S extends JaxbStub<J>> void addMapping( @NotNull Class<J> jaxbObjectType, @NotNull Class<S> jaxbStubType, @NotNull JaxbMapping<T, J, S> mapping ) {
+  public <T, J extends JaxbObject, S extends JaxbStub<J>> void addMapping( @Nonnull Class<J> jaxbObjectType, @Nonnull Class<S> jaxbStubType, @Nonnull JaxbMapping<T, J, S> mapping ) {
     delegates.put( jaxbObjectType, mapping );
     delegatesByStub.put( jaxbStubType, mapping );
   }
 
-  @NotNull
-  public <T, J extends JaxbObject, S extends JaxbStub<J>> JaxbMapping<T, J, S> getMapping( @NotNull Class<J> jaxbObjectType ) {
+  @Nonnull
+  public <T, J extends JaxbObject, S extends JaxbStub<J>> JaxbMapping<T, J, S> getMapping( @Nonnull Class<J> jaxbObjectType ) {
     JaxbMapping<?, ?, ?> resolved = delegates.get( jaxbObjectType );
     if ( resolved == null ) {
       throw new IllegalArgumentException( "No mapping found for " + jaxbObjectType.getName() );
@@ -61,8 +61,8 @@ public class DelegateJaxbMappings {
     return ( JaxbMapping<T, J, S> ) resolved;
   }
 
-  @NotNull
-  public <T, J extends JaxbObject, S extends JaxbStub<J>> JaxbMapping<T, J, S> getMappingForStub( @NotNull Class<S> jaxbStubType ) {
+  @Nonnull
+  public <T, J extends JaxbObject, S extends JaxbStub<J>> JaxbMapping<T, J, S> getMappingForStub( @Nonnull Class<S> jaxbStubType ) {
     JaxbMapping<?, ?, ?> resolved = delegatesByStub.get( jaxbStubType );
     if ( resolved == null ) {
       throw new IllegalArgumentException( "No mapping found for " + jaxbStubType.getName() );

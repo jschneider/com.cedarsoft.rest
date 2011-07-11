@@ -31,7 +31,7 @@
 
 package com.cedarsoft.rest;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.junit.*;
 
 import javax.ws.rs.core.UriBuilder;
@@ -105,12 +105,12 @@ public class UriContextTest {
     assertEquals( "http://test.running/here/users/info@cedarsoft.com/details/7", newContext.getUriBuilder().path( "details" ).path( "{id}" ).build( "7" ).toString() );
   }
 
-  @NotNull
+  @Nonnull
   public static UriBuilder createTestUriBuilder() {
     return UriBuilder.fromUri( "http://test.running/here" );
   }
 
-  @NotNull
+  @Nonnull
   public static UriContext createTestUriContext() {
     return new UriContext( createTestUriBuilder(), createTestUriBuilder() );
   }

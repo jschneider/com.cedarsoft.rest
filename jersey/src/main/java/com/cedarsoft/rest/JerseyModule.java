@@ -42,8 +42,8 @@ import com.sun.jersey.core.util.FeaturesAndProperties;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 import com.sun.jersey.spi.container.ResourceFilterFactory;
 import com.sun.jersey.spi.container.servlet.ServletContainer;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -55,21 +55,21 @@ import java.util.Map;
  * Special module that contains the glue code for Jersey and Guice
  */
 public class JerseyModule extends ServletModule {
-  @NotNull
-  @NonNls
+  @Nonnull
+
   private final Map<String, String> params = new HashMap<String, String>();
-  @NonNls
+
   public static final String SEPARATOR = ";";
 
   public JerseyModule() {
     enableFeatureXmlRootProcessing();
   }
 
-  public JerseyModule( @NotNull @NonNls List<? extends Package> resourcePackages ) {
+  public JerseyModule( @Nonnull  List<? extends Package> resourcePackages ) {
     this( resourcePackages, Collections.<String, String>emptyMap() );
   }
 
-  public JerseyModule( @NotNull @NonNls List<? extends Package> resourcePackages, @NotNull @NonNls Map<? extends String, ? extends String> params ) {
+  public JerseyModule( @Nonnull  List<? extends Package> resourcePackages, @Nonnull  Map<? extends String, ? extends String> params ) {
     this();
     addResourcePackages( resourcePackages );
 
@@ -77,7 +77,7 @@ public class JerseyModule extends ServletModule {
     this.params.putAll( params );
   }
 
-  public JerseyModule( @NotNull @NonNls Class<?> resourceType, @NotNull @NonNls Map<? extends String, ? extends String> params ) {
+  public JerseyModule( @Nonnull  Class<?> resourceType, @Nonnull  Map<? extends String, ? extends String> params ) {
     this();
     addResource( resourceType );
     addParam( ServletContainer.RESOURCE_CONFIG_CLASS, ClassNamesResourceConfig.class.getName() );
@@ -85,7 +85,7 @@ public class JerseyModule extends ServletModule {
     this.params.putAll( params );
   }
 
-  public final void addResourcePackages( @NotNull List<? extends Package> resourcePackages ) {
+  public final void addResourcePackages( @Nonnull List<? extends Package> resourcePackages ) {
     List<String> packageNames = Lists.transform( resourcePackages, new Function<Package, String>() {
       @Override
       public String apply( Package from ) {
@@ -96,15 +96,15 @@ public class JerseyModule extends ServletModule {
     addParamElement( PackagesResourceConfig.PROPERTY_PACKAGES, Joiner.on( " " ).join( packageNames ) );
   }
 
-  public final void addResource( @NotNull Class<?> resourceType ) {
+  public final void addResource( @Nonnull Class<?> resourceType ) {
     addParamElement( ClassNamesResourceConfig.PROPERTY_CLASSNAMES, resourceType.getName() );
   }
 
-  public final void addResources( @NotNull Class<?>... resourceTypes ) {
+  public final void addResources( @Nonnull Class<?>... resourceTypes ) {
     addResources( Arrays.asList( resourceTypes ) );
   }
 
-  public final void addResources( @NotNull List<? extends Class<?>> resourceTypes ) {
+  public final void addResources( @Nonnull List<? extends Class<?>> resourceTypes ) {
     List<String> classNames = Lists.transform( resourceTypes, new Function<Class<?>, String>() {
       @Override
       public String apply( Class<?> from ) {
@@ -115,7 +115,7 @@ public class JerseyModule extends ServletModule {
     addParamElement( ClassNamesResourceConfig.PROPERTY_CLASSNAMES, Joiner.on( SEPARATOR ).join( classNames ) );
   }
 
-  public void addResourceFilterFactory( @NotNull Class<? extends ResourceFilterFactory> resourceFilterFactoryType ) {
+  public void addResourceFilterFactory( @Nonnull Class<? extends ResourceFilterFactory> resourceFilterFactoryType ) {
     addParamElement( DefaultResourceConfig.PROPERTY_RESOURCE_FILTER_FACTORIES, resourceFilterFactoryType.getName() );
   }
 
@@ -123,7 +123,7 @@ public class JerseyModule extends ServletModule {
     addParam( FeaturesAndProperties.FEATURE_XMLROOTELEMENT_PROCESSING, "true" );
   }
 
-  public void addParamElement( @NotNull @NonNls String key, @NotNull @NonNls String additionalValue ) {
+  public void addParamElement( @Nonnull  String key, @Nonnull  String additionalValue ) {
     String old = params.get( key );
     if ( old == null ) {
       addParam( key, additionalValue );
@@ -138,7 +138,7 @@ public class JerseyModule extends ServletModule {
    * @param key   the key
    * @param value the value
    */
-  public final void addParam( @NotNull @NonNls String key, @NotNull @NonNls String value ) {
+  public final void addParam( @Nonnull  String key, @Nonnull  String value ) {
     params.put( key, value );
   }
 

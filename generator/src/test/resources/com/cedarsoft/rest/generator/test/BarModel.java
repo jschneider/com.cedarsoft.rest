@@ -1,6 +1,6 @@
 package com.cedarsoft.rest.generator.test;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,7 +21,7 @@ public class BarModel {
   private List<? extends String> wildStringList;
   private Set<? extends String> set = new HashSet<String>();
 
-  public BarModel( String id, int daInt, String daString, List<? extends String> wildStringList, List<? extends String> stringList, @NotNull Set<? extends String> set ) {
+  public BarModel( String id, int daInt, String daString, List<? extends String> wildStringList, List<? extends String> stringList, @Nonnull Set<? extends String> set ) {
     this.id = id;
     this.daInt = daInt;
     this.daString = daString;

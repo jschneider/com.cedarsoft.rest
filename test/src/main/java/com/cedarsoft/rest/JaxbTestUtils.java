@@ -31,7 +31,7 @@
 
 package com.cedarsoft.rest;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -42,12 +42,12 @@ public class JaxbTestUtils {
   private JaxbTestUtils() {
   }
 
-  @NotNull
+  @Nonnull
   public static UriBuilder createTestUriBuilder() {
     return UriBuilder.fromUri( "http://test.running/here" );
   }
 
-  @NotNull
+  @Nonnull
   public static UriContext createTestUriContext() {
     return new UriContext( createTestUriBuilder(), createTestUriBuilder() );
   }

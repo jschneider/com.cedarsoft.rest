@@ -44,9 +44,9 @@ import com.sun.jersey.spi.container.ExceptionMapperContext;
 import com.sun.jersey.spi.container.WebApplication;
 import com.sun.jersey.spi.container.servlet.WebComponent;
 import org.fest.reflect.core.Reflection;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.SecurityContext;
@@ -65,7 +65,7 @@ public class JerseyStuffModule extends AbstractModule {
   private transient WebApplication webApplicationReference;
 
   @Provides
-  public WebApplication webApp( @NotNull GuiceContainer guiceContainer ) {
+  public WebApplication webApp( @Nonnull GuiceContainer guiceContainer ) {
     WebApplication copy = webApplicationReference;
     if ( copy == null ) {
       WebComponent component = Reflection.field( "webComponent" ).ofType( WebComponent.class ).in( guiceContainer ).get();
@@ -77,63 +77,63 @@ public class JerseyStuffModule extends AbstractModule {
 
   @RequestScoped
   @Provides
-  public HttpContext httpContext( @NotNull WebApplication webApplication ) {
+  public HttpContext httpContext( @Nonnull WebApplication webApplication ) {
     return webApplication.getThreadLocalHttpContext();
   }
 
   @Provides
-  public ExceptionMapperContext exceptionMapperContext( @NotNull WebApplication webApplication ) {
+  public ExceptionMapperContext exceptionMapperContext( @Nonnull WebApplication webApplication ) {
     return webApplication.getExceptionMapperContext();
   }
 
   @Provides
-  public FeaturesAndProperties featuresAndProperties( @NotNull WebApplication webApplication ) {
+  public FeaturesAndProperties featuresAndProperties( @Nonnull WebApplication webApplication ) {
     return webApplication.getFeaturesAndProperties();
   }
 
   @Provides
-  public ResourceConfig resourceConfig( @NotNull WebApplication webApplication ) {
+  public ResourceConfig resourceConfig( @Nonnull WebApplication webApplication ) {
     return ( ResourceConfig ) webApplication.getFeaturesAndProperties();
   }
 
   @Provides
-  public MessageBodyWorkers messageBodyFactory( @NotNull WebApplication webApplication ) {
+  public MessageBodyWorkers messageBodyFactory( @Nonnull WebApplication webApplication ) {
     return webApplication.getMessageBodyWorkers();
   }
 
   @RequestScoped
   @Provides
-  public UriInfo uriInfo( @NotNull HttpContext httpContext ) {
+  public UriInfo uriInfo( @Nonnull HttpContext httpContext ) {
     return httpContext.getUriInfo();
   }
 
   @RequestScoped
   @Provides
-  public HttpRequestContext requestContext( @NotNull HttpContext httpContext ) {
+  public HttpRequestContext requestContext( @Nonnull HttpContext httpContext ) {
     return httpContext.getRequest();
   }
 
   @RequestScoped
   @Provides
-  public HttpHeaders httpHeaders( @NotNull HttpContext httpContext ) {
+  public HttpHeaders httpHeaders( @Nonnull HttpContext httpContext ) {
     return httpContext.getRequest();
   }
 
   @RequestScoped
   @Provides
-  public Request request( @NotNull HttpContext httpContext ) {
+  public Request request( @Nonnull HttpContext httpContext ) {
     return httpContext.getRequest();
   }
 
   @RequestScoped
   @Provides
-  public SecurityContext securityContext( @NotNull HttpContext httpContext ) {
+  public SecurityContext securityContext( @Nonnull HttpContext httpContext ) {
     return httpContext.getRequest();
   }
 
   @RequestScoped
   @Provides
-  public UriBuilder uriBuilder( @NotNull UriInfo uriInfo ) {
+  public UriBuilder uriBuilder( @Nonnull UriInfo uriInfo ) {
     return uriInfo.getRequestUriBuilder();
   }
 }

@@ -37,8 +37,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.plugin.testing.stubs.MavenProjectStub;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 import org.junit.*;
 
 import java.io.File;
@@ -109,8 +109,8 @@ public class GeneratorMojoTest extends AbstractMojoTestCase {
     assertThat( ContainsFileMatcher.toMessage( mojo.testResourcesOutputDirectory ), mojo.testResourcesOutputDirectory, empty() );
   }
 
-  @NotNull
-  private GeneratorMojo createVerifiedMojo( @NotNull @NonNls String name ) throws Exception {
+  @Nonnull
+  private GeneratorMojo createVerifiedMojo( @Nonnull  String name ) throws Exception {
     GeneratorMojo mojo = createMojo( name );
 
     assertNotNull( mojo.projectArtifact );
@@ -126,8 +126,8 @@ public class GeneratorMojoTest extends AbstractMojoTestCase {
     return mojo;
   }
 
-  @NotNull
-  private GeneratorMojo createMojo( @NotNull @NonNls String name ) throws Exception {
+  @Nonnull
+  private GeneratorMojo createMojo( @Nonnull  String name ) throws Exception {
     File testPom = new File( getBasedir(), "src/test/resources/unit/" + name + "/plugin-config.xml" );
     assertTrue( testPom.getAbsolutePath() + " not found", testPom.exists() );
     GeneratorMojo mojo = ( GeneratorMojo ) lookupMojo( "generate", testPom );

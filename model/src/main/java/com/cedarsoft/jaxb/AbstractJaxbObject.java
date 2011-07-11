@@ -31,9 +31,9 @@
 
 package com.cedarsoft.jaxb;
 
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -49,10 +49,10 @@ import java.net.URI;
 @XmlAccessorType( XmlAccessType.FIELD )
 @XmlTransient
 public abstract class AbstractJaxbObject implements JaxbObject {
-  @NonNls
+
   public static final String NS_STUB_SUFFIX = "/stub";
-  @NotNull
-  @NonNls
+  @Nonnull
+
   public static final String NS_COLLECTION_SUFFIX = "/list";
 
   @XmlAttribute( required = false )
@@ -62,19 +62,19 @@ public abstract class AbstractJaxbObject implements JaxbObject {
   @Nullable
   @XmlAttribute( required = false )
   @XmlID
-  @NonNls
+
   protected final String id;
 
   protected AbstractJaxbObject() {
     this( null );
   }
 
-  protected AbstractJaxbObject( @Nullable @NonNls String id ) {
+  protected AbstractJaxbObject( @Nullable  String id ) {
     this.id = id;
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public URI getHref() {
     if ( href == null ) {
       throw new IllegalStateException( "href has not been set!" );
@@ -83,7 +83,7 @@ public abstract class AbstractJaxbObject implements JaxbObject {
   }
 
   @Override
-  public final void setHref( @NotNull URI href ) {
+  public final void setHref( @Nonnull URI href ) {
     this.href = href;
   }
 
@@ -92,7 +92,7 @@ public abstract class AbstractJaxbObject implements JaxbObject {
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public String getId() {
     if ( id == null ) {
       throw new IllegalStateException( "id has not been set" );

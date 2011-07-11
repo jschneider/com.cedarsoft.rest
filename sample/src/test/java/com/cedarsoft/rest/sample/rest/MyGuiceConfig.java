@@ -42,8 +42,8 @@ import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 import java.util.List;
 import java.util.Map;
@@ -102,7 +102,7 @@ public class MyGuiceConfig extends DefaultGuiceConfig {
     //    private transient WebApplication webApplicationReference;
     //
     //    @Provides
-    //    public WebApplication webApp( @NotNull GuiceContainer guiceContainer ) {
+    //    public WebApplication webApp( @Nonnull GuiceContainer guiceContainer ) {
     //      WebApplication copy = webApplicationReference;
     //      if ( copy == null ) {
     //        WebComponent component = Reflection.field( "webComponent" ).ofType( WebComponent.class ).in( guiceContainer ).get();
@@ -114,63 +114,63 @@ public class MyGuiceConfig extends DefaultGuiceConfig {
     //
     //    @RequestScoped
     //    @Provides
-    //    public HttpContext httpContext( @NotNull WebApplication webApplication ) {
+    //    public HttpContext httpContext( @Nonnull WebApplication webApplication ) {
     //      return webApplication.getThreadLocalHttpContext();
     //    }
     //
     //    @Provides
-    //    public ExceptionMapperContext exceptionMapperContext( @NotNull WebApplication webApplication ) {
+    //    public ExceptionMapperContext exceptionMapperContext( @Nonnull WebApplication webApplication ) {
     //      return webApplication.getExceptionMapperContext();
     //    }
     //
     //    @Provides
-    //    public FeaturesAndProperties featuresAndProperties( @NotNull WebApplication webApplication ) {
+    //    public FeaturesAndProperties featuresAndProperties( @Nonnull WebApplication webApplication ) {
     //      return webApplication.getFeaturesAndProperties();
     //    }
     //
     //    @Provides
-    //    public ResourceConfig resourceConfig( @NotNull WebApplication webApplication ) {
+    //    public ResourceConfig resourceConfig( @Nonnull WebApplication webApplication ) {
     //      return ( ResourceConfig ) webApplication.getFeaturesAndProperties();
     //    }
     //
     //    @Provides
-    //    public MessageBodyWorkers messageBodyFactory( @NotNull WebApplication webApplication ) {
+    //    public MessageBodyWorkers messageBodyFactory( @Nonnull WebApplication webApplication ) {
     //      return webApplication.getMessageBodyWorkers();
     //    }
     //
     //    @RequestScoped
     //    @Provides
-    //    public UriInfo uriInfo( @NotNull HttpContext httpContext ) {
+    //    public UriInfo uriInfo( @Nonnull HttpContext httpContext ) {
     //      return httpContext.getUriInfo();
     //    }
     //
     //    @RequestScoped
     //    @Provides
-    //    public HttpRequestContext requestContext( @NotNull HttpContext httpContext ) {
+    //    public HttpRequestContext requestContext( @Nonnull HttpContext httpContext ) {
     //      return httpContext.getRequest();
     //    }
     //
     //    @RequestScoped
     //    @Provides
-    //    public HttpHeaders httpHeaders( @NotNull HttpContext httpContext ) {
+    //    public HttpHeaders httpHeaders( @Nonnull HttpContext httpContext ) {
     //      return httpContext.getRequest();
     //    }
     //
     //    @RequestScoped
     //    @Provides
-    //    public Request request( @NotNull HttpContext httpContext ) {
+    //    public Request request( @Nonnull HttpContext httpContext ) {
     //      return httpContext.getRequest();
     //    }
     //
     //    @RequestScoped
     //    @Provides
-    //    public SecurityContext securityContext( @NotNull HttpContext httpContext ) {
+    //    public SecurityContext securityContext( @Nonnull HttpContext httpContext ) {
     //      return httpContext.getRequest();
     //    }
     //
     //    @RequestScoped
     //    @Provides
-    //    public UriBuilder uriBuilder( @NotNull UriInfo uriInfo ) {
+    //    public UriBuilder uriBuilder( @Nonnull UriInfo uriInfo ) {
     //      return uriInfo.getRequestUriBuilder();
     //    }
   }
@@ -178,7 +178,7 @@ public class MyGuiceConfig extends DefaultGuiceConfig {
   public static class JerseyGuiceServletModule extends ServletModule {
     private final Map<String, String> params;
 
-    public JerseyGuiceServletModule( @NotNull @NonNls Map<String, String> params ) {
+    public JerseyGuiceServletModule( @Nonnull  Map<String, String> params ) {
       this.params = params;
     }
 

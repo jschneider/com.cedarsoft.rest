@@ -1,6 +1,6 @@
 package com.cedarsoft.rest.generator.test;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,7 +17,7 @@ public class FooModel {
 
   private final List<BarModel> theBars = new ArrayList<BarModel>();
 
-  public FooModel( String id, BarModel singleBar, @NotNull Collection<? extends BarModel> theBars ) {
+  public FooModel( String id, BarModel singleBar, @Nonnull Collection<? extends BarModel> theBars ) {
     this.id = id;
     this.singleBar = singleBar;
     this.theBars.addAll( theBars );

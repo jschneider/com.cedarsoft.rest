@@ -35,7 +35,7 @@ import com.cedarsoft.jaxb.JaxbObject;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.UriContext;
 import com.cedarsoft.rest.sample.Group;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -43,30 +43,30 @@ public class GroupMapping extends JaxbMapping<Group, com.cedarsoft.rest.sample.j
 
   public static final String PATH = "groups";
 
-  @NotNull
+  @Nonnull
   @Override
-  protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext context ) {
+  protected UriBuilder getUri( @Nonnull JaxbObject object, @Nonnull UriContext context ) {
     return context.getBaseUriBuilder().path( PATH ).path( object.getId() );
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected com.cedarsoft.rest.sample.jaxb.Group.Jaxb createJaxbObject( @NotNull Group object ) {
+  protected com.cedarsoft.rest.sample.jaxb.Group.Jaxb createJaxbObject( @Nonnull Group object ) {
     return new com.cedarsoft.rest.sample.jaxb.Group.Jaxb( object.getId() );
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected com.cedarsoft.rest.sample.jaxb.Group.Stub createJaxbStub( @NotNull Group object ) {
+  protected com.cedarsoft.rest.sample.jaxb.Group.Stub createJaxbStub( @Nonnull Group object ) {
     return new com.cedarsoft.rest.sample.jaxb.Group.Stub( object.getId() );
   }
 
   @Override
-  protected void copyFieldsToJaxbObject( @NotNull Group source, @NotNull com.cedarsoft.rest.sample.jaxb.Group.Jaxb target, @NotNull UriContext context ) {
+  protected void copyFieldsToJaxbObject( @Nonnull Group source, @Nonnull com.cedarsoft.rest.sample.jaxb.Group.Jaxb target, @Nonnull UriContext context ) {
     target.setDescription( source.getDescription() );
   }
 
   @Override
-  protected void copyFieldsToStub( @NotNull Group source, @NotNull com.cedarsoft.rest.sample.jaxb.Group.Stub target, @NotNull UriContext context ) {
+  protected void copyFieldsToStub( @Nonnull Group source, @Nonnull com.cedarsoft.rest.sample.jaxb.Group.Stub target, @Nonnull UriContext context ) {
   }
 }

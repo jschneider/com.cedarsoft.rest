@@ -36,7 +36,7 @@ import com.cedarsoft.rest.Entry;
 import com.cedarsoft.rest.JaxbMapping;
 import com.cedarsoft.rest.sample.CameraInfo;
 import com.cedarsoft.rest.sample.User;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.junit.experimental.theories.*;
 
 /**
@@ -47,7 +47,7 @@ public class CameraJaxbMappingTest extends AbstractMappedJaxbTest<com.cedarsoft.
     super( Camera.Jaxb.class, Camera.Stub.class );
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected JaxbMapping<com.cedarsoft.rest.sample.Camera, Camera.Jaxb, Camera.Stub> createMapping() {
     return new CameraMapping( new UserMapping( new GroupMapping(), new DetailMapping() ) );

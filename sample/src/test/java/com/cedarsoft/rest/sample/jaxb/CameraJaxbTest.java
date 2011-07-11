@@ -39,7 +39,6 @@ import com.cedarsoft.rest.SimpleJaxbTest;
 import org.codehaus.jackson.map.AnnotationIntrospector;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
 import org.junit.*;
 import org.junit.experimental.theories.*;
 

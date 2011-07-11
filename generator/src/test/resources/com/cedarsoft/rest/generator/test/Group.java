@@ -1,24 +1,24 @@
 package com.cedarsoft.rest.generator.test;
 
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  *
  */
 public class Group {
-  @NotNull
-  @NonNls
+  @Nonnull
+
   private final String id;
   private final String description;
 
-  public Group( @NotNull @NonNls String id, @NotNull @NonNls String description ) {
+  public Group( @Nonnull  String id, @Nonnull  String description ) {
     this.id = id;
     this.description = description;
   }
 
-  @NotNull
-  @NonNls
+  @Nonnull
+
   public String getId() {
     return id;
   }

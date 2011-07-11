@@ -33,9 +33,9 @@ package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -47,7 +47,7 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlTransient
 @XmlAccessorType( XmlAccessType.FIELD )
 public abstract class Email extends AbstractJaxbObject {
-  @NonNls
+
   public static final String NS = "http://cedarsoft.com/rest/sample/email";
 
   @XmlValue
@@ -60,7 +60,7 @@ public abstract class Email extends AbstractJaxbObject {
     this( null, address );
   }
 
-  protected Email( @Nullable @NonNls String id, String address ) {
+  protected Email( @Nullable  String id, String address ) {
     super( id );
     this.address = address;
   }
@@ -93,7 +93,7 @@ public abstract class Email extends AbstractJaxbObject {
   @XmlRootElement( name = "email", namespace = Stub.NS_STUB )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Stub extends Email implements JaxbStub<Email.Jaxb> {
-    @NonNls
+
     public static final String NS_STUB = NS + NS_STUB_SUFFIX;
 
     public Stub() {
@@ -107,7 +107,7 @@ public abstract class Email extends AbstractJaxbObject {
       super( id, address );
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Class<Email.Jaxb> getJaxbType() {
       return Email.Jaxb.class;

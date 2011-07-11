@@ -33,8 +33,8 @@ package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -45,13 +45,13 @@ import javax.xml.bind.annotation.XmlType;
 //@XmlType( name = "abstractGroup" )
 @XmlTransient
 public abstract class Group extends AbstractJaxbObject {
-  @NonNls
+
   public static final String NS = "http://cedarsoft.com/rest/sample/group";
 
   protected Group() {
   }
 
-  protected Group( @NotNull @NonNls String id ) {
+  protected Group( @Nonnull  String id ) {
     super( id );
   }
 
@@ -64,7 +64,7 @@ public abstract class Group extends AbstractJaxbObject {
     public Jaxb() {
     }
 
-    public Jaxb( @NotNull @NonNls String id ) {
+    public Jaxb( @Nonnull  String id ) {
       super( id );
     }
 
@@ -81,13 +81,13 @@ public abstract class Group extends AbstractJaxbObject {
   @XmlRootElement( name = "group", namespace = Stub.NS_STUB )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Stub extends Group implements JaxbStub<Group.Jaxb> {
-    @NonNls
+
     public static final String NS_STUB = NS + NS_STUB_SUFFIX;
 
     public Stub() {
     }
 
-    public Stub( @NotNull @NonNls String id ) {
+    public Stub( @Nonnull  String id ) {
       super( id );
     }
 

@@ -33,8 +33,8 @@ package com.cedarsoft.rest;
 
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -49,11 +49,11 @@ public class FooStub extends AbstractJaxbObject implements JaxbStub<Foo> {
   public FooStub() {
   }
 
-  public FooStub( @NotNull @NonNls String id ) {
+  public FooStub( @Nonnull  String id ) {
     super( id );
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Class<Foo> getJaxbType() {
     return Foo.class;

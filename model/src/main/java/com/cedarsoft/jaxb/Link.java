@@ -31,10 +31,12 @@
 
 package com.cedarsoft.jaxb;
 
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -49,40 +51,36 @@ import java.net.URI;
 @XmlType( namespace = Link.NAMESPACE_XLINK )
 @XmlAccessorType( XmlAccessType.FIELD )
 public class Link extends AbstractJaxbObject {
-  @NonNls
-  @NotNull
+  @Nonnull
   public static final String NAMESPACE_XLINK = "http://www.w3.org/1999/xlink";
-  @NotNull
-  @NonNls
+  @Nonnull
   public static final String SELF = "self";
-  @NotNull
-  @NonNls
+  @Nonnull
   public static final String ENCLOSURE = "enclosure";
 
   @Nullable
-  @NonNls
   @XmlAttribute
   private String type;
 
   public Link() {
   }
 
-  public Link( @Nullable @NonNls String id ) {
+  public Link( @Nullable  String id ) {
     super( id );
   }
 
-  public Link( @NotNull URI href, @NotNull @NonNls String type ) {
+  public Link( @Nonnull URI href, @Nonnull  String type ) {
     this( null, href, type );
   }
 
-  public Link( @Nullable @NonNls String id, @NotNull URI href, @NotNull @NonNls String type ) {
+  public Link( @Nullable  String id, @Nonnull URI href, @Nonnull  String type ) {
     super( id );
     this.type = type;
     setHref( href );
   }
 
-  @NotNull
-  @NonNls
+  @Nonnull
+
   public String getType() {
     if ( type == null ) {
       throw new IllegalStateException( "No type has been set" );
@@ -99,16 +97,16 @@ public class Link extends AbstractJaxbObject {
     public Stub() {
     }
 
-    public Stub( @Nullable @NonNls String id, @NotNull URI href ) {
+    public Stub( @Nullable  String id, @Nonnull URI href ) {
       super( id );
       setHref( href );
     }
 
-    public Stub( @NotNull URI href ) {
+    public Stub( @Nonnull URI href ) {
       setHref( href );
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Class<Link> getJaxbType() {
       return Link.class;

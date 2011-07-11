@@ -31,21 +31,21 @@
 
 package com.cedarsoft.rest.sample;
 
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  *
  */
 public class Camera {
-  @NotNull
-  @NonNls
+  @Nonnull
+
   private final String id;
-  @NotNull
+  @Nonnull
   private final CameraInfo cameraInfo;
-  @NotNull
-  @NonNls
+  @Nonnull
+
   private String description = "";
 
   @Nullable
@@ -57,7 +57,7 @@ public class Camera {
    * @param id         the id
    * @param cameraInfo the camera info
    */
-  public Camera( @NotNull String id, @NotNull CameraInfo cameraInfo ) {
+  public Camera( @Nonnull String id, @Nonnull CameraInfo cameraInfo ) {
     this.id = id;
     this.cameraInfo = cameraInfo;
   }
@@ -71,23 +71,23 @@ public class Camera {
     this.owner = owner;
   }
 
-  @NotNull
-  @NonNls
+  @Nonnull
+
   public String getId() {
     return id;
   }
 
-  @NotNull
+  @Nonnull
   public CameraInfo getCameraInfo() {
     return cameraInfo;
   }
 
-  @NotNull
+  @Nonnull
   public String getDescription() {
     return description;
   }
 
-  public void setDescription( @NotNull String description ) {
+  public void setDescription( @Nonnull String description ) {
     this.description = description;
   }
 

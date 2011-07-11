@@ -1,7 +1,7 @@
 package com.cedarsoft.rest.generator.test;
 
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,49 +11,49 @@ import java.util.List;
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
 public class User {
-  @NotNull
+  @Nonnull
   private final String email;
-  @NotNull
-  @NonNls
+  @Nonnull
+
   private final String name;
 
-  @NotNull
+  @Nonnull
   private final Group group;
 
-  @NotNull
+  @Nonnull
   private final List<User> friends = new ArrayList<User>();
 
-  public User( @NotNull String email, @NotNull String name ) {
+  public User( @Nonnull String email, @Nonnull String name ) {
     this( email, name, new Group( "NOBODY", "description" ) );
   }
 
-  public User( @NotNull String email, @NotNull String name, @NotNull Group group ) {
+  public User( @Nonnull String email, @Nonnull String name, @Nonnull Group group ) {
     this.email = email;
     this.name = name;
     this.group = group;
   }
 
-  @NotNull
+  @Nonnull
   public String getName() {
     return name;
   }
 
-  @NotNull
+  @Nonnull
   public String getEmail() {
     return email;
   }
 
-  @NotNull
+  @Nonnull
   public Group getGroup() {
     return group;
   }
 
-  @NotNull
+  @Nonnull
   public List<? extends User> getFriends() {
     return Collections.unmodifiableList( friends );
   }
 
-  public void addFriend( @NotNull User user ) {
+  public void addFriend( @Nonnull User user ) {
     this.friends.add( user );
   }
 }

@@ -32,7 +32,7 @@
 package com.cedarsoft.rest;
 
 import com.cedarsoft.jaxb.JaxbObject;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.junit.experimental.theories.*;
 
 import javax.ws.rs.core.UriBuilder;
@@ -46,7 +46,7 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo, FooStu
     super( Foo.class, FooStub.class );
   }
 
-  @NotNull
+  @Nonnull
   @Override
   protected JaxbMapping<FooModel, Foo, FooStub> createMapping() {
     return new FooMapping();
@@ -65,31 +65,31 @@ public class FooMappingTest extends AbstractMappedJaxbTest<FooModel, Foo, FooStu
 
 
   private static class FooMapping extends JaxbMapping<FooModel, Foo, FooStub> {
-    @NotNull
+    @Nonnull
     @Override
-    protected UriBuilder getUri( @NotNull JaxbObject object, @NotNull UriContext context ) {
+    protected UriBuilder getUri( @Nonnull JaxbObject object, @Nonnull UriContext context ) {
       return context.getBaseUriBuilder().path( "test:daUri" );
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    protected Foo createJaxbObject( @NotNull FooModel object ) {
+    protected Foo createJaxbObject( @Nonnull FooModel object ) {
       return new Foo( "daId" );
     }
 
     @Override
-    protected void copyFieldsToJaxbObject( @NotNull FooModel source, @NotNull Foo target, @NotNull UriContext context ) {
+    protected void copyFieldsToJaxbObject( @Nonnull FooModel source, @Nonnull Foo target, @Nonnull UriContext context ) {
       target.setDaValue( source.getDaValue() );
     }
 
-    @NotNull
+    @Nonnull
     @Override
-    protected FooStub createJaxbStub( @NotNull FooModel object ) {
+    protected FooStub createJaxbStub( @Nonnull FooModel object ) {
       return new FooStub("daId");
     }
 
     @Override
-    protected void copyFieldsToStub( @NotNull FooModel source, @NotNull FooStub target, @NotNull UriContext context ) {
+    protected void copyFieldsToStub( @Nonnull FooModel source, @Nonnull FooStub target, @Nonnull UriContext context ) {
     }
   }
 }

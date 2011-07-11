@@ -37,51 +37,48 @@ import com.cedarsoft.codegen.TypeUtils;
 import com.cedarsoft.codegen.model.DomainObjectDescriptor;
 import com.cedarsoft.codegen.model.FieldTypeInformation;
 import com.sun.codemodel.JClass;
+import com.sun.istack.NotNull;
 import com.sun.mirror.type.TypeMirror;
 import com.sun.mirror.type.WildcardType;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 /**
  * @param <T> the type of the decision callback
  */
 public class AbstractGenerator<T extends DecisionCallback> {
-  @NotNull
-  @NonNls
+  @Nonnull
   public static final String JAXB_SUB_PACKAGE = "jaxb";
-  @NonNls
-  @NotNull
+
+  @Nonnull
   public static final String JAXB_SUFFIX = "Jaxb";
-  @NonNls
-  @NotNull
+
+  @Nonnull
   public static final String JAXB_STUB_SUFFIX = "Stub";
-  @NotNull
+  @Nonnull
   protected final CodeGenerator codeGenerator;
-  @NotNull
+  @Nonnull
   protected final DomainObjectDescriptor descriptor;
-  @NotNull
-  @NonNls
+  @Nonnull
   public static final String MAPPING_SUFFIX = "Mapping";
 
-  public AbstractGenerator( @NotNull CodeGenerator codeGenerator, @NotNull DomainObjectDescriptor descriptor ) {
+  public AbstractGenerator( @Nonnull CodeGenerator codeGenerator, @Nonnull DomainObjectDescriptor descriptor ) {
     this.codeGenerator = codeGenerator;
     this.descriptor = descriptor;
   }
 
-  @NotNull
-  @NonNls
+  @Nonnull
   protected String getJaxbBaseName() {
     String fqn = descriptor.getQualifiedName();
     return insertSubPackage( fqn, JAXB_SUB_PACKAGE );
   }
 
-  @NotNull
-  protected JClass getJaxbModelType( @NotNull TypeMirror type ) {
+  @Nonnull
+  protected JClass getJaxbModelType( @Nonnull TypeMirror type ) {
     return getJaxbModelType( type, false );
   }
 
-  @NotNull
-  protected JClass getJaxbModelType( @NotNull TypeMirror type, boolean stub ) {
+  @Nonnull
+  protected JClass getJaxbModelType( @Nonnull TypeMirror type, boolean stub ) {
     if ( TypeUtils.isSimpleType( type ) ) {
       return codeGenerator.ref( type );
     }
@@ -104,8 +101,8 @@ public class AbstractGenerator<T extends DecisionCallback> {
     return codeGenerator.ref( getJaxbTypeName( type, stub ) );
   }
 
-  @NotNull
-  protected JClass getJaxbType( @NotNull FieldTypeInformation fieldInfo, boolean isStub ) {
+  @Nonnull
+  protected JClass getJaxbType( @Nonnull FieldTypeInformation fieldInfo, boolean isStub ) {
     if ( TypeUtils.isCollectionType( fieldInfo.getType() ) ) {
       return codeGenerator.ref( getJaxbTypeName( TypeUtils.getErasure( TypeUtils.getCollectionParam( fieldInfo.getType() ) ), isStub ) );
     } else {
@@ -113,12 +110,12 @@ public class AbstractGenerator<T extends DecisionCallback> {
     }
   }
 
-  @NotNull
+  @Nonnull
   public DomainObjectDescriptor getDescriptor() {
     return descriptor;
   }
 
-  public boolean isProbablyOwnType( @NotNull TypeMirror type ) {
+  public boolean isProbablyOwnType( @Nonnull TypeMirror type ) {
     String packageName = descriptor.getClassDeclaration().getPackage().getQualifiedName();
     if ( type.toString().startsWith( packageName ) ) {
       return true;
@@ -130,22 +127,22 @@ public class AbstractGenerator<T extends DecisionCallback> {
     return false;
   }
 
-  @NotNull
-  @NonNls
-  public static String insertSubPackage( @NotNull @NonNls String fqn, @NotNull @NonNls String packagePart ) {
+  @Nonnull
+
+  public static String insertSubPackage( @Nonnull  String fqn, @Nonnull  String packagePart ) {
     int lastIndex = fqn.lastIndexOf( '.' );
     return fqn.substring( 0, lastIndex ) + "." + packagePart + fqn.substring( lastIndex );
   }
 
-  @NotNull
-  @NonNls
-  public static String getJaxbTypeName( @NotNull TypeMirror type ) {
+  @Nonnull
+
+  public static String getJaxbTypeName( @Nonnull TypeMirror type ) {
     return getJaxbTypeName( type, false );
   }
 
-  @NotNull
-  @NonNls
-  public static String getJaxbTypeName( @NotNull TypeMirror type, boolean stub ) {
+  @Nonnull
+
+  public static String getJaxbTypeName( @Nonnull TypeMirror type, boolean stub ) {
     String base = insertSubPackage( type.toString(), JAXB_SUB_PACKAGE );
     if ( stub ) {
       return base + "$" + JAXB_STUB_SUFFIX;
@@ -154,14 +151,14 @@ public class AbstractGenerator<T extends DecisionCallback> {
     }
   }
 
-  @NotNull
-  @NonNls
+  @Nonnull
+
   protected String getJaxbMappingTypeName() {
     String fqn = descriptor.getQualifiedName();
     return getJaxbMappingTypeName( fqn );
   }
 
-  protected String getJaxbMappingTypeName( @NotNull @NonNls String modelClassName ) {
+  protected String getJaxbMappingTypeName( @Nonnull  String modelClassName ) {
     return insertSubPackage( modelClassName, JAXB_SUB_PACKAGE ) + MAPPING_SUFFIX;
   }
 }

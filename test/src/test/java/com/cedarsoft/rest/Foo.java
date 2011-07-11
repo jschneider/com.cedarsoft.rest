@@ -32,8 +32,8 @@
 package com.cedarsoft.rest;
 
 import com.cedarsoft.jaxb.AbstractJaxbObject;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -59,7 +59,7 @@ public class Foo extends AbstractJaxbObject {
   public Foo() {
   }
 
-  public Foo( @NotNull @NonNls String id ) {
+  public Foo( @Nonnull  String id ) {
     super( id );
   }
 

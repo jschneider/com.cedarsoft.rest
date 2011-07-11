@@ -31,33 +31,33 @@
 
 package com.cedarsoft.rest.sample.playground;
 
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
 public class Group {
-  @NotNull
-  @NonNls
+  @Nonnull
+
   private final String id;
 
-  @NotNull
-  @NonNls
+  @Nonnull
+
   private final String description;
 
-  public Group( @NotNull @NonNls String id, @NotNull @NonNls String description ) {
+  public Group( @Nonnull  String id, @Nonnull  String description ) {
     this.id = id;
     this.description = description;
   }
 
-  @NotNull
+  @Nonnull
   public String getDescription() {
     return description;
   }
 
-  @NotNull
-  @NonNls
+  @Nonnull
+
   public String getId() {
     return id;
   }

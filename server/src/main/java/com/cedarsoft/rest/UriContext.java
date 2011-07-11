@@ -31,7 +31,7 @@
 
 package com.cedarsoft.rest;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
@@ -45,12 +45,12 @@ import java.net.URI;
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
 public class UriContext {
-  @NotNull
+  @Nonnull
   private final UriBuilder baseUriBuilder;
-  @NotNull
+  @Nonnull
   private final UriBuilder uriBuilder;
 
-  public UriContext( @NotNull UriBuilder baseUriBuilder, @NotNull UriBuilder uriBuilder ) {
+  public UriContext( @Nonnull UriBuilder baseUriBuilder, @Nonnull UriBuilder uriBuilder ) {
     this.baseUriBuilder = baseUriBuilder.clone();
     this.uriBuilder = uriBuilder.clone();
   }
@@ -60,7 +60,7 @@ public class UriContext {
    *
    * @return the base uri builder
    */
-  @NotNull
+  @Nonnull
   public UriBuilder getBaseUriBuilder() {
     return baseUriBuilder.clone();
   }
@@ -70,7 +70,7 @@ public class UriContext {
    *
    * @return the uri builder
    */
-  @NotNull
+  @Nonnull
   public UriBuilder getUriBuilder() {
     return uriBuilder.clone();
   }
@@ -80,13 +80,13 @@ public class UriContext {
    *
    * @return the URI
    */
-  @NotNull
+  @Nonnull
   public URI getUri() {
     return uriBuilder.build();
   }
 
-  @NotNull
-  public UriContext create( @NotNull UriBuilder newUriBuilder ) {
+  @Nonnull
+  public UriContext create( @Nonnull UriBuilder newUriBuilder ) {
     return new UriContext( baseUriBuilder, newUriBuilder );
   }
 }

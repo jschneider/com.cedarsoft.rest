@@ -31,25 +31,25 @@
 
 package com.cedarsoft.rest.sample;
 
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  *
  */
 public class CameraInfo {
-  @NotNull
+  @Nonnull
   public static final CameraInfo UNKNOWN_INFO = new CameraInfo( 0, "UNKNOWN", "UNKNOWN", "UNKWNON" );
 
   private final long serial;
-  @NotNull
-  @NonNls
+  @Nonnull
+
   private final String model;
-  @NotNull
-  @NonNls
+  @Nonnull
+
   private final String make;
-  @NotNull
-  @NonNls
+  @Nonnull
+
   private final String internalSerial;
 
   /**
@@ -60,15 +60,15 @@ public class CameraInfo {
    * @param model          the model
    * @param internalSerial the internal serial
    */
-  public CameraInfo( long serial, @NotNull @NonNls String make, @NotNull @NonNls String model, @NotNull @NonNls String internalSerial ) {
+  public CameraInfo( long serial, @Nonnull  String make, @Nonnull  String model, @Nonnull  String internalSerial ) {
     this.serial = serial;
     this.make = make;
     this.model = model;
     this.internalSerial = internalSerial;
   }
 
-  @NotNull
-  @NonNls
+  @Nonnull
+
   public String getInternalSerial() {
     return internalSerial;
   }
@@ -77,13 +77,13 @@ public class CameraInfo {
     return serial;
   }
 
-  @NotNull
-  @NonNls
+  @Nonnull
+
   public String getMake() {
     return make;
   }
 
-  @NotNull
+  @Nonnull
   public String getModel() {
     return model;
   }

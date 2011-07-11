@@ -35,8 +35,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.servlet.GuiceServletContextListener;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,42 +53,42 @@ import java.util.Map;
  * </pre>
  */
 public class DefaultGuiceConfig extends GuiceServletContextListener {
-  @NotNull
+  @Nonnull
   protected final List<Module> modules = new ArrayList<Module>();
-  @NotNull
+  @Nonnull
   private final JerseyModule jerseyModule;
 
-  public DefaultGuiceConfig( @NotNull Class<?> resourceType ) {
+  public DefaultGuiceConfig( @Nonnull Class<?> resourceType ) {
     this( Collections.<String, String>emptyMap(), resourceType );
   }
 
-  public DefaultGuiceConfig( @NotNull @NonNls Package... resourcePackages ) {
+  public DefaultGuiceConfig( @Nonnull  Package... resourcePackages ) {
     this( Collections.<String, String>emptyMap(), resourcePackages );
   }
 
-  public DefaultGuiceConfig( @NotNull @NonNls Map<String, String> params, @NotNull @NonNls Package... resourcePackages ) {
+  public DefaultGuiceConfig( @Nonnull  Map<String, String> params, @Nonnull  Package... resourcePackages ) {
     this( new JerseyModule( Arrays.asList( resourcePackages ), params ) );
   }
 
-  public DefaultGuiceConfig( @NotNull @NonNls Map<String, String> params, @NotNull @NonNls Class<?> resourceType ) {
+  public DefaultGuiceConfig( @Nonnull  Map<String, String> params, @Nonnull  Class<?> resourceType ) {
     this( new JerseyModule( resourceType, params ) );
   }
 
-  public DefaultGuiceConfig( @NotNull JerseyModule jerseyModule ) {
+  public DefaultGuiceConfig( @Nonnull JerseyModule jerseyModule ) {
     this.jerseyModule = jerseyModule;
     modules.add( this.jerseyModule );
     modules.add( new JerseyStuffModule() );
   }
 
-  public void addModule( @NotNull Module module ) {
+  public void addModule( @Nonnull Module module ) {
     this.modules.add( module );
   }
 
-  public void addModules( @NotNull Collection<? extends Module> additionalModules ) {
+  public void addModules( @Nonnull Collection<? extends Module> additionalModules ) {
     this.modules.addAll( additionalModules );
   }
 
-  @NotNull
+  @Nonnull
   public JerseyModule getJersey() {
     return jerseyModule;
   }

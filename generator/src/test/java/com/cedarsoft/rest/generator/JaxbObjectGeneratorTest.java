@@ -40,7 +40,7 @@ import com.cedarsoft.codegen.parser.Parser;
 import com.cedarsoft.codegen.parser.Result;
 import com.google.common.collect.ImmutableList;
 import com.sun.mirror.declaration.FieldDeclaration;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.junit.*;
 
 import java.io.File;
@@ -180,7 +180,7 @@ public class JaxbObjectGeneratorTest {
     assertCodeGeneration( expected );
   }
 
-  private void assertCodeGeneration( @NotNull URL expected ) throws IOException {
+  private void assertCodeGeneration( @Nonnull URL expected ) throws IOException {
     MemoryCodeWriter memoryWriter = new MemoryCodeWriter();
     codeGenerator.getModel().build( memoryWriter );
     AssertUtils.assertEquals( expected, memoryWriter.allFilesToString() );

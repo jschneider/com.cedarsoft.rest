@@ -33,8 +33,8 @@ package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.jaxb.AbstractJaxbObject;
 import com.cedarsoft.jaxb.JaxbStub;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -48,13 +48,13 @@ import javax.xml.bind.annotation.XmlType;
 //@XmlType( name = "abstractCamera" )
 @XmlTransient
 public abstract class Camera extends AbstractJaxbObject {
-  @NonNls
+
   public static final String NS = "http://cedarsoft.com/rest/sample/camera";
 
   protected Camera() {
   }
 
-  protected Camera( @NotNull @NonNls String id ) {
+  protected Camera( @Nonnull  String id ) {
     super( id );
   }
 
@@ -69,7 +69,7 @@ public abstract class Camera extends AbstractJaxbObject {
     public Jaxb() {
     }
 
-    public Jaxb( @NotNull @NonNls String id ) {
+    public Jaxb( @Nonnull  String id ) {
       super( id );
     }
 
@@ -105,7 +105,7 @@ public abstract class Camera extends AbstractJaxbObject {
   @XmlRootElement( name = "camera", namespace = Stub.NS_STUB )
   @XmlAccessorType( XmlAccessType.FIELD )
   public static class Stub extends Camera implements JaxbStub<Jaxb> {
-    @NonNls
+
     public static final String NS_STUB = NS + NS_STUB_SUFFIX;
 
     private CameraInfo.Stub cameraInfo;
@@ -113,7 +113,7 @@ public abstract class Camera extends AbstractJaxbObject {
     public Stub() {
     }
 
-    public Stub( @NotNull @NonNls String id ) {
+    public Stub( @Nonnull  String id ) {
       super( id );
     }
 
@@ -125,7 +125,7 @@ public abstract class Camera extends AbstractJaxbObject {
       this.cameraInfo = cameraInfo;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public Class<Jaxb> getJaxbType() {
       return Jaxb.class;
