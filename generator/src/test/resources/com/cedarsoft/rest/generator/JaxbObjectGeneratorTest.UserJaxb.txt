@@ -155,10 +155,10 @@ public abstract class User
 package com.cedarsoft.rest.generator.test.jaxb;
 
 import javax.ws.rs.core.UriBuilder;
+import com.cedarsoft.rest.generator.test.User;
 import com.cedarsoft.rest.model.JaxbObject;
 import com.cedarsoft.rest.server.JaxbMapping;
 import com.cedarsoft.rest.server.UriContext;
-import com.cedarsoft.rest.generator.test.User;
 
 public class UserMapping
     extends JaxbMapping<User, com.cedarsoft.rest.generator.test.jaxb.User.Jaxb, com.cedarsoft.rest.generator.test.jaxb.User.Stub>

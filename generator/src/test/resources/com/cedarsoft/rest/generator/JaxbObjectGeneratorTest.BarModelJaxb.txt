@@ -158,10 +158,10 @@ public abstract class BarModel
 package com.cedarsoft.rest.generator.test.jaxb;
 
 import javax.ws.rs.core.UriBuilder;
+import com.cedarsoft.rest.generator.test.BarModel;
 import com.cedarsoft.rest.model.JaxbObject;
 import com.cedarsoft.rest.server.JaxbMapping;
 import com.cedarsoft.rest.server.UriContext;
-import com.cedarsoft.rest.generator.test.BarModel;
 
 public class BarModelMapping
     extends JaxbMapping<BarModel, com.cedarsoft.rest.generator.test.jaxb.BarModel.Jaxb, com.cedarsoft.rest.generator.test.jaxb.BarModel.Stub>

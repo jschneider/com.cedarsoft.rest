@@ -117,10 +117,10 @@ public abstract class Group
 package com.cedarsoft.rest.generator.test.jaxb;
 
 import javax.ws.rs.core.UriBuilder;
+import com.cedarsoft.rest.generator.test.Group;
 import com.cedarsoft.rest.model.JaxbObject;
 import com.cedarsoft.rest.server.JaxbMapping;
 import com.cedarsoft.rest.server.UriContext;
-import com.cedarsoft.rest.generator.test.Group;
 
 public class GroupMapping
     extends JaxbMapping<Group, com.cedarsoft.rest.generator.test.jaxb.Group.Jaxb, com.cedarsoft.rest.generator.test.jaxb.Group.Stub>

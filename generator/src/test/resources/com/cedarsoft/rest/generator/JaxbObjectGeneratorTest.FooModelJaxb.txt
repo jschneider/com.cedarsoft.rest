@@ -137,10 +137,10 @@ public abstract class FooModel
 package com.cedarsoft.rest.generator.test.jaxb;
 
 import javax.ws.rs.core.UriBuilder;
+import com.cedarsoft.rest.generator.test.FooModel;
 import com.cedarsoft.rest.model.JaxbObject;
 import com.cedarsoft.rest.server.JaxbMapping;
 import com.cedarsoft.rest.server.UriContext;
-import com.cedarsoft.rest.generator.test.FooModel;
 
 public class FooModelMapping
     extends JaxbMapping<FooModel, com.cedarsoft.rest.generator.test.jaxb.FooModel.Jaxb, com.cedarsoft.rest.generator.test.jaxb.FooModel.Stub>

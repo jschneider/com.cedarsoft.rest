@@ -64,12 +64,12 @@ public class UserJaxbTest
 
 package com.cedarsoft.rest.generator.test.jaxb;
 
+import com.cedarsoft.rest.generator.test.Group;
+import com.cedarsoft.rest.generator.test.User;
+import com.cedarsoft.rest.server.JaxbMapping;
 import com.cedarsoft.rest.test.AbstractJaxbTest;
 import com.cedarsoft.rest.test.AbstractMappedJaxbTest;
 import com.cedarsoft.rest.test.Entry;
-import com.cedarsoft.rest.server.JaxbMapping;
-import com.cedarsoft.rest.generator.test.Group;
-import com.cedarsoft.rest.generator.test.User;
 import org.junit.experimental.theories.DataPoint;
 
 public class UserMappingTest
