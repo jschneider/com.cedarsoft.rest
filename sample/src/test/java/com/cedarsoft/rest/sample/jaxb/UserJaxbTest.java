@@ -32,11 +32,11 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.AssertUtils;
-import com.cedarsoft.JsonUtils;
 import com.cedarsoft.rest.test.Entry;
 import com.cedarsoft.rest.test.JaxbTestUtils;
 import com.cedarsoft.rest.test.SimpleJaxbTest;
+import com.cedarsoft.test.utils.AssertUtils;
+import com.cedarsoft.test.utils.JsonUtils;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.AnnotationIntrospector;
@@ -78,7 +78,7 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
     StringWriter out = new StringWriter();
     mapper.writeValue( out, collection );
 
-    JsonUtils.assertJsonEquals( getClass().getResource( "UserJaxbTest.collection.json" ), out.toString() );
+    JsonUtils.assertJsonEquals(getClass().getResource("UserJaxbTest.collection.json"), out.toString());
 
     User.Collection read = mapper.readValue( out.toString(), User.Collection.class );
     assertEquals( 300, read.getMaxLength() );
@@ -137,7 +137,7 @@ public class UserJaxbTest extends SimpleJaxbTest<User.Jaxb, User.Stub> {
     JAXBContext context = JAXBContext.newInstance( User.Jaxb.class, User.Stub.class, User.Collection.class );
     context.createMarshaller().marshal( collection, out );
 
-    AssertUtils.assertXMLEquals( IOUtils.toString( getClass().getResourceAsStream( "UserJaxbTest.collection.xml" ) ), out.toString() );
+    AssertUtils.assertXMLEquals(IOUtils.toString(getClass().getResourceAsStream("UserJaxbTest.collection.xml")), out.toString());
   }
   
   @DataPoint

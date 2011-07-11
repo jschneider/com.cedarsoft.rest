@@ -31,9 +31,9 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.AssertUtils;
 import com.cedarsoft.rest.model.AbstractJaxbObject;
 import com.cedarsoft.rest.test.JaxbRule;
+import com.cedarsoft.test.utils.AssertUtils;
 import org.junit.*;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -59,7 +59,7 @@ public class JaxbInheritanceTest {
     AssertUtils.assertXMLEquals(
       "<ns2:daObject xmlns:ns2=\"daobject/super\" xmlns:ns3=\"daobject/super\">\n" +
         "  <anid>7</anid>\n" +
-        "</ns2:daObject>", out.toString() );
+        "</ns2:daObject>", out.toString());
 
     Object deserialized = jaxbRule.createUnmarshaller().unmarshal( new ByteArrayInputStream( out.toByteArray() ) );
     assertEquals( SuperClass.class, deserialized.getClass() );

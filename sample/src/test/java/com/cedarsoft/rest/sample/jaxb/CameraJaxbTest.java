@@ -32,10 +32,10 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.JsonUtils;
 import com.cedarsoft.rest.test.Entry;
 import com.cedarsoft.rest.test.JaxbTestUtils;
 import com.cedarsoft.rest.test.SimpleJaxbTest;
+import com.cedarsoft.test.utils.JsonUtils;
 import org.codehaus.jackson.map.AnnotationIntrospector;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -61,7 +61,7 @@ public class CameraJaxbTest
 
     StringWriter out = new StringWriter();
     mapper.writeValue( out, defaultEntry().getObject() );
-    JsonUtils.assertJsonEquals( getClass().getResource( "CameraJaxbTest.json" ), out.toString() );
+    JsonUtils.assertJsonEquals(getClass().getResource("CameraJaxbTest.json"), out.toString());
 
     Camera.Jaxb deserialized = mapper.readValue( out.toString(), Camera.Jaxb.class );
     verifyDeserialized( deserialized, defaultEntry().getObject() );

@@ -31,21 +31,20 @@
 
 package com.cedarsoft.rest.generator.maven.plugin;
 
-import com.cedarsoft.matchers.ContainsFileMatcher;
+import com.cedarsoft.test.utils.matchers.ContainsFileMatcher;
 import com.google.common.collect.Lists;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.plugin.testing.stubs.MavenProjectStub;
-
-import javax.annotation.Nonnull;
 import org.junit.*;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.List;
 
-import static com.cedarsoft.matchers.ContainsFileMatcher.empty;
-import static com.cedarsoft.matchers.ContainsOnlyFilesMatcher.containsOnlyFiles;
+import static com.cedarsoft.test.utils.matchers.ContainsFileMatcher.empty;
+import static com.cedarsoft.test.utils.matchers.ContainsOnlyFilesMatcher.containsOnlyFiles;
 import static org.junit.Assert.*;
 
 /**
@@ -66,92 +65,92 @@ public class GeneratorMojoTest extends AbstractMojoTestCase {
 
   @Test
   public void testBasic() throws Exception {
-    GeneratorMojo mojo = createVerifiedMojo( "basic" );
+    GeneratorMojo mojo = createVerifiedMojo("basic");
 
-    assertEquals( 2, mojo.getExcludes().size() );
-    assertTrue( mojo.outputDirectory.getAbsolutePath(), mojo.outputDirectory.getAbsolutePath().endsWith( "target/test/unit/target/out" ) );
-    assertTrue( mojo.testOutputDirectory.getAbsolutePath(), mojo.testOutputDirectory.getAbsolutePath().endsWith( "target/test/unit/target/test-out" ) );
+    assertEquals(2, mojo.getExcludes().size());
+    assertTrue(mojo.outputDirectory.getAbsolutePath(), mojo.outputDirectory.getAbsolutePath().endsWith("target/test/unit/target/out"));
+    assertTrue(mojo.testOutputDirectory.getAbsolutePath(), mojo.testOutputDirectory.getAbsolutePath().endsWith("target/test/unit/target/test-out"));
     mojo.execute();
 
-    assertJaxbObjects( mojo );
-    assertTests( mojo );
+    assertJaxbObjects(mojo);
+    assertTests(mojo);
   }
 
-  private void assertJaxbObjects( AbstractGenerateMojo mojo ) {
-    assertThat( ContainsFileMatcher.toMessage( mojo.outputDirectory ), mojo.outputDirectory, containsOnlyFiles(
+  private void assertJaxbObjects(AbstractGenerateMojo mojo) {
+    assertThat(ContainsFileMatcher.toMessage(mojo.outputDirectory), mojo.outputDirectory, containsOnlyFiles(
       "unit/basic/jaxb/DaObject.java",
       "unit/basic/jaxb/DaObjectMapping.java"
-    ) );
-    assertThat( ContainsFileMatcher.toMessage( mojo.resourcesOutputDirectory ), mojo.resourcesOutputDirectory, containsOnlyFiles() );
+    ));
+    assertThat(ContainsFileMatcher.toMessage(mojo.resourcesOutputDirectory), mojo.resourcesOutputDirectory, containsOnlyFiles());
   }
 
-  private void assertTests( AbstractGenerateMojo mojo ) {
-    assertThat( ContainsFileMatcher.toMessage( mojo.testOutputDirectory ), mojo.testOutputDirectory,
-                containsOnlyFiles( "unit/basic/jaxb/DaObjectJaxbTest.java",
-                                   "unit/basic/jaxb/DaObjectMappingTest.java") );
-    assertThat( ContainsFileMatcher.toMessage( mojo.testResourcesOutputDirectory ), mojo.testResourcesOutputDirectory,
-                containsOnlyFiles(
-                  "unit/basic/jaxb/DaObjectJaxbTest.dataPoint1.xml",
-                  "unit/basic/jaxb/DaObjectJaxbTest.stub.xml",
-                  "unit/basic/jaxb/DaObjectJaxbTest.collection.xml",
-                  "unit/basic/jaxb/DaObjectMappingTest.dataPoint1.xml",
-                  "unit/basic/jaxb/DaObjectMappingTest.stub.xml"
-                ) );
+  private void assertTests(AbstractGenerateMojo mojo) {
+    assertThat(ContainsFileMatcher.toMessage(mojo.testOutputDirectory), mojo.testOutputDirectory,
+               containsOnlyFiles("unit/basic/jaxb/DaObjectJaxbTest.java",
+                                 "unit/basic/jaxb/DaObjectMappingTest.java"));
+    assertThat(ContainsFileMatcher.toMessage(mojo.testResourcesOutputDirectory), mojo.testResourcesOutputDirectory,
+               containsOnlyFiles(
+                 "unit/basic/jaxb/DaObjectJaxbTest.dataPoint1.xml",
+                 "unit/basic/jaxb/DaObjectJaxbTest.stub.xml",
+                 "unit/basic/jaxb/DaObjectJaxbTest.collection.xml",
+                 "unit/basic/jaxb/DaObjectMappingTest.dataPoint1.xml",
+                 "unit/basic/jaxb/DaObjectMappingTest.stub.xml"
+               ));
   }
 
-  private void assertNoJaxbObject( AbstractGenerateMojo mojo ) {
-    assertThat( ContainsFileMatcher.toMessage( mojo.outputDirectory ), mojo.outputDirectory, empty() );
-    assertThat( ContainsFileMatcher.toMessage( mojo.resourcesOutputDirectory ), mojo.resourcesOutputDirectory, empty() );
+  private void assertNoJaxbObject(AbstractGenerateMojo mojo) {
+    assertThat(ContainsFileMatcher.toMessage(mojo.outputDirectory), mojo.outputDirectory, empty());
+    assertThat(ContainsFileMatcher.toMessage(mojo.resourcesOutputDirectory), mojo.resourcesOutputDirectory, empty());
   }
 
-  private void assertNoTests( AbstractGenerateMojo mojo ) {
-    assertThat( ContainsFileMatcher.toMessage( mojo.testOutputDirectory ), mojo.testOutputDirectory, empty() );
-    assertThat( ContainsFileMatcher.toMessage( mojo.testResourcesOutputDirectory ), mojo.testResourcesOutputDirectory, empty() );
+  private void assertNoTests(AbstractGenerateMojo mojo) {
+    assertThat(ContainsFileMatcher.toMessage(mojo.testOutputDirectory), mojo.testOutputDirectory, empty());
+    assertThat(ContainsFileMatcher.toMessage(mojo.testResourcesOutputDirectory), mojo.testResourcesOutputDirectory, empty());
   }
 
   @Nonnull
-  private GeneratorMojo createVerifiedMojo( @Nonnull  String name ) throws Exception {
-    GeneratorMojo mojo = createMojo( name );
+  private GeneratorMojo createVerifiedMojo(@Nonnull String name) throws Exception {
+    GeneratorMojo mojo = createMojo(name);
 
-    assertNotNull( mojo.projectArtifact );
-    assertNotNull( mojo.outputDirectory );
-    assertNotNull( mojo.domainSourceFilePattern );
-    assertTrue( mojo.domainSourceFilePattern.length() > 0 );
+    assertNotNull(mojo.projectArtifact);
+    assertNotNull(mojo.outputDirectory);
+    assertNotNull(mojo.domainSourceFilePattern);
+    assertTrue(mojo.domainSourceFilePattern.length() > 0);
 
-    assertNotNull( mojo.getTestOutputDirectory() );
-    assertNotNull( mojo.getOutputDirectory() );
-    assertNotNull( mojo.getResourcesOutputDirectory() );
-    assertNotNull( mojo.getTestResourcesOutputDirectory() );
+    assertNotNull(mojo.getTestOutputDirectory());
+    assertNotNull(mojo.getOutputDirectory());
+    assertNotNull(mojo.getResourcesOutputDirectory());
+    assertNotNull(mojo.getTestResourcesOutputDirectory());
 
     return mojo;
   }
 
   @Nonnull
-  private GeneratorMojo createMojo( @Nonnull  String name ) throws Exception {
-    File testPom = new File( getBasedir(), "src/test/resources/unit/" + name + "/plugin-config.xml" );
-    assertTrue( testPom.getAbsolutePath() + " not found", testPom.exists() );
-    GeneratorMojo mojo = ( GeneratorMojo ) lookupMojo( "generate", testPom );
+  private GeneratorMojo createMojo(@Nonnull String name) throws Exception {
+    File testPom = new File(getBasedir(), "src/test/resources/unit/" + name + "/plugin-config.xml");
+    assertTrue(testPom.getAbsolutePath() + " not found", testPom.exists());
+    GeneratorMojo mojo = (GeneratorMojo) lookupMojo("generate", testPom);
 
-    assertNotNull( mojo );
+    assertNotNull(mojo);
 
     MavenProjectStub project = new MavenProjectStub() {
       @Override
-      public List<? extends String> getCompileClasspathElements() throws DependencyResolutionRequiredException {
-        File target = new File( getBasedir(), "target/test-classes" );
-        return Lists.newArrayList( target.getAbsolutePath() );
+      public List getCompileClasspathElements() throws DependencyResolutionRequiredException {
+        File target = new File(getBasedir(), "target/test-classes");
+        return Lists.newArrayList(target.getAbsolutePath());
       }
     };
 
     mojo.mavenProject = project;
 
-    cleanUp( mojo );
+    cleanUp(mojo);
     return mojo;
   }
 
-  private void cleanUp( GeneratorMojo mojo ) {
-    FileUtils.deleteQuietly( mojo.outputDirectory );
-    FileUtils.deleteQuietly( mojo.testOutputDirectory );
-    FileUtils.deleteQuietly( mojo.resourcesOutputDirectory );
-    FileUtils.deleteQuietly( mojo.testResourcesOutputDirectory );
+  private void cleanUp(GeneratorMojo mojo) {
+    FileUtils.deleteQuietly(mojo.outputDirectory);
+    FileUtils.deleteQuietly(mojo.testOutputDirectory);
+    FileUtils.deleteQuietly(mojo.resourcesOutputDirectory);
+    FileUtils.deleteQuietly(mojo.testResourcesOutputDirectory);
   }
 }

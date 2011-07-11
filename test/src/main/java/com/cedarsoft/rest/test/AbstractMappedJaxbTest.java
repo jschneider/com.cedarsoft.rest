@@ -31,12 +31,12 @@
 
 package com.cedarsoft.rest.test;
 
-import com.cedarsoft.AssertUtils;
 import com.cedarsoft.rest.model.JaxbObject;
 import com.cedarsoft.rest.model.JaxbStub;
 import javax.annotation.Nonnull;
 
 import com.cedarsoft.rest.server.JaxbMapping;
+import com.cedarsoft.test.utils.AssertUtils;
 import org.junit.*;
 import org.junit.experimental.theories.*;
 import org.junit.runner.*;
@@ -75,7 +75,7 @@ public abstract class AbstractMappedJaxbTest<T, J extends JaxbObject, S extends 
     StringWriter out = new StringWriter();
     marshaller.marshal( jaxbObject, out );
 
-    AssertUtils.assertXMLEquals( new String( entry.getExpected() ), out.toString() );
+    AssertUtils.assertXMLEquals(new String(entry.getExpected()), out.toString());
 
     J deserialized = getJaxbType().cast( createUnmarshaller().unmarshal( new StringReader( out.toString() ) ) );
     assertNotNull( deserialized );

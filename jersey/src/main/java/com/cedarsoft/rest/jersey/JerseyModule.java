@@ -121,6 +121,7 @@ public class JerseyModule extends ServletModule {
 
   public final void enableFeatureXmlRootProcessing() {
     addParam( FeaturesAndProperties.FEATURE_XMLROOTELEMENT_PROCESSING, "true" );
+
   }
 
   public void addParamElement( @Nonnull  String key, @Nonnull  String additionalValue ) {

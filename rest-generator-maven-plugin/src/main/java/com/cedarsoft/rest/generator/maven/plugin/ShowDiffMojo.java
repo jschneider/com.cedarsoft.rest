@@ -31,7 +31,8 @@
 
 package com.cedarsoft.rest.generator.maven.plugin;
 
-import com.cedarsoft.exec.Executer;
+import com.cedarsoft.execution.Executer;
+import com.cedarsoft.execution.Executor;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -143,8 +144,8 @@ public class ShowDiffMojo extends SourceFolderAwareMojo {
   private void showDiff( @Nonnull File src, @Nonnull File generated ) throws IOException, InterruptedException {
     String commandLine = buildCommandLine( src.getAbsolutePath(), generated.getAbsolutePath() );
     getLog().info( "Executing <" + commandLine + ">" );
-    Executer executer = new Executer( new ProcessBuilder( Lists.newArrayList( Splitter.on( " " ).split( commandLine ) ) ), true );
-    executer.execute();
+    Executor executor = new Executor( new ProcessBuilder( Lists.newArrayList( Splitter.on( " " ).split( commandLine ) ) ), true );
+    executor.execute();
   }
 
   @Nonnull

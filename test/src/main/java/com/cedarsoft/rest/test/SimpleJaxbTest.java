@@ -31,7 +31,6 @@
 
 package com.cedarsoft.rest.test;
 
-import com.cedarsoft.AssertUtils;
 import com.cedarsoft.rest.model.AbstractJaxbCollection;
 import com.cedarsoft.rest.model.JaxbCollection;
 import com.cedarsoft.rest.model.JaxbObject;
@@ -39,6 +38,7 @@ import com.cedarsoft.rest.model.JaxbStub;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.cedarsoft.test.utils.AssertUtils;
 import org.junit.experimental.theories.*;
 import org.junit.runner.*;
 
@@ -76,7 +76,7 @@ public abstract class SimpleJaxbTest<J extends JaxbObject, S extends JaxbStub<J>
     StringWriter out = new StringWriter();
     marshaller.marshal( jaxbCollection, out );
 
-    AssertUtils.assertXMLEquals( new String( entry.getExpected() ), out.toString() );
+    AssertUtils.assertXMLEquals(new String(entry.getExpected()), out.toString());
 
     Object unserializedRaw = createUnmarshaller().unmarshal( new StringReader( out.toString() ) );
     assertNotNull( unserializedRaw );

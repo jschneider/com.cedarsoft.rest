@@ -31,11 +31,11 @@
 
 package com.cedarsoft.rest.sample.rest;
 
-import com.cedarsoft.JsonUtils;
 import com.cedarsoft.rest.model.JaxbObject;
 import com.cedarsoft.rest.model.JaxbStub;
 import com.cedarsoft.rest.sample.jaxb.User;
 import com.cedarsoft.rest.sample.jaxb.UserMapping;
+import com.cedarsoft.test.utils.JsonUtils;
 import com.google.inject.servlet.GuiceFilter;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.test.framework.AppDescriptor;
@@ -48,7 +48,7 @@ import org.junit.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-import static com.cedarsoft.AssertUtils.assertXMLEquals;
+import static com.cedarsoft.test.utils.AssertUtils.assertXMLEquals;
 import static org.junit.Assert.*;
 
 /**
@@ -214,7 +214,7 @@ public class RestTest extends JerseyTest {
   @Test
   public void testJson() throws Exception {
     JsonUtils.assertJsonEquals( getClass().getResource( "Rest.testUser.json" ), resource().path( "users/test" ).accept( MediaType.APPLICATION_JSON ).get( String.class ) );
-    JsonUtils.assertJsonEquals( getClass().getResource( "Rest.users.json" ), resource().path( "users" ).accept( MediaType.APPLICATION_JSON ).get( String.class ) );
+    JsonUtils.assertJsonEquals(getClass().getResource("Rest.users.json"), resource().path("users").accept(MediaType.APPLICATION_JSON).get(String.class));
 
     User.Jaxb deserialized = resource().path( "users/test" ).accept( MediaType.APPLICATION_JSON ).get( User.Jaxb.class );
     assertEquals( "Test User", deserialized.getName() );

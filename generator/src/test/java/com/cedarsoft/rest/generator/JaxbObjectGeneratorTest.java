@@ -31,13 +31,13 @@
 
 package com.cedarsoft.rest.generator;
 
-import com.cedarsoft.AssertUtils;
 import com.cedarsoft.codegen.CodeGenerator;
 import com.cedarsoft.codegen.MemoryCodeWriter;
 import com.cedarsoft.codegen.model.DomainObjectDescriptor;
 import com.cedarsoft.codegen.model.DomainObjectDescriptorFactory;
 import com.cedarsoft.codegen.parser.Parser;
 import com.cedarsoft.codegen.parser.Result;
+import com.cedarsoft.test.utils.AssertUtils;
 import com.google.common.collect.ImmutableList;
 import com.sun.mirror.declaration.FieldDeclaration;
 import javax.annotation.Nonnull;
@@ -183,7 +183,7 @@ public class JaxbObjectGeneratorTest {
   private void assertCodeGeneration( @Nonnull URL expected ) throws IOException {
     MemoryCodeWriter memoryWriter = new MemoryCodeWriter();
     codeGenerator.getModel().build( memoryWriter );
-    AssertUtils.assertEquals( expected, memoryWriter.allFilesToString() );
+    AssertUtils.assertEquals(expected, memoryWriter.allFilesToString());
   }
 
   @Test
