@@ -31,8 +31,8 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.jaxb.AbstractJaxbObject;
-import com.cedarsoft.jaxb.JaxbStub;
+import com.cedarsoft.rest.model.AbstractJaxbObject;
+import com.cedarsoft.rest.model.JaxbStub;
 
 import javax.annotation.Nonnull;
 
@@ -81,7 +81,7 @@ public abstract class Detail extends AbstractJaxbObject {
   @XmlType( name = "detailStub", namespace = Stub.NS_STUB )
   @XmlRootElement( name = "detail", namespace = Stub.NS_STUB )
   @XmlAccessorType( XmlAccessType.FIELD )
-  public static class Stub extends Detail implements JaxbStub<Detail.Jaxb> {
+  public static class Stub extends Detail implements JaxbStub<Jaxb> {
 
     public static final String NS_STUB = NS + NS_STUB_SUFFIX;
 

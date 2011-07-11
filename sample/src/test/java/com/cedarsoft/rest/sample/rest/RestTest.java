@@ -32,8 +32,8 @@
 package com.cedarsoft.rest.sample.rest;
 
 import com.cedarsoft.JsonUtils;
-import com.cedarsoft.jaxb.JaxbObject;
-import com.cedarsoft.jaxb.JaxbStub;
+import com.cedarsoft.rest.model.JaxbObject;
+import com.cedarsoft.rest.model.JaxbStub;
 import com.cedarsoft.rest.sample.jaxb.User;
 import com.cedarsoft.rest.sample.jaxb.UserMapping;
 import com.google.inject.servlet.GuiceFilter;

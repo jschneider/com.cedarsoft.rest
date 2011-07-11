@@ -4,9 +4,9 @@ package com.cedarsoft.rest.generator.test.jaxb;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import com.cedarsoft.rest.Entry;
-import com.cedarsoft.rest.JaxbTestUtils;
-import com.cedarsoft.rest.SimpleJaxbTest;
+import com.cedarsoft.rest.test.Entry;
+import com.cedarsoft.rest.test.JaxbTestUtils;
+import com.cedarsoft.rest.test.SimpleJaxbTest;
 import org.junit.experimental.theories.DataPoint;
 
 public class BarModelJaxbTest
@@ -65,10 +65,10 @@ package com.cedarsoft.rest.generator.test.jaxb;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import com.cedarsoft.rest.AbstractJaxbTest;
-import com.cedarsoft.rest.AbstractMappedJaxbTest;
-import com.cedarsoft.rest.Entry;
-import com.cedarsoft.rest.JaxbMapping;
+import com.cedarsoft.rest.test.AbstractJaxbTest;
+import com.cedarsoft.rest.test.AbstractMappedJaxbTest;
+import com.cedarsoft.rest.test.Entry;
+import com.cedarsoft.rest.server.JaxbMapping;
 import com.cedarsoft.rest.generator.test.BarModel;
 import org.junit.experimental.theories.DataPoint;
 

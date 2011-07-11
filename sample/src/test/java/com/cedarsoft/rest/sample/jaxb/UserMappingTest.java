@@ -31,18 +31,16 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.JsonUtils;
-import com.cedarsoft.rest.AbstractJaxbTest;
-import com.cedarsoft.rest.AbstractMappedJaxbTest;
-import com.cedarsoft.rest.Entry;
-import com.cedarsoft.rest.JaxbMapping;
+import com.cedarsoft.rest.test.AbstractJaxbTest;
+import com.cedarsoft.rest.test.AbstractMappedJaxbTest;
+import com.cedarsoft.rest.test.Entry;
+import com.cedarsoft.rest.server.JaxbMapping;
 import com.cedarsoft.rest.sample.Group;
 import com.cedarsoft.rest.sample.User;
-import org.codehaus.jackson.map.ObjectMapper;
-import javax.annotation.Nonnull;
-import org.junit.experimental.theories.*;
 
-import java.io.StringWriter;
+import javax.annotation.Nonnull;
+
+import org.junit.experimental.theories.*;
 
 public class UserMappingTest extends AbstractMappedJaxbTest<User, com.cedarsoft.rest.sample.jaxb.User.Jaxb, com.cedarsoft.rest.sample.jaxb.User.Stub> {
   public UserMappingTest() {

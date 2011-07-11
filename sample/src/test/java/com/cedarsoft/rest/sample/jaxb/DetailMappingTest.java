@@ -31,10 +31,10 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.rest.AbstractJaxbTest;
-import com.cedarsoft.rest.AbstractMappedJaxbTest;
-import com.cedarsoft.rest.Entry;
-import com.cedarsoft.rest.JaxbMapping;
+import com.cedarsoft.rest.test.AbstractJaxbTest;
+import com.cedarsoft.rest.test.AbstractMappedJaxbTest;
+import com.cedarsoft.rest.test.Entry;
+import com.cedarsoft.rest.server.JaxbMapping;
 import com.cedarsoft.rest.sample.Detail;
 import org.junit.experimental.theories.*;
 
@@ -51,6 +51,6 @@ public class DetailMappingTest extends AbstractMappedJaxbTest<Detail, com.cedars
   @DataPoint
   public static Entry<? extends Detail> dataPoint1() {
     Detail object = new Detail( "daID", "text" );
-    return AbstractJaxbTest.create( object, DetailMappingTest.class.getResource( "DetailMappingTest.dataPoint1.xml" ), DetailMappingTest.class.getResource( "DetailMappingTest.stub.xml" ) );
+    return AbstractJaxbTest.create(object, DetailMappingTest.class.getResource("DetailMappingTest.dataPoint1.xml"), DetailMappingTest.class.getResource("DetailMappingTest.stub.xml"));
   }
 }

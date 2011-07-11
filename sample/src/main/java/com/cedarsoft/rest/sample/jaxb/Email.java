@@ -31,8 +31,8 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.jaxb.AbstractJaxbObject;
-import com.cedarsoft.jaxb.JaxbStub;
+import com.cedarsoft.rest.model.AbstractJaxbObject;
+import com.cedarsoft.rest.model.JaxbStub;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -92,7 +92,7 @@ public abstract class Email extends AbstractJaxbObject {
   @XmlType( name = "emailStub", namespace = Stub.NS_STUB )
   @XmlRootElement( name = "email", namespace = Stub.NS_STUB )
   @XmlAccessorType( XmlAccessType.FIELD )
-  public static class Stub extends Email implements JaxbStub<Email.Jaxb> {
+  public static class Stub extends Email implements JaxbStub<Jaxb> {
 
     public static final String NS_STUB = NS + NS_STUB_SUFFIX;
 

@@ -33,9 +33,9 @@
 package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.JsonUtils;
-import com.cedarsoft.rest.Entry;
-import com.cedarsoft.rest.JaxbTestUtils;
-import com.cedarsoft.rest.SimpleJaxbTest;
+import com.cedarsoft.rest.test.Entry;
+import com.cedarsoft.rest.test.JaxbTestUtils;
+import com.cedarsoft.rest.test.SimpleJaxbTest;
 import org.codehaus.jackson.map.AnnotationIntrospector;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;

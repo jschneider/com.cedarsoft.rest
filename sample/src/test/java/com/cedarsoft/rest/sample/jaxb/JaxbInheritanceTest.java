@@ -32,8 +32,8 @@
 package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.AssertUtils;
-import com.cedarsoft.jaxb.AbstractJaxbObject;
-import com.cedarsoft.rest.JaxbRule;
+import com.cedarsoft.rest.model.AbstractJaxbObject;
+import com.cedarsoft.rest.test.JaxbRule;
 import org.junit.*;
 
 import javax.xml.bind.annotation.XmlAccessType;

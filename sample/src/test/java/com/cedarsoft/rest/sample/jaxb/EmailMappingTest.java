@@ -31,10 +31,10 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.rest.AbstractJaxbTest;
-import com.cedarsoft.rest.AbstractMappedJaxbTest;
-import com.cedarsoft.rest.Entry;
-import com.cedarsoft.rest.JaxbMapping;
+import com.cedarsoft.rest.test.AbstractJaxbTest;
+import com.cedarsoft.rest.test.AbstractMappedJaxbTest;
+import com.cedarsoft.rest.test.Entry;
+import com.cedarsoft.rest.server.JaxbMapping;
 import com.cedarsoft.rest.sample.Email;
 import org.junit.experimental.theories.*;
 
@@ -54,7 +54,7 @@ public class EmailMappingTest
   @DataPoint
   public static Entry<? extends Email> dataPoint1() {
     Email object = new Email( "address" );
-    return AbstractJaxbTest.create( object, EmailMappingTest.class.getResource( "EmailMappingTest.dataPoint1.xml" ), EmailMappingTest.class.getResource( "EmailMappingTest.stub.xml" ) );
+    return AbstractJaxbTest.create(object, EmailMappingTest.class.getResource("EmailMappingTest.dataPoint1.xml"), EmailMappingTest.class.getResource("EmailMappingTest.stub.xml"));
   }
 
 }

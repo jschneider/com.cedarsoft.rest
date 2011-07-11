@@ -34,9 +34,9 @@ package com.cedarsoft.rest.sample.jaxb;
 
 import com.cedarsoft.AssertUtils;
 import com.cedarsoft.JsonUtils;
-import com.cedarsoft.rest.Entry;
-import com.cedarsoft.rest.JaxbTestUtils;
-import com.cedarsoft.rest.SimpleJaxbTest;
+import com.cedarsoft.rest.test.Entry;
+import com.cedarsoft.rest.test.JaxbTestUtils;
+import com.cedarsoft.rest.test.SimpleJaxbTest;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.AnnotationIntrospector;

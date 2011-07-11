@@ -32,9 +32,9 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.rest.Entry;
-import com.cedarsoft.rest.JaxbTestUtils;
-import com.cedarsoft.rest.SimpleJaxbTest;
+import com.cedarsoft.rest.test.Entry;
+import com.cedarsoft.rest.test.JaxbTestUtils;
+import com.cedarsoft.rest.test.SimpleJaxbTest;
 import org.junit.experimental.theories.*;
 
 public class CameraInfoJaxbTest extends SimpleJaxbTest<CameraInfo.Jaxb, CameraInfo.Stub> {

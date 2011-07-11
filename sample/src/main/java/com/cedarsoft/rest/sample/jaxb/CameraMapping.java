@@ -31,9 +31,9 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.jaxb.JaxbObject;
-import com.cedarsoft.rest.JaxbMapping;
-import com.cedarsoft.rest.UriContext;
+import com.cedarsoft.rest.model.JaxbObject;
+import com.cedarsoft.rest.server.JaxbMapping;
+import com.cedarsoft.rest.server.UriContext;
 import javax.annotation.Nonnull;
 
 import javax.ws.rs.core.UriBuilder;

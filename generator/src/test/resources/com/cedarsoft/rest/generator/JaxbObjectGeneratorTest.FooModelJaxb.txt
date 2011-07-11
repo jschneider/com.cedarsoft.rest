@@ -10,9 +10,9 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-import com.cedarsoft.jaxb.AbstractJaxbCollection;
-import com.cedarsoft.jaxb.AbstractJaxbObject;
-import com.cedarsoft.jaxb.JaxbStub;
+import com.cedarsoft.rest.model.AbstractJaxbCollection;
+import com.cedarsoft.rest.model.AbstractJaxbObject;
+import com.cedarsoft.rest.model.JaxbStub;
 
 @XmlTransient
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -137,9 +137,9 @@ public abstract class FooModel
 package com.cedarsoft.rest.generator.test.jaxb;
 
 import javax.ws.rs.core.UriBuilder;
-import com.cedarsoft.jaxb.JaxbObject;
-import com.cedarsoft.rest.JaxbMapping;
-import com.cedarsoft.rest.UriContext;
+import com.cedarsoft.rest.model.JaxbObject;
+import com.cedarsoft.rest.server.JaxbMapping;
+import com.cedarsoft.rest.server.UriContext;
 import com.cedarsoft.rest.generator.test.FooModel;
 
 public class FooModelMapping

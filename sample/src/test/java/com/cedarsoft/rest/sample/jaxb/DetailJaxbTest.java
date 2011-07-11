@@ -31,10 +31,10 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.rest.AbstractJaxbTest;
-import com.cedarsoft.rest.Entry;
-import com.cedarsoft.rest.JaxbTestUtils;
-import com.cedarsoft.rest.SimpleJaxbTest;
+import com.cedarsoft.rest.test.AbstractJaxbTest;
+import com.cedarsoft.rest.test.Entry;
+import com.cedarsoft.rest.test.JaxbTestUtils;
+import com.cedarsoft.rest.test.SimpleJaxbTest;
 import org.junit.experimental.theories.*;
 
 public class DetailJaxbTest extends SimpleJaxbTest<Detail.Jaxb, Detail.Stub> {
@@ -47,7 +47,7 @@ public class DetailJaxbTest extends SimpleJaxbTest<Detail.Jaxb, Detail.Stub> {
     Detail.Jaxb object = new Detail.Jaxb( "daid" );
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
     object.setText( "text" );
-    return AbstractJaxbTest.create( object, DetailJaxbTest.class.getResource( "DetailJaxbTest.dataPoint1.xml" ) );
+    return AbstractJaxbTest.create(object, DetailJaxbTest.class.getResource("DetailJaxbTest.dataPoint1.xml"));
   }
 
   @DataPoint

@@ -31,7 +31,7 @@
 
 package com.cedarsoft.rest.sample.rest;
 
-import com.cedarsoft.rest.DefaultGuiceConfig;
+import com.cedarsoft.rest.jersey.DefaultGuiceConfig;
 import com.cedarsoft.rest.sample.Detail;
 import com.cedarsoft.rest.sample.User;
 import com.cedarsoft.rest.sample.jaxb.UserMapping;

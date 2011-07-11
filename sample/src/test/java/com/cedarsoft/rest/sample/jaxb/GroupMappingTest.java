@@ -31,10 +31,10 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.rest.AbstractJaxbTest;
-import com.cedarsoft.rest.AbstractMappedJaxbTest;
-import com.cedarsoft.rest.Entry;
-import com.cedarsoft.rest.JaxbMapping;
+import com.cedarsoft.rest.test.AbstractJaxbTest;
+import com.cedarsoft.rest.test.AbstractMappedJaxbTest;
+import com.cedarsoft.rest.test.Entry;
+import com.cedarsoft.rest.server.JaxbMapping;
 import com.cedarsoft.rest.sample.Group;
 import org.junit.experimental.theories.*;
 

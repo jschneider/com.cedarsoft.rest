@@ -31,7 +31,7 @@
 
 package com.cedarsoft.rest.sample.rest;
 
-import com.cedarsoft.rest.UriContext;
+import com.cedarsoft.rest.server.UriContext;
 import com.cedarsoft.rest.sample.Detail;
 import com.cedarsoft.rest.sample.jaxb.User;
 import com.cedarsoft.rest.sample.jaxb.UserMapping;

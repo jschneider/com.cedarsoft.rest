@@ -31,17 +31,11 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.JsonUtils;
-import com.cedarsoft.rest.AbstractJaxbTest;
-import com.cedarsoft.rest.Entry;
-import com.cedarsoft.rest.JaxbTestUtils;
-import com.cedarsoft.rest.SimpleJaxbTest;
-import org.codehaus.jackson.map.ObjectMapper;
-import javax.annotation.Nonnull;
-import org.junit.*;
+import com.cedarsoft.rest.test.AbstractJaxbTest;
+import com.cedarsoft.rest.test.Entry;
+import com.cedarsoft.rest.test.JaxbTestUtils;
+import com.cedarsoft.rest.test.SimpleJaxbTest;
 import org.junit.experimental.theories.*;
-
-import java.io.StringWriter;
 
 public class EmailJaxbTest extends SimpleJaxbTest<Email.Jaxb, Email.Stub> {
   public EmailJaxbTest() {
@@ -59,6 +53,6 @@ public class EmailJaxbTest extends SimpleJaxbTest<Email.Jaxb, Email.Stub> {
   public static Entry<? extends Email.Stub> stub() {
     Email.Stub object = new Email.Stub( "id", "address" );
     object.setHref( JaxbTestUtils.createTestUriBuilder().build() );
-    return AbstractJaxbTest.create( object, EmailJaxbTest.class.getResource( "EmailJaxbTest.stub.xml" ) );
+    return AbstractJaxbTest.create(object, EmailJaxbTest.class.getResource("EmailJaxbTest.stub.xml"));
   }
 }

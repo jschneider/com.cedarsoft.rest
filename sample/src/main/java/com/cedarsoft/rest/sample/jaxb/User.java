@@ -31,9 +31,9 @@
 
 package com.cedarsoft.rest.sample.jaxb;
 
-import com.cedarsoft.jaxb.AbstractJaxbCollection;
-import com.cedarsoft.jaxb.AbstractJaxbObject;
-import com.cedarsoft.jaxb.JaxbStub;
+import com.cedarsoft.rest.model.AbstractJaxbCollection;
+import com.cedarsoft.rest.model.AbstractJaxbObject;
+import com.cedarsoft.rest.model.JaxbStub;
 
 import javax.annotation.Nonnull;
 
