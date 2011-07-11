@@ -56,8 +56,8 @@ import java.util.List;
 /**
  * @author Johannes Schneider (<a href="mailto:js@cedarsoft.com">js@cedarsoft.com</a>)
  */
-@Path( UserMapping.PATH_USERS )
-@Produces( {MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON} )
+@Path(UserMapping.PATH_USERS)
+@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 public class UsersResource {
   @Nonnull
   @Context
@@ -70,31 +70,31 @@ public class UsersResource {
   private final UserMapping userMapping;
 
   @Inject
-  public UsersResource( @Nonnull UserMapping userMapping, @Nonnull List<? extends com.cedarsoft.rest.sample.User> users ) {
+  public UsersResource(@Nonnull UserMapping userMapping, @Nonnull List<? extends com.cedarsoft.rest.sample.User> users) {
     this.userMapping = userMapping;
-    this.users = new ArrayList<com.cedarsoft.rest.sample.User>( users );
+    this.users = new ArrayList<com.cedarsoft.rest.sample.User>(users);
   }
 
   @GET
   @Nonnull
-  public User.Collection getUsers( @Context HttpHeaders headers, @QueryParam( "min-index" ) int minIndex, @QueryParam( "max-length" ) int maxLength ) {
+  public User.Collection getUsers(@Context HttpHeaders headers, @QueryParam("min-index") int minIndex, @QueryParam("max-length") int maxLength) {
     List<com.cedarsoft.rest.sample.User> selectedUsers;
-    if ( maxLength > 0 ) {
-      selectedUsers = users.subList( minIndex, minIndex + maxLength );
+    if (maxLength > 0) {
+      selectedUsers = users.subList(minIndex, minIndex + maxLength);
     } else {
-      selectedUsers = users.subList( minIndex, users.size() );
+      selectedUsers = users.subList(minIndex, users.size());
     }
 
-    return new User.Collection( userMapping.getJaxbStubs( selectedUsers, new UriContext( uriInfo.getBaseUriBuilder(), uriInfo.getBaseUriBuilder() ) ), minIndex, maxLength );
+    return new User.Collection(userMapping.getJaxbStubs(selectedUsers, new UriContext(uriInfo.getBaseUriBuilder(), uriInfo.getBaseUriBuilder())), minIndex, maxLength);
   }
 
   @GET
-  @Path( "{id}" )
+  @Path("{id}")
   @Nonnull
-  public User.Jaxb getUser( @PathParam( "id" ) @Nonnull  String id ) {
-    for ( com.cedarsoft.rest.sample.User user : users ) {
-      if ( user.getEmail().equals( id ) ) {
-        return userMapping.getJaxbObject( user, new UriContext( uriInfo.getBaseUriBuilder(), uriInfo.getBaseUriBuilder() ) );
+  public User.Jaxb getUser(@Nonnull @PathParam("id") String id) {
+    for (com.cedarsoft.rest.sample.User user : users) {
+      if (user.getEmail().equals(id)) {
+        return userMapping.getJaxbObject(user, new UriContext(uriInfo.getBaseUriBuilder(), uriInfo.getBaseUriBuilder()));
       }
     }
 
@@ -103,12 +103,12 @@ public class UsersResource {
 
   @Deprecated
   @GET
-  @Path( "test" )
+  @Path("test")
   @Nonnull
   public User.Jaxb getTestUser() {
-    com.cedarsoft.rest.sample.User user = new com.cedarsoft.rest.sample.User( "test@test.com", "Test User" );
-    user.addFriend( new com.cedarsoft.rest.sample.User( "friend@asdf.de", "A Friend" ) );
-    user.addDetail( new Detail( "1", "a test detail" ) );
-    return userMapping.getJaxbObject( user, new UriContext( uriInfo.getBaseUriBuilder(), uriInfo.getBaseUriBuilder() ) );
+    com.cedarsoft.rest.sample.User user = new com.cedarsoft.rest.sample.User("test@test.com", "Test User");
+    user.addFriend(new com.cedarsoft.rest.sample.User("friend@asdf.de", "A Friend"));
+    user.addDetail(new Detail("1", "a test detail"));
+    return userMapping.getJaxbObject(user, new UriContext(uriInfo.getBaseUriBuilder(), uriInfo.getBaseUriBuilder()));
   }
 }
