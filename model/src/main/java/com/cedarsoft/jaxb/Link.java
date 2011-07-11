@@ -34,9 +34,6 @@ package com.cedarsoft.jaxb;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
