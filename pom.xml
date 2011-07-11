@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.cedarsoft</groupId>
     <artifactId>open</artifactId>
-    <version>13-SNAPSHOT</version>
+    <version>14</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -229,8 +229,8 @@
 
 
   <properties>
-    <commons.version>4.0.0</commons.version>
-    <jersey.version>1.5</jersey.version>
+    <commons.version>5.0.0</commons.version>
+    <jersey.version>1.8</jersey.version>
   </properties>
 
   <issueManagement>
