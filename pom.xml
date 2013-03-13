@@ -14,8 +14,9 @@
   <packaging>pom</packaging>
 
   <scm>
-    <connection>scm:git:git://git.cedarsoft.com/com.cedarsoft.rest</connection>
-    <developerConnection>scm:git:ssh://git.cedarsoft.com/home/git/com.cedarsoft.rest</developerConnection>
+    <connection>scm:git:git://github.com/jschneider/com.cedarsoft.rest.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com:jschneider/com.cedarsoft.rest.git</developerConnection>
+    <tag>HEAD</tag>
   </scm>
 
   <modules>
