@@ -208,29 +208,8 @@
     </dependency>
   </dependencies>
 
-  <repositories>
-    <repository>
-      <id>maven2-repository.dev.java.net</id>
-      <name>Java.net Repository for Maven</name>
-      <url>http://download.java.net/maven/2</url>
-      <layout>default</layout>
-    </repository>
-    <repository>
-      <id>cedarsoftSnapshotRepository</id>
-      <name>cedarsoft Snapshot Repository</name>
-      <url>http://nexus.cedarsoft.com/content/repositories/snapshots/</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-  </repositories>
-
-
   <properties>
-    <commons.version>5.1.1</commons.version>
+    <commons.version>5.1.7</commons.version>
     <jersey.version>1.14</jersey.version>
     <java.version>1.7</java.version>
   </properties>
