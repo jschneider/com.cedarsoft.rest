@@ -54,11 +54,6 @@
     </dependency>
 
     <dependency>
-      <groupId>com.cedarsoft.commons</groupId>
-      <artifactId>test-utils</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-interactivity-api</artifactId>
       <version>1.0-alpha-6</version>
