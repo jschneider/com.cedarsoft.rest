@@ -130,31 +130,6 @@
         <version>${jersey.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.sun.jersey</groupId>
-        <artifactId>jersey-server</artifactId>
-        <version>${jersey.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.jersey</groupId>
-        <artifactId>jersey-client</artifactId>
-        <version>${jersey.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.jersey</groupId>
-        <artifactId>jersey-json</artifactId>
-        <version>${jersey.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.jersey</groupId>
-        <artifactId>jersey-core</artifactId>
-        <version>${jersey.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.jersey.contribs</groupId>
-        <artifactId>jersey-atom-abdera</artifactId>
-        <version>${jersey.version}</version>
-      </dependency>
-      <dependency>
         <groupId>com.sun.jersey.contribs</groupId>
         <artifactId>jersey-atom-abdera</artifactId>
         <version>${jersey.version}</version>
@@ -167,21 +142,6 @@
       <dependency>
         <groupId>com.sun.jersey.contribs.jersey-oauth</groupId>
         <artifactId>oauth-server</artifactId>
-        <version>${jersey.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.jersey.contribs</groupId>
-        <artifactId>jersey-guice</artifactId>
-        <version>${jersey.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.jersey.jersey-test-framework</groupId>
-        <artifactId>jersey-test-framework-core</artifactId>
-        <version>${jersey.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.jersey.jersey-test-framework</groupId>
-        <artifactId>jersey-test-framework-grizzly</artifactId>
         <version>${jersey.version}</version>
       </dependency>
       <dependency>
