@@ -1,11 +1,11 @@
 {
   "built_on": "master",
-  "duration": 259.816,
-  "full_display_name": "com.cedarsoft.rest #117",
-  "id": "2013-06-02_02-15-12",
-  "number": 117,
+  "duration": 188.631,
+  "full_display_name": "com.cedarsoft.rest #118",
+  "id": "2013-06-02_02-20-46",
+  "number": 118,
   "result": "SUCCESS",
   "status_message": "?",
-  "time": "2013-06-02 02:15:12 +0200",
-  "url": "job/com.cedarsoft.rest/117/"
+  "time": "2013-06-02 02:20:46 +0200",
+  "url": "job/com.cedarsoft.rest/118/"
 }
